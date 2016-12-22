@@ -1,0 +1,15 @@
+"falloutrp"
+{
+	"base"		"sandbox"
+    "title"  "Fallout Roleplay"
+    "version"   "1.0"
+    "menusystem"	"1"
+
+    "author_name"   "Gaming_Unlimited"
+    "author_email"  ""
+    "author_url"    ""
+
+    "icon"  ""
+    "info"  ""
+    "hide"  "0"
+}
