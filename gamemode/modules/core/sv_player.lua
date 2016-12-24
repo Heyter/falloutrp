@@ -9,8 +9,9 @@ function meta:loadPlayer()
 			self:selectTeam()
 		else
 			for k, v in pairs(results) do
-				print(k, v)
+				PrintTable(v)
 			end
+			
 		end
 	end)
 end
