@@ -1,4 +1,6 @@
 
+util.AddNetworkString("loadPlayerData")
+
 local meta = FindMetaTable("Player")
 
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table
@@ -8,10 +10,12 @@ function meta:loadPlayer()
 		if !results then
 			self:selectTeam()
 		else
-			for k, v in pairs(results) do
-				PrintTable(v)
-			end
+			self.playerData = results[1]
 			
+			net.Start("loadPlayerData")
+				net.WriteTable(self.playerData)
+				net.WriteEntity(self)
+			net.Broadcast()
 		end
 	end)
 end

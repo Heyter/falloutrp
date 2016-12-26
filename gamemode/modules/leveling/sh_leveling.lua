@@ -1,6 +1,21 @@
 
+
+
 LEVELS = {0}
 
+local meta = FindMetaTable("Player")
+
+function meta:getExp()
+	return self.playerData.experience
+end
+
+function meta:currentLevel()
+	return expToLevel(self:getExp())
+end
+
+
+
+// Levels and Experience creation
 local minLevel, maxLevel = 2, 50
 local points = 0
 local output = 0
@@ -27,3 +42,4 @@ function expToLevel(exp)
 	
 	return highestLevel //Return here incase you are max level
 end
+
