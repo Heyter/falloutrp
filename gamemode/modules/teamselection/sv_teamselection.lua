@@ -19,7 +19,7 @@ local function createCharacter(ply, name, teamId)
 	net.Send(ply)
 	
 	// Insert the new player into SQL
-	MySQLite.query("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, strength, perception, medicine, repair, crafting, science, sneak, farming) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, 0, 0, 0, 0, 0, 0, 0, 0)")
+	MySQLite.query("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, medicine, repair, crafting, science, sneak, farming) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, 0, 0, 1, 1, 1, 1, 1, 1, 1)")
 	
 	ply:SetTeam(teamId)
 end
