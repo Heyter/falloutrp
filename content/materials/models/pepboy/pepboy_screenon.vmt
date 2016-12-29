@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$model" 1
+	"$basetexture" "models/pepboy/pepboy_screenon"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[.01 .01 .01]"
+	"$selfillum"	"1"
+	
+}

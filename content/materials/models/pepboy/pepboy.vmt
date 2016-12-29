@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$model" 1
+	"$basetexture" "models/pepboy/pepboy"
+	"$envmap" "env_cubemap"
+	"$bumpmap" "models/pepboy/pepboy_normal"
+
+	"$normalmapalphaenvmapmask" 1
+	
+	$phong 1
+ 
+	$phongexponent			5
+	$phongboost			2
+	$phongfresnelranges		"[0 0.5 1]"
+}

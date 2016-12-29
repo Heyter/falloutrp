@@ -3,8 +3,18 @@ util.AddNetworkString("loadInventory")
 
 local meta = FindMetaTable("Player")
 
+function meta:loadInventoryCount()
+	self.loadInvCount = self.loadInvCount + 1
+	
+	if self.loadInvCount == 5 then // weapons, apparel, aid, misc, and ammo were all loaded
+		self:sendInventory()
+	end
+end
+
 // Get data from all item tables for specific player
 function meta:loadInventory()
+	self.loadInvCount = 0
+	
 	self.inventory = {
 		weapons = {},
 		apparel = {},
@@ -13,27 +23,11 @@ function meta:loadInventory()
 		ammo = {}
 	}
 	
-	// Get weapons (check if it's equipped)
-	MySQLite.query("SELECT * FROM weapons WHERE steamid = '" ..self:SteamID() .."'", function(results)
-	
-	end)	
-	// Get apparel (check if it's equipped)
-	MySQLite.query("SELECT * FROM apparel WHERE steamid = '" ..self:SteamID() .."'", function(results)
-	
-	end)	
-	// Get aid
-	MySQLite.query("SELECT * FROM aid WHERE steamid = '" ..self:SteamID() .."'", function(results)
-	
-	end)	
-	// Get misc
-	MySQLite.query("SELECT * FROM misc WHERE steamid = '" ..self:SteamID() .."'", function(results)
-	
-	end)	
-	// Get ammo
-	MySQLite.query("SELECT * FROM ammo WHERE steamid = '" ..self:SteamID() .."'", function(results)
-		self:sendInventory()
-	end)
-	
+	self:loadInvWeapons()
+	self:loadInvApparel()
+	self:loadInvAid()
+	self:loadInvMisc()
+	self:loadInvAmmo()
 end
 
 // Run this in the last query you run when loading the inventory
