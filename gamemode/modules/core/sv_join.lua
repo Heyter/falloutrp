@@ -1,6 +1,7 @@
 
-hook.Add("InitialPlayerSpawn", "LoadPlayerData", function(ply)
+hook.Add("PlayerInitialSpawn", "LoadPlayerData", function(ply)
 	// Load player, inventory, equipment, bank
+	print("Loading " ..ply:SteamID() .."'s data.")
 	ply:load()
 end)
 
