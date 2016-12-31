@@ -1,4 +1,6 @@
 
+util.AddNetworkString("pickUpWeapon")
+
 local meta = FindMetaTable("Player")
 
 function meta:loadInvWeapons()
@@ -29,7 +31,11 @@ function meta:pickUpWeapon(weapon)
 			// Do the inventory logic for inserting below here
 			weapon.uniqueid = itemId
 			self.inventory.weapons[itemId] = weapon
-			print(itemId)
+			
+			net.Start("pickUpWeapon")
+				net.WriteInt(itemId, 8)
+				net.WriteTable(weapon)
+			net.Send(self)
 		end)
 	end)
 end
