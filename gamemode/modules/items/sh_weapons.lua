@@ -1,10 +1,13 @@
 
+local meta = FindMetaTable("Player")
+
 Weapons = {}
 
-function addWeapon(id, name, damage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity, durability, weight, caps, strength)
+function addWeapon(id, name, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity, durability, weight, caps, strength)
 	Weapons[id] = {
 		name = name,
-		damage = damage,
+		minDamage = minDamage,
+		maxDamage = maxDamage,
 		fireRate = fireRate, 
 		criticalChance = criticalChance,
 		criticalDamage = criticalDamage,
@@ -25,11 +28,15 @@ function findWeapon(id)
 	end
 end
 
+// Base functions that have data that will not change
 function getWeaponName(id)
 	return findWeapon(id).name
 end
-function getWeaponDamage(id)
-	return findWeapon(id).damage
+function getWeaponMinDamage(id)
+	return findWeapon(id).minDamage
+end
+function getWeaponMaxDamage(id)
+	return findWeapon(id).maxDamage
 end
 function getWeaponWeight(id)
 	return findWeapon(id).weight or 0
@@ -41,5 +48,9 @@ function getWeaponStrength(id)
 	return findWeapon(id).strength
 end
 
+// Functions that have data which can change
+function meta:getWeaponDamage(uniqueId)
+	return self.inventory.weapons[uniqueId]["damage"] or 0
+end
 
-addWeapon(1001, "Lucky", 30, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6, 1120, 2.5, 1500, 3)
+addWeapon(1001, "Lucky", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6, 1120, 2.5, 1500, 3)
