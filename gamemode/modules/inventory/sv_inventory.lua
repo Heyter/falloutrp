@@ -1,5 +1,8 @@
 
 util.AddNetworkString("loadInventory")
+util.AddNetworkString("dropItem")
+util.AddNetworkString("equipItem")
+util.AddNetworkString("unequipItem")
 
 local meta = FindMetaTable("Player")
 
@@ -37,18 +40,85 @@ function meta:sendInventory()
 	net.Send(self)
 end
 
-function meta:pickUpWeapon()
-	MySQLite.query("INSERT INTO weapons (steamid, classid, stat1) VALUES ('" ..Entity(1):SteamID() .."', " ..1001 ..", " ..150 ..")", function()
-		// Get the last inserted id so we can store that in lua
-		MySQLite.query("SELECT uniqueid FROM weapons ORDER BY uniqueid DESC LIMIT 1", function(results)
-			local itemId = 0
-			if results and results[1] then
-				itemId = results[1]["uniqueid"]
-			end
-			
-			// Do the inventory logic for inserting below here
-			print(itemId)
-		end)
-	end)
+function meta:pickUpItem(item)
+	PrintTable(item)
+	if isWeapon(item.classid) then
+		PrintTable(item)
+		self:pickUpWeapon(item)
+	elseif isApparel(item.classid) then
+	
+	end
 end
+
+function meta:dropItem(uniqueId, itemType)
+	if uniqueId and itemType then
+		// Store the item temp so we can drop it
+		local item = self.inventory[itemType][uniqueId]
+		
+		// Delete from lua
+		self.inventory[itemType][uniqueId] = nil
+		
+		// Update the client
+		net.Start("dropItem")
+		
+		net.Send(self)
+		
+		// Delete from MySQL
+		MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueId)
+		
+		// Drop the item on the ground
+		createLoot(self:GetPos(), {item})
+	end
+end
+
+function meta:equipItem(uniqueId, itemType)
+	if uniqueId and itemType then
+		//Update in lua
+		self.inventory[itemType][uniqueId]["equipped"] = true
+		
+		//Update client
+		net.Start("equipItem")
+		
+		net.Send(self)
+		
+		//Update MySQL
+		MySQLite.query("UPDATE " ..itemType .." SET equipped = 1 WHERE uniqueid = " ..uniqueId)
+	end
+end
+
+function meta:unequipItem(uniqueId, itemType)
+	if uniqueId and itemType then
+		//Update in lua
+		self.inventory[itemType][uniqueId]["equipped"] = false
+		
+		//Update client
+		net.Start("unequipItem")
+		
+		net.Send(self)
+		
+		//Update MySQL
+		MySQLite.query("UPDATE " ..itemType .." SET equipped = 0 WHERE uniqueid = " ..uniqueId)
+	end
+end
+
+net.Receive("dropItem", function(len, ply)
+	local itemId = net.ReadInt(8)
+	local itemType = net.ReadString()
+	
+	ply:dropItem(itemId, itemType)
+end)
+
+net.Receive("equipItem", function(len, ply)
+	local itemId = net.ReadInt(8)
+	local itemType = net.ReadString()
+	
+	ply:equipItem(itemId, itemType)
+end)
+
+net.Receive("unequipItem", function(len, ply)
+	local itemId = net.ReadInt(8)
+	local itemType = net.ReadString()
+	
+	ply:unequipItem(itemId, itemType)
+end)
 	

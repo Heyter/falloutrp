@@ -473,7 +473,7 @@ function VGUI:Init()
 						{key = "Weight", val = getWeaponWeight(v.classid)},
 						{key = "Value", val = getWeaponValue(v.classid)},
 						{key = "Strength", val = getWeaponStrength(v.classid)},
-						{key = "Damage", val = getWeaponDamage(v.classid)},
+						{key = "Damage", val = localplayer():getWeaponDamage(k)},
 					},
 					itemIcon = Material("models/pepboy/item_icon_sniper"),
 					inUse = v.equipped,
