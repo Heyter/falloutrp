@@ -470,10 +470,12 @@ function VGUI:Init()
 				element:addItemListEntry({
 					label = getWeaponName(v.classid),
 					stats = {
-						{key = "Weight", val = getWeaponWeight(v.classid)},
-						{key = "Value", val = getWeaponValue(v.classid)},
-						{key = "Strength", val = getWeaponStrength(v.classid)},
 						{key = "Damage", val = localplayer():getWeaponDamage(k)},
+						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
+						{key = "Durability", val = localplayer():getWeaponDurability(k)},
+						{key = "Strength", val = getWeaponStrength(v.classid)},
+						{key = "Weight", val = getWeaponWeight(v.classid)},
+						{key = "Value", val = getWeaponValue(v.classid)},						
 					},
 					itemIcon = Material("models/pepboy/item_icon_sniper"),
 					inUse = v.equipped,
@@ -602,32 +604,29 @@ function VGUI:Init()
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 		
-		/*
-		local cats = DarkRP.getCategories().entities
-	
-		for k, _ in pairs( cats ) do
-			
-			for _, v in pairs( cats[k].members ) do
-						
-				element:addItemListEntry( {	
-						
-						label = v.name,
-						enabledFunc = function() if istable( v.allowed ) and !table.HasValue( v.allowed, localplayer():Team() ) then return false else return true end end,
-						stats = { { key = "Price", val = v.price }, { key = "Cat", val = v.category } },
-						clickFunc = function()
-							
-							RunConsoleCommand( "DarkRP", v.cmd )
-						
-						end,
-						rightClickFunc = function() end,
-						itemIcon = matMachine
-						
-					} )		
-				
+		if localplayer().inventory and localplayer().inventory.misc then
+			for k, v in pairs(localplayer().inventory.misc) do
+				element:addItemListEntry({
+					label = getMiscName(v.classid),
+					stats = {
+						{key = "Weight", val = getMiscWeight(v.classid)},
+						{key = "Value", val = getMiscValue(v.classid)},						
+					},
+					//itemIcon = Material("models/pepboy/item_icon_sniper"),
+					itemModel = getMiscModel(v.classid),
+					
+					inUse = v.equipped,
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						menu:SetType("misc")
+						menu:AddOptions({"Drop"})
+						menu:Open()
+					end
+				})
 			end
-		
 		end
-		*/
 		
 		return element
 		
@@ -1222,16 +1221,20 @@ function VGUI:addItemListEntry( entry )
 	local disabledClickFunc = entry.disabledClickFunc or function() end
 	local stats = entry.stats or nil
 	local itemIcon = entry.itemIcon or nil
+	local itemModel = entry.itemModel or nil
 	local inUse = entry.inUse or nil // Track whether the item is equipped or not
 	
 	local infoPanel = function()
 	
-		local infoPanel = vgui.Create( "pepboy_itemlist_info", self )
-		infoPanel:SetPos( PEPBOY_CONTENT_SIZE_X/2, 0 )
-		infoPanel:SetSize( PEPBOY_CONTENT_SIZE_X/2, PEPBOY_CONTENT_SIZE_Y )
-		infoPanel:setDesc( desc )
-		infoPanel:setStats( stats )
-		infoPanel:setItemIcon( itemIcon )
+		local infoPanel = vgui.Create("pepboy_itemlist_info", self)
+		infoPanel:SetPos(PEPBOY_CONTENT_SIZE_X/2, 0)
+		infoPanel:SetSize(PEPBOY_CONTENT_SIZE_X/2, PEPBOY_CONTENT_SIZE_Y)
+		infoPanel:setDesc(desc)
+		infoPanel:setStats(stats)
+		infoPanel:setItemIcon(itemIcon)
+		if itemModel then
+			infoPanel:setIconModel(itemModel)
+		end
 		return infoPanel
 		
 	end
@@ -1423,7 +1426,15 @@ local VGUI = {}
 function VGUI:Init()
 	
 	self.text_draw_t = {}
+end
+
+function VGUI:setIconModel(model)
+	self.itemModel = model
 	
+	local icon = vgui.Create("SpawnIcon", self)
+	icon:SetPos(self:GetWide()/2 - 128, 0)
+	icon:SetSize(256, 256)
+	icon:SetModel(model)
 end
 
 function VGUI:Paint( w, h )
@@ -1442,6 +1453,10 @@ function VGUI:Paint( w, h )
 	
 	end
 	
+	if self.itemModel then
+		self.textStart = self.textStart + 256
+	end
+	
 	if self.stats then
 		
 		for k, v in pairs( self.stats ) do
@@ -1450,6 +1465,10 @@ function VGUI:Paint( w, h )
 			if k > 2 then
 				x = 4 - k
 				offsetY = 50
+			end
+			if k > 4 then
+				x = 6 - k
+				offsetY = 100
 			end
 			
 			surface.SetDrawColor( PEPBOY_COLOR )
