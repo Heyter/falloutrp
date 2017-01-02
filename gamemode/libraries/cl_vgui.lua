@@ -35,7 +35,7 @@ function VGUI:Paint(w, h)
 			
 	surface.SetFont(self.font)
 	surface.SetTextPos(offsetX + w/6 + textPadding, offsetY - (self.textY/2) + barHeight/2)
-	surface.DrawText("Loot")
+	surface.DrawText(self.title)
 			
 	// Top left middle bar
 	surface.SetDrawColor(COLOR_AMBER)

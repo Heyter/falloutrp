@@ -477,13 +477,12 @@ function VGUI:Init()
 						{key = "Weight", val = getWeaponWeight(v.classid)},
 						{key = "Value", val = getWeaponValue(v.classid)},						
 					},
-					itemIcon = Material("models/pepboy/item_icon_sniper"),
+					itemModel = getWeaponModel(v.classid),
 					inUse = v.equipped,
 					
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
 						menu:StoreItem(v)
-						menu:SetType("weapons")
 						if v.equipped then
 							menu:AddOptions({"Un-Equip", "Drop"})
 						else
@@ -493,37 +492,10 @@ function VGUI:Init()
 					end
 				})
 			end
-		end
-		
-		/*
-		local cats = DarkRP.getCategories().weapons
-	
-		for k, _ in pairs( cats ) do
-			
-			for _, v in pairs( cats[k].members ) do
-						
-				element:addItemListEntry( {	
-						
-						label = v.name,
-						enabledFunc = function() if istable( v.allowed ) and !table.HasValue( v.allowed, localplayer():Team() ) then return false else return true end end,
-						stats = { { key = "Price", val = v.pricesep }, { key = "Cat", val = v.category } },
-						clickFunc = function()
-							
-							RunConsoleCommand( "DarkRP", "buy", v.name )
-						
-						end,
-						rightClickFunc = function() end,
-						itemIcon = WEAPON_ICONS[ v.category ]
-						
-					} )		
-				
-			end
-		
-		end
-		*/
+		end	
 		
 		return element
-	
+		
 	end
 	
 	local shipment_panel = function()
@@ -620,7 +592,6 @@ function VGUI:Init()
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
 						menu:StoreItem(v)
-						menu:SetType("misc")
 						menu:AddOptions({"Drop"})
 						menu:Open()
 					end
@@ -1125,21 +1096,21 @@ function VGUI:Init()
 	self.menuTypes = {
 	["Equip"] = function()
 		local catM = self:GetParent():GetParent()
-		localplayer():equipItem(self.item.uniqueid, self.type)
+		localplayer():equipItem(self.item.uniqueid, self.item.classid)
 		self:GetParent():Remove()
 		catM:makeLayout()
 		catM.layoutBot[1].panelFunc()
 	end,	
 	["Un-Equip"] = function()
 		local catM = self:GetParent():GetParent()
-		localplayer():unequipItem(self.item.uniqueid, self.type)
+		localplayer():unequipItem(self.item.uniqueid, self.item.classid)
 		self:GetParent():Remove()
 		catM:makeLayout()
 		catM.layoutBot[1].panelFunc()
 	end,
 	["Drop"] = function()
 		local catM = self:GetParent():GetParent()
-		localplayer():dropItem(self.item.uniqueid, self.type)
+		localplayer():dropItem(self.item.uniqueid, self.item.classid)
 		self:GetParent():Remove()
 		catM:makeLayout()
 		catM.layoutBot[1].panelFunc()
@@ -1152,10 +1123,6 @@ function VGUI:Paint(w, h)
 	surface.DrawRect(0, 0, w, h)
 	surface.SetDrawColor( PEPBOY_COLOR )
 	surface.DrawRect(0, 0, w, h)
-end
-
-function VGUI:SetType(type)
-	self.type = type
 end
 
 function VGUI:StoreItem(item)

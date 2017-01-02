@@ -14,6 +14,15 @@ function meta:loadInvWeapons()
 				equipped = tobool(v.equipped),
 				uniqueid = v.uniqueid
 			}
+			
+			if v.equipped then
+				self.equipped["weapons"] = {
+					classid = v.classid,
+					damage = v.damage,
+					durability = v.durability,
+					uniqueid = v.uniqueid
+				}
+			end
 		end
 		
 		self:loadInventoryCount()

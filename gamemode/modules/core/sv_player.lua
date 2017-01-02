@@ -27,10 +27,8 @@ function meta:load()
 	//Load Player
 	self:loadPlayer()
 	
-	//Load Inventory
+	//Load Inventory and Equipped
 	self:loadInventory()
-	
-	//Load Equipped
 	
 	//Load Bank
 end

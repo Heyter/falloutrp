@@ -3,9 +3,12 @@ local meta = FindMetaTable("Player")
 
 Weapons = {}
 
-function addWeapon(id, name, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity, durability, weight, value, strength)
+function addWeapon(id, name, type, entity, model, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity, durability, weight, value, strength)
 	Weapons[id] = {
 		name = name,
+		type = type,
+		entity = entity,
+		model = model,
 		minDamage = minDamage,
 		maxDamage = maxDamage,
 		fireRate = fireRate, 
@@ -31,6 +34,16 @@ end
 // Base functions that have data that will not change
 function getWeaponName(id)
 	return findWeapon(id).name
+end
+function getWeaponType(id)
+	return findWeapon(id).type
+end
+function getWeaponEntity(id)
+	print(id)
+	return findWeapon(id).entity
+end
+function getWeaponModel(id)
+	return findWeapon(id).model
 end
 function getWeaponMinDamage(id)
 	return findWeapon(id).minDamage
@@ -59,4 +72,5 @@ function meta:getWeaponDurability(uniqueId)
 	return self.inventory.weapons[uniqueId]["durability"] or 0
 end
 
-addWeapon(1001, "Lucky", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6, 1120, 2.5, 1500, 3)
+addWeapon(1001, "Lucky", "secondary", "weapon_9mmpistolmaria", "models/Halokiller38/fallout/weapons/Pistols/9mmunique.mdl", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6, 1120, 2.5, 1500, 3)
+addWeapon(1002, "R91 Assault Rifle", "primary", "weapon_r91assaultrifle", "models/Halokiller38/fallout/weapons/AssaultRifles/r91assaultrifle.mdl", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6, 1120, 2.5, 1500, 3)
