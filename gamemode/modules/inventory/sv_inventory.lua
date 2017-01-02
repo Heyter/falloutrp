@@ -26,6 +26,11 @@ function meta:loadInventory()
 		ammo = {}
 	}
 	
+	self.equipped = {
+		weapons = {},
+		apparel = {}
+	}
+	
 	self:loadInvWeapons()
 	self:loadInvApparel()
 	self:loadInvAid()
@@ -37,11 +42,11 @@ end
 function meta:sendInventory()
 	net.Start("loadInventory")
 		net.WriteTable(self.inventory)
+		net.WriteTable(self.equipped)
 	net.Send(self)
 end
 
 function meta:pickUpItem(item)
-	PrintTable(item)
 	if isWeapon(item.classid) then
 		PrintTable(item)
 		self:pickUpWeapon(item)
@@ -56,75 +61,70 @@ function meta:pickUpItem(item)
 	end
 end
 
-function meta:dropItem(uniqueId, itemType)
-	if uniqueId and itemType then
-		// Store the item temp so we can drop it
-		local item = self.inventory[itemType][uniqueId]
+function meta:dropItem(uniqueid, classid)
+	local itemType = classidToStringType(classid)
+
+	// Store the item temp so we can drop it
+	local item = self.inventory[itemType][uniqueid]
 		
-		// Delete from lua
-		self.inventory[itemType][uniqueId] = nil
+	// Delete from lua
+	self.inventory[itemType][uniqueid] = nil
 		
-		// Update the client
-		net.Start("dropItem")
+	// Update the client
+	net.Start("dropItem")
 		
-		net.Send(self)
+	net.Send(self)
 		
-		// Delete from MySQL
-		MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueId)
+	// Delete from MySQL
+	MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 		
-		// Drop the item on the ground
-		createLoot(self:GetPos(), {item})
+	// Drop the item on the ground
+	createLoot(self:GetPos(), {item})
+end
+
+function meta:equipItem(uniqueid, classid)
+	if isWeapon(classid) then
+		self:equipWeapon(uniqueid, classid)
+	elseif isApparel(classid) then
+	
 	end
 end
 
-function meta:equipItem(uniqueId, itemType)
-	if uniqueId and itemType then
-		//Update in lua
-		self.inventory[itemType][uniqueId]["equipped"] = true
+function meta:unequipItem(uniqueid, classid)
+	local itemType = classidToStringType(classid)
+	
+	//Update in lua
+	self.inventory[itemType][uniqueid]["equipped"] = false
 		
-		//Update client
-		net.Start("equipItem")
+	//Update client
+	net.Start("unequipItem")
+	
+	net.Send(self)
 		
-		net.Send(self)
-		
-		//Update MySQL
-		MySQLite.query("UPDATE " ..itemType .." SET equipped = 1 WHERE uniqueid = " ..uniqueId)
-	end
-end
-
-function meta:unequipItem(uniqueId, itemType)
-	if uniqueId and itemType then
-		//Update in lua
-		self.inventory[itemType][uniqueId]["equipped"] = false
-		
-		//Update client
-		net.Start("unequipItem")
-		
-		net.Send(self)
-		
-		//Update MySQL
-		MySQLite.query("UPDATE " ..itemType .." SET equipped = 0 WHERE uniqueid = " ..uniqueId)
-	end
+	//Update MySQL
+	MySQLite.query("UPDATE " ..itemType .." SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 end
 
 net.Receive("dropItem", function(len, ply)
-	local itemId = net.ReadInt(8)
-	local itemType = net.ReadString()
+	local itemId = net.ReadInt(32)
+	local classid = net.ReadInt(16)
 	
-	ply:dropItem(itemId, itemType)
+	print(itemId, classid)
+	
+	ply:dropItem(itemId, classid)
 end)
 
 net.Receive("equipItem", function(len, ply)
-	local itemId = net.ReadInt(8)
-	local itemType = net.ReadString()
+	local itemId = net.ReadInt(32)
+	local classid = net.ReadInt(16)
 	
-	ply:equipItem(itemId, itemType)
+	ply:equipItem(itemId, classid)
 end)
 
 net.Receive("unequipItem", function(len, ply)
-	local itemId = net.ReadInt(8)
-	local itemType = net.ReadString()
+	local itemId = net.ReadInt(32)
+	local classid = net.ReadInt(16)
 	
-	ply:unequipItem(itemId, itemType)
+	ply:unequipItem(itemId, classid)
 end)
 	

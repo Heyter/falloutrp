@@ -2,36 +2,41 @@
 //Client
 local meta = FindMetaTable("Player")
 
-function meta:dropItem(uniqueId, itemType)
+function meta:dropItem(uniqueId, classid)
+	local itemType = classidToStringType(classid)
 	self:setVguiDelay()
-	
+	print(uniqueId, classid)
 	net.Start("dropItem")
-		net.WriteInt(uniqueId, 8)
-		net.WriteString(itemType)
+		net.WriteInt(uniqueId, 32)
+		net.WriteInt(classid, 16)
 	net.SendToServer()
 	
 	// Remove the item from clienside, it's not guranteed it's removed from server though
 	self.inventory[itemType][uniqueId] = nil
 end
 
-function meta:equipItem(uniqueId, itemType)
+function meta:equipItem(uniqueId, classid)
+	local itemType = classidToStringType(classid)
+	
 	self:setVguiDelay()
 	
 	net.Start("equipItem")
-		net.WriteInt(uniqueId, 8)
-		net.WriteString(itemType)
+		net.WriteInt(uniqueId, 32)
+		net.WriteInt(classid, 16)
 	net.SendToServer()
 	
 	// Remove the item from clienside, it's not guranteed it's removed from server though
 	self.inventory[itemType][uniqueId]["equipped"] = true
 end
 
-function meta:unequipItem(uniqueId, itemType)
+function meta:unequipItem(uniqueId, classid)
+	local itemType = classidToStringType(classid)
+	
 	self:setVguiDelay()
 	
 	net.Start("unequipItem")
-		net.WriteInt(uniqueId, 8)
-		net.WriteString(itemType)
+		net.WriteInt(uniqueId, 32)
+		net.WriteInt(classid, 16)
 	net.SendToServer()
 	
 	// Remove the item from clienside, it's not guranteed it's removed from server though

@@ -2,7 +2,7 @@
 local main
 local frameW, frameH = 800, 600
 local nameFrameW, nameFrameH = 400, 300
-local paddingW, paddingH = 20, 20
+local paddingW, paddingH = 40, 40
 local teamW, teamH = frameW - (paddingW * 2), (frameH - (paddingH * 4)) / 3
 local picSize = 150
 local picPaddingW, picPaddingH = 10, (teamH - picSize) / 2
@@ -80,12 +80,13 @@ local function teamSelection()
 	main:MakePopup()
 	
 	teamSelect = function()
-		local frame = vgui.Create("DPanel", main)
+		local frame = vgui.Create("FalloutRP_Menu", main)
 		frame:SetPos(ScrW()/2 - frameW/2, ScrH()/2 - frameH/2)
 		frame:SetSize(frameW, frameH)
-		frame.Paint = function(self, w, h)
-			draw.RoundedBox(2, 0, 0, w, h, COLOR_BLACKFADE)
-		end
+		//frame.Paint = function(self, w, h)
+		//	draw.RoundedBox(2, 0, 0, w, h, COLOR_BLACKFADE)
+		//end
+		frame:SetFontTitle("FalloutRP3", "Faction Registration")
 		
 		local nextY = paddingH
 		for id, v in pairs(teams) do
@@ -93,15 +94,17 @@ local function teamSelection()
 			teamFrame:SetPos(paddingW, nextY)
 			teamFrame:SetSize(teamW, teamH)
 			teamFrame.Paint = function(self, w, h)
-				draw.RoundedBox(2, 0, 0, w, h, COLOR_BROWN)
+				surface.SetDrawColor(COLOR_AMBER)
+				surface.DrawOutlinedRect(0, 0, w, h)
+				//draw.RoundedBox(2, 0, 0, w, h, COLOR_BROWN)
 				
 				surface.SetMaterial(Material(v["Emblem"]))
 				surface.SetDrawColor(Color(255, 255, 255, 255))
-				surface.DrawTexturedRect(picPaddingW, picPaddingH, picSize, picSize)
+				surface.DrawTexturedRect(picPaddingW, picPaddingH + 5, picSize, picSize - 10)
 							
 				surface.SetMaterial(Material(v["Reputation"]))
 				surface.SetDrawColor(Color(255, 255, 255, 255))
-				surface.DrawTexturedRect(picPaddingW * 2 + picSize, picPaddingH, picSize, picSize) 
+				surface.DrawTexturedRect(picPaddingW * 2 + picSize, picPaddingH + 5, picSize, picSize - 10) 
 			end
 			
 			local name = vgui.Create("DLabel", teamFrame)
@@ -140,23 +143,24 @@ local function teamSelection()
 	
 	nameSelect = function(id)
 		print(id)
-		local frame = vgui.Create("DPanel", main)
+		local frame = vgui.Create("FalloutRP_Menu", main)
 		frame:SetPos(ScrW()/2 - nameFrameW/2, ScrH()/2 - nameFrameH/2)
 		frame:SetSize(nameFrameW, nameFrameH)
-		frame.Paint = function(self, w, h)
-			draw.RoundedBox(2, 0, 0, w, h, COLOR_BLACKFADE)
-		end
+		//frame.Paint = function(self, w, h)
+		//	draw.RoundedBox(2, 0, 0, w, h, COLOR_BLACKFADE)
+		//end
+		frame:SetFontTitle("FalloutRP3", "Player Registration")
 		
 		local instructions = vgui.Create("DLabel", frame)
 		instructions:SetText("Enter your player's name")
 		instructions:SetTextColor(COLOR_AMBER)
 		instructions:SetFont("FalloutRP3")
 		instructions:SizeToContents()
-		instructions:SetPos(frame:GetWide()/2 - instructions:GetWide()/2, 20 + instructions:GetTall()/2)
+		instructions:SetPos(frame:GetWide()/2 - instructions:GetWide()/2, 40 + instructions:GetTall()/2)
 		
 		local nameEntry = vgui.Create("DTextEntry", frame)
 		nameEntry:SetSize(instructions:GetWide(), instructions:GetTall())
-		nameEntry:SetPos(frame:GetWide()/2 - nameEntry:GetWide()/2, 20 + nameEntry:GetTall()*2)
+		nameEntry:SetPos(frame:GetWide()/2 - nameEntry:GetWide()/2, 40 + nameEntry:GetTall()*2)
 		nameEntry:SetText("John Doe")
 		nameEntry:SetFont("FalloutRP1")
 		nameEntry.OnEnter = function(self)

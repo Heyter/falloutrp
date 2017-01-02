@@ -7,29 +7,48 @@ TYPE_AMMO = 3
 TYPE_AID = 4
 TYPE_MISC = 5
 
-function getItemName(classId)
-	if isWeapon(classId) then
-		return getWeaponName(classId)
-	elseif isApparel(classId) then
-		return getApparelName(classId)
-	elseif isAmmo(classId) then
-		return getApparelName(classId)
-	elseif isAid(classId) then
-		return getAidName(classId)
-	elseif isMisc(classId) then
-		return getMiscName(classId)
+function getItemName(classid)
+	if isWeapon(classid) then
+		return getWeaponName(classid)
+	elseif isApparel(classid) then
+		return getApparelName(classid)
+	elseif isAmmo(classid) then
+		return getApparelName(classid)
+	elseif isAid(classid) then
+		return getAidName(classid)
+	elseif isMisc(classid) then
+		return getMiscName(classid)
 	end
 end
-function getItemWeight(classId)
-	if isWeapon(classId) then
-		return getWeaponWeight(classId)
+function getItemWeight(classid)
+	if isWeapon(classid) then
+		return getWeaponWeight(classid)
+	end
+end
+function getItemModel(classid)
+	if isWeapon(classid) then
+		return getWeaponModel(classid)
 	end
 end
 
-function classidToType(classId)
-	local index = classId .."" // Convert id number to string so we can index it
+function classidToType(classid)
+	local index = classid .."" // Convert id number to string so we can index it
 	
 	return tonumber(index[1])
+end
+
+function classidToStringType(classid)
+	if isWeapon(classid) then
+		return "weapons"
+	elseif isApparel(classid) then
+		return "apparel"	
+	elseif isAmmo(classid) then
+		return "ammo"	
+	elseif isAid(classid) then
+		return "aid"	
+	elseif isMisc(classid) then
+		return "misc"
+	end
 end
 
 function isWeapon(classid)
