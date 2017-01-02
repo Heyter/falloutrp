@@ -10,6 +10,7 @@ function meta:loadInvWeapons()
 			self.inventory["weapons"][v.uniqueid] = {
 				classid = v.classid,
 				damage = v.damage,
+				durability = v.durability,
 				equipped = tobool(v.equipped),
 				uniqueid = v.uniqueid
 			}
@@ -20,7 +21,7 @@ function meta:loadInvWeapons()
 end
 
 function meta:pickUpWeapon(weapon)
-	MySQLite.query("INSERT INTO weapons (steamid, classid, damage) VALUES ('" ..Entity(1):SteamID() .."', " ..1001 ..", " ..150 ..")", function()
+	MySQLite.query("INSERT INTO weapons (steamid, classid, damage, durability) VALUES ('" ..Entity(1):SteamID() .."', " ..weapon.classid ..", " ..weapon.damage ..", " ..weapon.durability ..")", function()
 		// Get the last inserted id so we can store that in lua
 		MySQLite.query("SELECT uniqueid FROM weapons ORDER BY uniqueid DESC LIMIT 1", function(results)
 			local itemId = 0

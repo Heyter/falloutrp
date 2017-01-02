@@ -83,7 +83,6 @@ function openLoot(ent, loot)
 			end
 		end
 		itemBox.DoClick = function()
-			print("Clicked")
 			lootItem(ent, k)
 			frame:Remove()
 		end
@@ -93,6 +92,7 @@ function openLoot(ent, loot)
 		itemLabel:SetPos(textPadding, textPadding/2)
 		itemLabel:SetFont("FalloutRP1")
 		itemLabel:SetText(getItemName(v.classid))
+		itemLabel:SizeToContents()
 		itemLabel:SetTextColor(COLOR_AMBER)
 		
 		itemBox.OnCursorEntered = function(self)

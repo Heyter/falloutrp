@@ -47,6 +47,12 @@ function meta:pickUpItem(item)
 		self:pickUpWeapon(item)
 	elseif isApparel(item.classid) then
 	
+	elseif isAmmo(item.classid) then
+	
+	elseif isAid(item.classid) then
+	
+	elseif isMisc(item.classid) then
+		self:pickUpMisc(item)
 	end
 end
 

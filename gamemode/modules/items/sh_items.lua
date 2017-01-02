@@ -10,6 +10,14 @@ TYPE_MISC = 5
 function getItemName(classId)
 	if isWeapon(classId) then
 		return getWeaponName(classId)
+	elseif isApparel(classId) then
+		return getApparelName(classId)
+	elseif isAmmo(classId) then
+		return getApparelName(classId)
+	elseif isAid(classId) then
+		return getAidName(classId)
+	elseif isMisc(classId) then
+		return getMiscName(classId)
 	end
 end
 function getItemWeight(classId)
