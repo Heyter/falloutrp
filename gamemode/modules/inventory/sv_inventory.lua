@@ -91,18 +91,11 @@ function meta:equipItem(uniqueid, classid)
 end
 
 function meta:unequipItem(uniqueid, classid)
-	local itemType = classidToStringType(classid)
+	if isWeapon(classid) then
+		self:unequipWeapon(uniqueid, classid)
+	elseif isApparel(classid) then
 	
-	//Update in lua
-	self.inventory[itemType][uniqueid]["equipped"] = false
-		
-	//Update client
-	net.Start("unequipItem")
-	
-	net.Send(self)
-		
-	//Update MySQL
-	MySQLite.query("UPDATE " ..itemType .." SET equipped = 0 WHERE uniqueid = " ..uniqueid)
+	end
 end
 
 net.Receive("dropItem", function(len, ply)

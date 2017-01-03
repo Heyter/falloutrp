@@ -15,8 +15,8 @@ function meta:loadInvWeapons()
 				uniqueid = v.uniqueid
 			}
 			
-			if v.equipped then
-				self.equipped["weapons"] = {
+			if tobool(v.equipped) then
+				self.equipped["weapons"][getWeaponType(v.classid)] = {
 					classid = v.classid,
 					damage = v.damage,
 					durability = v.durability,

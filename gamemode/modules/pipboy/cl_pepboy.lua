@@ -76,7 +76,6 @@ else
 end
 
 local function close()
-	
 	gui.EnableScreenClicker( false )
 
 	net.Start( "pepboy_close" )
@@ -206,11 +205,34 @@ surface.CreateFont( "pepboy_50", {
 	outline = false,
 } )
 
+local function open()
+	//Close it first incase it was already open
+	close()
+
+	localplayer().pepboy_frame = vgui.Create( "pepboy_frame" )
+	localplayer().pepboy_frame:SetPos( 0, 0 )
+	localplayer().pepboy_frame:SetSize( ScrW(), ScrH() )
+
+	localplayer().pepboy_vgui = vgui.Create( "pepboy_main" )
+	localplayer().pepboy_vgui:SetPos( 0, 0 )
+	localplayer().pepboy_vgui:SetSize( ScrW(), ScrH() )
+	
+	return localplayer().pepboy_vgui
+end
+
+function openPepboyMiddle(panelNumber)
+	local pepboy = open()
+	pepboy.buttonM.DoClick()
+	pepboy.catM.layoutBot[panelNumber].panelFunc()
+end
+
+
 net.Receive( "pepboy_open", function()
 	
 	local bit = net.ReadBit()
 	
 	if localplayer().pepboy_vgui or localplayer().pepboy_frame then
+		
 		
 		close()
 		return
@@ -456,7 +478,7 @@ function VGUI:Init()
 	self.catM:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
 	self.catM:addTop( "HP", function() return localplayer():Health() ..":" ..100 end, 1.4 )
 	self.catM:addTop( "DT", function() return "DT" end, 0.8 )
-	self.catM:addTop( "Caps", function() return "Caps" end, 2.2 )
+	self.catM:addTop( "Caps", function() return localplayer():getCaps() end, 2.2 )
 	self.catM:SetTitle( "ITEMS", 2.5 )
 	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..100 )
 	
@@ -1109,11 +1131,12 @@ function VGUI:Init()
 		catM.layoutBot[1].panelFunc()
 	end,
 	["Drop"] = function()
-		local catM = self:GetParent():GetParent()
+		//local catM = self:GetParent():GetParent()
 		localplayer():dropItem(self.item.uniqueid, self.item.classid)
-		self:GetParent():Remove()
-		catM:makeLayout()
-		catM.layoutBot[1].panelFunc()
+		//openPepboyMiddle()
+		//self:GetParent():Remove()
+		//catM:makeLayout()
+		//catM.layoutBot[1].panelFunc()
 	end
 }
 end
@@ -1570,7 +1593,7 @@ function VGUI:Paint( w, h )
 	surface.SetMaterial( matLine )
 	surface.DrawTexturedRect( 60 + 128 + 50 - 4, 70 + 32 - 8, w - 50 + 8 - ( 60 + 128 + 50 - 4 ), 4 )
 
-	draw.SimpleText( localplayer():Nick(), "pepboy_40", 60 + 128 + 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+	draw.SimpleText( localplayer():getName(), "pepboy_40", 60 + 128 + 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
 	//draw.SimpleText( DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) or self.cash, "pepboy_40", w - 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP )
 	
 	//draw.SimpleText( localplayer():getDarkRPVar( "job" ) or self.job, "pepboy_27", 60 + 128 + 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )

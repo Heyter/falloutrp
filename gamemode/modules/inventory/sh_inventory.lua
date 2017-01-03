@@ -9,6 +9,9 @@ function meta:getInventoryWeight()
 	for k,items in pairs(self.inventory.weapons) do
 		weight = weight + getWeaponWeight(items.classid)
 	end
+	for k,items in pairs(self.inventory.misc) do
+		weight = weight + getMiscWeight(items.classid)
+	end
 	
 	return weight
 end
