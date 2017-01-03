@@ -1,4 +1,6 @@
 
+util.AddNetworkString("unequipWeapon")
+
 // Server
 local meta = FindMetaTable("Player")
 
@@ -22,24 +24,36 @@ function meta:canEquipWeapon(classid)
 	return self:getStrength() >= getWeaponStrength(classid)
 end
 
+function meta:unequipWeapon(uniqueid, classid)
+	// Strip weapon
+	self:StripWeapon(getWeaponEntity(classid))
+		
+	// Remove from tables
+	self.equipped.weapons[getWeaponType(classid)] = nil
+	self.inventory.weapons[uniqueid]["equipped"] = false
+			
+	// Remove from MySQL
+	MySQLite.query("UPDATE weapons SET equipped = 0 WHERE uniqueid = " ..uniqueid)
+	
+	// Update clientside
+	net.Start("unequipWeapon")
+		net.WriteInt(uniqueid, 8)
+		net.WriteInt(classid, 8)
+	net.Send(self)
+end
+
 function meta:equipWeapon(uniqueid, classid)
+	print(classid)
 	if self:canEquipWeapon(classid) then
+		print(classid)
 		local weaponType = getWeaponType(classid)
 	
 		// Remove current weapon
 		if self:hasCurrentWeapon(weaponType) then
 			local currentId = self:getCurrentWeaponId(weaponType)
 			local currentClass = self:getCurrentWeaponClass(weaponType)
-		
-			// Strip weapon
-			self:StripWeapon(getWeaponEntity(currentClass))
-		
-			// Remove from tables
-			self.equipped.weapons[weaponType] = nil
-			self.inventory.weapons[currentId]["equipped"] = false
 			
-			// Remove from MySQL
-			MySQLite.query("UPDATE weapons SET equipped = 0 WHERE uniqueid = " ..currentId)
+			self:unequipWeapon(currentId, currentClass)
 		end
 		
 		// Give and select weapon

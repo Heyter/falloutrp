@@ -5,7 +5,7 @@ local meta = FindMetaTable("Player")
 function meta:dropItem(uniqueId, classid)
 	local itemType = classidToStringType(classid)
 	self:setVguiDelay()
-	print(uniqueId, classid)
+
 	net.Start("dropItem")
 		net.WriteInt(uniqueId, 32)
 		net.WriteInt(classid, 16)
