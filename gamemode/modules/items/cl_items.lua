@@ -16,17 +16,12 @@ function meta:dropItem(uniqueId, classid)
 end
 
 function meta:equipItem(uniqueId, classid)
-	local itemType = classidToStringType(classid)
-	
 	self:setVguiDelay()
 	
 	net.Start("equipItem")
 		net.WriteInt(uniqueId, 32)
 		net.WriteInt(classid, 16)
 	net.SendToServer()
-	
-	// Remove the item from clienside, it's not guranteed it's removed from server though
-	self.inventory[itemType][uniqueId]["equipped"] = true
 end
 
 function meta:unequipItem(uniqueId, classid)
@@ -38,9 +33,6 @@ function meta:unequipItem(uniqueId, classid)
 		net.WriteInt(uniqueId, 32)
 		net.WriteInt(classid, 16)
 	net.SendToServer()
-	
-	// Remove the item from clienside, it's not guranteed it's removed from server though
-	self.inventory[itemType][uniqueId]["equipped"] = false
 end
 
 net.Receive("dropItem", function()

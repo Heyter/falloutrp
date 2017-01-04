@@ -48,11 +48,24 @@ function ENT:getItem(id)
 	return self.loot[id]
 end
 
-function ENT:removeItem(id)
-	self.loot[id] = nil
-	
-	if !self:hasLoot() then
-		SafeRemoveEntity(self)
+function ENT:removeItem(id, quantity)
+	if quantity and self.loot[id].quantity then
+		self.loot[id]["quantity"] = self.loot[id].quantity - quantity
+
+		// If the item has 0 quantity then remove it from the loot
+		if self.loot[id].quantity <= 0 then
+			self.loot[id] = nil
+		
+			if !self:hasLoot() then
+				SafeRemoveEntity(self)
+			end
+		end
+	else
+		self.loot[id] = nil
+		
+		if !self:hasLoot() then
+			SafeRemoveEntity(self)
+		end
 	end
 end
 

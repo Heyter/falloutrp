@@ -46,9 +46,8 @@ function meta:sendInventory()
 	net.Send(self)
 end
 
-function meta:pickUpItem(item)
+function meta:pickUpItem(item, quantity)
 	if isWeapon(item.classid) then
-		PrintTable(item)
 		self:pickUpWeapon(item)
 	elseif isApparel(item.classid) then
 	
@@ -57,7 +56,7 @@ function meta:pickUpItem(item)
 	elseif isAid(item.classid) then
 	
 	elseif isMisc(item.classid) then
-		self:pickUpMisc(item)
+		self:pickUpMisc(item, quantity)
 	end
 end
 

@@ -36,6 +36,7 @@ function getWeaponName(id)
 	return findWeapon(id).name
 end
 function getWeaponType(id)
+	print(id)
 	return findWeapon(id).type
 end
 function getWeaponEntity(id)

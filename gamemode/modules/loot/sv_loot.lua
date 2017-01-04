@@ -14,17 +14,27 @@ function meta:loot(ent)
 	end
 end
 
-function meta:lootItem(ent, itemId)
+function meta:lootItem(ent, itemId, quantity)
 	if self:Alive() and self:inLootRange(ent) then
 		if ent:hasItem(itemId) then
 			local item = ent:getItem(itemId)
+
+			local canFit = self:canInventoryFit(item, quantity)
+			
+			if isnumber(canFit) and util.positive(canFit) then 
+				quantity = canFit
+			elseif canFit != true then // Can't fit any amount of the item into inventory
+				return
+			end
+			
+			print(quantity)
 			
 			// Remove the item
-			ent:removeItem(itemId)
-			
+			ent:removeItem(itemId, quantity)
+				
 			// Add the item to the player
-			self:pickUpItem(item)
-			
+			self:pickUpItem(item, quantity)
+				
 			// Go back to looting
 			self:loot(ent)
 		end
@@ -48,6 +58,7 @@ end
 net.Receive("lootItem", function(len, ply)
 	local ent = net.ReadEntity()
 	local itemId = net.ReadInt(8)
+	local quantity = net.ReadInt(8)
 	
-	ply:lootItem(ent, itemId)
+	ply:lootItem(ent, itemId, quantity)
 end)

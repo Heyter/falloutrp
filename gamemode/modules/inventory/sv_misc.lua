@@ -9,7 +9,8 @@ function meta:loadInvMisc()
 		for k,v in pairs(results) do
 			self.inventory["misc"][v.uniqueid] = {
 				classid = v.classid,
-				uniqueid = v.uniqueid
+				uniqueid = v.uniqueid,
+				quantity = v.quantity
 			}
 		end
 		
@@ -17,8 +18,20 @@ function meta:loadInvMisc()
 	end)	
 end
 
-function meta:pickUpMisc(misc)
-	MySQLite.query("INSERT INTO misc (steamid, classid) VALUES ('" ..Entity(1):SteamID() .."', " ..misc.classid ..")", function()
+function meta:pickUpMisc(misc, quantity)
+	local amount = quantity or 0
+	local sameItem = self:hasMiscItem(misc.classid)
+
+	local query = ""
+	
+	if sameItem then 
+		amount = sameItem.quantity + quantity
+		query = "UPDATE misc SET quantity = " ..amount .." WHERE uniqueid = " ..sameItem.uniqueid
+	else
+		query = "INSERT INTO misc (steamid, classid, quantity) VALUES ('" ..Entity(1):SteamID() .."', " ..misc.classid ..", " ..amount ..")"
+	end
+	
+	MySQLite.query(query, function()
 		// Get the last inserted id so we can store that in lua
 		MySQLite.query("SELECT uniqueid FROM misc ORDER BY uniqueid DESC LIMIT 1", function(results)
 			local itemId = 0
@@ -28,10 +41,12 @@ function meta:pickUpMisc(misc)
 			
 			// Do the inventory logic for inserting below here
 			misc.uniqueid = itemId
+			misc.quantity = misc.quantity + quantity
+			
 			self.inventory.misc[itemId] = misc
 			
 			net.Start("pickUpMisc")
-				net.WriteInt(itemId, 8)
+				net.WriteInt(itemId, 32)
 				net.WriteTable(misc)
 			net.Send(self)
 		end)
