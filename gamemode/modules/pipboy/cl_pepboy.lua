@@ -506,7 +506,7 @@ function VGUI:Init()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
 						menu:StoreItem(v)
 						if v.equipped then
-							menu:AddOptions({"Un-Equip", "Drop"})
+							menu:AddOptions({"Un-Equip"})
 						else
 							menu:AddOptions({"Equip", "Drop"})
 						end
@@ -601,7 +601,7 @@ function VGUI:Init()
 		if localplayer().inventory and localplayer().inventory.misc then
 			for k, v in pairs(localplayer().inventory.misc) do
 				element:addItemListEntry({
-					label = getMiscName(v.classid),
+					label = getMiscNameQuantity(v.classid, v.quantity),
 					stats = {
 						{key = "Weight", val = getMiscWeight(v.classid)},
 						{key = "Value", val = getMiscValue(v.classid)},						
@@ -1117,26 +1117,18 @@ function VGUI:Init()
 	self.offset = 0
 	self.menuTypes = {
 	["Equip"] = function()
-		local catM = self:GetParent():GetParent()
 		localplayer():equipItem(self.item.uniqueid, self.item.classid)
-		self:GetParent():Remove()
-		catM:makeLayout()
-		catM.layoutBot[1].panelFunc()
 	end,	
 	["Un-Equip"] = function()
-		local catM = self:GetParent():GetParent()
 		localplayer():unequipItem(self.item.uniqueid, self.item.classid)
+	end,
+	["Drop"] = function()
+		local catM = self:GetParent():GetParent()
+		localplayer():dropItem(self.item.uniqueid, self.item.classid)
+		//openPepboyMiddle()
 		self:GetParent():Remove()
 		catM:makeLayout()
 		catM.layoutBot[1].panelFunc()
-	end,
-	["Drop"] = function()
-		//local catM = self:GetParent():GetParent()
-		localplayer():dropItem(self.item.uniqueid, self.item.classid)
-		//openPepboyMiddle()
-		//self:GetParent():Remove()
-		//catM:makeLayout()
-		//catM.layoutBot[1].panelFunc()
 	end
 }
 end

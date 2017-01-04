@@ -1,5 +1,6 @@
 
 util.AddNetworkString("unequipWeapon")
+util.AddNetworkString("equipWeapon")
 
 // Server
 local meta = FindMetaTable("Player")
@@ -37,8 +38,8 @@ function meta:unequipWeapon(uniqueid, classid)
 	
 	// Update clientside
 	net.Start("unequipWeapon")
-		net.WriteInt(uniqueid, 8)
-		net.WriteInt(classid, 8)
+		net.WriteInt(uniqueid, 32)
+		net.WriteInt(classid, 16)
 	net.Send(self)
 end
 
@@ -66,8 +67,9 @@ function meta:equipWeapon(uniqueid, classid)
 		self.equipped.weapons[weaponType] = self.inventory.weapons[uniqueid]
 			
 		//Update client
-		net.Start("equipItem")
-			
+		net.Start("equipWeapon")
+			net.WriteInt(uniqueid, 32)
+			net.WriteInt(classid, 16)
 		net.Send(self)
 			
 		//Update MySQL

@@ -13,7 +13,7 @@ function getItemName(classid)
 	elseif isApparel(classid) then
 		return getApparelName(classid)
 	elseif isAmmo(classid) then
-		return getApparelName(classid)
+		return getAmmo(classid)
 	elseif isAid(classid) then
 		return getAidName(classid)
 	elseif isMisc(classid) then
@@ -23,11 +23,33 @@ end
 function getItemWeight(classid)
 	if isWeapon(classid) then
 		return getWeaponWeight(classid)
+	elseif isApparel(classid) then
+		return getApparelWeight(classid)
+	elseif isAmmo(classid) then
+		return getAmmoWeight(classid)
+	elseif isAid(classid) then
+		return getAidWeight(classid)
+	elseif isMisc(classid) then
+		return getMiscWeight(classid)
 	end
 end
 function getItemModel(classid)
 	if isWeapon(classid) then
 		return getWeaponModel(classid)
+	end
+end
+
+function getItemNameQuantity(classid, quantity)
+	if util.positive(quantity) then
+		if isAmmo(classid) then
+			return getAmmoNameQuantity(classid, quantity)
+		elseif isAid(classid) then
+			return getAidNameQuantity(classid, quantity)
+		elseif isMisc(classid) then
+			return getMiscNameQuantity(classid, quantity)
+		end
+	else
+		return getItemName(classid)
 	end
 end
 

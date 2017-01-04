@@ -3,14 +3,17 @@
 net.Receive("loot", function()
 	local ent = net.ReadEntity()
 	local loot = net.ReadTable()
-	
+
 	openLoot(ent, loot)
 end)
 
-function lootItem(ent, itemId)
+function lootItem(ent, itemId, quantity)
 	net.Start("lootItem")
 		net.WriteEntity(ent)
 		net.WriteInt(itemId, 8)
+		if quantity then
+			net.WriteInt(quantity, 8)
+		end
 	net.SendToServer()
 end
 
@@ -83,7 +86,11 @@ function openLoot(ent, loot)
 			end
 		end
 		itemBox.DoClick = function()
-			lootItem(ent, k)
+			if util.positive(v.quantity) then
+				lootItem(ent, k, 1)
+			else
+				lootItem(ent, k)
+			end
 			frame:Remove()
 		end
 		itemBox:SetText("")
@@ -91,7 +98,7 @@ function openLoot(ent, loot)
 		local itemLabel = vgui.Create("DLabel", itemBox)
 		itemLabel:SetPos(textPadding, textPadding/2)
 		itemLabel:SetFont("FalloutRP1")
-		itemLabel:SetText(getItemName(v.classid))
+		itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
 		itemLabel:SizeToContents()
 		itemLabel:SetTextColor(COLOR_AMBER)
 		
