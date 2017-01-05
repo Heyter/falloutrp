@@ -17,8 +17,8 @@ function VGUI:Init()
 	surface.SetFont(self.font)
 	self.textX, self.textY = surface.GetTextSize(self.title)
 	
-	self:SetPos(ScrW()/2, ScrH()/2)
 	self:SetSize(400, 350)
+	self:SetPos(ScrW()/2 - self:GetWide()/2, ScrH()/2 - self:GetTall()/2)
 end
 	
 function VGUI:Paint(w, h)

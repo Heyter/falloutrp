@@ -40,7 +40,7 @@ function meta:canInventoryFit(item, quantity)
 		addedWeight = quantity * addedWeight
 	end
 
-	if self:getInventoryWeight() + addedWeight <= INVENTORY_WEIGHT then // If it's a single item and the item can fit, return true
+	if self:getInventoryWeight() + addedWeight <= INVENTORY_WEIGHT then // If the item (and/or specificied quantity) can fit
 		return true
 	elseif util.positive(quantity) then // If it's multiple items and can't fit them all, return the max amount of items that can fit
 		return self:getMaxQuantity(item)

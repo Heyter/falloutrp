@@ -48,9 +48,13 @@ function ENT:getItem(id)
 	return self.loot[id]
 end
 
+function ENT:removeQuantity(id, quantity)
+	self.loot[id].quantity = self.loot[id].quantity - quantity
+end
+
 function ENT:removeItem(id, quantity)
 	if quantity and self.loot[id].quantity then
-		self.loot[id]["quantity"] = self.loot[id].quantity - quantity
+		self:removeQuantity(id, quantity)
 
 		// If the item has 0 quantity then remove it from the loot
 		if self.loot[id].quantity <= 0 then

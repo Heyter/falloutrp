@@ -6,22 +6,24 @@ local meta = FindMetaTable("Player")
 function meta:loadInvWeapons()
 	// Get weapons (get NOT equipped)
 	MySQLite.query("SELECT * FROM weapons WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(results)
-		for k, v in pairs(results) do
-			self.inventory["weapons"][v.uniqueid] = {
-				classid = v.classid,
-				damage = v.damage,
-				durability = v.durability,
-				equipped = tobool(v.equipped),
-				uniqueid = v.uniqueid
-			}
-			
-			if tobool(v.equipped) then
-				self.equipped["weapons"][getWeaponType(v.classid)] = {
+		if results then
+			for k, v in pairs(results) do
+				self.inventory["weapons"][v.uniqueid] = {
 					classid = v.classid,
 					damage = v.damage,
 					durability = v.durability,
+					equipped = tobool(v.equipped),
 					uniqueid = v.uniqueid
 				}
+				
+				if tobool(v.equipped) then
+					self.equipped["weapons"][getWeaponType(v.classid)] = {
+						classid = v.classid,
+						damage = v.damage,
+						durability = v.durability,
+						uniqueid = v.uniqueid
+					}
+				end
 			end
 		end
 		
