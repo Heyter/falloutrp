@@ -1,4 +1,6 @@
 
+Misc = {}
+
 local meta = FindMetaTable("Player")
 
 function meta:getMiscWeightTotal()
@@ -22,8 +24,6 @@ function meta:hasMiscItem(classid)
 	
 	return false
 end
-
-Misc = {}
 
 function addMisc(id, name, model, weight, value)
 	Misc[id] = {

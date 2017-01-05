@@ -6,12 +6,14 @@ local meta = FindMetaTable("Player")
 function meta:loadInvMisc()
 	// Get misc
 	MySQLite.query("SELECT * FROM misc WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(results)
-		for k,v in pairs(results) do
-			self.inventory["misc"][v.uniqueid] = {
-				classid = v.classid,
-				uniqueid = v.uniqueid,
-				quantity = v.quantity
-			}
+		if results then
+			for k,v in pairs(results) do
+				self.inventory["misc"][v.uniqueid] = {
+					classid = v.classid,
+					uniqueid = v.uniqueid,
+					quantity = v.quantity
+				}
+			end
 		end
 		
 		self:loadInventoryCount()
@@ -26,8 +28,10 @@ function meta:pickUpMisc(misc, quantity)
 	
 	if sameItem then 
 		amount = sameItem.quantity + quantity
+		misc.quantity = amount
 		query = "UPDATE misc SET quantity = " ..amount .." WHERE uniqueid = " ..sameItem.uniqueid
 	else
+		misc.quantity = amount
 		query = "INSERT INTO misc (steamid, classid, quantity) VALUES ('" ..Entity(1):SteamID() .."', " ..misc.classid ..", " ..amount ..")"
 	end
 	
@@ -41,8 +45,6 @@ function meta:pickUpMisc(misc, quantity)
 			
 			// Do the inventory logic for inserting below here
 			misc.uniqueid = itemId
-			misc.quantity = misc.quantity + quantity
-			
 			self.inventory.misc[itemId] = misc
 			
 			net.Start("pickUpMisc")

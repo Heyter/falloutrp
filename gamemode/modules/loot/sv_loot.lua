@@ -7,6 +7,7 @@ local meta = FindMetaTable("Player")
 
 function meta:loot(ent)
 	if self:inLootRange(ent) and ent:hasLoot() then
+		print("ran2")
 		net.Start("loot")
 			net.WriteEntity(ent)
 			net.WriteTable(ent:getLoot())
@@ -17,7 +18,7 @@ end
 function meta:lootItem(ent, itemId, quantity)
 	if self:Alive() and self:inLootRange(ent) then
 		if ent:hasItem(itemId) then
-			local item = ent:getItem(itemId)
+			local item = table.Copy(ent:getItem(itemId))
 
 			local canFit = self:canInventoryFit(item, quantity)
 			
@@ -27,7 +28,10 @@ function meta:lootItem(ent, itemId, quantity)
 				return
 			end
 			
-			print(quantity)
+			print("Printing item:")
+			PrintTable(item)
+			print("Quantity: " ..quantity)
+			print("---")
 			
 			// Remove the item
 			ent:removeItem(itemId, quantity)

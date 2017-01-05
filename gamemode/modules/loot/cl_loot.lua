@@ -26,7 +26,9 @@ local matLineDashed = Material("models/pepboy/line_y")
 	
 function openLoot(ent, loot)
 	local frame = vgui.Create("FalloutRP_Menu")
-	frame:MakePopup()
+	gui.EnableScreenClicker(true)
+	util.restoreMousePos()
+	//frame:MakePopup()
 	
 	local container = vgui.Create("DPanel", frame)
 	local parent = container:GetParent()
@@ -92,6 +94,8 @@ function openLoot(ent, loot)
 				lootItem(ent, k)
 			end
 			frame:Remove()
+			util.saveMousePos()
+			gui.EnableScreenClicker(false)
 		end
 		itemBox:SetText("")
 		
