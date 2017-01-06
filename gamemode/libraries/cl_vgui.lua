@@ -11,6 +11,9 @@ local matLineDashed = Material("models/pepboy/line_y")
 	
 local VGUI = {}
 function VGUI:Init()
+	self:SetTitle("")
+	self:ShowCloseButton(false)
+
 	self.font = "FalloutRP3"
 	self.title = "Loot"
 
@@ -34,6 +37,7 @@ function VGUI:Paint(w, h)
 	*/
 			
 	surface.SetFont(self.font)
+	surface.SetTextColor(COLOR_AMBER)
 	surface.SetTextPos(offsetX + w/6 + textPadding, offsetY - (self.textY/2) + barHeight/2)
 	surface.DrawText(self.title)
 			
@@ -77,26 +81,76 @@ function VGUI:SetFontTitle(font, title)
 	surface.SetFont(font)
 	self.textX, self.textY = surface.GetTextSize(title)
 end
-vgui.Register("FalloutRP_Menu", VGUI, "Panel")
+vgui.Register("FalloutRP_Menu", VGUI, "DFrame")
 
-// DButton
-local button = {}
+// Button
+local VGUI = {}
 
-function button:Init()
+function VGUI:Init()
 	self:SetTextColor(COLOR_AMBER)
 end
 
-function button:Paint(w, h)
+function VGUI:Paint(w, h)
 	draw.RoundedBox(0, 0, 0, w, h, COLOR_BLACK)
 end
 
-function button:OnCursorEntered()
+function VGUI:OnCursorEntered()
 	self:SetTextColor(COLOR_BLUE)
 	surface.PlaySound("garrysmod/ui_return.wav")
 end
 
-function button:OnCursorExited()
+function VGUI:OnCursorExited()
 	self:SetTextColor(COLOR_AMBER)
 end
+vgui.Register("FalloutRP_Button", VGUI, "Button")
 
-vgui.Register("FalloutRP_Button", button, "Button")
+// Slider
+local VGUI = {}
+function VGUI:Init()
+	self:SetSize(200, 150)
+	
+	self:SetFontTitle("FalloutRP1", "Select Amount")
+	
+	self.slider = vgui.Create("DNumberWang", self)
+	self.slider:SetSize(45, 25)
+	self.slider:SetPos(self:GetWide()/2 - self.slider:GetWide()/2, self:GetTall()/2 - self.slider:GetTall()/2 - 30)
+	self.slider:SetMin(0)
+	self.slider:SetDecimals(0) // Whole numbers only
+	
+	self.button = vgui.Create("FalloutRP_Button", self)
+	self.button:SetText("Ok")
+	self.button:SetSize(50, 30)
+	self.button:SetPos(self:GetWide()/2 - self.button:GetWide()/2, self:GetTall()/2 - self.button:GetTall()/2 + 40 - 30)
+end
+
+function VGUI:GetButton()
+	return self.button
+end
+
+function VGUI:GetAmount()
+	return tonumber(self.slider:GetValue())
+end
+
+function VGUI:ValidInput()
+	local value = self:GetAmount()
+	
+	return util.isInt(value) and (value >= self.slider:GetMin()) and (value <= self.slider:GetMax())
+end
+
+function VGUI:SetValue(amount)
+	self.slider:SetValue(amount)
+end
+
+function VGUI:SetMinimum(amount)
+	self.slider:SetMin(amount)
+end
+
+function VGUI:SetMaximum(amount)
+	self.slider:SetMax(amount)
+end
+
+function VGUI:SetText(text)
+	self.button:SetText(text)
+end
+
+vgui.Register("FalloutRP_NumberWang", VGUI, "FalloutRP_Menu")

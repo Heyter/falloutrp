@@ -1,6 +1,17 @@
 
 local meta = FindMetaTable("Player")
 
+
+local function setCatMPanel(number)
+	print("Setting: " ..(number))
+	LocalPlayer().lastCatMPanel = number
+end
+
+local function getCatMPanel()
+	print("Getting: " ..(LocalPlayer().lastCatMPanel))
+	return LocalPlayer().lastCatMPanel or TYPE_WEAPON // Default to the first panel
+end
+
 function meta:setVguiDelay()
 	self.onVguiDelay = true
 end
@@ -220,10 +231,11 @@ local function open()
 	return localplayer().pepboy_vgui
 end
 
-function openPepboyMiddle(panelNumber)
+function openPepboyMiddle()
 	local pepboy = open()
 	pepboy.buttonM.DoClick()
-	pepboy.catM.layoutBot[panelNumber].panelFunc()
+	pepboy.catM:makeLayout()
+	pepboy.catM.layoutBot[getCatMPanel()].DoClick()
 end
 
 
@@ -483,6 +495,9 @@ function VGUI:Init()
 	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..100 )
 	
 	local weapons_panel = function()
+	
+		setCatMPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
+		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
@@ -520,38 +535,12 @@ function VGUI:Init()
 		
 	end
 	
-	local shipment_panel = function()
+	local apparel_panel = function()
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 		
-		/*
-		local cats = DarkRP.getCategories().shipments
-	
-		for k, _ in pairs( cats ) do
-			
-			for _, v in pairs( cats[k].members ) do
-						
-				element:addItemListEntry( {	
-						
-						label = v.name,
-						enabledFunc = function() if istable( v.allowed ) and !table.HasValue( v.allowed, localplayer():Team() ) then return false else return true end end,
-						stats = { { key = "Price", val = v.price }, { key = "Cat", val = v.category } },
-						clickFunc = function()
-							
-							RunConsoleCommand( "DarkRP", "buyshipment", v.name )
-						
-						end,
-						rightClickFunc = function() end,
-						itemIcon = matShipment
-						
-					} )		
-				
-			end
-		
-		end
-		*/
 		return element
 		
 	end
@@ -561,38 +550,18 @@ function VGUI:Init()
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
-		
-		/*
-		local cats = DarkRP.getCategories().ammo
+	end
 	
-		for k, _ in pairs( cats ) do
-			
-			for _, v in pairs( cats[k].members ) do
-						
-				element:addItemListEntry( {	
-						
-						label = v.name,
-						enabledFunc = function() if istable( v.allowed ) and !table.HasValue( v.allowed, localplayer():Team() ) then return false else return true end end,
-						stats = { { key = "Price", val = v.price }, { key = "Cat", val = v.category } },
-						clickFunc = function()
-							
-							RunConsoleCommand( "DarkRP", "buyammo", v.id )
-						
-						end,
-						rightClickFunc = function() end,
-						itemIcon = AMMO_ICONS[ v.ammoType ]
-						
-					} )		
-				
-			end
-		
-		end
-		
-		return element
-		*/
+	local aid_panel = function()
+	
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 	end
 	
 	local misc_panel = function()
+	
+		setCatMPanel(TYPE_MISC) // Navigate back to the misc panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -606,7 +575,6 @@ function VGUI:Init()
 						{key = "Weight", val = getMiscWeight(v.classid)},
 						{key = "Value", val = getMiscValue(v.classid)},						
 					},
-					//itemIcon = Material("models/pepboy/item_icon_sniper"),
 					itemModel = getMiscModel(v.classid),
 					
 					inUse = v.equipped,
@@ -614,7 +582,11 @@ function VGUI:Init()
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
 						menu:StoreItem(v)
-						menu:AddOptions({"Drop"})
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Drop all", "Drop (x)"})
+						else
+							menu:AddOptions({"Drop"})
+						end
 						menu:Open()
 					end
 				})
@@ -628,6 +600,7 @@ function VGUI:Init()
 	self.catM:addBottom( "Weapons", weapons_panel )
 	self.catM:addBottom( "Apparel", apparel_panel )
 	self.catM:addBottom( "Ammo", ammo_panel )
+	self.catM:addBottom( "Aid", aid_panel )
 	self.catM:addBottom( "Misc", misc_panel )
 	
 	self.catM:makeLayout()
@@ -1123,21 +1096,28 @@ function VGUI:Init()
 		localplayer():unequipItem(self.item.uniqueid, self.item.classid)
 	end,
 	["Drop"] = function()
-		local catM = self:GetParent():GetParent()
 		localplayer():dropItem(self.item.uniqueid, self.item.classid)
-		//openPepboyMiddle()
-		self:GetParent():Remove()
-		catM:makeLayout()
-		catM.layoutBot[1].panelFunc()
-	end
+	end,	
+	["Drop all"] = function()
+		localplayer():dropItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+	end,	
+	["Drop (x)"] = function()
+		local frame = self:GetParent():GetParent()
+		local item = self.item
+		local slider = vgui.Create("FalloutRP_NumberWang", frame)
+		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+		slider:SetMinimum(1)
+		slider:SetMaximum(self.item.quantity)
+		slider:SetValue(1)
+		slider:SetText("Drop")
+		slider:GetButton().DoClick = function()
+			if slider:ValidInput() then
+				print(slider:GetAmount())
+				localplayer():dropItem(item.uniqueid, item.classid, slider:GetAmount())
+			end
+		end
+	end,	
 }
-end
-
-function VGUI:Paint(w, h)
-	surface.SetDrawColor( PEPBOY_COLOR )
-	surface.DrawRect(0, 0, w, h)
-	surface.SetDrawColor( PEPBOY_COLOR )
-	surface.DrawRect(0, 0, w, h)
 end
 
 function VGUI:StoreItem(item)
@@ -1348,8 +1328,9 @@ function VGUI:OnCursorEntered()
 end
 
 function VGUI:OnCursorExited()
-	
-	self.infoPanel:Remove()
+	if self.infoPanel then
+		self.infoPanel:Remove()
+	end
 	
 	self.hovered = false
 	self.active = false

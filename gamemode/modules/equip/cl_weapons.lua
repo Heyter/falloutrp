@@ -10,7 +10,7 @@ net.Receive("equipWeapon", function()
 	LocalPlayer().inventory.weapons[uniqueid]["equipped"] = true
 	LocalPlayer().equipped.weapons[weaponType] = LocalPlayer().inventory.weapons[uniqueid]
 	
-	openPepboyMiddle(1)
+	openPepboyMiddle()
 end)
 
 net.Receive("unequipWeapon", function()
@@ -22,5 +22,5 @@ net.Receive("unequipWeapon", function()
 	LocalPlayer().inventory.weapons[uniqueid].equipped = false
 	LocalPlayer().equipped.weapons[weaponType] = nil
 	
-	openPepboyMiddle(1)
+	openPepboyMiddle()
 end)

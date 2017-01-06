@@ -60,22 +60,43 @@ function meta:pickUpItem(item, quantity)
 	end
 end
 
-function meta:dropItem(uniqueid, classid)
+function meta:dropItem(uniqueid, classid, quantity)
 	local itemType = classidToStringType(classid)
 
 	// Store the item temp so we can drop it
 	local item = self.inventory[itemType][uniqueid]
 		
-	// Delete from lua
-	self.inventory[itemType][uniqueid] = nil
+	print(quantity)
+	print(util.positive(quantity))
+	print(item.quantity)
+	print(quantity)
+	if util.positive(quantity) and (item.quantity >= quantity) then
+		if quantity == item.quantity then
+			// Delete from lua
+			self.inventory[itemType][uniqueid] = nil
+			// Delete from MySQL
+			MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+		else
+			self.inventory[itemType][uniqueid].quantity = self.inventory[itemType][uniqueid].quantity - quantity
+			item.quantity = quantity
+			
+			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid].quantity .." WHERE uniqueid = " ..uniqueid)
+		end
+	else
+		// Delete from lua
+		self.inventory[itemType][uniqueid] = nil
+		// Delete from MySQL
+		MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+	end
 		
 	// Update the client
 	net.Start("dropItem")
-		
+		net.WriteString(itemType)
+		net.WriteInt(uniqueid, 32)
+		if util.positive(self.inventory[itemType][uniqueid].quantity) then
+			net.WriteInt(self.inventory[itemType][uniqueid].quantity, 16)
+		end
 	net.Send(self)
-		
-	// Delete from MySQL
-	MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 		
 	// Drop the item on the ground
 	createLoot(self:GetPos(), {item})
@@ -100,10 +121,9 @@ end
 net.Receive("dropItem", function(len, ply)
 	local itemId = net.ReadInt(32)
 	local classid = net.ReadInt(16)
+	local quantity = net.ReadInt(16)
 	
-	print(itemId, classid)
-	
-	ply:dropItem(itemId, classid)
+	ply:dropItem(itemId, classid, quantity)
 end)
 
 net.Receive("equipItem", function(len, ply)
