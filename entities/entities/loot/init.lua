@@ -40,8 +40,21 @@ function ENT:hasLoot()
 	return self.loot and #self.loot > 0
 end
 
-function ENT:hasItem(id)
-	return self:hasLoot() and self.loot[id]
+function ENT:hasItem(id, amount)
+	if self:hasLoot() and self.loot[id] then
+		local quantity = self.loot[id].quantity
+		if util.positive(amount) then
+			if util.positive(quantity) and (quantity >= amount) then
+				return true
+			else
+				return false
+			end
+		end
+		
+		return true
+	end
+	
+	return false
 end
 
 function ENT:getItem(id)

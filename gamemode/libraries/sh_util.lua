@@ -1,6 +1,14 @@
 
 function util.positive(amount)
-	return amount and amount > 0
+	return isnumber(amount) and amount and amount > 0
+end
+
+function util.greaterThanOne(amount)
+	return amount and amount > 1
+end
+
+function util.isInt(n)
+	return isnumber(n) and n == math.floor(n)
 end
 
 if CLIENT then

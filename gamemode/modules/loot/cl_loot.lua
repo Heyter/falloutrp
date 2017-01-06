@@ -7,12 +7,20 @@ net.Receive("loot", function()
 	openLoot(ent, loot)
 end)
 
+local function close(frame)
+	if frame then
+		frame:Remove()
+		util.saveMousePos()
+		gui.EnableScreenClicker(false)
+	end
+end
+
 function lootItem(ent, itemId, quantity)
 	net.Start("lootItem")
 		net.WriteEntity(ent)
 		net.WriteInt(itemId, 8)
 		if quantity then
-			net.WriteInt(quantity, 8)
+			net.WriteInt(quantity, 16)
 		end
 	net.SendToServer()
 end
@@ -26,9 +34,9 @@ local matLineDashed = Material("models/pepboy/line_y")
 	
 function openLoot(ent, loot)
 	local frame = vgui.Create("FalloutRP_Menu")
-	gui.EnableScreenClicker(true)
+	//gui.EnableScreenClicker(true)
 	util.restoreMousePos()
-	//frame:MakePopup()
+	frame:MakePopup()
 	
 	local container = vgui.Create("DPanel", frame)
 	local parent = container:GetParent()
@@ -93,9 +101,34 @@ function openLoot(ent, loot)
 			else
 				lootItem(ent, k)
 			end
-			frame:Remove()
-			util.saveMousePos()
-			gui.EnableScreenClicker(false)
+			close(frame)
+		end
+		itemBox.DoRightClick = function()
+			if util.greaterThanOne(v.quantity) then // The itme has quantity
+				local flyout = vgui.Create("DMenu", frame)
+				flyout:AddOption("Loot all", function()
+					lootItem(ent, k, v.quantity)
+					close(frame)
+				end)
+				flyout:AddOption("Loot (x)", function()	
+					local curX, curY = itemBox:GetPos()
+					
+					local slider = vgui.Create("FalloutRP_NumberWang", frame)
+					slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+					slider:SetMinimum(1)
+					slider:SetMaximum(v.quantity)
+					slider:SetValue(1)
+					slider:SetText("Loot")
+					slider:GetButton().DoClick = function()
+						if slider:ValidInput() then
+							lootItem(ent, k, slider:GetAmount())
+							close(frame)
+						end
+					end
+				end)
+				
+				flyout:Open()
+			end
 		end
 		itemBox:SetText("")
 		
@@ -120,7 +153,7 @@ function openLoot(ent, loot)
 		layout:Add(itemBox)
 	end
 	
-	timer.Simple(5, function()
-		frame:Remove()
+	timer.Simple(15, function()
+		close(frame)
 	end)
 end
