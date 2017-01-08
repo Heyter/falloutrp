@@ -1,7 +1,7 @@
 
 local main
 local frameW, frameH = 800, 600
-local nameFrameW, nameFrameH = 400, 300
+local nameFrameW, nameFrameH = 800, 600
 local paddingW, paddingH = 40, 40
 local teamW, teamH = frameW - (paddingW * 2), (frameH - (paddingH * 4)) / 3
 local picSize = 150
@@ -10,7 +10,7 @@ local buttonW, buttonH = 80, 40
 local teamSelect
 local nameSelect
 local canContinue = true // Don't allow players to keep trying to submit names while validating on server still
-
+ 
 local teams = {
 	[TEAM_BOS] = {
 		Name = "Brotherhood of Steel", 
@@ -38,17 +38,21 @@ net.Receive("createCharacter", function(len, ply)
 	end
 end)
 
-local function validateName(name, teamId)
-	net.Start("nameValidation")
+local function validateRegistration(name, teamId, values)
+	print("validate name")
+	net.Start("registrationValidation")
 		net.WriteString(name)
 		net.WriteInt(teamId, 8)
+		net.WriteTable(values)
 	net.SendToServer()
 end
 
-net.Receive("nameValidation", function(len, ply)
+net.Receive("registrationValidation", function(len, ply)
 	local errorId = net.ReadInt(8)
 	local name = net.ReadString()
 	local extra = net.ReadString()
+	
+	print("validated name")
 	
 	if errorId and errorId > 0 then
 		if errorId == 1 then
@@ -57,6 +61,10 @@ net.Receive("nameValidation", function(len, ply)
 			print("Name must not exceed " ..NAME_MAX .." characters.")
 		elseif errorId == 3 then
 			print("Name must not contain the following: " ..extra)
+		elseif errorId == 4 then
+			print("You must use all of your available points.") 
+		elseif errorId == 5 then
+			print("The name " ..name .." is already in use.")
 		end
 	end
 	
@@ -146,9 +154,6 @@ local function teamSelection()
 		local frame = vgui.Create("FalloutRP_Menu", main)
 		frame:SetPos(ScrW()/2 - nameFrameW/2, ScrH()/2 - nameFrameH/2)
 		frame:SetSize(nameFrameW, nameFrameH)
-		//frame.Paint = function(self, w, h)
-		//	draw.RoundedBox(2, 0, 0, w, h, COLOR_BLACKFADE)
-		//end
 		frame:SetFontTitle("FalloutRP3", "Player Registration")
 		
 		local instructions = vgui.Create("DLabel", frame)
@@ -167,6 +172,121 @@ local function teamSelection()
 			
 		end
 		
+		local offsetY = 0
+		local values = {}
+
+		local specialDescription = vgui.Create("DLabel", frame)
+		specialDescription:SetFont("FalloutRP1")
+		specialDescription:SetText("")			
+		specialDescription:SetPos(frame:GetWide()/2 + 50, 150)
+		
+		for k,v in pairs(SPECIAL) do
+			local specialBox = vgui.Create("DPanel", frame)
+			specialBox:SetSize(frame:GetWide()/2 - 100, 30)
+			specialBox:SetPos(50, 150 + offsetY)
+			specialBox.Paint = function(self, w, h)
+				surface.SetDrawColor(Color(0, 0, 0, 0))
+				surface.DrawRect(0, 0, w, h)
+				
+				if self.hovered then
+					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.DrawRect(0, 0, w, h)
+				
+					surface.SetDrawColor(COLOR_AMBER)
+					surface.DrawOutlinedRect(0, 0, w, h)
+				end
+			end
+			values[k] = 1
+			
+			local specialLabel = vgui.Create("DLabel", specialBox)
+			specialLabel:SetPos(10, specialBox:GetTall()/2 - specialLabel:GetTall()/2)
+			specialLabel:SetFont("FalloutRP2")
+			specialLabel:SetText(v.Name)
+			specialLabel:SizeToContents()
+			specialLabel:SetTextColor(COLOR_AMBER)
+			
+			specialBox.OnCursorEntered = function(self)
+				self.hovered = true
+				
+				specialLabel:SetTextColor(COLOR_BLUE)
+				
+				specialDescription:SetText(SPECIAL[k].Description)
+				specialDescription:SizeToContents()
+			end
+			specialBox.OnCursorExited = function(self)
+				self.hovered = false
+			
+				specialLabel:SetTextColor(COLOR_AMBER)
+				specialDescription:SetText("")
+			end
+			
+			local value = vgui.Create("DLabel", specialBox)
+			value:SetFont("FalloutRP1")
+			value:SetText(values[k])
+			value:SetPos(200, specialBox:GetTall()/2 - value:GetTall()/2)
+			
+			local downButton = vgui.Create("DButton", specialBox)
+			downButton:SetText("-")
+			downButton:SetSize(15, 15)
+			downButton:SetPos(150, specialBox:GetTall()/2 - downButton:GetTall()/2)
+			downButton.OnCursorEntered = function(self)
+				self:GetParent().hovered = true
+				
+				specialLabel:SetTextColor(COLOR_BLUE)
+				
+				specialDescription:SetText(SPECIAL[k].Description)
+				specialDescription:SizeToContents()
+			end
+			downButton.OnCursorExited = function(self)
+				self:GetParent().hovered = false
+			
+				specialLabel:SetTextColor(COLOR_AMBER)
+				specialDescription:SetText("")
+			end
+			downButton.DoClick = function()
+				if values[k] > 1 then
+					values[k] = values[k] - 1
+					
+					value:SetText(values[k]) // Update the label
+				end
+				
+				value:SetText(values[k])
+			end
+			
+			local upButton = vgui.Create("DButton", specialBox)
+			upButton:SetText("+")
+			upButton:SetSize(15, 15)
+			upButton:SetPos(250, specialBox:GetTall()/2 - upButton:GetTall()/2)
+			upButton.OnCursorEntered = function(self)
+				self:GetParent().hovered = true
+				
+				specialLabel:SetTextColor(COLOR_BLUE)
+				
+				specialDescription:SetText(SPECIAL[k].Description)
+				specialDescription:SizeToContents()
+			end
+			upButton.OnCursorExited = function(self)
+				self:GetParent().hovered = false
+			
+				specialLabel:SetTextColor(COLOR_AMBER)
+				specialDescription:SetText("")
+			end
+			upButton.DoClick = function()
+				local total = 0
+				for k,v in pairs(values) do
+					total = total + v
+				end
+				
+				if total < REGISTRATION_POINTS + #SPECIAL then
+					values[k] = values[k] + 1
+					
+					value:SetText(values[k])
+				end
+			end
+			
+			offsetY = offsetY + 40
+		end
+		
 		local continueButton = vgui.Create("FalloutRP_Button", frame)
 		continueButton:SetSize(buttonW, buttonH)
 		continueButton:SetPos(frame:GetWide()/2 + continueButton:GetWide()/2, frame:GetTall() - 20 - continueButton:GetTall()*2)
@@ -176,7 +296,7 @@ local function teamSelection()
 				
 				local name = nameEntry:GetValue()
 				 
-				validateName(name, id)
+				validateRegistration(name, id, values)
 			end
 		end
 		continueButton:SetText("Continue")
@@ -195,7 +315,7 @@ local function teamSelection()
 		backButton:SetFont("FalloutRP1")
 	end
 	
-	timer.Simple(10, function()
+	timer.Simple(25, function()
 		main:Remove()
 		gui.EnableScreenClicker(false)
 	end)

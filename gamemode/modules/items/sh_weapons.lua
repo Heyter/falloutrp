@@ -3,12 +3,16 @@ local meta = FindMetaTable("Player")
 
 Weapons = {}
 
-function addWeapon(id, name, type, entity, model, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity, durability, weight, value, strength)
+function addWeapon(id, name, type, entity, model, durability, weight, value, level, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity)
 	Weapons[id] = {
 		name = name,
 		type = type,
 		entity = entity,
 		model = model,
+		durability = durability,
+		weight = weight,
+		value = value,
+		level = level,
 		minDamage = minDamage,
 		maxDamage = maxDamage,
 		fireRate = fireRate, 
@@ -17,11 +21,7 @@ function addWeapon(id, name, type, entity, model, minDamage, maxDamage, fireRate
 		actionPoints = actionPoints,
 		weaponSpread = weaponSpread,
 		ammoType = ammoType,
-		magazineCapacity = magazineCapacity,
-		durability = durability,
-		weight = weight,
-		value = value,
-		strength = strength
+		magazineCapacity = magazineCapacity
 	}
 end
 
@@ -36,11 +36,9 @@ function getWeaponName(id)
 	return findWeapon(id).name
 end
 function getWeaponType(id)
-	print(id)
 	return findWeapon(id).type
 end
 function getWeaponEntity(id)
-	print(id)
 	return findWeapon(id).entity
 end
 function getWeaponModel(id)
@@ -58,21 +56,24 @@ end
 function getWeaponValue(id)
 	return findWeapon(id).value
 end
-function getWeaponStrength(id)
-	return findWeapon(id).strength
+function getWeaponLevel(id)
+	return findWeapon(id).level
 end
 function getWeaponCriticalDamage(id)
 	return findWeapon(id).criticalDamage
 end
+function getWeaponMaxDurability(id)
+	return findWeapon(id).durability
+end
 
 // Functions that have data which can change
-function meta:getWeaponDamage(uniqueId)
-	return self.inventory.weapons[uniqueId]["damage"] or 0
+function meta:getWeaponDamage(uniqueid)
+	return self.inventory.weapons[uniqueid]["damage"] or 0
 end
-function meta:getWeaponDurability(uniqueId)
-	return self.inventory.weapons[uniqueId]["durability"] or 0
+function meta:getWeaponDurability(uniqueid)
+	return self.inventory.weapons[uniqueid]["durability"] or 0
 end
 
-addWeapon(1001, "Lucky", "secondary", "weapon_9mmpistolmaria", "models/Halokiller38/fallout/weapons/Pistols/9mmunique.mdl", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6, 1120, 2.5, 1500, 3)
-addWeapon(1002, "R91 Assault Rifle", "primary", "weapon_r91assaultrifle", "models/Halokiller38/fallout/weapons/AssaultRifles/r91assaultrifle.mdl", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6, 1120, 2.5, 1500, 3)
-addWeapon(1003, "Hunting Shotgun", "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6, 1120, 2.5, 1500, 3)
+addWeapon(1001, "Lucky", "secondary", "weapon_9mmpistolmaria", "models/Halokiller38/fallout/weapons/Pistols/9mmunique.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6)
+addWeapon(1002, "R91 Assault Rifle", "primary", "weapon_r91assaultrifle", "models/Halokiller38/fallout/weapons/AssaultRifles/r91assaultrifle.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
+addWeapon(1003, "Hunting Shotgun", "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)

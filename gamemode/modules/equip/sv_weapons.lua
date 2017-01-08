@@ -22,7 +22,13 @@ function meta:getCurrentWeapon(type)
 end
 
 function meta:canEquipWeapon(classid)
-	return self:getStrength() >= getWeaponStrength(classid)
+	return self:getLevel() >= getWeaponLevel(classid)
+end
+
+function meta:wieldWeapon(classid)
+	local weaponClass = getWeaponEntity(classid)
+	self:Give(weaponClass)
+	self:SelectWeapon(weaponClass)
 end
 
 function meta:unequipWeapon(uniqueid, classid)
@@ -58,9 +64,7 @@ function meta:equipWeapon(uniqueid, classid)
 		end
 		
 		// Give and select weapon
-		local weaponClass = getWeaponEntity(classid)
-		self:Give(weaponClass)
-		self:SelectWeapon(weaponClass)
+		self:wieldWeapon(classid)
 		
 		//Update in lua
 		self.inventory.weapons[uniqueid]["equipped"] = true
