@@ -1,6 +1,4 @@
 
-// Client
-
 net.Receive("equipWeapon", function()
 	local uniqueid = net.ReadInt(32)
 	local classid = net.ReadInt(16)

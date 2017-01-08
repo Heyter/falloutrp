@@ -495,7 +495,6 @@ function VGUI:Init()
 	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..100 )
 	
 	local weapons_panel = function()
-	
 		setCatMPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
 		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
@@ -510,7 +509,7 @@ function VGUI:Init()
 						{key = "Damage", val = localplayer():getWeaponDamage(k)},
 						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
 						{key = "Durability", val = localplayer():getWeaponDurability(k)},
-						{key = "Strength", val = getWeaponStrength(v.classid)},
+						{key = "Level", val = getWeaponLevel(v.classid)},
 						{key = "Weight", val = getWeaponWeight(v.classid)},
 						{key = "Value", val = getWeaponValue(v.classid)},						
 					},
@@ -532,24 +531,80 @@ function VGUI:Init()
 		end	
 		
 		return element
-		
 	end
 	
 	local apparel_panel = function()
+		setCatMPanel(TYPE_APPAREL) // Navigate back to the apparel panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+	
+		if localplayer().inventory and localplayer().inventory.apparel then
+			for k, v in pairs(localplayer().inventory.apparel) do
+				element:addItemListEntry({
+					label = getApparelName(v.classid),
+					stats = {
+						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
+						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
+						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
+						{key = "Durability", val = localplayer():getApparelDurability(k)},
+						{key = "Level", val = getApparelLevel(v.classid)},
+						{key = "Weight", val = getApparelWeight(v.classid)},
+						{key = "Value", val = getApparelValue(v.classid)},						
+					},
+					itemModel = getApparelModel(v.classid),
+					inUse = v.equipped,
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if v.equipped then
+							menu:AddOptions({"Un-Equip"})
+						else
+							menu:AddOptions({"Equip", "Drop"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end		
 		
 		return element
-		
 	end
 	
 	local ammo_panel = function()
-	
+		setCatMPanel(TYPE_AMMO) // Navigate back to the ammo panel after running a function
+		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().inventory and localplayer().inventory.ammo then
+			for k, v in pairs(localplayer().inventory.ammo) do
+				element:addItemListEntry({
+					label = getAmmoNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getAmmoWeight(v.classid)},
+						{key = "Value", val = getAmmoValue(v.classid)},						
+					},
+					itemModel = getAmmoModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Equip all", "Equip (x)", "Drop all", "Drop (x)"})
+						else
+							menu:AddOptions({"Equip", "Drop"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+			
+		return element
 	end
 	
 	local aid_panel = function()
@@ -576,8 +631,6 @@ function VGUI:Init()
 						{key = "Value", val = getMiscValue(v.classid)},						
 					},
 					itemModel = getMiscModel(v.classid),
-					
-					inUse = v.equipped,
 					
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -1090,8 +1143,26 @@ function VGUI:Init()
 	self.offset = 0
 	self.menuTypes = {
 	["Equip"] = function()
-		localplayer():equipItem(self.item.uniqueid, self.item.classid)
+		localplayer():equipItem(self.item.uniqueid, self.item.classid, 1)
 	end,	
+	["Equip all"] = function()
+		localplayer():equipItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+	end,
+	["Equip (x)"] = function()
+		local frame = self:GetParent():GetParent()
+		local item = self.item
+		local slider = vgui.Create("FalloutRP_NumberWang", frame)
+		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+		slider:SetMinimum(1)
+		slider:SetMaximum(self.item.quantity)
+		slider:SetValue(1)
+		slider:SetText("Equip")
+		slider:GetButton().DoClick = function()
+			if slider:ValidInput() then
+				localplayer():equipItem(item.uniqueid, item.classid, slider:GetAmount())
+			end
+		end
+	end,
 	["Un-Equip"] = function()
 		localplayer():unequipItem(self.item.uniqueid, self.item.classid)
 	end,
@@ -1112,7 +1183,6 @@ function VGUI:Init()
 		slider:SetText("Drop")
 		slider:GetButton().DoClick = function()
 			if slider:ValidInput() then
-				print(slider:GetAmount())
 				localplayer():dropItem(item.uniqueid, item.classid, slider:GetAmount())
 			end
 		end
@@ -1544,7 +1614,8 @@ end
 function VGUI:Paint( w, h )
 	
 	local hp = localplayer():Health()
-	local shd = localplayer():Armor()
+	local level = localplayer():getLevel()
+	local exp = localplayer():getExp()
 	
 	surface.SetDrawColor( PEPBOY_COLOR )
 	surface.SetMaterial( matLineDashed )
@@ -1566,10 +1637,11 @@ function VGUI:Paint( w, h )
 	surface.SetMaterial( matLine )
 	surface.DrawTexturedRect( 60 + 128 + 50 - 4, 70 + 32 - 8, w - 50 + 8 - ( 60 + 128 + 50 - 4 ), 4 )
 
-	draw.SimpleText( localplayer():getName(), "pepboy_40", 60 + 128 + 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
-	//draw.SimpleText( DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) or self.cash, "pepboy_40", w - 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP )
+	draw.SimpleText(localplayer():getName(), "pepboy_40", 60 + 128 + 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	//draw.SimpleText("Hunger: ", "pepboy_40", w - 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	
-	//draw.SimpleText( localplayer():getDarkRPVar( "job" ) or self.job, "pepboy_27", 60 + 128 + 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
+	draw.SimpleText("Hunger:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText("Hydration:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	//draw.SimpleText( "SALARY   " .. DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) or self.salary, "pepboy_27",  w - 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP )
 	
 
@@ -1601,8 +1673,8 @@ function VGUI:Paint( w, h )
 
 	
 	surface.DrawTexturedRect( 40, PEPBOY_CONTENT_SIZE_Y/1.6 + 120, w - 80, 4 )
-	draw.SimpleText( "SHD", "pepboy_32", 40 + 8, PEPBOY_CONTENT_SIZE_Y/1.6 + 75 + 8, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
-	draw.SimpleText( shd, "pepboy_32", 40 + 8 + 120 - 20, PEPBOY_CONTENT_SIZE_Y/1.6 + 75 + 8, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP )
+	draw.SimpleText("Level", "pepboy_32", 40 + 8, PEPBOY_CONTENT_SIZE_Y/1.6 + 75 + 8, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(level, "pepboy_32", 40 + 8 + 120 - 20, PEPBOY_CONTENT_SIZE_Y/1.6 + 75 + 8, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	
 	local triangleFront = {
 	
@@ -1623,8 +1695,11 @@ function VGUI:Paint( w, h )
 	surface.DrawPoly( triangleFront )
 	surface.DrawPoly( triangleBack )
 	
-	surface.DrawRect( 40 + 8 + 120 + 4, PEPBOY_CONTENT_SIZE_Y/1.6 + 120 - 24, ( w - 100 - ( 40 + 8 + 120 ) - 8 ) * math.Clamp( shd / 100, 0, 1 ), 20 )
-	
+	local currentLvlExp = localplayer():getCurrentLevelExp() // Experience required for your current level
+	local nextLvlExp = localplayer():getNextLevelExp() // Experience required for next level
+	local expDifference = (exp - currentLvlExp) / (nextLvlExp - currentLvlExp)
+
+	surface.DrawRect( 40 + 8 + 120 + 4, PEPBOY_CONTENT_SIZE_Y/1.6 + 120 - 24, ( w - 100 - ( 40 + 8 + 120 ) - 8 ) * math.Clamp( expDifference, 0, 1 ), 20 )
 end
 vgui.Register( "pepboy_status_page", VGUI, "Panel" )
 

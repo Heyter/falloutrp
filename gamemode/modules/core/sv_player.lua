@@ -10,7 +10,11 @@ function meta:loadPlayer()
 		if !results then
 			self:selectTeam()
 		else
+			print("Printing reuslts [1]")
+			print(results[1])
 			self.playerData = results[1]
+			
+			self:SetTeam(self.playerData.faction)
 			
 			net.Start("loadPlayerData")
 				net.WriteTable(self.playerData)

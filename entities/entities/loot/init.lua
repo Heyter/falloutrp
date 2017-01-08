@@ -1,6 +1,6 @@
-AddCSLuaFile( "cl_init.lua" );
-AddCSLuaFile( "shared.lua" );
-include( "shared.lua" );
+AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+include("shared.lua")
 
 function ENT:Initialize()
 	self:SetModel(LOOT_MODEL)
@@ -34,10 +34,20 @@ end
 
 function ENT:addItem(item)
 	self.loot[self.iteration] = item
+	
+	// Increate the iteration for the slot of the next item
+	self.iteration = self.iteration + 1
 end
 
 function ENT:hasLoot()
-	return self.loot and #self.loot > 0
+	if self.loot then
+		for k,v in pairs(self.loot) do
+			// There is something in the loot table if we reach this block of code
+			return true
+		end
+	end
+	
+	return false
 end
 
 function ENT:hasItem(id, amount)
@@ -73,7 +83,7 @@ function ENT:removeItem(id, quantity)
 		if self.loot[id].quantity <= 0 then
 			self.loot[id] = nil
 		
-			if !self:hasLoot() then
+			if !self:hasLoot() then	
 				SafeRemoveEntity(self)
 			end
 		end

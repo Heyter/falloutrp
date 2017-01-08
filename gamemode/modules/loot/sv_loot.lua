@@ -6,19 +6,32 @@ util.AddNetworkString("lootItem")
 local meta = FindMetaTable("Player")
 
 function meta:loot(ent)
-	if self:inLootRange(ent) and ent:hasLoot() then
-		print("ran2")
-		net.Start("loot")
-			net.WriteEntity(ent)
-			net.WriteTable(ent:getLoot())
-		net.Send(self)
+	print(3)
+	if self:inLootRange(ent) then
+		print(4)
+		if ent:GetClass() == "factory" then
+			print(5)
+			if ent:hasLoot(self) then
+				net.Start("loot")
+					net.WriteEntity(ent)
+					net.WriteTable(ent:getLoot(self))
+				net.Send(self)
+			end
+		else
+			if ent:hasLoot() then
+				net.Start("loot")
+					net.WriteEntity(ent)
+					net.WriteTable(ent:getLoot())
+				net.Send(self)
+			end
+		end
 	end
 end
 
 function meta:lootItem(ent, itemId, quantity)
 	if self:Alive() and self:inLootRange(ent) then
-		if ent:hasItem(itemId, quantity) then
-			local item = table.Copy(ent:getItem(itemId))
+		if ent:hasItem(itemId, quantity, self) then
+			local item = table.Copy(ent:getItem(itemId, self))
 
 			local canFit = self:canInventoryFit(item, quantity)
 			
@@ -34,7 +47,7 @@ function meta:lootItem(ent, itemId, quantity)
 			print("---")
 			
 			// Remove the item
-			ent:removeItem(itemId, quantity)
+			ent:removeItem(itemId, quantity, self)
 				
 			// Add the item to the player
 			self:pickUpItem(item, quantity)
@@ -54,6 +67,7 @@ function createLoot(position, items)
 	loot:SetPos(position + Vector(0, 0, 25))
 	loot:Spawn()
 	for k,v in pairs(items) do
+		print(v)
 		loot:addItem(v)
 	end
 	loot:DropToFloor()

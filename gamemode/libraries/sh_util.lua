@@ -11,6 +11,25 @@ function util.isInt(n)
 	return isnumber(n) and n == math.floor(n)
 end
 
+function util.getWinningKeyTie(tab, currentKey, currentValue)
+	local highest = -10000
+	local winner = nil
+
+	for k, v in pairs( tab ) do
+		if ( v > highest ) then 
+			winner = k
+			highest = v
+		end
+	end
+
+	//The highest is the same as the current controller, so return the current controller.
+	if currentValue == highest then
+		return currentKey
+	end
+	
+	return winner
+end
+
 if CLIENT then
 function util.saveMousePos()
 	local mouseX, mouseY = input.GetCursorPos()

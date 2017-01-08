@@ -33,6 +33,7 @@ local textPadding = 5
 local matLineDashed = Material("models/pepboy/line_y")
 	
 function openLoot(ent, loot)
+	PrintTable(loot)
 	local frame = vgui.Create("FalloutRP_Menu")
 	//gui.EnableScreenClicker(true)
 	util.restoreMousePos()
@@ -80,7 +81,9 @@ function openLoot(ent, loot)
 	local layout = vgui.Create("DListLayout", scroll)
 	layout:SetSize(scroll:GetWide(), scroll:GetTall())
 	layout:SetPos(0, 0)
-	for k,v in ipairs(loot) do
+	for k,v in pairs(loot) do
+		print(k)
+		print(v)
 		local itemBox = vgui.Create("DButton")
 		itemBox:SetSize(layout:GetWide() - scrollerW, 20)
 		itemBox.Paint = function(self, w, h)

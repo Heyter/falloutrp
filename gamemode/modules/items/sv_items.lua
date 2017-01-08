@@ -1,19 +1,19 @@
 
 local meta = FindMetaTable("Player")
 
-function createItem(classId)
+function createItem(classid)
 	local item = {}
-	item.classId = classId
+	item.classid = classid
 	
-	if isWeapon(classId) then
+	if isWeapon(classid) then
 		return createWeapon(item)
-	elseif isApparel(classId) then
-		
-	elseif isAmmo(classId) then
-			
-	elseif isAid(classId) then
+	elseif isApparel(classid) then
+		return createApparel(item)
+	elseif isAmmo(classid) then
+		return createAmmo(item)
+	elseif isAid(classid) then
 				
-	elseif isMisc(classId) then
-	
+	elseif isMisc(classid) then
+		return createMisc(item)
 	end
 end
