@@ -4,12 +4,6 @@ util.AddNetworkString("equipAmmo")
 // Server
 local meta = FindMetaTable("Player")
 
-function meta:wieldWeapon(classid)
-	local weaponClass = getWeaponEntity(classid)
-	self:Give(weaponClass)
-	self:SelectWeapon(weaponClass)
-end
-
 function meta:equipAmmo(uniqueid, classid, quantity)
 	print(classid)
 	local ammoType = getAmmoEntity(classid)
