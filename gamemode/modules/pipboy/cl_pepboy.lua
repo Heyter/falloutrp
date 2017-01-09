@@ -608,10 +608,37 @@ function VGUI:Init()
 	end
 	
 	local aid_panel = function()
+		setCatMPanel(TYPE_AID) // Navigate back to the aid panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().inventory and localplayer().inventory.aid then
+			for k, v in pairs(localplayer().inventory.aid) do
+				element:addItemListEntry({
+					label = getAidNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getAidWeight(v.classid)},
+						{key = "Value", val = getAidValue(v.classid)},						
+					},
+					itemModel = getAidModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Use", "Drop all", "Drop (x)"})
+						else
+							menu:AddOptions({"Use", "Drop"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+			
+		return element		
 	end
 	
 	local misc_panel = function()
@@ -1142,6 +1169,9 @@ function VGUI:Init()
 	self.item = nil
 	self.offset = 0
 	self.menuTypes = {
+	["Use"] = function()
+		localplayer():useItem(self.item.uniqueid, self.item.classid, 1)
+	end,		
 	["Equip"] = function()
 		localplayer():equipItem(self.item.uniqueid, self.item.classid, 1)
 	end,	

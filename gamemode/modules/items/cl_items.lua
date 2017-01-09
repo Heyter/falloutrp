@@ -2,6 +2,16 @@
 //Client
 local meta = FindMetaTable("Player")
 
+function meta:useItem(uniqueid, classid, quantity)
+	self:setVguiDelay()
+	
+	net.Start("useItem")
+		net.WriteInt(uniqueid, 32)
+		net.WriteInt(classid, 16)
+		net.WriteInt(quantity, 16)
+	net.SendToServer()
+end
+
 function meta:dropItem(uniqueid, classid, quantity)
 	local itemType = classidToStringType(classid)
 	self:setVguiDelay()
@@ -19,7 +29,7 @@ net.Receive("dropItem", function()
 	local itemType = net.ReadString()
 	local uniqueid = net.ReadInt(32)
 	local quantity = net.ReadInt(16)
-	
+	print(itemType, uniqueid)
 	if util.positive(quantity) then
 		LocalPlayer().inventory[itemType][uniqueid].quantity = quantity
 	else
