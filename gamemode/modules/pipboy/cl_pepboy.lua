@@ -1646,9 +1646,11 @@ function VGUI:Paint( w, h )
 	local hp = localplayer():Health()
 	local level = localplayer():getLevel()
 	local exp = localplayer():getExp()
+	local hungerStatus, hungerColor = localplayer():getHungerStatus()
+	local thirstStatus, thirstColor = localplayer():getThirstStatus()
 	
-	surface.SetDrawColor( PEPBOY_COLOR )
-	surface.SetMaterial( matLineDashed )
+	surface.SetDrawColor(PEPBOY_COLOR)
+	surface.SetMaterial(matLineDashed)
 	
 	surface.DrawTexturedRect( 60 - 8, 70 - 4 - 4, 4, 60 )
 	surface.DrawTexturedRectRotated( 60 - 8 + 30, 70 - 4 - 2, 4, 60, 90 )
@@ -1663,15 +1665,17 @@ function VGUI:Paint( w, h )
 	surface.DrawTexturedRectRotated( 60 - 8 + 30, 70 + 128 + 6, 4, 60, 90 )
 	
 
-	surface.DrawTexturedRect( w - 50 + 8, 70 + 32 - 8, 4, 70 )
-	surface.SetMaterial( matLine )
-	surface.DrawTexturedRect( 60 + 128 + 50 - 4, 70 + 32 - 8, w - 50 + 8 - ( 60 + 128 + 50 - 4 ), 4 )
+	surface.DrawTexturedRect(w - 50 + 8, 70 + 32 - 8, 4, 70)
+	surface.SetMaterial(matLine)
+	surface.DrawTexturedRect(60 + 128 + 50 - 4, 70 + 32 - 8, w - 50 + 8 - ( 60 + 128 + 50 - 4 ), 4)
 
 	draw.SimpleText(localplayer():getName(), "pepboy_40", 60 + 128 + 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	//draw.SimpleText("Hunger: ", "pepboy_40", w - 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	
 	draw.SimpleText("Hunger:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(hungerStatus, "pepboy_27", 60 + 128 + 50 + 150, 70 + 32 + 50, hungerColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	draw.SimpleText("Hydration:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(thirstStatus, "pepboy_27", 60 + 128 + 50 + 150, 70 + 32 + 50 + 32, thirstColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	//draw.SimpleText( "SALARY   " .. DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) or self.salary, "pepboy_27",  w - 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP )
 	
 

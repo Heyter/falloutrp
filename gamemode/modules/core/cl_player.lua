@@ -12,4 +12,8 @@ net.Receive("loadPlayerData", function()
 	if ply then
 		ply.playerData = data
 	end
+	
+	net.Start("loadPlayerData")
+	
+	net.SendToServer()
 end)

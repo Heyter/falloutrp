@@ -28,7 +28,7 @@ function createItem(classid)
 	elseif isAmmo(classid) then
 		return createAmmo(item)
 	elseif isAid(classid) then
-		return createAid(classid)
+		return createAid(item)
 	elseif isMisc(classid) then
 		return createMisc(item)
 	end

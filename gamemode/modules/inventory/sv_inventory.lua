@@ -84,7 +84,7 @@ function meta:pickUpItem(item, quantity)
 	elseif isAmmo(item.classid) then
 		self:pickUpAmmo(item, quantity)
 	elseif isAid(item.classid) then
-	
+		self:pickUpAid(item, quantity)
 	elseif isMisc(item.classid) then
 		self:pickUpMisc(item, quantity)
 	end

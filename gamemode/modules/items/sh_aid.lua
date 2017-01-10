@@ -25,13 +25,18 @@ function meta:hasAidItem(classid)
 	return false
 end
 
-function addAid(id, name, entity, model, weight, value)
+function addAid(id, name, model, weight, value, healthPercent, health, timeInterval, timeLength, hunger, thirst)
 	Aid[id] = {
 		name = name,
-		entity = entity,
 		model = model,
 		weight = weight,
 		value = value,
+		healthPercent = healthPercent,
+		health = health,
+		timeInterval = timeInterval,
+		timeLength = timeLength,
+		hunger = hunger,
+		thirst = thirst
 	}
 end
 
@@ -57,6 +62,25 @@ end
 function getAidValue(id)
 	return findAid(id).value
 end
+function getAidHealthPercent(id)
+	return findAid(id).healthPercent
+end
+function getAidHealth(id)
+	return findAid(id).health
+end
+function getAidTimeInterval(id)
+	return findAid(id).timeInterval
+end
+function getAidTimeLength(id)
+	return findAid(id).timeLength
+end
+function getAidHunger(id)
+	return findAid(id).hunger
+end
+function getAidThirst(id)
+	return findAid(id).thirst
+end
+
 
 // Functions that have data which can change
 function getAidNameQuantity(id, quantity)
@@ -75,4 +99,5 @@ function meta:getAidQuantity(uniqueid)
 	return quantity or 1
 end
 
-addAid(4001, "12 Gauge", "12Gauge", "models/items/boxbuckshot.mdl", 0.10, 0.25)
+addAid(4001, "Stimpack", "models/healthvial.mdl", 4, 25, 25)
+addAid(4002, "Super Stimpack", "models/items/healthkit.mdl", 4, 50, 50)
