@@ -3,6 +3,19 @@ util.AddNetworkString("loadPlayerData")
 
 local meta = FindMetaTable("Player")
 
+// Called after 'playerData' table is set on client
+function meta:postLoadPlayer()
+	print("Post load player.")
+	
+	// Initialize hunger
+	self:setHunger(HUNGER_MAX)
+	self:startHungerTimer()
+			
+	// Initialize thirst
+	self:setThirst(THIRST_MAX)
+	self:startThirstTimer()
+end
+
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table
 function meta:loadPlayer()
 	MySQLite.query("SELECT * FROM playerdata WHERE steamid = '" ..self:SteamID() .."'", function(results)
@@ -14,6 +27,7 @@ function meta:loadPlayer()
 			print(results[1])
 			self.playerData = results[1]
 			
+			// Set the team
 			self:SetTeam(self.playerData.faction)
 			
 			net.Start("loadPlayerData")
@@ -47,3 +61,9 @@ function meta:unload()
 	
 	//Unload Bank
 end
+
+net.Receive("loadPlayerData", function(len, ply)
+	if IsValid(ply) then
+		ply:postLoadPlayer()
+	end
+end)

@@ -3,6 +3,12 @@ util.AddNetworkString("useAid")
 
 local meta = FindMetaTable("Player")
 
+function createAid(item)
+	item.quantity = 1
+	
+	return item
+end
+
 function meta:loadInvAid()
 	// Get aid
 	MySQLite.query("SELECT * FROM aid WHERE steamid = '" ..self:SteamID() .."'", function(results)
@@ -10,8 +16,63 @@ function meta:loadInvAid()
 	end)	
 end
 
+function meta:addHealth(health)
+	local currentHp = self:Health()
+	
+	if currentHp + health > self:GetMaxHealth() then
+		self:SetHealth(self:GetMaxHealth())
+	else
+		self:SetHealth(currentHp + health)
+	end
+end
+
+function meta:addHealthOverTime(health, timeInterval, timeLength)
+	if timer.Exists("healthOverTime" ..self:EntIndex()) then
+		timer.Destroy("healthOverTime" ..self:EntIndex())
+	end
+
+	local healthInterval = health / (timeLength / timeInterval)
+	
+	timer.Create("healthOverTime" ..self:EntIndex(), timeInterval, (timeLength / 2), function()
+		if IsValid(self) then
+			self:addHealth(healthInterval)
+		end
+	end)
+end
+
+
+function meta:doAidFunction(classid)
+	local healthPercent = getAidHealthPercent(classid)
+	local health = getAidHealth(classid)
+	local timeInterval = getAidTimeInterval(classid)
+	local timeLength = getAidTimeLength(classid)
+	local hunger = getAidHunger(classid)
+	local thirst = getAidThirst(classid)
+	
+	if util.positive(time) then
+		if util.positive(healthPercent) then
+			self:addHealthOverTime((healthPercent/100) * self:GetMaxHealth(), time)
+		end
+		if util.positive(health) then
+			self:addHealthOverTime(health, time)
+		end
+	else
+		if util.positive(healthPercent) then
+			self:addHealth((healthPercent/100) * self:GetMaxHealth())
+		end
+		if util.positive(health) then
+			self:addHealth(health)
+		end
+		if util.positive(hunger) then
+			self:addHunger(hunger)
+		end
+		if util.positive(thirst) then
+			self:addThirst(thirst)
+		end
+	end
+end
+
 function meta:useAid(uniqueid, classid, quantity)
-	local ammoType = getAmmoEntity(classid)
 	local aidQuantity = self:getAidQuantity(uniqueid)
 
 	if aidQuantity >= quantity then
@@ -24,7 +85,7 @@ function meta:useAid(uniqueid, classid, quantity)
 		end
 
 		// Do the function associated with the aid
-		//self:GiveAmmo(quantity, ammoType)
+		self:doAidFunction(classid)
 				
 		//Update client
 		net.Start("useAid")
