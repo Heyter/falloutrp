@@ -9,10 +9,14 @@ local hungerDelay = HUNGER_DELAY
 local hungerRemove = HUNGER_REMOVE
 local hungerDamage = HUNGER_DAMAGE
 
+print(hungerMax, hungerDelay, hungerRemove, hungerDamage)
+
 local thirstMax = THIRST_MAX or 0 // Max thirst a player can have
 local thirstDelay = THIRST_DELAY
 local thirstRemove = THIRST_REMOVE
 local thirstDamage = THIRST_DAMAGE
+
+print(thirstMax, thirstDelay, thirstRemove, thirstDamage)
 
 function meta:setHunger(amount)
 	self.playerData.hunger = amount
@@ -33,7 +37,7 @@ function meta:addHunger(amount)
 end
 
 function meta:updateHunger(amount)
-	if (self:getHunger() - hungerRemove) > 0 then // Player will still have positive hunger after this removal
+	if (self:getHunger() - hungerRemove) >= 0 then // Player will still have positive hunger after this removal
 		self:addHunger(-hungerRemove)
 	end
 	
@@ -62,14 +66,14 @@ function meta:addThirst(amount)
 	local currentThirst = self:getThirst()
 
 	if currentThirst + amount > thirstMax then
-		self:setHunger(thirstMax)
+		self:setThirst(thirstMax)
 	else
-		self:setHunger(currentThirst + amount)
+		self:setThirst(currentThirst + amount)
 	end
 end
 
 function meta:updateThirst(amount)
-	if (self:getThirst() - thirstRemove) > 0 then // Player will still have positive hunger after this removal
+	if (self:getThirst() - thirstRemove) >= 0 then // Player will still have positive hunger after this removal
 		self:addThirst(-thirstRemove)
 	end
 	
