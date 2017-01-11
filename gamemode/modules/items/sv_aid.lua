@@ -23,6 +23,11 @@ function meta:addHealth(health)
 		self:SetHealth(self:GetMaxHealth())
 	else
 		self:SetHealth(currentHp + health)
+		
+		// Kill the player if they go below 0 health
+		if self:Health() <= 0 then
+			self:Kill()
+		end
 	end
 end
 

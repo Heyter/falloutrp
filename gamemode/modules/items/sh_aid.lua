@@ -101,3 +101,5 @@ end
 
 addAid(4001, "Stimpack", "models/healthvial.mdl", 4, 25, 25)
 addAid(4002, "Super Stimpack", "models/items/healthkit.mdl", 4, 50, 50)
+addAid(4003, "Water Bottle", "models/drug_mod/the_bottle_of_water.mdl", 4, 15, nil, nil, nil, nil, nil, 40)
+addAid(4004, "Watermelon", "models/props_junk/watermelon01.mdl", 4, 15, nil, nil, nil, nil, 30, 15)

@@ -410,6 +410,26 @@ function VGUI:Init()
 		
 	end
 	
+	local special_panel = function()
+	
+		local element = vgui.Create("pepboy_itemlist", self.catL)
+		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
+		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
+		
+		if localplayer().playerData then
+			for k,v in ipairs(SPECIAL) do
+				element:addItemListEntry({
+					label = v.Name .."\t" ..localplayer().playerData[string.lower(v.Name)],
+					desc = string.Replace(v.Description, "\n", "")
+					//itemModel = getWeaponModel(v.classid),
+				})			
+			end
+		end
+		
+		return element
+	end	
+	
+	/*
 	local rules_panel = function()
 	
 		local element = vgui.Create( "pepboy_textlist", self.catL )
@@ -422,67 +442,67 @@ function VGUI:Init()
 		return element
 		
 	end
+	*/
 	
+	/*
 	local commands_panel = function()
 	
 		local element = vgui.Create( "pepboy_textlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 		
-		/*
-		for k, v in pairs( DarkRP.getSortedChatCommands() ) do
-		
-			element:addListEntry( GAMEMODE.Config.chatCommandPrefix .. v.command .. " - " .. v.description, v.condition )
-		
-		end
-		*/
 		return element
-		
 	end
+	*/
 	
-	local jobs_panel = function()
+	local skills_panel = function()
+	
+		local element = vgui.Create("pepboy_itemlist", self.catL)
+		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
+		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
+		
+		if localplayer().playerData then
+			for k,v in ipairs(SKILLS) do
+				local skill = string.lower(string.Replace(v.Name, " ", ""))
+
+				element:addItemListEntry({
+					label = v.Name .."\t" ..localplayer().playerData[skill],
+					desc = string.Replace(v.Description, "\n", "")
+					//itemModel = getWeaponModel(v.classid),
+				})			
+			end
+		end
+		
+		return element
+	end	
+	
+	
+	local factory_panel = function()
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
-		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
-		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
-		
-		/*
-		local cats = DarkRP.getCategories().jobs
-		
-		for k, _ in pairs( cats ) do
-			
-			for _, v in pairs( cats[k].members ) do
-						
-				element:addItemListEntry( {	
-
-						label = v.name,
-						desc = string.gsub( v.description, "\n", "" ),
-						stats = { { key = "Salary", val = v.salary } },
-						clickFunc = function()
-							
-							local jobSel = vgui.Create( "pepboy_job_selection" )
-							jobSel:SetSize( scrW(), scrH() )
-							jobSel:SetPos( 0, 0 )
-							jobSel:setContent( v )
-						
-						end,
-						rightClickFunc = function() end,
-						
-					} )		
+		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
+		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
+		print("OK1")
+		if FACTORY.clientInfo then
+			for factory, v in pairs(FACTORY.clientInfo) do
+				local description = FACTORY.Setup[game.GetMap()][factory]["Description"]
 				
+				element:addItemListEntry({
+					label = factory,
+					desc = description,
+					itemModel = team.getEmblem(v["Controller"]),
+				})			
 			end
-		
 		end
-		*/
 		
 		return element
-		
 	end
 	
-	self.catL:addBottom( "Status", status_panel, true )
-	self.catL:addBottom( "Rules", rules_panel )
-	self.catL:addBottom( "Commands", commands_panel )
-	self.catL:addBottom( "Jobs", jobs_panel )
+	self.catL:addBottom("Status", status_panel, true)
+	self.catL:addBottom("S.P.E.C.I.A.L", special_panel)
+	//self.catL:addBottom( "Rules", rules_panel)
+	self.catL:addBottom("Skills", skills_panel)
+	self.catL:addBottom("Factory", factory_panel)
 	
 	self.catL:makeLayout()
 	
