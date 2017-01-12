@@ -2,12 +2,12 @@
 local teamEmblems = {}
 
 function team.setEmblem(teamIndex, emblem)
-	teamInfo[teamIndex] = emblem
+	teamEmblems[teamIndex] = emblem
 end
 function team.getEmblem(teamIndex)
-	return teamInfo[teamIndex] or ""
+	return teamEmblems[teamIndex] or ""
 end
 
-team.setEmblem(1, "falloutrp/factions/BrotherhoodOfSteelEmblem.png")
-team.setEmblem(2, "falloutrp/factions/NewCaliforniaRepublicEmblem.png")
-team.setEmblem(3, "falloutrp/factions/LegionEmblem.png")
+team.setEmblem(1, Material("falloutrp/factions/BrotherhoodOfSteelEmblem.png"))
+team.setEmblem(2, Material("falloutrp/factions/NewCaliforniaRepublicEmblem.png"))
+team.setEmblem(3, Material("falloutrp/factions/LegionEmblem.png"))
