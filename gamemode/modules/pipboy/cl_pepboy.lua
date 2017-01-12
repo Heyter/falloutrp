@@ -486,11 +486,11 @@ function VGUI:Init()
 		if FACTORY.clientInfo then
 			for factory, v in pairs(FACTORY.clientInfo) do
 				local description = FACTORY.Setup[game.GetMap()][factory]["Description"]
-				
+	
 				element:addItemListEntry({
 					label = factory,
 					desc = description,
-					itemModel = team.getEmblem(v["Controller"]),
+					itemIcon = team.getEmblem(v["Controller"]),
 				})			
 			end
 		end
