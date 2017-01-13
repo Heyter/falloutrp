@@ -2,7 +2,7 @@
 // The VGUI below is for reusing elements that are created the same way
 
 // Menu
-local offsetX, offsetY = 15, 15
+local offsetX, offsetY = 25, 20
 local barHeight = 3
 local lengthDivisor = 10
 local textPadding = 5
@@ -22,6 +22,20 @@ function VGUI:Init()
 	
 	self:SetSize(400, 350)
 	self:SetPos(ScrW()/2 - self:GetWide()/2, ScrH()/2 - self:GetTall()/2)
+	
+	local close = vgui.Create("DButton", self)
+	close:SetSize(30, 30)
+	close:SetPos(self:GetWide() - close:GetWide(), 0)
+	close:SetFont("FalloutRP3")
+	close:SetText("X")
+	close:SetTextColor(Color(255, 255, 255, 255))
+	close.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+	close.DoClick = function()
+		self:Remove()
+	end
 end
 	
 function VGUI:Paint(w, h)

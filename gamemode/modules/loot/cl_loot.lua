@@ -25,7 +25,7 @@ function lootItem(ent, itemId, quantity)
 	net.SendToServer()
 end
 
-local offsetX, offsetY = 15, 15
+local offsetX, offsetY = 25, 20
 local barHeight = 3
 local lengthDivisor = 10
 local textPadding = 5
@@ -155,8 +155,4 @@ function openLoot(ent, loot)
 		
 		layout:Add(itemBox)
 	end
-	
-	timer.Simple(15, function()
-		close(frame)
-	end)
 end
