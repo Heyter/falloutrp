@@ -22,20 +22,6 @@ function VGUI:Init()
 	
 	self:SetSize(400, 350)
 	self:SetPos(ScrW()/2 - self:GetWide()/2, ScrH()/2 - self:GetTall()/2)
-	
-	local close = vgui.Create("DButton", self)
-	close:SetSize(30, 30)
-	close:SetPos(self:GetWide() - close:GetWide(), 0)
-	close:SetFont("FalloutRP3")
-	close:SetText("X")
-	close:SetTextColor(Color(255, 255, 255, 255))
-	close.Paint = function(self, w, h)
-		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)
-	end
-	close.DoClick = function()
-		self:Remove()
-	end
 end
 	
 function VGUI:Paint(w, h)
@@ -95,6 +81,23 @@ function VGUI:SetFontTitle(font, title)
 	surface.SetFont(font)
 	self.textX, self.textY = surface.GetTextSize(title)
 end
+
+function VGUI:AddCloseButton()
+	local close = vgui.Create("DButton", self)
+	close:SetSize(30, 30)
+	close:SetPos(self:GetWide() - close:GetWide(), 0)
+	close:SetFont("FalloutRP3")
+	close:SetText("X")
+	close:SetTextColor(Color(255, 255, 255, 255))
+	close.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+	close.DoClick = function()
+		self:Remove()
+	end
+end
+
 vgui.Register("FalloutRP_Menu", VGUI, "DFrame")
 
 // Button

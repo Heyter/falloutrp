@@ -37,6 +37,7 @@ function openLoot(ent, loot)
 	local frame = vgui.Create("FalloutRP_Menu")
 	//gui.EnableScreenClicker(true)
 	util.restoreMousePos()
+	frame:AddCloseButton()
 	frame:MakePopup()
 	
 	local container = vgui.Create("DPanel", frame)

@@ -40,6 +40,8 @@ function addAid(id, name, model, weight, value, healthPercent, health, timeInter
 	}
 end
 
+addAid(3001, "Regen Potion", "modelx", 2, 30, nil, 100, 2, 60)
+
 function findAid(id)
 	if id then
 		return Aid[id]

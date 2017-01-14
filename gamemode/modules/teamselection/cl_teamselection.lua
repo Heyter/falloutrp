@@ -91,9 +91,6 @@ local function teamSelection()
 		local frame = vgui.Create("FalloutRP_Menu", main)
 		frame:SetPos(ScrW()/2 - frameW/2, ScrH()/2 - frameH/2)
 		frame:SetSize(frameW, frameH)
-		//frame.Paint = function(self, w, h)
-		//	draw.RoundedBox(2, 0, 0, w, h, COLOR_BLACKFADE)
-		//end
 		frame:SetFontTitle("FalloutRP3", "Faction Registration")
 		
 		local nextY = paddingH
