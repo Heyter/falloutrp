@@ -83,8 +83,6 @@ function openLoot(ent, loot)
 	layout:SetSize(scroll:GetWide(), scroll:GetTall())
 	layout:SetPos(0, 0)
 	for k,v in pairs(loot) do
-		print(k)
-		print(v)
 		local itemBox = vgui.Create("DButton")
 		itemBox:SetSize(layout:GetWide() - scrollerW, 20)
 		itemBox.Paint = function(self, w, h)

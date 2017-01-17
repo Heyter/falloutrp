@@ -72,3 +72,4 @@ function meta:getMiscQuantity(uniqueid)
 end
 
 addMisc(5001, "Broken helicopter piece", "models/Gibs/helicopter_brokenpiece_02.mdl", 1.5, 15)
+addMisc(5002, "Wrench", "models/props_c17/tools_wrench01a.mdl", 1.5, 15)

@@ -94,6 +94,7 @@ function VGUI:AddCloseButton()
 		surface.DrawRect(0, 0, w, h)
 	end
 	close.DoClick = function()
+		gui.EnableScreenClicker(false)
 		self:Remove()
 	end
 end
@@ -109,10 +110,16 @@ end
 
 function VGUI:Paint(w, h)
 	draw.RoundedBox(0, 0, 0, w, h, COLOR_BLACK)
+	
+	if self:GetDisabled() then
+		self:SetTextColor(COLOR_GRAY)
+	end
 end
 
 function VGUI:OnCursorEntered()
-	self:SetTextColor(COLOR_BLUE)
+	if !self:GetDisabled() then
+		self:SetTextColor(COLOR_BLUE)
+	end
 	surface.PlaySound("garrysmod/ui_return.wav")
 end
 

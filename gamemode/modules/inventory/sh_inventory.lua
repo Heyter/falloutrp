@@ -48,3 +48,17 @@ function meta:canInventoryFit(item, quantity)
 	
 	return false
 end
+
+// Get the amount of specific item that a player has
+function meta:getInventoryCount(id)
+	local type = classidToStringType(id)
+
+	for k,v in pairs(self.inventory[type]) do
+		if v.classid == id then
+			PrintTable(v)
+			return (v.quantity or 1), v.uniqueid
+		end
+	end
+	
+	return 0
+end
