@@ -112,7 +112,7 @@ function FACTORY:EndWar(factory, winner)
 		factory:SetStatus(2)
 		factory:SetController(winner)
 		
-		timer.Create("Factory" ..factory:EntIndex(), 10, 0, function()
+		timer.Create("Factory" ..factory:EntIndex(), factory:getInfo()["Delay"], 0, function()
 			local faction = factory:GetController()
 				
 			if faction != 0 then // The factory is owner by a faction

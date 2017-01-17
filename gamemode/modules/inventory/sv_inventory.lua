@@ -2,8 +2,34 @@
 util.AddNetworkString("loadInventory")
 util.AddNetworkString("dropItem")
 util.AddNetworkString("dropAllInventory")
+util.AddNetworkString("depleteInventoryItem")
 
 local meta = FindMetaTable("Player")
+ 
+function meta:depleteInventoryItem(type, uniqueid, quantity)
+	if self.inventory[type][uniqueid]["quantity"] == quantity then
+		print("Deleted the whole item")
+		// Delete the whole item from inventory
+		self.inventory[type][uniqueid] = nil
+		MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
+	else
+		print("Removed this quantity: " ..quantity)
+		// Just reduce the quantity count
+		self.inventory[type][uniqueid]["quantity"] = self.inventory[type][uniqueid]["quantity"] - quantity
+		MySQLite.query("UPDATE " ..type .." SET quantity = " ..self.inventory[type][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
+	end
+	
+	net.Start("depleteInventoryItem")
+		net.WriteString(type)
+		net.WriteInt(uniqueid, 32)
+		if !self.inventory[type][uniqueid] then
+			net.WriteBool(true)
+		else
+			net.WriteBool(false)
+			net.WriteInt(self.inventory[type][uniqueid]["quantity"], 16)
+		end
+	net.Send(self)
+end
 
 function meta:loadInventoryCount()
 	self.loadInvCount = self.loadInvCount + 1

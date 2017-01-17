@@ -36,6 +36,14 @@ end
 function getItemModel(classid)
 	if isWeapon(classid) then
 		return getWeaponModel(classid)
+	elseif isApparel(classid) then
+		return getApparelModel(classid)
+	elseif isAmmo(classid) then
+		return getAmmoModel(classid)
+	elseif isAid(classid) then
+		return getAidModel(classid)
+	elseif isMisc(classid) then
+		return getMiscModel(classid)
 	end
 end
 

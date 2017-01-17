@@ -1,36 +1,71 @@
 
-net.Receive("addSkillPoints", function(len, ply)
-	local skillPoints = net.ReadInt(8)
-	local ply = net.ReadEntity()
-
-	if plyDataExists(ply) then
-		ply.playerData.skillpoints = skillPoints
-	end
-end)
-
+local frame
 local frameW, frameH = 800, 600
 local buttonW, buttonH = 80, 40
 local canContinue = true // Don't allow players to keep trying to submit skills while validating on server still
 
-function skillSelection()
+net.Receive("addSkillPoints", function(len, ply)
+	local level = net.ReadInt(8)
+	
+	skillSelection(level)
+end)
+
+net.Receive("updateSkills", function(len, ply)
+	local skills = net.ReadTable()
+	
+	for skill, points in pairs(skills) do
+		LocalPlayer().playerData[skill] = points
+	end
+
+	if frame then
+		frame:Remove()
+		gui.EnableScreenClicker(false)
+	end
+end)
+
+net.Receive("validateSkills", function(len, ply)
+	local errorId = net.ReadInt(8)
+	
+	if errorId == 1 then
+		print("Used more points than allowed.") 
+	elseif errorId == 2 then
+		print("Used less points than allowed.")
+	end
+	
+	canContinue = true
+end)
+
+function skillSelection(level)
 	local beginningTotal = 0
 	local beginningValues = {}
 	local values = {}
+	local pointsRemaining = SKILLPOINTS_LEVEL
 	
 	gui.EnableScreenClicker(true)
 
 	frame = vgui.Create("FalloutRP_Menu")
 	frame:SetSize(frameW, frameH)
 	frame:SetPos(ScrW()/2 - frame:GetWide()/2, ScrH()/2 - frame:GetTall()/2)
-	frame:SetFontTitle("FalloutRP3", "WELCOME TO LEVEL")
+	frame:SetFontTitle("FalloutRP3", "WELCOME TO LEVEL " ..level)
 
+	local points = vgui.Create("DLabel", frame)
+	points:SetFont("FalloutRP3")
+	points:SetText("ASSIGN " ..pointsRemaining .." SKILL POINTS")
+	points:SetTextColor(COLOR_AMBER)
+	points:SetPos(frame:GetWide()/2, 500)
+	points:SizeToContents()
+	points.UpdatePoints = function()
+		points:SetText("ASSIGN " ..pointsRemaining .." SKILL POINTS")
+	end
+	
 	local skillsDescription = vgui.Create("DLabel", frame)
-	skillsDescription:SetFont("FalloutRP1")
+	skillsDescription:SetFont("FalloutRP2")
 	skillsDescription:SetText("")			
+	skillsDescription:SetTextColor(COLOR_AMBER)
 	skillsDescription:SetPos(frame:GetWide()/2, 50)
 			
 	local offsetY = 0
-	
+	 
 	for k,v in ipairs(SKILLS) do
 		local skillsBox = vgui.Create("DPanel", frame)
 		skillsBox:SetSize(frame:GetWide()/2 - 100, 30)
@@ -42,7 +77,7 @@ function skillSelection()
 			if self.hovered then
 				surface.SetDrawColor(Color(255, 182, 66, 30))
 				surface.DrawRect(0, 0, w, h)
-			
+			 
 				surface.SetDrawColor(COLOR_AMBER)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
@@ -104,6 +139,9 @@ function skillSelection()
 				values[k] = values[k] - 1
 					
 				value:SetText(values[k]) // Update the label
+				
+				pointsRemaining = pointsRemaining + 1 // Update points remaining
+				points.UpdatePoints()
 			end
 				
 			value:SetText(values[k])
@@ -137,6 +175,9 @@ function skillSelection()
 				values[k] = values[k] + 1
 					
 				value:SetText(values[k])
+				
+				pointsRemaining = pointsRemaining - 1 // Update points remaining
+				points.UpdatePoints()
 			end
 		end
 			
@@ -145,7 +186,7 @@ function skillSelection()
 	
 	local continueButton = vgui.Create("FalloutRP_Button", frame)
 	continueButton:SetSize(buttonW, buttonH)
-	continueButton:SetPos(frame:GetWide()/2 + continueButton:GetWide()/2, frame:GetTall() - 20 - continueButton:GetTall()*2)
+	continueButton:SetPos(frame:GetWide()/2 + continueButton:GetWide()/2, frame:GetTall() - 100 - continueButton:GetTall()*2)
 	continueButton.DoClick = function(self)
 		if canContinue then
 			canContinue = false // Don't allow another submit until we hear back from server
@@ -158,7 +199,7 @@ function skillSelection()
 	continueButton:SetText("Submit")
 	continueButton:SetFont("FalloutRP1")	
 	
-	timer.Simple(5, function()
+	timer.Simple(10, function()
 		frame:Close()
 	end)
 end
