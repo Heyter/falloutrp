@@ -512,7 +512,7 @@ function VGUI:Init()
 	self.catM:addTop( "DT", function() return "DT" end, 0.8 )
 	self.catM:addTop( "Caps", function() return localplayer():getCaps() end, 2.2 )
 	self.catM:SetTitle( "ITEMS", 2.5 )
-	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..100 )
+	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..INVENTORY_WEIGHT)
 	
 	local weapons_panel = function()
 		setCatMPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
@@ -1237,6 +1237,27 @@ function VGUI:Init()
 			end
 		end
 	end,	
+	["Withdraw"] = function()
+		localplayer():withdrawItem(self.item.uniqueid, self.item.classid)
+	end,	
+	["Withdraw all"] = function()
+		localplayer():withdrawItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+	end,	
+	["Withdraw (x)"] = function()
+		local frame = self:GetParent():GetParent()
+		local item = self.item
+		local slider = vgui.Create("FalloutRP_NumberWang", frame)
+		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+		slider:SetMinimum(1)
+		slider:SetMaximum(self.item.quantity)
+		slider:SetValue(1)
+		slider:SetText("Withdraw")
+		slider:GetButton().DoClick = function()
+			if slider:ValidInput() then
+				localplayer():withdrawItem(item.uniqueid, item.classid, slider:GetAmount())
+			end
+		end
+	end,		
 }
 end
 
@@ -2368,3 +2389,450 @@ function VGUI:OnMouseReleased( m )
 	
 end
 vgui.Register( "pepboy_job_button", VGUI, "Panel" )
+
+
+// BANK
+local VGUI = {}
+function VGUI:Init()
+	
+	self.screen = vgui.Create( "pepboy_screen", self )
+	self.screen:SetPos( scrW()/2 - PEPBOY_SIZE_X/2, scrH()/2 - PEPBOY_SIZE_Y/2 - 10 )
+	self.screen:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
+	
+	if scrH() > 800 then
+		self.buttonL = vgui.Create( "pepboy_catbutton", self )
+		self.buttonL:SetPos( scrW()/2 - 1920 * 0.09 + 2, scrH()/2 - PEPBOY_SIZE_Y/2 - 10 + 696 )
+		self.buttonL:SetSize( 90, 90 )
+		self.buttonL.active = true
+		self.buttonL.DoClick = function()
+		
+			self.buttonL.active = true
+			self.buttonM.active = false
+			
+			if self.catL then self.catL:Show() end
+			if self.catM then self.catM:Hide() end
+			
+			surface.PlaySound( "pepboy/click3.wav" )
+		
+		end
+		
+		self.buttonL:SetText("")	
+		self.buttonM = vgui.Create( "pepboy_catbutton", self )
+		self.buttonM:SetPos( scrW()/2 - 90/2 + 4, scrH()/2 - PEPBOY_SIZE_Y/2 - 10 + 696 )
+		self.buttonM:SetSize( 90, 90 )
+		self.buttonM.DoClick = function()	
+			self.buttonL.active = false
+			self.buttonM.active = true
+			
+			if self.catL then self.catL:Hide() end
+			if self.catM then self.catM:Show() end
+			
+			surface.PlaySound( "pepboy/click3.wav" )
+		end	
+		self.buttonM:SetText("")
+	else
+		self.buttonL = vgui.Create( "pepboy_catbutton_text", self )
+		self.buttonL:SetPos( scrW()/2 - 75 - 150, scrH()/2 + PEPBOY_SIZE_Y/2 - 10 )
+		self.buttonL:SetSize( 150, 50 )
+		self.buttonL.label = "INVENTORY"
+		self.buttonL.DoClick = function()
+		
+			self.buttonL.active = true
+			self.buttonM.active = false
+			
+			if self.catL then self.catL:Show() end
+			if self.catM then self.catM:Hide() end
+			
+			surface.PlaySound( "pepboy/click3.wav" )
+		
+		end	
+		
+		self.buttonM = vgui.Create( "pepboy_catbutton_text", self )
+		self.buttonM:SetPos( scrW()/2 - 150 + 75, scrH()/2 + PEPBOY_SIZE_Y/2 - 10 )
+		self.buttonM:SetSize( 150, 50 )
+		self.buttonM.DoClick = function()	
+			self.buttonL.active = false
+			self.buttonM.active = true
+			
+			if self.catL then self.catL:Hide() end
+			if self.catM then self.catM:Show() end
+			
+			surface.PlaySound( "pepboy/click3.wav" )
+		end
+		self.buttonM.label = "BANK"
+	end
+	
+	// INVENTORY ---------------------------------------------------------------------------------------------------------
+	self.catL = vgui.Create( "pepboy_wrapper", self.screen )
+	self.catL:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
+	self.catL:addTop( "HP", function() return localplayer():Health() ..":" ..100 end, 1.4 )
+	self.catL:addTop( "DT", function() return "DT" end, 0.8 )
+	self.catL:addTop( "Caps", function() return localplayer():getCaps() end, 2.2 )
+	self.catL:SetTitle( "INVENTORY", 2.5 )
+	self.catL:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..INVENTORY_WEIGHT)
+	
+	local weapons_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catL )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().inventory and localplayer().inventory.weapons then
+			for k, v in pairs(localplayer().inventory.weapons) do
+				element:addItemListEntry({
+					label = getWeaponName(v.classid),
+					stats = {
+						{key = "Damage", val = localplayer():getWeaponDamage(k)},
+						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
+						{key = "Durability", val = localplayer():getWeaponDurability(k)},
+						{key = "Level", val = getWeaponLevel(v.classid)},
+						{key = "Weight", val = getWeaponWeight(v.classid)},
+						{key = "Value", val = getWeaponValue(v.classid)},						
+					},
+					itemModel = getWeaponModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						menu:AddOptions({"Deposit"})
+						menu:Open()
+					end
+				})
+			end
+		end	
+		
+		return element
+	end
+	
+	local apparel_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catL )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+	
+		if localplayer().inventory and localplayer().inventory.apparel then
+			for k, v in pairs(localplayer().inventory.apparel) do
+				element:addItemListEntry({
+					label = getApparelName(v.classid),
+					stats = {
+						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
+						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
+						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
+						{key = "Durability", val = localplayer():getApparelDurability(k)},
+						{key = "Level", val = getApparelLevel(v.classid)},
+						{key = "Weight", val = getApparelWeight(v.classid)},
+						{key = "Value", val = getApparelValue(v.classid)},						
+					},
+					itemModel = getApparelModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						menu:AddOptions({"Deposit"})
+						menu:Open()
+					end
+				})
+			end
+		end		
+		
+		return element
+	end
+	
+	local ammo_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catL )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().inventory and localplayer().inventory.ammo then
+			for k, v in pairs(localplayer().inventory.ammo) do
+				element:addItemListEntry({
+					label = getAmmoNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getAmmoWeight(v.classid)},
+						{key = "Value", val = getAmmoValue(v.classid)},						
+					},
+					itemModel = getAmmoModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Deposit all", "Deposit (x)"})
+						else
+							menu:AddOptions({"Deposit"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+			
+		return element
+	end
+	
+	local aid_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catL )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().inventory and localplayer().inventory.aid then
+			for k, v in pairs(localplayer().inventory.aid) do
+				element:addItemListEntry({
+					label = getAidNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getAidWeight(v.classid)},
+						{key = "Value", val = getAidValue(v.classid)},						
+					},
+					itemModel = getAidModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Deposit all", "Deposit (x)"})
+						else
+							menu:AddOptions({"Deposit"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+			
+		return element		
+	end
+	
+	local misc_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().inventory and localplayer().inventory.misc then
+			for k, v in pairs(localplayer().inventory.misc) do
+				element:addItemListEntry({
+					label = getMiscNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getMiscWeight(v.classid)},
+						{key = "Value", val = getMiscValue(v.classid)},						
+					},
+					itemModel = getMiscModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Deposit all", "Deposit (x)"})
+						else
+							menu:AddOptions({"Deposit"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+		
+		return element
+		
+	end
+	
+	self.catL:addBottom("Weapons", weapons_panel)
+	self.catL:addBottom("Apparel", apparel_panel)
+	self.catL:addBottom("Ammo", ammo_panel)
+	self.catL:addBottom("Aid", aid_panel)
+	self.catL:addBottom("Misc", misc_panel)
+	
+	self.catL:makeLayout()
+	
+	// BANK --------------------------------------------------------------------------------------------------------------
+	self.catM = vgui.Create( "pepboy_wrapper", self.screen )
+	self.catM:SetSize(PEPBOY_SIZE_X, PEPBOY_SIZE_Y)
+	self.catM:addTop("HP", function() return localplayer():Health() ..":" ..100 end, 1.4)
+	self.catM:addTop("DT", function() return "DT" end, 0.8)
+	self.catM:addTop("Caps", function() return localplayer():getCaps() end, 2.2)
+	self.catM:SetTitle("Bank", 2.5)
+	self.catM:SetSubTitle("Wg " ..localplayer():getBankWeight() .."/" ..BANK_WEIGHT)
+	
+	local weapons_panel = function()
+		setCatMPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
+		
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().bank and localplayer().bank.weapons then
+			for k, v in pairs(localplayer().bank.weapons) do
+				element:addItemListEntry({
+					label = getWeaponName(v.classid),
+					stats = {
+						{key = "Damage", val = localplayer():getWeaponDamage(k)},
+						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
+						{key = "Durability", val = localplayer():getWeaponDurability(k)},
+						{key = "Level", val = getWeaponLevel(v.classid)},
+						{key = "Weight", val = getWeaponWeight(v.classid)},
+						{key = "Value", val = getWeaponValue(v.classid)},						
+					},
+					itemModel = getWeaponModel(v.classid),
+
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						menu:AddOptions({"Withdraw"})
+						menu:Open()
+					end
+				})
+			end
+		end	
+		
+		return element
+	end
+	
+	local apparel_panel = function()
+		setCatMPanel(TYPE_APPAREL) // Navigate back to the apparel panel after running a function
+	
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+	
+		if localplayer().bank and localplayer().bank.apparel then
+			for k, v in pairs(localplayer().bank.apparel) do
+				element:addItemListEntry({
+					label = getApparelName(v.classid),
+					stats = {
+						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
+						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
+						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
+						{key = "Durability", val = localplayer():getApparelDurability(k)},
+						{key = "Level", val = getApparelLevel(v.classid)},
+						{key = "Weight", val = getApparelWeight(v.classid)},
+						{key = "Value", val = getApparelValue(v.classid)},						
+					},
+					itemModel = getApparelModel(v.classid),
+
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						menu:AddOptions({"Withdraw"})
+						menu:Open()
+					end
+				})
+			end
+		end		
+		
+		return element
+	end
+	
+	local ammo_panel = function()
+		setCatMPanel(TYPE_AMMO) // Navigate back to the ammo panel after running a function
+		
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().bank and localplayer().bank.ammo then
+			for k, v in pairs(localplayer().bank.ammo) do
+				element:addItemListEntry({
+					label = getAmmoNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getAmmoWeight(v.classid)},
+						{key = "Value", val = getAmmoValue(v.classid)},						
+					},
+					itemModel = getAmmoModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Withdraw all", "Withdraw (x)"})
+						else
+							menu:AddOptions({"Withdraw"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+			
+		return element
+	end
+	
+	local aid_panel = function()
+		setCatMPanel(TYPE_AID) // Navigate back to the aid panel after running a function
+	
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().bank and localplayer().bank.aid then
+			for k, v in pairs(localplayer().bank.aid) do
+				element:addItemListEntry({
+					label = getAidNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getAidWeight(v.classid)},
+						{key = "Value", val = getAidValue(v.classid)},						
+					},
+					itemModel = getAidModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Withdraw all", "Withdraw (x)"})
+						else
+							menu:AddOptions({"Withdraw"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+			
+		return element		
+	end
+	
+	local misc_panel = function()
+	
+		setCatMPanel(TYPE_MISC) // Navigate back to the misc panel after running a function
+	
+		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().bank and localplayer().inventory.bank then
+			for k, v in pairs(localplayer().inventory.bank) do
+				element:addItemListEntry({
+					label = getMiscNameQuantity(v.classid, v.quantity),
+					stats = {
+						{key = "Weight", val = getMiscWeight(v.classid)},
+						{key = "Value", val = getMiscValue(v.classid)},						
+					},
+					itemModel = getMiscModel(v.classid),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if (util.greaterThanOne(v.quantity)) then
+							menu:AddOptions({"Withdraw all", "Withdraw (x)"})
+						else
+							menu:AddOptions({"Withdraw"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+		
+		return element
+		
+	end
+	
+	self.catM:addBottom("Weapons", weapons_panel)
+	self.catM:addBottom("Apparel", apparel_panel)
+	self.catM:addBottom("Ammo", ammo_panel)
+	self.catM:addBottom("Aid", aid_panel)
+	self.catM:addBottom("Misc", misc_panel)
+	
+	self.catM:makeLayout()
+	self.catM:Hide()
+	
+	gui.EnableScreenClicker( true )
+end
+
+vgui.Register( "pepboy_bank", VGUI, "Panel")

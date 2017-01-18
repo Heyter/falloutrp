@@ -4,7 +4,7 @@ util.AddNetworkString("pickUpApparel")
 local meta = FindMetaTable("Player")
 
 function meta:loadInvApparel()
-	MySQLite.query("SELECT * FROM apparel WHERE steamid = '" ..self:SteamID() .."'", function(results)
+	MySQLite.query("SELECT * FROM apparel WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(results)
 		if results then
 			for k, v in pairs(results) do
 				self.inventory["apparel"][v.uniqueid] = {
