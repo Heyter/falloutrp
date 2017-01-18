@@ -1257,7 +1257,28 @@ function VGUI:Init()
 				localplayer():withdrawItem(item.uniqueid, item.classid, slider:GetAmount())
 			end
 		end
-	end,		
+	end,
+	["Deposit"] = function()
+		localplayer():depositItem(self.item.uniqueid, self.item.classid)
+	end,	
+	["Deposit all"] = function()
+		localplayer():depositItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+	end,	
+	["Deposit (x)"] = function()
+		local frame = self:GetParent():GetParent()
+		local item = self.item
+		local slider = vgui.Create("FalloutRP_NumberWang", frame)
+		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+		slider:SetMinimum(1)
+		slider:SetMaximum(self.item.quantity)
+		slider:SetValue(1)
+		slider:SetText("Deposit")
+		slider:GetButton().DoClick = function()
+			if slider:ValidInput() then
+				localplayer():depositItem(item.uniqueid, item.classid, slider:GetAmount())
+			end
+		end
+	end		
 }
 end
 
@@ -2601,7 +2622,7 @@ function VGUI:Init()
 	end
 	
 	local misc_panel = function()
-		local element = vgui.Create( "pepboy_itemlist", self.catM )
+		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 		
