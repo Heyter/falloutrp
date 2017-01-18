@@ -7,11 +7,11 @@ function meta:getInventoryWeight()
 	local weight = 0
 	
 	// Total weight of weapon items
-	for k,items in pairs(self.inventory.weapons) do
-		weight = weight + getWeaponWeight(items.classid)
+	for type, item in pairs(self.inventory) do
+		for uniqueid, itemInfo in pairs(item) do
+			weight = weight + getItemWeight(itemInfo.classid)
+		end
 	end
-	// Total weight of misc items
-	weight = weight + self:getMiscWeightTotal()
 	
 	return weight
 end

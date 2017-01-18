@@ -49,6 +49,7 @@ function meta:load()
 	self:loadInventory()
 	
 	//Load Bank
+	self:loadBank()
 end
 
 // Make all of the data nil that is related to the player who disconnected
