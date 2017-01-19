@@ -1,6 +1,18 @@
 
 local menu, frame
 
+local meta = FindMetaTable("Player")
+
+function meta:depositItem(uniqueid, classid, quantity)
+	self:setVguiDelay()
+	
+	net.Start("depositItem")
+		net.WriteInt("uniqueid", 32)
+		net.WriteInt(classid, 16)
+		net.WriteInt(quantity, 16)
+	net.SendToServer()
+end
+
 net.Receive("loadBank", function()
 	local bank = net.ReadTable()
 	

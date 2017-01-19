@@ -1,7 +1,41 @@
 
 util.AddNetworkString("loadBank")
+util.AddNetworkString("depositItem")
 
 local meta = FindMetaTable("Player")
+
+function meta:depositItem(uniqueid, classid, quantity)
+	local itemType = classidToStringType(classid)
+	
+	local canFit = self:canBankFit(classid, quantity)
+	
+	if util.positive(canFit) then
+		local invItem = table.Copy(self.inventory[type][uniqueid])
+		local sameItem = self:hasBankItem(itemType, classid)
+		
+		// Remove from inventory
+		if !util.positive(invItem.quantity) or (quantity == invItem.quantity) then
+			// Remove item from inventory and add item to bank
+			self.inventory[type][uniqueid] = nil
+			self.inventory[type][uniqueid] = invItem
+			
+			// Switch the banked column to true
+			MySQLite.query("UPDATE " ..itemType .." SET banked = 1 WHERE uniqueid = " ..uniqueid)
+		else
+			
+		end
+	elseif canFit != true then
+		// The player can't fit any amount of item into the bank
+	end
+end
+
+net.Receive("depositItem", function(len, ply)
+	local uniqueid = net.ReadInt(32)
+	local classid = net.ReadInt(16)
+	local quantity = net.ReadInt(16)
+	
+	ply:depositItem(uniqueid, classid, quantity)
+end)
 
 function meta:loadBankCount()
 	self.loadBankedCount = self.loadBankedCount + 1
