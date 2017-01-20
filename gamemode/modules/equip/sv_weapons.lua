@@ -29,6 +29,7 @@ function meta:wieldWeapon(classid)
 	local weaponClass = getWeaponEntity(classid)
 	self:Give(weaponClass)
 	self:SelectWeapon(weaponClass)
+	self:GetActiveWeapon().slot = getWeaponSlot(classid)
 end
 
 function meta:unequipWeapon(uniqueid, classid)
@@ -36,7 +37,7 @@ function meta:unequipWeapon(uniqueid, classid)
 	self:StripWeapon(getWeaponEntity(classid))
 		
 	// Remove from tables
-	self.equipped.weapons[getWeaponType(classid)] = nil
+	self.equipped.weapons[getWeaponSlot(classid)] = nil
 	self.inventory.weapons[uniqueid]["equipped"] = false
 			
 	// Remove from MySQL
@@ -53,7 +54,7 @@ function meta:equipWeapon(uniqueid, classid)
 	print(classid)
 	if self:canEquipWeapon(classid) then
 		print(classid)
-		local weaponType = getWeaponType(classid)
+		local weaponType = getWeaponSlot(classid)
 	
 		// Remove current weapon
 		if self:hasCurrentWeapon(weaponType) then

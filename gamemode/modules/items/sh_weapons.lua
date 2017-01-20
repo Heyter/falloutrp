@@ -3,10 +3,11 @@ local meta = FindMetaTable("Player")
 
 Weapons = {}
 
-function addWeapon(id, name, type, entity, model, durability, weight, value, level, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity)
+function addWeapon(id, name, type, slot, entity, model, durability, weight, value, level, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity)
 	Weapons[id] = {
 		name = name,
 		type = type,
+		slot = slot,
 		entity = entity,
 		model = model,
 		durability = durability,
@@ -38,6 +39,9 @@ end
 function getWeaponType(id)
 	return findWeapon(id).type
 end
+function getWeaponSlot(id)
+	return findWeapon(id).slot
+end
 function getWeaponEntity(id)
 	return findWeapon(id).entity
 end
@@ -59,6 +63,9 @@ end
 function getWeaponLevel(id)
 	return findWeapon(id).level
 end
+function getWeaponCriticalChance(id)
+	return findWeapon(id).criticalChance
+end
 function getWeaponCriticalDamage(id)
 	return findWeapon(id).criticalDamage
 end
@@ -67,13 +74,17 @@ function getWeaponMaxDurability(id)
 end
 
 // Functions that have data which can change
-function meta:getWeaponDamage(uniqueid)
-	return self.inventory.weapons[uniqueid]["damage"] or 0
+function meta:getWeaponDamage(uniqueid, location)
+	local location = location or "inventory"
+	
+	return self[location].weapons[uniqueid]["damage"] or 0
 end
-function meta:getWeaponDurability(uniqueid)
-	return self.inventory.weapons[uniqueid]["durability"] or 0
+function meta:getWeaponDurability(uniqueid, location)
+	local location = location or "inventory"
+	
+	return self[location].weapons[uniqueid]["durability"] or 0
 end
 
-addWeapon(1001, "Lucky", "secondary", "weapon_9mmpistolmaria", "models/Halokiller38/fallout/weapons/Pistols/9mmunique.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6)
-addWeapon(1002, "R91 Assault Rifle", "primary", "weapon_r91assaultrifle", "models/Halokiller38/fallout/weapons/AssaultRifles/r91assaultrifle.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
-addWeapon(1003, "Hunting Shotgun", "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
+addWeapon(1001, "Lucky", DMG_BULLET, "secondary", "weapon_9mmpistolmaria", "models/Halokiller38/fallout/weapons/Pistols/9mmunique.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6)
+addWeapon(1002, "R91 Assault Rifle", DMG_BULLET, "primary", "weapon_r91assaultrifle", "models/Halokiller38/fallout/weapons/AssaultRifles/r91assaultrifle.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
+addWeapon(1003, "Hunting Shotgun", DMG_BULLET, "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)

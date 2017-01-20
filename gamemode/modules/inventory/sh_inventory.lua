@@ -3,6 +3,23 @@
 
 local meta = FindMetaTable("Player")
 
+// Get the max space the player can hold in inventory
+function meta:getMaxInventory()
+	return INVENTORY_WEIGHT + self:getStrengthInventory()
+end
+
+function meta:hasInventoryItem(type, classid)
+	if isAmmo(classid) or isAid(classid) or isMisc(classid) then // The item has quantity and is stackable
+		for uniqueid, item in pairs(self.inventory[type]) do
+			if item.classid == classid then
+				return uniqueid
+			end
+		end
+	end
+		
+	return false
+end
+
 function meta:getInventoryWeight()
 	local weight = 0
 	

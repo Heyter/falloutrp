@@ -69,17 +69,25 @@ function getApparelMaxBonusHp(id)
 end
 
 // Fucntions that have data which can change
-function meta:getApparelDamageThreshold(uniqueid)
-	return self.inventory.apparel[uniqueid]["damageThreshold"] or 0
+function meta:getApparelDamageThreshold(uniqueid, location)
+	local location = location or "inventory"
+	
+	return self[location].apparel[uniqueid]["damageThreshold"] or 0
 end
-function meta:getApparelDurability(uniqueid)
-	return self.inventory.apparel[uniqueid]["durability"] or 0
+function meta:getApparelDurability(uniqueid, location)
+	local location = location or "inventory"
+	
+	return self[location].apparel[uniqueid]["durability"] or 0
 end
-function meta:getApparelDamageReflection(uniqueid)
-	return self.inventory.apparel[uniqueid]["damageReflection"] or 0
+function meta:getApparelDamageReflection(uniqueid, location)
+	local location = location or "inventory"
+	
+	return self[location].apparel[uniqueid]["damageReflection"] or 0
 end
-function meta:getApparelBonusHp(uniqueid)
-	return self.inventory.apparel[uniqueid]["bonusHp"] or 0
+function meta:getApparelBonusHp(uniqueid, location)
+	local location = location or "inventory"
+	
+	return self[location].apparel[uniqueid]["bonusHp"] or 0
 end
 
 addApparel(2001, "Hard hat", "helmet", "models/props_2fort/hardhat001.mdl", 1000, 2.5, 900, 1, 5, 10)
