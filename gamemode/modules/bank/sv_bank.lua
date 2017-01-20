@@ -1,28 +1,172 @@
 
 util.AddNetworkString("loadBank")
+util.AddNetworkString("openBank")
 util.AddNetworkString("depositItem")
+util.AddNetworkString("withdrawItem")
 
 local meta = FindMetaTable("Player")
 
+function meta:withdrawItem(uniqueid, classid, quantity)
+	local quantity = quantity
+	local itemType = classidToStringType(classid)
+	
+	local bankItem = table.Copy(self.bank[itemType][uniqueid])
+	local sameItem = self:hasInventoryItem(itemType, classid)
+	
+	local canFit = self:canInventoryFit(bankItem, quantity)
+	
+	if util.positive(canFit) then
+		quantity = canFit
+	end
+
+	if canFit then
+		// Remove from bank
+		if !util.positive(bankItem.quantity) or (quantity == bankItem.quantity) then
+			// Remove item from bank and add item to inventory
+			self.bank[itemType][uniqueid] = nil
+			
+			if sameItem then
+				// Add the quantity to the current inventory item
+				self.inventory[itemType][sameItem].quantity = self.inventory[itemType][sameItem].quantity + quantity
+				
+				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
+				MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+			else
+				self.inventory[itemType][uniqueid] = bankItem
+				
+				// Switch the banked column to NULL
+				MySQLite.query("UPDATE " ..itemType .." SET banked = NULL WHERE uniqueid = " ..uniqueid)
+			end
+			
+			// Update the client
+			net.Start("withdrawItem")
+				net.WriteString(itemType)
+				net.WriteTable(self.inventory[itemType])
+				net.WriteTable(self.bank[itemType])
+			net.Send(self)
+		else
+			
+			self.bank[itemType][uniqueid]["quantity"] = self.bank[itemType][uniqueid]["quantity"] - quantity
+			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
+			
+			if sameItem then
+				// Add quantity to the current item already in the inventory
+				self.inventory[itemType][sameItem]["quantity"] = self.inventory[itemType][sameItem]["quantity"] + quantity
+				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
+				
+				// Update the client
+				net.Start("withdrawItem")
+					net.WriteString(itemType)
+					net.WriteTable(self.inventory[itemType])
+					net.WriteTable(self.bank[itemType])
+				net.Send(self)
+			else
+				// Create a duplicate item, but mark it as not banked
+				MySQLite.query("INSERT INTO " ..itemType .." (steamid, classid, quantity) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..")", function()
+					MySQLite.query("SELECT uniqueid FROM " ..itemType .." WHERE banked IS NULL ORDER BY uniqueid DESC LIMIT 1", function(results)
+						local itemId = 0
+						if results and results[1] then
+							itemId = results[1]["uniqueid"]
+						end
+						
+						bankItem.uniqueid = itemId
+						bankItem.quantity = bankItem.quantity - quantity
+						self.inventory[itemType][itemId] = bankItem
+						
+						// Update the client
+						net.Start("withdrawItem")
+							net.WriteString(itemType)
+							net.WriteTable(self.inventory[itemType])
+							net.WriteTable(self.bank[itemType])
+						net.Send(self)
+					end)
+				end)
+			end
+		end
+	elseif canFit != true then
+		// The player can't fit any amount of item into the bank
+	end
+end
+
+net.Receive("withdrawItem", function(len, ply)
+	local uniqueid = net.ReadInt(32)
+	local classid = net.ReadInt(16)
+	local quantity = net.ReadInt(16)
+	
+	ply:withdrawItem(uniqueid, classid, quantity)
+end)
+
 function meta:depositItem(uniqueid, classid, quantity)
+	local quantity = quantity
 	local itemType = classidToStringType(classid)
 	
 	local canFit = self:canBankFit(classid, quantity)
 	
 	if util.positive(canFit) then
-		local invItem = table.Copy(self.inventory[type][uniqueid])
+		quantity = canFit
+	end
+	
+	if canFit then
+		local invItem = table.Copy(self.inventory[itemType][uniqueid])
 		local sameItem = self:hasBankItem(itemType, classid)
 		
 		// Remove from inventory
 		if !util.positive(invItem.quantity) or (quantity == invItem.quantity) then
 			// Remove item from inventory and add item to bank
-			self.inventory[type][uniqueid] = nil
-			self.inventory[type][uniqueid] = invItem
+			self.inventory[itemType][uniqueid] = nil
 			
-			// Switch the banked column to true
-			MySQLite.query("UPDATE " ..itemType .." SET banked = 1 WHERE uniqueid = " ..uniqueid)
+			if sameItem then
+				// Add the quantity to the current banked item
+				self.bank[itemType][sameItem].quantity = self.bank[itemType][sameItem].quantity + quantity
+				
+				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
+				MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+			else
+				self.bank[itemType][uniqueid] = invItem
+			
+				// Switch the banked column to true
+				MySQLite.query("UPDATE " ..itemType .." SET banked = 1 WHERE uniqueid = " ..uniqueid)
+			end
+			
+			// Update the client
+			net.Start("depositItem")
+				net.WriteString(itemType)
+				net.WriteTable(self.inventory[itemType])
+				net.WriteTable(self.bank[itemType])
+			net.Send(self)
 		else
+			self.inventory[itemType][uniqueid]["quantity"] = self.inventory[itemType][uniqueid]["quantity"] - quantity
+			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 			
+			if sameItem then
+				// Add quantity to the current item already in the bank
+				print("SAME ITEM")
+				print(sameItem, quantity)
+				self.bank[itemType][sameItem]["quantity"] = self.bank[itemType][sameItem]["quantity"] + quantity
+				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
+				
+			else
+				// Create a duplicate item, but mark it as banked
+				MySQLite.query("INSERT INTO " ..itemType .." (steamid, classid, quantity, banked) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..", 1)", function()
+					MySQLite.query("SELECT uniqueid FROM " ..itemType .." WHERE banked = 1 ORDER BY uniqueid DESC LIMIT 1", function(results)
+						local itemId = 0
+						if results and results[1] then
+							itemId = results[1]["uniqueid"]
+						end
+						
+						invItem.uniqueid = itemId
+						invItem.quantity = invItem.quantity - quantity 
+						self.bank[itemType][itemId] = invItem
+						
+						// Update the client
+						net.Start("depositItem")
+							net.WriteString(itemType)
+							net.WriteTable(self.inventory[itemType])
+							net.WriteTable(self.bank[itemType])
+						net.Send(self)
+					end)
+				end)
+			end
 		end
 	elseif canFit != true then
 		// The player can't fit any amount of item into the bank
@@ -36,6 +180,12 @@ net.Receive("depositItem", function(len, ply)
 	
 	ply:depositItem(uniqueid, classid, quantity)
 end)
+
+function meta:openBank()
+	net.Start("openBank")
+	
+	net.Send(self)
+end
 
 function meta:loadBankCount()
 	self.loadBankedCount = self.loadBankedCount + 1

@@ -32,7 +32,7 @@ function meta:pickUpMisc(misc, quantity)
 		query = "UPDATE misc SET quantity = " ..amount .." WHERE uniqueid = " ..sameItem.uniqueid
 	else
 		misc.quantity = amount
-		query = "INSERT INTO misc (steamid, classid, quantity) VALUES ('" ..Entity(1):SteamID() .."', " ..misc.classid ..", " ..amount ..")"
+		query = "INSERT INTO misc (steamid, classid, quantity) VALUES ('" ..self:SteamID() .."', " ..misc.classid ..", " ..amount ..")"
 	end
 	
 	MySQLite.query(query, function()

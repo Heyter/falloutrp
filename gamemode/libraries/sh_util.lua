@@ -1,4 +1,12 @@
 
+
+function util.roll(within, max)
+	local max = max or 100
+	local multiplier = 1000 // So decimal points actually make a difference
+
+	return math.random(1, max * multiplier) <= (within * multiplier)
+end
+
 function util.positive(amount)
 	return isnumber(amount) and amount and amount > 0
 end

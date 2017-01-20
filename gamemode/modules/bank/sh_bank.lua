@@ -3,7 +3,7 @@ local meta = FindMetaTable("Player")
 
 function meta:hasBankItem(type, classid)
 	if isAmmo(classid) or isAid(classid) or isMisc(classid) then // The item has quantity and is stackable
-		for uniqueid, item in pairs(self.inventory[type]) do
+		for uniqueid, item in pairs(self.bank[type]) do
 			if item.classid == classid then
 				return uniqueid
 			end

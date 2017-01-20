@@ -2,14 +2,14 @@
 local meta = FindMetaTable("Player")
 
 
-local function setCatMPanel(number)
+local function setItemsPanel(number)
 	print("Setting: " ..(number))
-	LocalPlayer().lastCatMPanel = number
+	LocalPlayer().lastItemsPanel = number
 end
 
-local function getCatMPanel()
-	print("Getting: " ..(LocalPlayer().lastCatMPanel))
-	return LocalPlayer().lastCatMPanel or TYPE_WEAPON // Default to the first panel
+local function getItemsPanel()
+	print("Getting: " ..(LocalPlayer().lastItemsPanel))
+	return LocalPlayer().lastItemsPanel or TYPE_WEAPON // Default to the first panel
 end
 
 function meta:setVguiDelay()
@@ -235,7 +235,17 @@ function openPepboyMiddle()
 	local pepboy = open()
 	pepboy.buttonM.DoClick()
 	pepboy.catM:makeLayout()
-	pepboy.catM.layoutBot[getCatMPanel()].DoClick()
+	pepboy.catM.layoutBot[getItemsPanel()].DoClick()
+end
+
+function openBankLeft()
+	local pepboy = openBank()
+	pepboy.buttonL.DoClick()
+	pepboy.catL:makeLayout()
+end
+
+function openBankRight()
+
 end
 
 
@@ -515,7 +525,7 @@ function VGUI:Init()
 	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..INVENTORY_WEIGHT)
 	
 	local weapons_panel = function()
-		setCatMPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
+		setItemsPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
 		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -554,7 +564,7 @@ function VGUI:Init()
 	end
 	
 	local apparel_panel = function()
-		setCatMPanel(TYPE_APPAREL) // Navigate back to the apparel panel after running a function
+		setItemsPanel(TYPE_APPAREL) // Navigate back to the apparel panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -594,7 +604,7 @@ function VGUI:Init()
 	end
 	
 	local ammo_panel = function()
-		setCatMPanel(TYPE_AMMO) // Navigate back to the ammo panel after running a function
+		setItemsPanel(TYPE_AMMO) // Navigate back to the ammo panel after running a function
 		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -628,7 +638,7 @@ function VGUI:Init()
 	end
 	
 	local aid_panel = function()
-		setCatMPanel(TYPE_AID) // Navigate back to the aid panel after running a function
+		setItemsPanel(TYPE_AID) // Navigate back to the aid panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -663,7 +673,7 @@ function VGUI:Init()
 	
 	local misc_panel = function()
 	
-		setCatMPanel(TYPE_MISC) // Navigate back to the misc panel after running a function
+		setItemsPanel(TYPE_MISC) // Navigate back to the misc panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -1238,7 +1248,8 @@ function VGUI:Init()
 		end
 	end,	
 	["Withdraw"] = function()
-		localplayer():withdrawItem(self.item.uniqueid, self.item.classid)
+		local quantity = self.item.quantity or 0
+		localplayer():withdrawItem(self.item.uniqueid, self.item.classid, quantity)
 	end,	
 	["Withdraw all"] = function()
 		localplayer():withdrawItem(self.item.uniqueid, self.item.classid, self.item.quantity)
@@ -1259,7 +1270,8 @@ function VGUI:Init()
 		end
 	end,
 	["Deposit"] = function()
-		localplayer():depositItem(self.item.uniqueid, self.item.classid)
+		local quantity = self.item.quantity or 0
+		localplayer():depositItem(self.item.uniqueid, self.item.classid, quantity)
 	end,	
 	["Deposit all"] = function()
 		localplayer():depositItem(self.item.uniqueid, self.item.classid, self.item.quantity)
@@ -1275,6 +1287,8 @@ function VGUI:Init()
 		slider:SetText("Deposit")
 		slider:GetButton().DoClick = function()
 			if slider:ValidInput() then
+				print("Deposited this much:")
+				print(slider:GetAmount())
 				localplayer():depositItem(item.uniqueid, item.classid, slider:GetAmount())
 			end
 		end
@@ -2493,6 +2507,8 @@ function VGUI:Init()
 	self.catL:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..INVENTORY_WEIGHT)
 	
 	local weapons_panel = function()
+		setItemsPanel(TYPE_WEAPON)
+	
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
@@ -2525,6 +2541,8 @@ function VGUI:Init()
 	end
 	
 	local apparel_panel = function()
+		setItemsPanel(TYPE_APPAREL)
+	
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
@@ -2558,6 +2576,8 @@ function VGUI:Init()
 	end
 	
 	local ammo_panel = function()
+		setItemsPanel(TYPE_AMMO)
+		
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
@@ -2590,6 +2610,8 @@ function VGUI:Init()
 	end
 	
 	local aid_panel = function()
+		setItemsPanel(TYPE_AID)
+		
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
@@ -2622,6 +2644,8 @@ function VGUI:Init()
 	end
 	
 	local misc_panel = function()
+		setItemsPanel(TYPE_MISC)
+	
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
@@ -2672,7 +2696,7 @@ function VGUI:Init()
 	self.catM:SetSubTitle("Wg " ..localplayer():getBankWeight() .."/" ..BANK_WEIGHT)
 	
 	local weapons_panel = function()
-		setCatMPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
+		setItemsPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
 		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -2683,9 +2707,9 @@ function VGUI:Init()
 				element:addItemListEntry({
 					label = getWeaponName(v.classid),
 					stats = {
-						{key = "Damage", val = localplayer():getWeaponDamage(k)},
+						{key = "Damage", val = localplayer():getWeaponDamage(k, "bank")},
 						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
-						{key = "Durability", val = localplayer():getWeaponDurability(k)},
+						{key = "Durability", val = localplayer():getWeaponDurability(k, "bank")},
 						{key = "Level", val = getWeaponLevel(v.classid)},
 						{key = "Weight", val = getWeaponWeight(v.classid)},
 						{key = "Value", val = getWeaponValue(v.classid)},						
@@ -2706,7 +2730,7 @@ function VGUI:Init()
 	end
 	
 	local apparel_panel = function()
-		setCatMPanel(TYPE_APPAREL) // Navigate back to the apparel panel after running a function
+		setItemsPanel(TYPE_APPAREL) // Navigate back to the apparel panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -2717,10 +2741,10 @@ function VGUI:Init()
 				element:addItemListEntry({
 					label = getApparelName(v.classid),
 					stats = {
-						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
-						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
-						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
-						{key = "Durability", val = localplayer():getApparelDurability(k)},
+						{key = "DT", val = localplayer():getApparelDamageThreshold(k, "bank") .."%"},
+						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k, "bank") .."%"},
+						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k, "bank")},
+						{key = "Durability", val = localplayer():getApparelDurability(k, "bank")},
 						{key = "Level", val = getApparelLevel(v.classid)},
 						{key = "Weight", val = getApparelWeight(v.classid)},
 						{key = "Value", val = getApparelValue(v.classid)},						
@@ -2741,7 +2765,7 @@ function VGUI:Init()
 	end
 	
 	local ammo_panel = function()
-		setCatMPanel(TYPE_AMMO) // Navigate back to the ammo panel after running a function
+		setItemsPanel(TYPE_AMMO) // Navigate back to the ammo panel after running a function
 		
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -2775,7 +2799,7 @@ function VGUI:Init()
 	end
 	
 	local aid_panel = function()
-		setCatMPanel(TYPE_AID) // Navigate back to the aid panel after running a function
+		setItemsPanel(TYPE_AID) // Navigate back to the aid panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -2809,15 +2833,14 @@ function VGUI:Init()
 	end
 	
 	local misc_panel = function()
-	
-		setCatMPanel(TYPE_MISC) // Navigate back to the misc panel after running a function
+		setItemsPanel(TYPE_MISC) // Navigate back to the misc panel after running a function
 	
 		local element = vgui.Create( "pepboy_itemlist", self.catM )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 		
-		if localplayer().bank and localplayer().inventory.bank then
-			for k, v in pairs(localplayer().inventory.bank) do
+		if localplayer().bank and localplayer().bank.misc then
+			for k, v in pairs(localplayer().bank.misc) do
 				element:addItemListEntry({
 					label = getMiscNameQuantity(v.classid, v.quantity),
 					stats = {

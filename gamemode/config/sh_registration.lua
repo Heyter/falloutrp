@@ -14,3 +14,29 @@ SPECIAL = {
 NAME_MIN = 4 // Min characters that a name can be
 NAME_MAX = 30 // Max characters that a name can be (WARNING: Must change this in SQL if you want to increase)
 NAME_INVALID = {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "-", "=", "~", "`", "{", "}", "|", ":", "<", ">", "?", ",", ".", "/", ";", "[", "]"} // Characters not allowed in a players name
+
+// Strength
+HEALTH_PER_STRENGTH = 5 // How much extra health each point of strength gives you
+INVENTORY_PER_STRENGTH = 10 // How much extra inventory space each point of strength gives you
+
+// Perception
+RECOIL_PER_PERCEPTION = 0.03 // How much recoil is reduced for each point of perception
+CRITICALHITDAMAGE_MULTIPLIER_PERCEPTION = 0.05 // How much critical hit damage is increased (multiplier) by for each point of perception
+
+// Endurance
+
+HEALTHREGEN_HEALH_ENDURANCE = 2 // How much extra health is regened for each endurance point
+
+// Charisma
+PRICE_MULTIPLIER_CHARISMA = 0.05 // How much buying/selling price is reduced/increased (multiplier) for each point of charisma
+
+
+// Intelligence
+RESTORE_EFFECTS_INTELLIGENCE = 0.03 // How much health, hunger, thirst is restored (multiplier) by for each point of intelligence
+
+// Agility
+CRITICALHITCHANCE_AMOUNT_AGILITY = 0.03 // How much critical hit chance is increased (multiplier) by for each point of agility
+MOVEMENT_SPEED_AGILITY = 2 // How much movement speed is increased by for each point of agility
+
+// Luck
+
