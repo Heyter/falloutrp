@@ -19,8 +19,8 @@ end
 function meta:addHealth(health)
 	local currentHp = self:Health()
 	
-	if currentHp + health > self:GetMaxHealth() then
-		self:SetHealth(self:GetMaxHealth())
+	if currentHp + health > self:getMaxHealth() then
+		self:SetHealth(self:getMaxHealth())
 	else
 		self:SetHealth(currentHp + health)
 		
@@ -56,14 +56,14 @@ function meta:doAidFunction(classid)
 	
 	if util.positive(time) then
 		if util.positive(healthPercent) then
-			self:addHealthOverTime((healthPercent/100) * self:GetMaxHealth(), time)
+			self:addHealthOverTime((healthPercent/100) * self:getMaxHealth(), time)
 		end
 		if util.positive(health) then
 			self:addHealthOverTime(health, time)
 		end
 	else
 		if util.positive(healthPercent) then
-			self:addHealth((healthPercent/100) * self:GetMaxHealth())
+			self:addHealth((healthPercent/100) * self:getMaxHealth())
 		end
 		if util.positive(health) then
 			self:addHealth(health)

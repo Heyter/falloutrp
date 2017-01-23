@@ -45,7 +45,7 @@ function meta:getMaxQuantity(item)
 	for i = 1, item.quantity do
 		totalWeight = totalWeight + singleWeight
 		
-		if self:getInventoryWeight() + totalWeight <= INVENTORY_WEIGHT then
+		if self:getInventoryWeight() + totalWeight <= self:getMaxInventory() then
 			itemCount = itemCount + 1
 		else
 			return itemCount
@@ -56,12 +56,17 @@ function meta:getMaxQuantity(item)
 end
 
 function meta:canInventoryFit(item, quantity)
+	// There is no limit to amount of caps one can carry
+	if isCap(item.classid) then
+		return true
+	end
+
 	local addedWeight = getItemWeight(item.classid)
 	if util.positive(quantity) then
 		addedWeight = quantity * addedWeight
 	end
 
-	if self:getInventoryWeight() + addedWeight <= INVENTORY_WEIGHT then // If the item (and/or specificied quantity) can fit
+	if self:getInventoryWeight() + addedWeight <= self:getMaxInventory() then // If the item (and/or specificied quantity) can fit
 		return true
 	elseif util.positive(quantity) then // If it's multiple items and can't fit them all, return the max amount of items that can fit
 		return self:getMaxQuantity(item)

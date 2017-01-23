@@ -1,6 +1,7 @@
  
 //Shared
 
+TYPE_CAP = 0
 TYPE_WEAPON = 1
 TYPE_APPAREL = 2
 TYPE_AMMO = 3
@@ -49,7 +50,9 @@ end
 
 function getItemNameQuantity(classid, quantity)
 	if util.positive(quantity) then
-		if isAmmo(classid) then
+		if isCap(classid) then
+			return "Caps (" ..quantity ..")"
+		elseif isAmmo(classid) then
 			return getAmmoNameQuantity(classid, quantity)
 		elseif isAid(classid) then
 			return getAidNameQuantity(classid, quantity)
@@ -81,6 +84,9 @@ function classidToStringType(classid)
 	end
 end
 
+function isCap(classid)
+	return classidToType(classid) == TYPE_CAP
+end
 function isWeapon(classid)
 	return classidToType(classid) == TYPE_WEAPON
 end

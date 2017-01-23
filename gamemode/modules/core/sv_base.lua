@@ -6,6 +6,8 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local damageType = dmgInfo:GetDamageType()
 	
 	if IsValid(attacker) and attacker:IsPlayer() then
+		// Add Damage
+	
 		local weapon = attacker:GetActiveWeapon()
 		local weaponSlot = weapon.slot
 		
@@ -21,27 +23,74 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 			
 			if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
 				damage = (damage * CRITICAL_MULTIPLIER)
-				damage = damage + (damage * attacker:getPerceptionCriticalHitDamage())
+				damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
 			end
 			
 			// Unarmed and Explosives will need to be handled seperately
 			if damageType == DMG_BULLET then
-				damage = damage + (damage * attacker:getGunsDamage())
+				damage = damage + (damage * (attacker:getGunsDamage() + damage * attacker:getFactionGunsDamage()))
 			elseif damageType == DMG_ENERGYBEAM then
-				damage = damage + (damage * attacker:getEnergyWeaponsDamage())
+				damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
 			elseif damageType == DMG_SLASH then
-				damage = damage + (damage * attacker:getMeleeWeaponsDamage())
+				damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + damage * attacker:getFactionMeleeWeaponsDamage()))
 			elseif damageType == DMG_PLASMA then
 				damage = damage + (damage * attacker:getScienceDamage())
 			end
 		end
+		
+		// Reduce Damage
 
 		dmgInfo:SetDamage(damage)
 	end
 end)
 
 hook.Add("PlayerSpawn", "SetupPlayer", function(ply)
-	timer.Simple(1, function()
-		ply:SetHealth(ply:getMaxHealth())
+	if ply.loaded then
+		timer.Simple(1, function()
+			ply:SetHealth(ply:getMaxHealth())
+			
+			// Initialize hunger
+			ply:setHunger(HUNGER_MAX)
+			ply:startHungerTimer()
+					
+			// Initialize thirst
+			ply:setThirst(THIRST_MAX)
+			ply:startThirstTimer()
+		end)
+	end
+end)
+
+hook.Add("PlayerShouldTakeDamage", "SpawnTeamKill", function(victim, attacker)
+	if victim.spawnProtected or attacker.spawnProtected then
+		return false
+	end
+	
+	if victim:IsPlayer() and attacker:IsPlayer() then
+		return victim:Team() != attacker:Team()
+	end
+	
+	return true
+end)
+
+hook.Add("InitPostEntity", "SpawnZoneChecker", function()
+	local safeStart, safeEnd = SAFEZONE_START, SAFEZONE_END
+
+	timer.Create("spawnZone", 0.5, 0, function()
+		for k,v in pairs(ents.FindInBox(safeStart, safeEnd)) do
+			if IsValid(v) and v:IsPlayer() then
+				v.spawnProtected = true
+				
+				if !v.onSpawnTimer then
+					v.onSpawnTimer = true
+					
+					timer.Simple(10, function()
+						if IsValid(v) then
+							v.spawnProtected = false
+							v.onSpawnTimer = false
+						end
+					end)
+				end
+			end
+		end
 	end)
 end)

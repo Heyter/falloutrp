@@ -1,7 +1,8 @@
 
-WORKBENCH_MODEL = "models/props_c17/SuitCase001a.mdl"
+WORKBENCH_MODEL = "models/props_trainstation/bench_indoor001a.mdl"
+
 WORKBENCH_POSITIONS = {
-	Vector(7146, -12460, 2)
+	Vector(-8989, 10147, 19)
 }
 
 if SERVER then

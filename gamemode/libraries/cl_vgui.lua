@@ -1,6 +1,21 @@
 
 // The VGUI below is for reusing elements that are created the same way
 
+local meta = FindMetaTable("Player")
+
+// Delay
+function meta:setVguiDelay()
+	self.onVguiDelay = true
+end
+
+function meta:removeVguiDelay()
+	self.onVguiDelay = false
+end
+
+function meta:hasVguiDelay()
+	return self.onVguiDelay
+end
+
 // Menu
 local offsetX, offsetY = 25, 20
 local barHeight = 3

@@ -5,6 +5,8 @@ net.Receive("loot", function()
 	local loot = net.ReadTable()
 
 	openLoot(ent, loot)
+	
+	LocalPlayer():removeVguiDelay()
 end)
 
 local function close(frame)
@@ -16,6 +18,8 @@ local function close(frame)
 end
 
 function lootItem(ent, itemId, quantity)
+	LocalPlayer():setVguiDelay()
+
 	net.Start("lootItem")
 		net.WriteEntity(ent)
 		net.WriteInt(itemId, 8)
@@ -109,8 +113,10 @@ function openLoot(ent, loot)
 			if util.greaterThanOne(v.quantity) then // The itme has quantity
 				local flyout = vgui.Create("DMenu", frame)
 				flyout:AddOption("Loot all", function()
-					lootItem(ent, k, v.quantity)
-					close(frame)
+					if !LocalPlayer():hasVguiDelay() then
+						lootItem(ent, k, v.quantity)
+						close(frame)
+					end
 				end)
 				flyout:AddOption("Loot (x)", function()	
 					local curX, curY = itemBox:GetPos()
@@ -122,7 +128,7 @@ function openLoot(ent, loot)
 					slider:SetValue(1)
 					slider:SetText("Loot")
 					slider:GetButton().DoClick = function()
-						if slider:ValidInput() then
+						if slider:ValidInput() and !LocalPlayer():hasVguiDelay() then
 							lootItem(ent, k, slider:GetAmount())
 							close(frame)
 						end

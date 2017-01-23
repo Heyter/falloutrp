@@ -17,19 +17,22 @@ net.Receive("useItem", function(len, ply)
 	ply:useItem(itemId, classid, quantity)
 end)
 
-function createItem(classid)
+function createItem(classid, quantity)
 	local item = {}
 	item.classid = classid
 	
-	if isWeapon(classid) then
+	if isCap(classid) then
+		item.quantity = quantity or 1
+		return item
+	elseif isWeapon(classid) then
 		return createWeapon(item)
 	elseif isApparel(classid) then
 		return createApparel(item)
 	elseif isAmmo(classid) then
-		return createAmmo(item)
+		return createAmmo(item, quantity)
 	elseif isAid(classid) then
-		return createAid(item)
+		return createAid(item, quantity)
 	elseif isMisc(classid) then
-		return createMisc(item)
+		return createMisc(item, quantity)
 	end
 end

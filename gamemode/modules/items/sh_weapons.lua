@@ -88,3 +88,5 @@ end
 addWeapon(1001, "Lucky", DMG_BULLET, "secondary", "weapon_9mmpistolmaria", "models/Halokiller38/fallout/weapons/Pistols/9mmunique.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, ".357 magnum round", 6)
 addWeapon(1002, "R91 Assault Rifle", DMG_BULLET, "primary", "weapon_r91assaultrifle", "models/Halokiller38/fallout/weapons/AssaultRifles/r91assaultrifle.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
 addWeapon(1003, "Hunting Shotgun", DMG_BULLET, "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
+addWeapon(1004, "Lockpick", DMG_SLASH, "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
+addWeapon(1005, "Pickaxe", DMG_SLASH, "primary", "weapon_huntingshotgun", "models/Halokiller38/fallout/weapons/Shotguns/huntingshotgun.mdl", 1120, 2.5, 1500, 3, 30, 50, 82.5, 2.75, 30, 1.76, 0.3, "556mmammo", 6)
