@@ -103,7 +103,9 @@ function meta:sendInventory()
 end
 
 function meta:pickUpItem(item, quantity)
-	if isWeapon(item.classid) then
+	if isCap(item.classid) then
+		self:addCaps(quantity)
+	elseif isWeapon(item.classid) then
 		self:pickUpWeapon(item)
 	elseif isApparel(item.classid) then
 		self:pickUpApparel(item)

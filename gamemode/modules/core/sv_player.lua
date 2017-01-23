@@ -7,6 +7,12 @@ local meta = FindMetaTable("Player")
 function meta:postLoadPlayer()
 	print("Post load player.")
 	
+	// Set team
+	self:SetTeam(self.playerData.faction)
+	
+	// Set health
+	self:SetHealth(self:getMaxHealth())
+	
 	// Initialize hunger
 	self:setHunger(HUNGER_MAX)
 	self:startHungerTimer()
@@ -14,6 +20,9 @@ function meta:postLoadPlayer()
 	// Initialize thirst
 	self:setThirst(THIRST_MAX)
 	self:startThirstTimer()
+	
+	// The player has been loaded in
+	self.loaded = true
 end
 
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table
@@ -26,9 +35,6 @@ function meta:loadPlayer()
 			print("Printing reuslts [1]")
 			print(results[1])
 			self.playerData = results[1]
-			
-			// Set the team
-			self:SetTeam(self.playerData.faction)
 			
 			net.Start("loadPlayerData")
 				net.WriteTable(self.playerData)

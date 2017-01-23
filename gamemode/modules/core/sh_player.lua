@@ -6,5 +6,5 @@ end
 local meta = FindMetaTable("Player")
 
 function meta:getMaxHealth()
-	return MAX_HEALTH + self:getItemHealth() + self:getStrengthHealth()
+	return MAX_HEALTH + self:getItemHealth() + self:getStrengthHealth() + self:getFactionHitpoints()
 end

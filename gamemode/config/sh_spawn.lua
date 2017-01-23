@@ -1,0 +1,4 @@
+
+// Safezones
+SAFEZONE_START = Vector(10298, 9340, 35)
+SAFEZONE_END = Vector(-6125, 14240, 406)

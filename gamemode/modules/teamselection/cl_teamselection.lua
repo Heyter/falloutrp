@@ -16,19 +16,19 @@ local teams = {
 		Name = "Brotherhood of Steel", 
 		Emblem = "falloutrp/factions/BrotherhoodOfSteelEmblem.png",
 		Reputation = "falloutrp/factions/BrotherhoodOfSteelReputation.png",
-		Description = "We are awesome.\nYou need to join."
+		Description = "Increased damage with energy weapon.\nMaximum armour increase."
 	},
 	[TEAM_NCR] = {
 		Name = "New California Republic", 
 		Emblem = "falloutrp/factions/NewCaliforniaRepublicEmblem.png",
 		Reputation = "falloutrp/factions/NewCaliforniaRepublicReputation.png",
-		Description = "We are awesome.\nYou need to join."
+		Description = "Increased damage with guns.\nMaximum health increase."
 	},	
 	[TEAM_LEGION] = {
 		Name = "Legion", 
 		Emblem = "falloutrp/factions/LegionEmblem.png",
 		Reputation = "falloutrp/factions/LegionReputation.png",
-		Description = "We are awesome.\nYou need to join."
+		Description = "Increased damage with melee weapons and explosives.\nIncreased critical chance and critical damage."
 	}
 }
 

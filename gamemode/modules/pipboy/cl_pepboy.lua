@@ -12,18 +12,6 @@ local function getItemsPanel()
 	return LocalPlayer().lastItemsPanel or TYPE_WEAPON // Default to the first panel
 end
 
-function meta:setVguiDelay()
-	self.onVguiDelay = true
-end
-
-function meta:removeVguiDelay()
-	self.onVguiDelay = false
-end
-
-function meta:hasVguiDelay()
-	return self.onVguiDelay
-end
-
 local scrW = ScrW 
 local scrH = ScrH
 
@@ -404,7 +392,7 @@ function VGUI:Init()
 	
 	self.catL = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catL:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
-	self.catL:addTop( "HP", function() return localplayer():Health() end, 0.9 )
+	self.catL:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 0.9 )
 	//self.catL:addTop( "SAL", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) end, 1.3 )
 	//self.catL:addTop( "CASH", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) end, 2.2 )
 	self.catL:SetTitle( "GENERAL", 2.5 )
@@ -492,13 +480,18 @@ function VGUI:Init()
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
 		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
-		print("OK1")
+
 		if FACTORY.clientInfo then
 			for factory, v in pairs(FACTORY.clientInfo) do
 				local description = FACTORY.Setup[game.GetMap()][factory]["Description"]
-	
+				
+				local name = team.GetClass(v["Controller"]) or "Uncontested"
+				
 				element:addItemListEntry({
 					label = factory,
+					stats = {
+						{key = "Controller:", val = name} 
+					},
 					desc = description,
 					itemIcon = team.getEmblem(v["Controller"]),
 				})			
@@ -518,11 +511,11 @@ function VGUI:Init()
 	
 	self.catM = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catM:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
-	self.catM:addTop( "HP", function() return localplayer():Health() ..":" ..100 end, 1.4 )
+	self.catM:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 1.4 )
 	self.catM:addTop( "DT", function() return "DT" end, 0.8 )
-	self.catM:addTop( "Caps", function() return localplayer():getCaps() end, 2.2 )
-	self.catM:SetTitle( "ITEMS", 2.5 )
-	self.catM:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..INVENTORY_WEIGHT)
+	self.catM:addTop( "CAPS", function() return localplayer():getCaps() end, 2.2 )
+	self.catM:SetTitle( "INVENTORY", 2.5 )
+	self.catM:SetSubTitle("WG " ..localplayer():getInventoryWeight() ..":" ..localplayer():getMaxInventory())
 	
 	local weapons_panel = function()
 		setItemsPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
@@ -719,7 +712,7 @@ function VGUI:Init()
 	
 	self.catR = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catR:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
-	self.catR:addTop( "HP", function() return localplayer():Health() end, 0.9 )
+	self.catR:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 0.9 )
 	//self.catR:addTop( "SAL", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) end, 1.3 )
 	//self.catR:addTop( "CASH", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) end, 2.2 )
 	self.catR:SetTitle( "MAINT", 2.5 )
@@ -2500,11 +2493,11 @@ function VGUI:Init()
 	// INVENTORY ---------------------------------------------------------------------------------------------------------
 	self.catL = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catL:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
-	self.catL:addTop( "HP", function() return localplayer():Health() ..":" ..100 end, 1.4 )
+	self.catL:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 1.4 )
 	self.catL:addTop( "DT", function() return "DT" end, 0.8 )
-	self.catL:addTop( "Caps", function() return localplayer():getCaps() end, 2.2 )
+	self.catL:addTop( "CAPS", function() return localplayer():getCaps() end, 2.2 )
 	self.catL:SetTitle( "INVENTORY", 2.5 )
-	self.catL:SetSubTitle( "Wg " ..localplayer():getInventoryWeight() .."/" ..INVENTORY_WEIGHT)
+	self.catL:SetSubTitle( "WG " ..localplayer():getInventoryWeight() ..":" ..localplayer():getMaxInventory())
 	
 	local weapons_panel = function()
 		setItemsPanel(TYPE_WEAPON)
@@ -2612,9 +2605,9 @@ function VGUI:Init()
 	local aid_panel = function()
 		setItemsPanel(TYPE_AID)
 		
-		local element = vgui.Create( "pepboy_itemlist", self.catL )
-		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
-		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		local element = vgui.Create("pepboy_itemlist", self.catL)
+		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
+		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
 		
 		if localplayer().inventory and localplayer().inventory.aid then
 			for k, v in pairs(localplayer().inventory.aid) do
@@ -2689,11 +2682,11 @@ function VGUI:Init()
 	// BANK --------------------------------------------------------------------------------------------------------------
 	self.catM = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catM:SetSize(PEPBOY_SIZE_X, PEPBOY_SIZE_Y)
-	self.catM:addTop("HP", function() return localplayer():Health() ..":" ..100 end, 1.4)
+	self.catM:addTop("HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 1.4)
 	self.catM:addTop("DT", function() return "DT" end, 0.8)
-	self.catM:addTop("Caps", function() return localplayer():getCaps() end, 2.2)
-	self.catM:SetTitle("Bank", 2.5)
-	self.catM:SetSubTitle("Wg " ..localplayer():getBankWeight() .."/" ..BANK_WEIGHT)
+	self.catM:addTop("CAPS", function() return localplayer():getCaps() end, 2.2)
+	self.catM:SetTitle("BANK", 2.5)
+	self.catM:SetSubTitle("WG " ..localplayer():getBankWeight() .."/" ..BANK_WEIGHT)
 	
 	local weapons_panel = function()
 		setItemsPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function

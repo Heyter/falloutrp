@@ -13,7 +13,6 @@ net.Receive("withdrawItem", function()
 	
 	LocalPlayer():removeVguiDelay()
 	
-	print("OPEN")
 	openBankLeft()
 end)
 
