@@ -3,10 +3,10 @@ local meta = FindMetaTable("Player")
 
 Apparel = {}
 
-function addApparel(id, name, type, model, durability, weight, value, level, minDamageThreshold, maxDamageThreshold, minDamageReflection, maxDamageReflection, minBonusHp, maxBonusHp)
+function addApparel(id, name, slot, model, durability, weight, value, level, minDamageThreshold, maxDamageThreshold, minDamageReflection, maxDamageReflection, minBonusHp, maxBonusHp)
 	Apparel[id] = {
 		name = name,
-		type = type,
+		slot = slot,
 		model = model,
 		durability = durability,
 		weight = weight,
@@ -31,8 +31,8 @@ end
 function getApparelName(id)
 	return findApparel(id).name
 end
-function getApparelType(id)
-	return findApparel(id).type
+function getApparelSlot(id)
+	return findApparel(id).slot
 end
 function getApparelModel(id)
 	return findApparel(id).model
@@ -68,7 +68,7 @@ function getApparelMaxBonusHp(id)
 	return findApparel(id).maxBonusHp or 0
 end
 
-// Fucntions that have data which can change
+// Functions that have data which can change
 function meta:getApparelDamageThreshold(uniqueid, location)
 	local location = location or "inventory"
 	

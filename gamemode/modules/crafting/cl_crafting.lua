@@ -25,6 +25,11 @@ net.Receive("craftItem", function()
 end)
 
 function openCrafting(lastButton)
+	if frame then
+		frame:Remove()
+		return
+	end
+
 	local currentSelectedButton
 	local buttons = {}
 	local openRecipe, openInfo
@@ -76,7 +81,7 @@ function openCrafting(lastButton)
 			self.hovered = false
 			self.selected = true
 			
-			// So the old button selected doesn't stay selected
+			currentSelectedButton.selected = false // So the old button selected doesn't stay selected
 			currentSelectedButton = self
 			
 			openRecipe(i)

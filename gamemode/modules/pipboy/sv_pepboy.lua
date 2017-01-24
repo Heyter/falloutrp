@@ -42,14 +42,18 @@ hook.Add("PlayerDeath", "PepPlayerDeath", function(ply)
 	net.Send(ply)
 end)
 
+/*
 hook.Add("ShowHelp", "PepOpenF1", function(ply)
 	net.Start("pepboy_open")
 		net.WriteBit(0)
 	net.Send(ply)
 end)
+*/
 
 hook.Add("ShowSpare2", "PepOpenF4", function(ply)
-	net.Start("pepboy_open")
-		net.WriteBit(1)
-	net.Send(ply)
+	if ply.loaded then // Make sure the player is loaded/registered before opening
+		net.Start("pepboy_open")
+			net.WriteBit(1)
+		net.Send(ply)
+	end
 end)

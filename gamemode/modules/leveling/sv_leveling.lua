@@ -11,6 +11,7 @@ end
 
 function meta:addExp(exp)
 	local exp = math.ceil(exp)
+	local currentLevel = self:getLevel()
 
 	self.playerData.experience = self:getExp() + exp
 	
@@ -22,8 +23,8 @@ function meta:addExp(exp)
 		net.WriteEntity(self)
 	net.Broadcast()
 	
-	local xpLevel = expToLevel(exp) 
-	if xpLevel > self:getLevel() then
+	if self:getLevel() > currentLevel then
+		print("OK")
 		self:levelUp()
 	end
 	

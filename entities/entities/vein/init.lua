@@ -3,16 +3,10 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:SetModel(VEIN_MODEL)
 	self:PhysicsInit(SOLID_VPHYSICS)
-	self:SetMoveType(MOVETYPE_VPHYSICS)
+	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetUseType(SIMPLE_USE)
-	
-	local phys = self:GetPhysicsObject()
-	phys:Wake()
-	
-	self.ore = 5
 end
 
 function ENT:OnTakeDamage(dmg)
@@ -28,7 +22,7 @@ function ENT:OnTakeDamage(dmg)
 	end
 end
 
-function ENT:reduceCount()
+function ENT:reduceOres()
 	self.ore = self.ore - 1
 	
 	if self.ore == 0 then
@@ -42,6 +36,18 @@ function ENT:reduceCount()
 	end
 end
 
-function ENT:getCount()
-	return self.ore
+function ENT:setType(type)
+	self.type = type
+end
+
+function ENT:getType()
+	return self.type
+end
+
+function ENT:setOres(count)
+	self.ores = count
+end
+
+function ENT:getOres()
+	return self.ores
 end

@@ -80,6 +80,7 @@ function meta:equipWeapon(uniqueid, classid)
 		//Update MySQL
 		MySQLite.query("UPDATE weapons SET equipped = 1 WHERE uniqueid = " ..uniqueid)
 	else
-		// Not enough strength
+		// Not enough level
+		self:notify("Level not high enough to equip that.", NOTIFY_ERROR)
 	end
 end

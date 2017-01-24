@@ -198,8 +198,4 @@ function skillSelection(level)
 	end
 	continueButton:SetText("Submit")
 	continueButton:SetFont("FalloutRP1")	
-	
-	timer.Simple(10, function()
-		frame:Close()
-	end)
 end

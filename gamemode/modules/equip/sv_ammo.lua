@@ -5,8 +5,7 @@ util.AddNetworkString("equipAmmo")
 local meta = FindMetaTable("Player")
 
 function meta:equipAmmo(uniqueid, classid, quantity)
-	print(classid)
-	local ammoType = getAmmoEntity(classid)
+	local ammoType = getAmmoType(classid)
 	local ammoQuantity = self:getAmmoQuantity(uniqueid)
 
 	if ammoQuantity >= quantity then
@@ -17,7 +16,7 @@ function meta:equipAmmo(uniqueid, classid, quantity)
 			self.inventory.ammo[uniqueid]["quantity"] = self.inventory.ammo[uniqueid]["quantity"] - quantity
 			MySQLite.query("UPDATE ammo SET quantity = " ..self.inventory.ammo[uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 		end
-		print(quantity, ammoType)
+
 		// Give the ammo
 		self:GiveAmmo(quantity, ammoType)
 				

@@ -35,6 +35,11 @@ local teams = {
 net.Receive("createCharacter", function(len, ply)
 	if main then
 		main:Remove()
+		gui.EnableScreenClicker(false)
+		
+		local plyData = net.ReadTable()
+		
+		LocalPlayer().playerData = plyData
 	end
 end)
 
@@ -56,14 +61,19 @@ net.Receive("registrationValidation", function(len, ply)
 	
 	if errorId and errorId > 0 then
 		if errorId == 1 then
+			LocalPlayer():notify("Name must be atleast " ..NAME_MIN .." characters.", NOTIFY_ERROR)
 			print("Name must be atleast " ..NAME_MIN .." characters.")
 		elseif errorId == 2 then
+			LocalPlayer():notify("Name must not exceed " ..NAME_MAX .." characters.", NOTIFY_ERROR)
 			print("Name must not exceed " ..NAME_MAX .." characters.")
 		elseif errorId == 3 then
+			LocalPlayer():notify("Name must not contain the following: " ..extra, NOTIFY_ERROR)
 			print("Name must not contain the following: " ..extra)
 		elseif errorId == 4 then
+			LocalPlayer():notify("You must use all of your available points.", NOTIFY_ERROR)
 			print("You must use all of your available points.") 
 		elseif errorId == 5 then
+			LocalPlayer():notify("You must use all of your available points.", NOTIFY_ERROR)
 			print("The name " ..name .." is already in use.")
 		end
 	end
@@ -175,7 +185,7 @@ local function teamSelection()
 		local specialDescription = vgui.Create("DLabel", frame)
 		specialDescription:SetFont("FalloutRP1")
 		specialDescription:SetText("")			
-		specialDescription:SetPos(frame:GetWide()/2 + 50, 150)
+		specialDescription:SetPos(frame:GetWide()/2 - 25, 150)
 		
 		for k,v in pairs(SPECIAL) do
 			local specialBox = vgui.Create("DPanel", frame)
@@ -311,11 +321,7 @@ local function teamSelection()
 		backButton:SetText("Back")
 		backButton:SetFont("FalloutRP1")
 	end
-	
-	timer.Simple(25, function()
-		main:Remove()
-		gui.EnableScreenClicker(false)
-	end)
+
 end
 
 net.Receive("teamSelection", function(len, ply)

@@ -18,7 +18,7 @@ function meta:loadInvApparel()
 				}
 				
 				if tobool(v.equipped) then
-					self.equipped["apparel"][getApparelType(v.classid)] = {
+					self.equipped["apparel"][getApparelSlot(v.classid)] = {
 						classid = v.classid,
 						damageThreshold = v.damageThreshold,
 						damageReflection = v.damageReflection,

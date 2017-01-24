@@ -24,7 +24,7 @@ function ENT:Use(activator)
 	if activator:IsPlayer() then
 		if self:isLocked() then
 			// Chest is locked
-			self:notify("This chest is locked.", NOTIFY_ERROR)
+			self:EmitSound("doors/default_locked.wav")
 		else
 			// Chest is not locked
 			activator:loot(self)
@@ -42,6 +42,7 @@ function ENT:lock(level)
 end
 
 function ENT:unlock()
+	self:EmitSound(CHEST_UNLOCK_SOUND)
 	self:SetLocked(false)
 end
 
