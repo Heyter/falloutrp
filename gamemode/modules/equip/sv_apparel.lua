@@ -26,7 +26,7 @@ end
 
 function meta:unequipApparel(uniqueid, classid)
 	// Remove from tables
-	self.equipped.apparel[getApparelType(classid)] = nil
+	self.equipped.apparel[getApparelSlot(classid)] = nil
 	self.inventory.apparel[uniqueid]["equipped"] = false
 			
 	// Remove from MySQL
@@ -43,19 +43,19 @@ function meta:equipApparel(uniqueid, classid)
 	print(classid)
 	if self:canEquipApparel(classid) then
 		print(classid)
-		local apparelType = getApparelType(classid)
+		local apparelSlot = getApparelSlot(classid)
 	
 		// Remove current weapon
-		if self:hasCurrentApparel(apparelType) then
-			local currentId = self:getCurrentApparelId(apparelType)
-			local currentClass = self:getCurrentApparelClass(apparelType)
+		if self:hasCurrentApparel(apparelSlot) then
+			local currentId = self:getCurrentApparelId(apparelSlot)
+			local currentClass = self:getCurrentApparelClass(apparelSlot)
 			
 			self:unequipApparel(currentId, currentClass)
 		end
 		
 		//Update in lua
 		self.inventory.apparel[uniqueid]["equipped"] = true
-		self.equipped.apparel[apparelType] = self.inventory.apparel[uniqueid]
+		self.equipped.apparel[apparelSlot] = self.inventory.apparel[uniqueid]
 			
 		//Update client
 		net.Start("equipApparel")
@@ -66,6 +66,7 @@ function meta:equipApparel(uniqueid, classid)
 		//Update MySQL
 		MySQLite.query("UPDATE apparel SET equipped = 1 WHERE uniqueid = " ..uniqueid)
 	else
-		// Not enough strength
+		// Not enough level
+		self:notify("Level not high enough to equip that.", NOTIFY_ERROR)
 	end
 end

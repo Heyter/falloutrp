@@ -1,6 +1,14 @@
 
 local meta = FindMetaTable("Player")
 
+function meta:getPrimary()
+	return self.equipped.weapons.primary
+end
+
+function meta:getSecondary()
+	return self.equipped.weapons.secondary
+end
+
 function meta:getItemHealth()
 	local bonus = 0
 	

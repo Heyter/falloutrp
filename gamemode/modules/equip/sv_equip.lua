@@ -5,6 +5,20 @@ util.AddNetworkString("unequipItem")
 
 local meta = FindMetaTable("Player")
 
+function meta:depleteEquipped(item)
+	local classid = item.classid
+	local uniqueid = item.uniqueid
+	local type = classidToStringType(classid)
+	local slot = getItemSlot(classid)
+	
+	self.equipped[type][slot] = nil
+	
+	if isWeapon(classid) then
+		//Strip the weapon from the player
+		self:StripWeapon(getWeaponEntity(classid))
+	end
+end
+
 function meta:equipItem(uniqueid, classid, quantity)
 	if isWeapon(classid) then
 		self:equipWeapon(uniqueid, classid)

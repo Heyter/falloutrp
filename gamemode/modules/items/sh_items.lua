@@ -48,6 +48,14 @@ function getItemModel(classid)
 	end
 end
 
+function getItemSlot(classid)
+	if isWeapon(classid) then
+		return getWeaponSlot(classid)
+	elseif isApparel(classid) then
+		return getApparelSlot(classid)
+	end
+end
+
 function getItemNameQuantity(classid, quantity)
 	if util.positive(quantity) then
 		if isCap(classid) then

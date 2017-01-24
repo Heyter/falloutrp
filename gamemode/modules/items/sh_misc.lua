@@ -98,6 +98,11 @@ addMisc(5024, "Gas Can", "models/props_junk/gascan001a.mdl", 3, 2)
 addMisc(5025, "Tea Kettle", "models/props_interiors/pot01a.mdl", 2, 3)
 addMisc(5026, "Tin Can", "models/props_junk/garbage_metalcan001a.mdl", .5, 1)
 addMisc(5027, "Broken helicopter piece", "models/Gibs/helicopter_brokenpiece_02.mdl", 1.5, 15)
-addMisc(5027, "Broken helicopter piece", "models/Gibs/helicopter_brokenpiece_02.mdl", 1.5, 15)
+
+// Mining Materials
 addMisc(5028, "Rock", "models/ores/rock_ore.mdl", 0.25, 5)
+addMisc(5029, "Copper", "models/ores/copper_ore.mdl", 0.25, 5)
+addMisc(5030, "Silver", "models/ores/silver_ore.mdl", 0.25, 5)
+addMisc(5031, "Gold", "models/ores/gold_ore.mdl", 0.25, 5)
+addMisc(5032, "Crystal", "models/scalpet/crystal.mdl", 0.25, 5)
 //addMisc(5002, "Wrench", "models/props_c17/tools_wrench01a.mdl", 1.5, 15)

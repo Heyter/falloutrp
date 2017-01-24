@@ -14,38 +14,55 @@ end
 local function createCharacter(ply, name, teamId, values)
 	print(ply, name, teamId)
 	
-	net.Start("createCharacter")
-		// Don't need to send anything, just close the menu
-	net.Send(ply)
-	
 	// Insert the new player into SQL
-	MySQLite.query("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, endurance, charisma, intelligence, agility, luck) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, " ..SKILLPOINTS_START ..", " ..values[1] ..", " ..values[2] ..", " ..values[3] ..", " ..values[4] ..", " ..values[5] ..", " ..values[6] ..", " ..values[7] ..")")
+	MySQLite.query("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, endurance, charisma, intelligence, agility, luck) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, " ..0 ..", " ..values[1] ..", " ..values[2] ..", " ..values[3] ..", " ..values[4] ..", " ..values[5] ..", " ..values[6] ..", " ..values[7] ..")")
 	
 	ply.playerData = {
 		["steamid"] = steamid,
 		["name"] = name,
-		["bottlecaps"] = bottlecaps,
-		["faction"] = faction,
-		["experience"] = experience,
-		["skillpoints"] = skillpoints,
-		["strength"] = strength,
-		["perception"] = perception,
-		["medicine"] = medicine,
-		["repair"] = repair,
-		["crafting"] = crafting,
-		["science"] = science,
-		["sneak"] = sneak,
-		["farming"] = farming
+		["bottlecaps"] = 0,
+		["faction"] = teamId,
+		["experience"] = 0,
+		["skillpoints"] = 0,
+		["strength"] = values[1],
+		["perception"] = values[2],
+		["endurance"] = values[3],
+		["charisma"] = values[4],
+		["intelligence"] = values[5],
+		["agility"] = values[6],
+		["luck"] = values[7],
+		["barter"] = 1,
+		["energyweapons"] = 1,
+		["explosives"] = 1,
+		["guns"] = 1,
+		["lockpick"] = 1,
+		["medicine"] = 1,
+		["meleeweapons"] = 1,
+		["repair"] = 1,
+		["science"] = 1,
+		["sneak"] = 1,
+		["speech"] = 1,
+		["survival"] = 1,
+		["unarmed"] = 1
 	}
 	
+	net.Start("createCharacter")
+		// Don't need to send anything, just close the menu
+		net.WriteTable(ply.playerData)
+	net.Send(ply)
+	
 	ply:SetTeam(teamId)
+	ply:Spawn()
+	ply.loaded = true
 end
 
 local function hasInvalidChars(name)
-	for k, char in pairs(NAME_INVALID) do
-		local start, finish = string.find(name, char, 1, true)
-		if start then
-			return char
+	if name then
+		for k, char in pairs(NAME_INVALID) do
+			local start, finish = string.find(name, char, 1, true)
+			if start then
+				return char
+			end
 		end
 	end
 end
@@ -63,24 +80,22 @@ end
 local function validateRegistration(ply, name, teamId, values)
 	local errorId
 	local extra = "" // Extra info about the validation that needs to be sent back, ie: which char is bad
-	print(name, #name)
+	local badChar = hasInvalidChars(name)
+	
 	if !name or #name < NAME_MIN then
 		// Error with not enough characters
 		errorId = 1
 	elseif #name > NAME_MAX then
 		// Error with too many characters
 		errorId = 2
-	end
-	
-	local badChar = hasInvalidChars(name)
-	if badChar then
+	elseif badChar then
 		// Error with bad character
 		errorId = 3
 		extra = badChar
 	elseif !usedAllPoints(values) then
 		errorId = 4
 	else
-		MySQLite.query("SELECT * FROM playerdata WHERE 'name' = '" ..name .."'", function(results)
+		MySQLite.query("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(results)
 			if results then // There already exists a player with this name
 				errorId = 5
 				net.Start("registrationValidation")

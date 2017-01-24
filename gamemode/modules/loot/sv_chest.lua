@@ -1,6 +1,5 @@
 
 function spawnChest(inactiveChests)
-	PrintTable(inactiveChests)
 	local randomLocation = table.Random(inactiveChests)
 	local location = CHEST_LOCATIONS[randomLocation]
 	
@@ -14,8 +13,10 @@ function spawnChest(inactiveChests)
 	local randomLocked = math.random(1, 3)
 	if randomLocked == 1 then
 		// Make the chest locked
-		chest:lock(1) //Lock the chest and make it require level 1 lockpicking
+		chest:lock(1) // Lock the chest and make it require level 1 lockpicking
 	end
+	
+	chest:Spawn()
 	
 	for k,v in pairs(LOOT) do
 		local roll = math.random(1, 100)
@@ -24,8 +25,6 @@ function spawnChest(inactiveChests)
 			chest:addItem(createItem(v.id, v.quantity))
 		end
 	end
-	
-	chest:Spawn()
 end
 
 function getActiveChests()
@@ -61,3 +60,21 @@ end
 hook.Add("InitPostEntity", "startChestTimer", function()
 	beginChestTimer()
 end)	
+
+/*
+function teleKenny(ent)
+	for k,v in pairs(CHEST_LOCATIONS) do
+		timer.Simple(k * 15, function()
+			ent:SetPos(v.Position)
+		end)
+	end
+end
+function spawnAllChests()
+	for k,v in pairs(CHEST_LOCATIONS) do
+		local chest = ents.Create("chest")
+		chest:SetPos(v.Position)
+		chest:SetAngles(v.Angles)
+		chest:Spawn()
+	end
+end	
+*/

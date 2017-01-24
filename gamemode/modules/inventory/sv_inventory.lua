@@ -7,7 +7,11 @@ util.AddNetworkString("depleteInventoryItem")
 local meta = FindMetaTable("Player")
  
 function meta:depleteInventoryItem(type, uniqueid, quantity)
-	if self.inventory[type][uniqueid]["quantity"] == quantity then
+	if self.inventory[type][uniqueid].equipped then
+		self:depleteEquipped(self.inventory[type][uniqueid])
+	end
+	
+	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity then
 		print("Deleted the whole item")
 		// Delete the whole item from inventory
 		self.inventory[type][uniqueid] = nil
