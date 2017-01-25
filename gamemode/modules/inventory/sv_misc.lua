@@ -29,6 +29,7 @@ function meta:pickUpMisc(misc, quantity)
 	if sameItem then 
 		amount = sameItem.quantity + quantity
 		misc.quantity = amount
+		misc.uniqueid = sameItem.uniqueid
 		query = "UPDATE misc SET quantity = " ..amount .." WHERE uniqueid = " ..sameItem.uniqueid
 	else
 		misc.quantity = amount
@@ -36,21 +37,28 @@ function meta:pickUpMisc(misc, quantity)
 	end
 	
 	MySQLite.query(query, function()
-		// Get the last inserted id so we can store that in lua
-		MySQLite.query("SELECT uniqueid FROM misc ORDER BY uniqueid DESC LIMIT 1", function(results)
-			local itemId = 0
-			if results and results[1] then
-				itemId = results[1]["uniqueid"]
-			end
-			
-			// Do the inventory logic for inserting below here
-			misc.uniqueid = itemId
-			self.inventory.misc[itemId] = misc
-			
+		if sameItem then
 			net.Start("pickUpMisc")
-				net.WriteInt(itemId, 32)
+				net.WriteInt(sameItem.uniqueid, 32)
 				net.WriteTable(misc)
 			net.Send(self)
-		end)
+		else
+			// Get the last inserted id so we can store that in lua
+			MySQLite.query("SELECT uniqueid FROM misc WHERE classid = " ..misc.classid .." ORDER BY uniqueid DESC LIMIT 1", function(results)
+				local itemId = 0
+				if results and results[1] then
+					itemId = results[1]["uniqueid"]
+				end
+				
+				// Do the inventory logic for inserting below here
+				misc.uniqueid = itemId
+				self.inventory.misc[itemId] = misc
+				
+				net.Start("pickUpMisc")
+					net.WriteInt(itemId, 32)
+					net.WriteTable(misc)
+				net.Send(self)
+			end)
+		end
 	end)
 end

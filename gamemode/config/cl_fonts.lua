@@ -1,5 +1,5 @@
 surface.CreateFont("FalloutRP1", {
-	size = 14,
+	size = 15,
 	weight = 600,
 	antialias = true,
 	shadow = true,

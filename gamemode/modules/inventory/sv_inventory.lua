@@ -1,5 +1,7 @@
 
 util.AddNetworkString("loadInventory")
+util.AddNetworkString("loadEquipped")
+
 util.AddNetworkString("dropItem")
 util.AddNetworkString("dropAllInventory")
 util.AddNetworkString("depleteInventoryItem")
@@ -102,8 +104,12 @@ end
 function meta:sendInventory()
 	net.Start("loadInventory")
 		net.WriteTable(self.inventory)
-		net.WriteTable(self.equipped)
 	net.Send(self)
+	
+	net.Start("loadEquipped")
+		net.WriteEntity(self)
+		net.WriteTable(self.equipped)
+	net.Broadcast()
 end
 
 function meta:pickUpItem(item, quantity)
@@ -158,6 +164,8 @@ function meta:dropItem(uniqueid, classid, quantity)
 		net.WriteInt(uniqueid, 32)
 		if self.inventory[itemType][uniqueid] and util.positive(self.inventory[itemType][uniqueid].quantity) then
 			net.WriteInt(self.inventory[itemType][uniqueid].quantity, 16)
+		else
+			net.WriteInt(0, 16)
 		end
 	net.Send(self)
 		

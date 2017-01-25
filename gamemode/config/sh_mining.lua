@@ -1,7 +1,7 @@
 
-// Shared
+// Shared 
 VEINS = {
-	Normal = {
+	Normal = { 
 		Sizes = {
 			small = {Props = {"models/props_nature/rock_worn001.mdl", "models/props_nature/rock_worn_cluster001.mdl", "models/props_nature/rock_worn_cluster002.mdl"}, Amount = {1, 3}}, 
 			medium = {Props = {"models/props_mining/rock003.mdl"}, Amount = {3, 7}},
@@ -64,8 +64,8 @@ VEINS = {
 			{Position = Vector(2918, -13801, 52), Active = false}
 		},
 		Limit = 35, // How many normal veins can be on map at a time
-		Default = 5030, // The default rock that is mined if the extra isn't rolled
-		Extras = {[5031] = 30, [5032] = 10} // Rock = Probability %
+		Default = 5028, // The default rock that is mined if the extra isn't rolled
+		Extras = {[5029] = 30} // Rock = Probability %
 	},
 	Rare = {
 		Sizes = {
@@ -99,20 +99,21 @@ VEINS = {
 			{Position = Vector(-13654, 5317, 4), Active = false},
 			{Position = Vector(-9899, 7183, 2), Active = false},
 			{Position = Vector(14576, 8957, 53), Active = false},
-			{Position = Vector(13857, 4067, 343), Active = false},
+			{Position = Vector(13857, 4067, 343), Active = false}, 
 			{Position = Vector(13969, 3550, 57), Active = false},
 			{Position = Vector(-13450, 1164, 2), Active = false},
 			{Position = Vector(-13035, 1612, 2), Active = false},
 			{Position = Vector(2070, -3744, 220), Active = false}
 		},
 		Limit = 15, // How many rare veins can be on map at a time
-		Default = 5028, // The default rock that is mined if the extra isn't rolled
-		Extras = {[5029] = 30} // Rock = Probability %
+		Default = 5030, // The default rock that is mined if the extra isn't rolled
+		Extras = {[5031] = 30, [5032] = 10} // Rock = Probability %
 	}
-}
+} 
 
 VEIN_RARE_CHANCE = 10 // % chance that a rare vein is spawned
 VEIN_TIMER = 300 // How often we try to spawn a new vein (seconds)
+VEIN_SOUND = "pickaxe/deploy.wav" // Sound made when a vein is mined successfully
 
 function printRockPositions()
 	for k,v in pairs(ents.FindByModel("models/rarerocks/crystal2.mdl")) do

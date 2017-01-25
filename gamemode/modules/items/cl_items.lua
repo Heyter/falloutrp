@@ -13,8 +13,9 @@ function meta:useItem(uniqueid, classid, quantity)
 end
 
 function meta:dropItem(uniqueid, classid, quantity)
-	local itemType = classidToStringType(classid)
 	self:setVguiDelay()
+
+	local itemType = classidToStringType(classid)
 
 	net.Start("dropItem")
 		net.WriteInt(uniqueid, 32)

@@ -2,10 +2,15 @@
 //Client
 net.Receive("loadInventory", function()
 	local inventory = net.ReadTable()
-	local equipped = net.ReadTable()
 	
 	LocalPlayer().inventory = inventory
-	LocalPlayer().equipped = equipped
+end)
+
+net.Receive("loadEquipped", function()
+	local ply = net.ReadEntity()
+	local equipped = net.ReadTable()
+	
+	ply.equipped = equipped
 end)
 
 net.Receive("depleteInventoryItem", function()

@@ -34,6 +34,19 @@ function getItemWeight(classid)
 		return getMiscWeight(classid)
 	end
 end
+function getItemValue(classid)
+	if isWeapon(classid) then
+		return getWeaponValue(classid)
+	elseif isApparel(classid) then
+		return getApparelValue(classid)
+	elseif isAmmo(classid) then
+		return getAmmoValue(classid)
+	elseif isAid(classid) then
+		return getAidValue(classid)
+	elseif isMisc(classid) then
+		return getMiscValue(classid)
+	end
+end
 function getItemModel(classid)
 	if isWeapon(classid) then
 		return getWeaponModel(classid)
@@ -45,6 +58,13 @@ function getItemModel(classid)
 		return getAidModel(classid)
 	elseif isMisc(classid) then
 		return getMiscModel(classid)
+	end
+end
+function getItemLevel(classid)
+	if isWeapon(classid) then
+		return getWeaponLevel(classid)
+	elseif isApparel(classid) then
+		return getApparelLevel(classid)
 	end
 end
 
