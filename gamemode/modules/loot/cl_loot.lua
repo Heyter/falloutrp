@@ -1,4 +1,13 @@
 
+
+local offsetX, offsetY = 25, 20
+local barHeight = 3
+local lengthDivisor = 10
+local textPadding = 10
+local inspect // Draws the items information on a side panel
+
+local matLineDashed = Material("models/pepboy/line_y")
+
 //Client
 net.Receive("loot", function()
 	local ent = net.ReadEntity()
@@ -10,6 +19,11 @@ net.Receive("loot", function()
 end)
 
 local function close(frame)
+	if inspect then
+		inspect:Remove()
+		inspect = nil
+	end
+	
 	if frame then
 		frame:Remove()
 		util.saveMousePos()
@@ -18,6 +32,7 @@ local function close(frame)
 end
 
 function lootItem(ent, itemId, quantity)
+	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
 
 	net.Start("lootItem")
@@ -28,18 +43,10 @@ function lootItem(ent, itemId, quantity)
 		end
 	net.SendToServer()
 end
-
-local offsetX, offsetY = 25, 20
-local barHeight = 3
-local lengthDivisor = 10
-local textPadding = 5
-
-local matLineDashed = Material("models/pepboy/line_y")
 	
 function openLoot(ent, loot)
 	PrintTable(loot)
 	local frame = vgui.Create("FalloutRP_Menu")
-	//gui.EnableScreenClicker(true)
 	util.restoreMousePos()
 	frame:AddCloseButton()
 	frame:MakePopup()
@@ -86,9 +93,10 @@ function openLoot(ent, loot)
 	local layout = vgui.Create("DListLayout", scroll)
 	layout:SetSize(scroll:GetWide(), scroll:GetTall())
 	layout:SetPos(0, 0)
+	
 	for k,v in pairs(loot) do
 		local itemBox = vgui.Create("DButton")
-		itemBox:SetSize(layout:GetWide() - scrollerW, 20)
+		itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 		itemBox.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
@@ -102,6 +110,7 @@ function openLoot(ent, loot)
 			end
 		end
 		itemBox.DoClick = function()
+			surface.PlaySound("pepboy/click1.wav")
 			if util.positive(v.quantity) then
 				lootItem(ent, k, 1)
 			else
@@ -111,6 +120,8 @@ function openLoot(ent, loot)
 		end
 		itemBox.DoRightClick = function()
 			if util.greaterThanOne(v.quantity) then // The itme has quantity
+				surface.PlaySound("pepboy/click1.wav")
+				
 				local flyout = vgui.Create("DMenu", frame)
 				flyout:AddOption("Loot all", function()
 					if !LocalPlayer():hasVguiDelay() then
@@ -142,20 +153,31 @@ function openLoot(ent, loot)
 		
 		local itemLabel = vgui.Create("DLabel", itemBox)
 		itemLabel:SetPos(textPadding, textPadding/2)
-		itemLabel:SetFont("FalloutRP1")
+		itemLabel:SetFont("FalloutRP2")
 		itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
 		itemLabel:SizeToContents()
 		itemLabel:SetTextColor(COLOR_AMBER)
 		
 		itemBox.OnCursorEntered = function(self)
 			self.hovered = true
+			surface.PlaySound("pepboy/click2.wav")
 			
 			itemLabel:SetTextColor(COLOR_BLUE)
+			
+			local frameX, frameY = frame:GetPos()
+			inspect = vgui.Create("FalloutRP_Item")
+			inspect:SetPos(frameX + frame:GetWide(), frameY)
+			inspect:SetItem(v)
 		end
 		itemBox.OnCursorExited = function(self)
 			self.hovered = false
 			
 			itemLabel:SetTextColor(COLOR_AMBER)
+			
+			if inspect then
+				inspect:Remove()
+				inspect = nil
+			end
 		end
 		
 		layout:Add(itemBox)

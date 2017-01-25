@@ -4,14 +4,13 @@ function spawnVein(inactiveVeins, type)
 	local randomLocation = table.Random(inactiveVeins)
 	local location = VEINS[type]["Positions"][randomLocation]
 	
-	local sizeInfo, size = getRandomSize()
+	local sizeInfo, size = getRandomSize(type)
 	local prop = table.Random(sizeInfo.Props)
-	local oreCount = math.Random(sizeInfo.Amount[1], sizeInfo.Amount[2])
+	local oreCount = math.random(sizeInfo.Amount[1], sizeInfo.Amount[2])
 	
 	local vein = ents.Create("vein")
 	vein:SetModel(prop)
 	vein:SetPos(location["Position"])
-	vein:SetAngles(location["Angles"])
 	vein:setType(type)
 	vein:setOres(oreCount)
 	

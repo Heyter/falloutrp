@@ -82,6 +82,14 @@ end
 function getAidThirst(id)
 	return findAid(id).thirst
 end
+function getAidHealthOverTime(id)
+	local health = getAidHealth(id)
+	local time = getAidTimeLength(id)
+
+	if health and time then
+		return health .." HP over " ..time " seconds"
+	end
+end
 
 
 // Functions that have data which can change

@@ -9,30 +9,48 @@ function ENT:Initialize()
 	self:SetUseType(SIMPLE_USE)
 end
 
-function ENT:OnTakeDamage(dmg)
-	local attacker = dmg:GetAttacker()
-	
-	if IsValid(attacker) and attacker:IsPlayer() and attacker:GetActiveWeapon():GetClass() == "eoti_tool_miningpick" then
-		local random = math.random(1, 5)
-		
-		if random == 1 then
-			createLoot(self:GetPos() + Vector(40, 0, 0), {createItem(5028, 1)})
-			self:reduceCount()
+function ENT:hit(attacker)
+	if IsValid(attacker) and attacker:IsPlayer() then
+		local roll = util.roll(15 + attacker:getLevel(), 100)
+
+		if roll then
+			self:EmitSound(VEIN_SOUND)
+			local loot = self:generateLoot()
+			
+			createLoot(attacker:GetPos() + Vector(40, 0, 0), loot)
+			self:reduceOres(#loot)
 		end
 	end
 end
 
-function ENT:reduceOres()
-	self.ore = self.ore - 1
+function ENT:OnTakeDamage(dmg)
+
+end
+
+function ENT:generateLoot()
+	local loot = {}
 	
-	if self.ore == 0 then
-		SafeRemoveEntity(self)
-		self:SetColor(Color(0, 0, 0, 0))
-		
-		timer.Simple(60, function()
-			self.ore = 5
-			self:SetColor(Color(255, 255, 255, 255))
-		end)
+	// Add the default item and subtract ore amount
+	table.insert(loot, createItem(VEINS[self:getType()]["Default"], 1))
+	print(VEINS[self:getType()]["Default"])
+	local extras = VEINS[self:getType()]["Extras"]
+	
+	for ore, chance in pairs(extras) do
+		if (self:getOres() - #loot > 0) then
+			if util.roll(chance) then
+				table.insert(loot, createItem(ore, 1))
+			end
+		end
+	end
+	
+	return loot
+end
+
+function ENT:reduceOres(amount)
+	self.ores = self.ores - amount
+	
+	if self.ores == 0 then
+		util.fadeRemove(self)
 	end
 end
 

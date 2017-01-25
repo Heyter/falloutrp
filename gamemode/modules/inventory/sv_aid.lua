@@ -36,21 +36,28 @@ function meta:pickUpAid(aid, quantity)
 	end
 	
 	MySQLite.query(query, function()
-		// Get the last inserted id so we can store that in lua
-		MySQLite.query("SELECT uniqueid FROM aid ORDER BY uniqueid DESC LIMIT 1", function(results)
-			local itemId = 0
-			if results and results[1] then
-				itemId = results[1]["uniqueid"]
-			end
-			
-			// Do the inventory logic for inserting below here
-			aid.uniqueid = itemId
-			self.inventory.aid[itemId] = aid
-			
-			net.Start("pickUpAid")
-				net.WriteInt(itemId, 32)
+		if sameItem then
+			net.Start("pickUpMisc")
+				net.WriteInt(sameItem.uniqueid, 32)
 				net.WriteTable(aid)
 			net.Send(self)
-		end)
+		else
+			// Get the last inserted id so we can store that in lua
+			MySQLite.query("SELECT uniqueid FROM aid WHERE classid = " ..aid.classid .." ORDER BY uniqueid DESC LIMIT 1", function(results)
+				local itemId = 0
+				if results and results[1] then
+					itemId = results[1]["uniqueid"]
+				end
+				
+				// Do the inventory logic for inserting below here
+				aid.uniqueid = itemId
+				self.inventory.aid[itemId] = aid
+				
+				net.Start("pickUpAid")
+					net.WriteInt(itemId, 32)
+					net.WriteTable(aid)
+				net.Send(self)
+			end)
+		end
 	end)
 end

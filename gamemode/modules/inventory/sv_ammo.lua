@@ -36,21 +36,28 @@ function meta:pickUpAmmo(ammo, quantity)
 	end
 	
 	MySQLite.query(query, function()
-		// Get the last inserted id so we can store that in lua
-		MySQLite.query("SELECT uniqueid FROM ammo ORDER BY uniqueid DESC LIMIT 1", function(results)
-			local itemId = 0
-			if results and results[1] then
-				itemId = results[1]["uniqueid"]
-			end
-			
-			// Do the inventory logic for inserting below here
-			ammo.uniqueid = itemId
-			self.inventory.ammo[itemId] = ammo
-			
-			net.Start("pickUpAmmo")
-				net.WriteInt(itemId, 32)
+		if sameItem then
+			net.Start("pickUpMisc")
+				net.WriteInt(sameItem.uniqueid, 32)
 				net.WriteTable(ammo)
 			net.Send(self)
-		end)
+		else
+			// Get the last inserted id so we can store that in lua
+			MySQLite.query("SELECT uniqueid FROM ammo WHERE classid = " ..ammo.classid .."  ORDER BY uniqueid DESC LIMIT 1", function(results)
+				local itemId = 0
+				if results and results[1] then
+					itemId = results[1]["uniqueid"]
+				end
+				
+				// Do the inventory logic for inserting below here
+				ammo.uniqueid = itemId
+				self.inventory.ammo[itemId] = ammo
+				
+				net.Start("pickUpAmmo")
+					net.WriteInt(itemId, 32)
+					net.WriteTable(ammo)
+				net.Send(self)
+			end)
+		end
 	end)
 end

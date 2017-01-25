@@ -8,6 +8,7 @@ local canContinue = true // Don't allow players to keep trying to submit skills 
 local matLineDashed = Material("models/pepboy/line_y")
 local textPadding = 5
 local lastButton = 1
+local inspect // Draws the items information on a side panel
 
 // Make it easier to relate the id to the name
 local idTypes = {"WEAPONS", "APPAREL", "AMMO", "AID", "MISC"}
@@ -19,6 +20,12 @@ end)
 net.Receive("craftItem", function()
 	if frame then
 		frame:Remove()
+		frame = nil
+		gui.EnableScreenClicker(false)
+	end
+	if inspect then
+		inspect:Remove()
+		inspect = nil
 	end
 	
 	openCrafting(lastButton)
@@ -27,6 +34,8 @@ end)
 function openCrafting(lastButton)
 	if frame then
 		frame:Remove()
+		frame = nil
+		gui.EnableScreenClicker(false)
 		return
 	end
 
@@ -73,6 +82,7 @@ function openCrafting(lastButton)
 		end
 		itemType.OnCursorEntered = function(self)
 			self.hovered = true
+			surface.PlaySound("pepboy/click2.wav")
 		end
 		itemType.OnCursorExited = function(self)
 			self.hovered = false
@@ -80,8 +90,15 @@ function openCrafting(lastButton)
 		itemType.DoClick = function(self)
 			self.hovered = false
 			self.selected = true
+			self:SetTextColor(COLOR_BLUE)
+			surface.PlaySound("pepboy/click1.wav")
 			
-			currentSelectedButton.selected = false // So the old button selected doesn't stay selected
+			if currentSelectedButton then
+				// Reset the old button to not be selected
+				currentSelectedButton.selected = false
+				currentSelectedButton:SetTextColor(COLOR_AMBER)
+			end
+			
 			currentSelectedButton = self
 			
 			openRecipe(i)
@@ -138,9 +155,8 @@ function openCrafting(lastButton)
 		layout:SetSize(scroll:GetWide() - 10, scroll:GetTall() - 10)
 		layout:SetPos(5, 5)
 		
+		local currentItem
 		for k,v in ipairs(RECIPES[type]) do
-			local currentItem
-			
 			local itemBox = vgui.Create("DButton")
 			itemBox:SetSize(layout:GetWide() - scrollerW, 20)
 			itemBox.Paint = function(self, w, h)
@@ -148,7 +164,7 @@ function openCrafting(lastButton)
 				surface.DrawRect(0, 0, w, h)
 				
 				if self.selected and (currentItem == self) then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.SetDrawColor(COLOR_AMBERFADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 				
 					surface.SetDrawColor(COLOR_AMBER)
@@ -157,6 +173,13 @@ function openCrafting(lastButton)
 			end
 			itemBox.DoClick = function(self)
 				self.selected = true
+				self:SetTextColor(COLOR_BLUE)
+				surface.PlaySound("pepboy/click1.wav")
+				
+				if currentItem then
+					// Reset the old button to not be selected
+					currentItem.selected = false
+				end
 				
 				currentItem = self
 				
@@ -173,7 +196,7 @@ function openCrafting(lastButton)
 			
 			itemBox.OnCursorEntered = function(self)
 				self.hovered = true
-				
+				surface.PlaySound("pepboy/click2.wav")
 				itemLabel:SetTextColor(COLOR_BLUE)
 			end
 			itemBox.OnCursorExited = function(self)
@@ -215,6 +238,18 @@ function openCrafting(lastButton)
 		icon:SetSize(128, 128)
 		icon:SetPos(infoFrame:GetWide()/2 - icon:GetWide()/2, 25)
 		icon:SetModel(getItemModel(id))
+		icon.OnCursorEntered = function(self)
+			local frameX, frameY = frame:GetPos()
+			inspect = vgui.Create("FalloutRP_Item")
+			inspect:SetPos(frameX + frame:GetWide(), frameY)
+			inspect:SetItem(itemInfo)
+		end
+		icon.OnCursorExited = function(self)
+			if inspect then
+				inspect:Remove()
+				inspect = nil
+			end
+		end
 		
 		local required = vgui.Create("DLabel", infoFrame)
 		required:SetFont("FalloutRP2")
@@ -264,7 +299,5 @@ function openCrafting(lastButton)
 			
 			offsetY = offsetY + 25
 		end
-		
-		print(icon)
 	end
 end

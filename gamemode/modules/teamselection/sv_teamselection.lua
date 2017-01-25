@@ -2,6 +2,7 @@
 util.AddNetworkString("teamSelection")
 util.AddNetworkString("registrationValidation")
 util.AddNetworkString("createCharacter")
+util.AddNetworkString("sendClientside")
 
 local meta = FindMetaTable("Player")
 
@@ -51,9 +52,18 @@ local function createCharacter(ply, name, teamId, values)
 		net.WriteTable(ply.playerData)
 	net.Send(ply)
 	
+	// Send the new player to all client's on the server
+	local data = ply.playerData
+	net.Start("sendClientside")
+		net.WriteEntity(ply)
+		net.WriteString(data.name)
+		net.WriteInt(data.experience, 32)
+		net.WriteInt(data.strength, 8)
+	net.Broadcast()
+	
 	ply:SetTeam(teamId)
 	ply:Spawn()
-	ply.loaded = true
+	ply.loaded = true // Allowed to open pipboy now
 end
 
 local function hasInvalidChars(name)

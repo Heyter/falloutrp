@@ -1,5 +1,25 @@
 
 
+// Removes an entity by fading it's transparency (TAKES 1 second to remove entities)
+function util.fadeRemove(ent)
+	local increment = 25
+	ent:SetColor(Color(255, 255, 255, 255 - increment))
+	
+	//Fade all the way to nothing
+	for i = 1, 10 do
+		timer.Simple(0.1 * i, function()
+			local color = ent:GetColor()
+			
+			ent:SetRenderMode(RENDERMODE_TRANSALPHA)
+			ent:SetColor(Color(color.r, color.g, color.b, color.a - increment))
+
+			if i == 10 then
+				SafeRemoveEntity(ent)
+			end
+		end)
+	end
+end
+
 function util.roll(within, max)
 	local max = max or 100
 	local multiplier = 1000 // So decimal points actually make a difference

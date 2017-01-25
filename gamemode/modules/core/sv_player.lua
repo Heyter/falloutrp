@@ -1,5 +1,6 @@
 
 util.AddNetworkString("loadPlayerData")
+util.AddNetworkString("loadClientside")
 
 local meta = FindMetaTable("Player")
 
@@ -44,6 +45,27 @@ function meta:loadPlayer()
 	end)
 end
 
+// Get the data of all existing players that are loaded on the server
+function meta:loadAllClientside()
+	for k,v in pairs(player.GetAll()) do
+		if v != self and v.loaded then
+			self:loadClientside(v)
+		end
+	end
+end
+
+// Get the data of an existing player that's loaded on the server
+function meta:loadClientside(ply)
+	local data = ply.playerData
+	net.Start("loadClientside")
+		net.WriteEntity(ply)
+		net.WriteString(data.name)
+		net.WriteInt(data.experience, 32)
+		net.WriteInt(data.strength, 8)
+		net.WriteTable(ply.equipped)
+	net.Send(self)
+end
+
 // Get all data related to a player when they join
 function meta:load()
 	self:Team(TEAM_FACTIONLESS) //Temporarily set their team while they're still loading
@@ -56,6 +78,9 @@ function meta:load()
 	
 	//Load Bank
 	self:loadBank()
+	
+	//Load existing players data to clientside
+	self:loadAllClientside()
 end
 
 // Make all of the data nil that is related to the player who disconnected
