@@ -14,7 +14,7 @@ function getItemName(classid)
 	elseif isApparel(classid) then
 		return getApparelName(classid)
 	elseif isAmmo(classid) then
-		return getAmmo(classid)
+		return getAmmoName(classid)
 	elseif isAid(classid) then
 		return getAidName(classid)
 	elseif isMisc(classid) then

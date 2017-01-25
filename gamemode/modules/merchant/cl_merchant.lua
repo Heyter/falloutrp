@@ -7,7 +7,7 @@ local buttonPadding = (frameW - (buttonW * 5)) / 6
 local canContinue = true // Don't allow players to keep trying to submit skills while validating on server still
 local matLineDashed = Material("models/pepboy/line_y")
 local textPadding = 10
-local lastButton = 1
+local lastButton, lastNpc, lastType
 local inspect // Draws the items information on a side panel
 
 function buyItem(npc, index, uniqueid, type, id, quantity)
@@ -45,6 +45,8 @@ function openMerchant(name, items)
 	print(name)
 	PrintTable(items)
 	gui.EnableScreenClicker(true)
+	
+	lastNpc = name
 	
 	local currentSelectedButton
 	local buttons = {}
@@ -98,6 +100,14 @@ function openMerchant(name, items)
 			self:SetTextColor(COLOR_BLUE)
 			surface.PlaySound("pepboy/click1.wav")
 			
+			// Remove the old stock panels from the previous item type page
+			if plyFrame and npcFrame then
+				plyFrame:Remove()
+				plyFrame = nil
+				npcFrame:Remove()
+				npcFrame = nil
+			end
+			
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
@@ -112,6 +122,8 @@ function openMerchant(name, items)
 			// Open npc's stock for that item type
 			npcStock(string.lower(info["Type"]), k)
 			
+			lastButton = k // Keep track of the last page the player was on
+			lastType = string.lower(info["Type"]) // Keep track of the last type the player was on
 		end
 		
 		// So we can call the last button we were on when reopening the menu
@@ -382,6 +394,16 @@ function openMerchant(name, items)
 			layout:Add(itemBox)
 		end
 	end	
+	
+	if lastButton and lastNpc and lastType then
+		buttons[lastButton].hovered = false
+		buttons[lastButton].selected = true
+		buttons[lastButton]:SetTextColor(COLOR_BLUE)
+		currentSelectedButton = buttons[lastButton]
+		
+		playerStock(lastType, lastButton)
+		npcStock(lastType, lastButton)
+	end
 end
 
 net.Receive("openMerchant", function()
@@ -392,6 +414,8 @@ net.Receive("openMerchant", function()
 		frame:Remove()
 		frame = nil
 	end
+	
+	LocalPlayer():removeVguiDelay()
 	
 	openMerchant(name, items)
 end)
