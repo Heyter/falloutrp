@@ -3,7 +3,7 @@ local meta = FindMetaTable("Player")
 
 Weapons = {}
 
-function addWeapon(id, name, type, slot, entity, model, durability, weight, value, level, minDamage, maxDamage, fireRate, criticalChance, criticalDamage, actionPoints, weaponSpread, ammoType, magazineCapacity)
+function addWeapon(id, name, type, slot, entity, model, durability, weight, value, level, minDamage, maxDamage, criticalChance, actionPoints, ammoType) 
 	Weapons[id] = {
 		name = name,
 		type = type,
@@ -16,13 +16,9 @@ function addWeapon(id, name, type, slot, entity, model, durability, weight, valu
 		level = level,
 		minDamage = minDamage,
 		maxDamage = maxDamage,
-		fireRate = fireRate, 
 		criticalChance = criticalChance,
-		criticalDamage = criticalDamage,
 		actionPoints = actionPoints,
-		weaponSpread = weaponSpread,
 		ammoType = ammoType,
-		magazineCapacity = magazineCapacity
 	}
 end
 

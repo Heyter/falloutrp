@@ -19,22 +19,30 @@ function meta:buyItem(npc, type, id, index, uniqueid, quantity)
 			self:addCaps(-item.price)
 			
 			// Remove item from npc's stock
-			if (quantity == item.quantity) or (item.quantity == 1) then
+			if (quantity == item.quantity) or (item.quantity == 1) or !item.quantity then
 				MERCHANTS[npc]["Sale"][id]["Items"][index] = nil
 			else
 				MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] = MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] - quantity
 			end
 			
 			// Add item to player inventory
+			if item.uniqueid < 0 then
+				// If the item is a npc made item then we have to actually create the item
+				item = createItem(item.classid, quantity)
+			end
 			self:pickUpItem(item, quantity)
 			
 			// Reopen the npc shop menu
-			print("Bought")
+			self:openMerchant(npc)
 		else
 			// Can't afford this item
+			self:notify("You cannot afford this item.", NOTIFY_ERROR)
+			self:openMerchant(npc)
 		end
 	else
 		// This item is no longer available
+		self:notify("This item is no longer available, refreshing page.", NOTIFY_ERROR)
+		self:openMerchant(npc)
 	end
 end
 
@@ -64,6 +72,7 @@ function meta:sellItem(npc, type, id, uniqueid, quantity)
 	self:addCaps(getItemValue(item.classid))
 	
 	// Reopen the npc shop menu
+	self:openMerchant(npc)
 end
 
 net.Receive("sellItem", function(len, ply)
