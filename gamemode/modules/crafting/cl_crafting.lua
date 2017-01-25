@@ -1,12 +1,11 @@
 
 local frame
 local frameW, frameH = 800, 600
-local childW, childH = 300, 400
+local childW, childH = 325, 400
 local buttonW, buttonH = 80, 40
 local buttonPadding = (frameW - (buttonW * 5)) / 6
-local canContinue = true // Don't allow players to keep trying to submit skills while validating on server still
 local matLineDashed = Material("models/pepboy/line_y")
-local textPadding = 5
+local textPadding = 10
 local lastButton = 1
 local inspect // Draws the items information on a side panel
 
@@ -52,7 +51,7 @@ function openCrafting(lastButton)
 	frame:SetFontTitle("FalloutRP3", "CRAFTING")
 	frame:AddCloseButton()
 	
-	// Buttons for different types
+	// Draw the buttons at the top for all the item types
 	local offsetX = 0
 	for i = 1, 5 do
 		local itemType = vgui.Create("DButton", frame)
@@ -158,15 +157,22 @@ function openCrafting(lastButton)
 		local currentItem
 		for k,v in ipairs(RECIPES[type]) do
 			local itemBox = vgui.Create("DButton")
-			itemBox:SetSize(layout:GetWide() - scrollerW, 20)
+			itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 			itemBox.Paint = function(self, w, h)
 				surface.SetDrawColor(Color(0, 0, 0, 0))
 				surface.DrawRect(0, 0, w, h)
+				
 				
 				if self.selected and (currentItem == self) then
 					surface.SetDrawColor(COLOR_AMBERFADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 				
+					surface.SetDrawColor(COLOR_AMBER)
+					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
+				elseif self.hovered then
+					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
+			
 					surface.SetDrawColor(COLOR_AMBER)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end

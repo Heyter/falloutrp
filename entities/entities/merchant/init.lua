@@ -15,8 +15,10 @@ function ENT:Initialize()
 	self:SetMaxYawSpeed(90)
 end
 
-function ENT:AcceptInput(name, activator, caller, data)
-	print(activator)
+function ENT:AcceptInput(type, activator)
+	if type == "Use" and IsValid(activator) and activator:IsPlayer() then
+		activator:openMerchant(self:GetNickname())
+	end
 end
 
  

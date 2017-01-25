@@ -34,13 +34,13 @@ end
 function lootItem(ent, itemId, quantity)
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
-
+	
+	local quantity = quantity or 0
+	
 	net.Start("lootItem")
 		net.WriteEntity(ent)
 		net.WriteInt(itemId, 8)
-		if quantity then
-			net.WriteInt(quantity, 16)
-		end
+		net.WriteInt(quantity, 16)
 	net.SendToServer()
 end
 	
@@ -130,8 +130,6 @@ function openLoot(ent, loot)
 					end
 				end)
 				flyout:AddOption("Loot (x)", function()	
-					local curX, curY = itemBox:GetPos()
-					
 					local slider = vgui.Create("FalloutRP_NumberWang", frame)
 					slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
 					slider:SetMinimum(1)

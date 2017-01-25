@@ -17,7 +17,7 @@ hook.Add("PostDrawOpaqueRenderables", "MerchantHead", function()
 			Ang:RotateAroundAxis( Ang:Right(), -90)
 		
 			cam.Start3D2D(ent:GetPos()+ent:GetUp()*80, Ang, 0.35)
-				draw.SimpleTextOutlined("Merchant", "FalloutRP3", 0, 0, Color( 0, 150, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))			
+				draw.SimpleTextOutlined(ent:GetNickname() or "Merchant", "FalloutRP3", 0, 0, Color( 0, 150, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))			
 			cam.End3D2D()
 		end
 	end
