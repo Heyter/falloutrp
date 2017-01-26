@@ -52,11 +52,9 @@ local WEAPON_ICONS = {
 }
 
 local AMMO_ICONS = {
-
 	["pistol"] = Material( "models/pepboy/item_icon_pistol_ammo" ),
 	["smg1"] = Material( "models/pepboy/item_icon_rifle_ammo" ),
 	["buckshot"] = Material( "models/pepboy/item_icon_shotgun_ammo" )
-
 }
 
 if file.Exists( "pepboy/settings.txt", "DATA" ) then
@@ -530,7 +528,8 @@ function VGUI:Init()
 					label = getWeaponName(v.classid),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k)},
-						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
+						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
+						{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
 						{key = "Durability", val = localplayer():getWeaponDurability(k)},
 						{key = "Level", val = getWeaponLevel(v.classid)},
 						{key = "Weight", val = getWeaponWeight(v.classid)},
@@ -1360,8 +1359,8 @@ function VGUI:addItemListEntry( entry )
 	local infoPanel = function()
 	
 		local infoPanel = vgui.Create("pepboy_itemlist_info", self)
-		infoPanel:SetPos(PEPBOY_CONTENT_SIZE_X/2, 0)
-		infoPanel:SetSize(PEPBOY_CONTENT_SIZE_X/2, PEPBOY_CONTENT_SIZE_Y)
+		infoPanel:SetPos(PEPBOY_CONTENT_SIZE_X/2 - 50, 0)
+		infoPanel:SetSize(PEPBOY_CONTENT_SIZE_X/2 + 50, PEPBOY_CONTENT_SIZE_Y)
 		infoPanel:setDesc(desc)
 		infoPanel:setStats(stats)
 		infoPanel:setItemIcon(itemIcon)
@@ -1372,7 +1371,6 @@ function VGUI:addItemListEntry( entry )
 		
 	end
 
-	
 	local panel = vgui.Create( "pepboy_itemlist_entry", self )
 	panel:SetPos( 10, 0 + #self.entry * 50 )
 	panel:SetSize( PEPBOY_CONTENT_SIZE_X/2 - 20, 50 )
@@ -1566,8 +1564,8 @@ function VGUI:setIconModel(model)
 	self.itemModel = model
 	
 	local icon = vgui.Create("SpawnIcon", self)
-	icon:SetPos(self:GetWide()/2 - 128, 0)
-	icon:SetSize(256, 256)
+	icon:SetPos(self:GetWide()/2 - 96, 0)
+	icon:SetSize(192, 192)
 	icon:SetModel(model)
 end
 
@@ -1575,7 +1573,7 @@ function VGUI:Paint( w, h )
 	
 	local offsetY = 0
 	
-	self.textStart = PEPBOY_CONTENT_SIZE_Y/1.45 - 54 - 256
+	self.textStart = PEPBOY_CONTENT_SIZE_Y/1.45 - 54 - 320
 	
 	if self.itemIcon then
 	
@@ -1592,9 +1590,9 @@ function VGUI:Paint( w, h )
 	end
 	
 	if self.stats then
-		
-		for k, v in pairs( self.stats ) do
-			
+		for k, v in pairs(self.stats) do
+
+			// Allow multiple rows of stats
 			local x = 2 - k
 			if k > 2 then
 				x = 4 - k
@@ -1603,6 +1601,10 @@ function VGUI:Paint( w, h )
 			if k > 4 then
 				x = 6 - k
 				offsetY = 100
+			end
+			if k > 6 then
+				x = 8 - k
+				offsetY = 150
 			end
 			
 			surface.SetDrawColor( PEPBOY_COLOR )
@@ -1614,11 +1616,9 @@ function VGUI:Paint( w, h )
 			draw.SimpleText( v.key, "pepboy_27", ( ( w - 4 - PEPBOY_PADDING )/2 + PEPBOY_PADDING ) * x + 4, self.textStart - 20 + 50/2 + offsetY, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 			
 			draw.SimpleText( v.val, "pepboy_27", ( ( w - 4 - PEPBOY_PADDING )/2 + PEPBOY_PADDING ) * x + ( w - 4 - PEPBOY_PADDING )/2 - 4, self.textStart - 20 + 50/2 + offsetY, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
-		
 		end
 	
 		self.textStart = self.textStart + 54 + offsetY
-	
 	end
 	
 	for k, v in pairs( self.text_draw_t ) do
@@ -2514,7 +2514,8 @@ function VGUI:Init()
 					label = getWeaponName(v.classid),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k)},
-						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
+						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
+						{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
 						{key = "Durability", val = localplayer():getWeaponDurability(k)},
 						{key = "Level", val = getWeaponLevel(v.classid)},
 						{key = "Weight", val = getWeaponWeight(v.classid)},
@@ -2703,7 +2704,8 @@ function VGUI:Init()
 					label = getWeaponName(v.classid),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k, "bank")},
-						{key = "Crit Damage", val = getWeaponCriticalDamage(v.classid)},
+						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
+						{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
 						{key = "Durability", val = localplayer():getWeaponDurability(k, "bank")},
 						{key = "Level", val = getWeaponLevel(v.classid)},
 						{key = "Weight", val = getWeaponWeight(v.classid)},

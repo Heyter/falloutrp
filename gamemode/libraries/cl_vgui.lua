@@ -171,8 +171,7 @@ function VGUI:SetItem(item)
 	self.model:SetModel(model)
 	
 	// Item Specs
-	
-	local startY = 125
+	local startY = 140
 	
 	// Damage
 	if item.damage then

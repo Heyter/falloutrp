@@ -54,7 +54,12 @@ function meta:lootItem(ent, itemId, quantity)
 				
 			// Go back to looting
 			self:loot(ent)
+		else
+			self:notify("That item is no longer available.", NOTIFY_ERROR)
+			self:loot(ent)
 		end
+	else
+		self:notify("Loot is no longer available.", NOTIFY_ERROR)
 	end
 end
 

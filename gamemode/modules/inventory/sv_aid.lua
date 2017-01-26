@@ -28,8 +28,11 @@ function meta:pickUpAid(aid, quantity)
 	
 	if sameItem then 
 		amount = sameItem.quantity + quantity
-		aid.quantity = amount
 		query = "UPDATE aid SET quantity = " ..amount .." WHERE uniqueid = " ..sameItem.uniqueid
+		
+		// Add this information because it's how the clientside is updated
+		aid.quantity = amount
+		aid.uniqueid = sameItem.uniqueid
 	else
 		aid.quantity = amount
 		query = "INSERT INTO aid (steamid, classid, quantity) VALUES ('" ..self:SteamID() .."', " ..aid.classid ..", " ..amount ..")"
@@ -37,7 +40,9 @@ function meta:pickUpAid(aid, quantity)
 	
 	MySQLite.query(query, function()
 		if sameItem then
-			net.Start("pickUpMisc")
+			self.inventory.aid[sameItem.uniqueid]["quantity"] = amount
+		
+			net.Start("pickUpAid")
 				net.WriteInt(sameItem.uniqueid, 32)
 				net.WriteTable(aid)
 			net.Send(self)

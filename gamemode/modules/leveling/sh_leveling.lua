@@ -32,13 +32,9 @@ local minLevel = 2
 local points = 0
 local output = 0
 for i = 1, MAX_LEVEL do
-	points = points + math.floor(i + 300 * math.pow(2, i/7))
+	points = ((25 * (3 * i + 2) * (i - 1)) + (LEVELS[i-1] or 0))
 	
-	if i >= minLevel then
-		LEVELS[i] = output
-	end
-	
-	output = math.floor(points/4)
+	LEVELS[i] = points
 end
 
 function expToLevel(exp)
@@ -48,7 +44,7 @@ function expToLevel(exp)
 		if exp >= xp then
 			highestLevel = level
 		else
-			return  highestLevel
+			return highestLevel
 		end
 	end
 	

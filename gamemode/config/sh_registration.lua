@@ -35,7 +35,7 @@ PRICE_MULTIPLIER_CHARISMA = 0.05 // How much buying/selling price is reduced/inc
 RESTORE_EFFECTS_INTELLIGENCE = 0.03 // How much health, hunger, thirst is restored (multiplier) by for each point of intelligence
 
 // Agility
-CRITICALHITCHANCE_AMOUNT_AGILITY = 0.03 // How much critical hit chance is increased (multiplier) by for each point of agility
+CRITICALHITCHANCE_MULTIPLIER_AGILITY = 0.03 // How much critical hit chance is increased (multiplier) by for each point of agility
 MOVEMENT_SPEED_AGILITY = 2 // How much movement speed is increased by for each point of agility
 
 // Luck

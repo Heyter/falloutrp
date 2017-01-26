@@ -62,11 +62,11 @@ end
 function getWeaponCriticalChance(id)
 	return findWeapon(id).criticalChance
 end
-function getWeaponCriticalDamage(id)
-	return findWeapon(id).criticalDamage
-end
 function getWeaponMaxDurability(id)
 	return findWeapon(id).durability
+end
+function getWeaponAmmoType(id)
+	return findWeapon(id).ammoType or ""
 end
 
 // Functions that have data which can change

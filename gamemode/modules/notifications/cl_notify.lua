@@ -5,7 +5,7 @@ local notifySounds = {
 	[NOTIFY_GENERIC] = "buttons/button10.wav",
 	[NOTIFY_ERROR] = "buttons/button10.wav",
 	[NOTIFY_UNDO] = "buttons/button15.wav",
-	[NOTIFY_HINT] = "buttons/button10.wav",
+	[NOTIFY_HINT] = "buttons/button15.wav",
 	[NOTIFY_CLEANUP] = "buttons/button10.wav"
 }
 
