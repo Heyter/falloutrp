@@ -62,6 +62,8 @@ function meta:equipWeapon(uniqueid, classid)
 			local currentClass = self:getCurrentWeaponClass(weaponType)
 			
 			self:unequipWeapon(currentId, currentClass)
+		else
+			print("NOPE")
 		end
 		
 		// Give and select weapon

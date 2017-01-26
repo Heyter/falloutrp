@@ -8,10 +8,7 @@ local meta = FindMetaTable("Player")
 function meta:buyItem(npc, type, id, index, uniqueid, quantity)
 	// Create a copy of the item since the actual one will be deleted
 	local item = table.Copy(MERCHANTS[npc]["Sale"][id]["Items"][index])
-
-	// Make sure the item is still there as it's possible it could've been bought
-	print(1)
-	print(item.uniqueid, uniqueid)
+	
 	if item and (item.uniqueid == uniqueid) then
 		print(2)
 		if self:canAfford(item.price) then
@@ -60,6 +57,7 @@ end)
 function meta:sellItem(npc, type, id, uniqueid, quantity)
 	// Create a copy of the item since the actual one will be deleted
 	local item = table.Copy(self.inventory[type][uniqueid])
+	item.quantity = quantity
 	item.price = getItemValue(item.classid) * 3
 
 	// Remove item from player
@@ -103,5 +101,7 @@ function spawnMerchants()
 end
 
 hook.Add("InitPostEntity", "spawnMerchants", function()
-	spawnMerchans()
+	timer.Simple(1, function()
+		spawnMerchans()
+	end)
 end)

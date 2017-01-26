@@ -4,7 +4,7 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local attacker = dmgInfo:GetAttacker()
 	local damage = dmgInfo:GetDamage()
 	local damageType = dmgInfo:GetDamageType()
-	
+	print(damage)
 	if IsValid(attacker) and attacker:IsPlayer() then
 		if IsValid(target) and target:IsPlayer() then
 			// Add Damage
@@ -20,27 +20,31 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				local damageType = getWeaponType(classid)
 				local critChance = getWeaponCriticalChance(classid)
 				
+				print("Printing new damage")
 				damage = attacker:getWeaponDamage(uniqueid)
+				print(damage)
 				
 				if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
 					damage = (damage * CRITICAL_MULTIPLIER)
 					damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
 				end
-				
+				print("Printing damage type")
+				print(damageType)
+				print(damage)
 				// Unarmed and Explosives will need to be handled seperately
 				if damageType == DMG_BULLET then
-					damage = damage + (damage * (attacker:getGunsDamage() + damage * attacker:getFactionGunsDamage()))
+					damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage() * damage))
 				elseif damageType == DMG_ENERGYBEAM then
 					damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
 				elseif damageType == DMG_SLASH then
-					damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + damage * attacker:getFactionMeleeWeaponsDamage()))
+					damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + attacker:getFactionMeleeWeaponsDamage()))
 				elseif damageType == DMG_PLASMA then
 					damage = damage + (damage * attacker:getScienceDamage())
 				end
 			end
 			
 			// Reduce Damage
-
+			print(damage)
 			dmgInfo:SetDamage(damage)
 		end
 	end

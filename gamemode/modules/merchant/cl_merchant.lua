@@ -10,12 +10,20 @@ local textPadding = 10
 local lastButton, lastNpc, lastType
 local inspect // Draws the items information on a side panel
 
+local function removeInspect()
+	if inspect then
+		inspect:Remove()
+		inspect = nil
+	end
+end
+
 function buyItem(npc, index, uniqueid, type, id, quantity)
+	removeInspect()
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
 	
 	local quantity = quantity or 0
-	
+
 	net.Start("buyItem")
 		net.WriteString(npc)
 		net.WriteString(type)
@@ -27,11 +35,12 @@ function buyItem(npc, index, uniqueid, type, id, quantity)
 end
 
 function sellItem(npc, uniqueid, type, id, quantity)
+	removeInspect()
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
 	
 	local quantity = quantity or 0
-	
+
 	net.Start("sellItem")
 		net.WriteString(npc)
 		net.WriteString(type)
@@ -146,11 +155,18 @@ function openMerchant(name, items)
 		end
 		
 		local caps = vgui.Create("DLabel", frame)
-		caps:SetPos(buttonPadding + plyFrame:GetWide()/2 - caps:GetWide()/2, 100)
 		caps:SetFont("FalloutRP2")
 		caps:SetTextColor(COLOR_AMBER)
 		caps:SetText("Caps: " ..LocalPlayer():getCaps())
 		caps:SizeToContents()
+		caps:SetPos(buttonPadding + plyFrame:GetWide()/2 - caps:GetWide()/2, 100)
+		
+		local stockLabel = vgui.Create("DLabel", frame)
+		stockLabel:SetFont("FalloutRP2")
+		stockLabel:SetTextColor(COLOR_AMBER)
+		stockLabel:SetText(LocalPlayer():getName() .."'s Stock")
+		stockLabel:SizeToContents()
+		stockLabel:SetPos(buttonPadding + plyFrame:GetWide()/2 - stockLabel:GetWide()/2, plyFrame:GetTall() + 140)
 		
 		local scroll = vgui.Create("DScrollPanel", plyFrame)
 		scroll:SetPos(0, 0)
@@ -188,6 +204,10 @@ function openMerchant(name, items)
 
 		for uniqueid, item in pairs(LocalPlayer().inventory[type]) do
 			local itemName = getItemName(item.classid)
+			if util.greaterThanOne(item.quantity) then
+				itemName = itemName .." (" ..item.quantity ..")"
+			end
+			
 			local itemValue = getItemValue(item.classid)
 		
 			local itemBox = vgui.Create("DButton")
@@ -223,7 +243,7 @@ function openMerchant(name, items)
 						slider:SetText("Sell")
 						slider:GetButton().DoClick = function()
 							if slider:ValidInput() and !LocalPlayer():hasVguiDelay() then
-								
+								sellItem(name, item.uniqueid, type, id, slider:GetAmount())
 							end
 						end
 					end)
@@ -257,11 +277,22 @@ function openMerchant(name, items)
 				self.hovered = true
 				surface.PlaySound("pepboy/click2.wav")
 				itemLabel:SetTextColor(COLOR_BLUE)
+				
+				// Draw item details
+				removeInspect()
+				
+				local frameX, frameY = frame:GetPos()
+				inspect = vgui.Create("FalloutRP_Item")
+				inspect:SetPos(frameX - inspect:GetWide(), frameY)
+				inspect:SetItem(item)
 			end
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
 				
 				itemLabel:SetTextColor(COLOR_AMBER)
+				
+				// Remove item details
+				removeInspect()
 			end
 			
 			layout:Add(itemBox)
@@ -280,6 +311,13 @@ function openMerchant(name, items)
 			surface.SetDrawColor(COLOR_AMBER)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
+		
+		local stockLabel = vgui.Create("DLabel", frame)
+		stockLabel:SetFont("FalloutRP2")
+		stockLabel:SetTextColor(COLOR_AMBER)
+		stockLabel:SetText(name .."'s Stock")
+		stockLabel:SizeToContents()
+		stockLabel:SetPos(frame:GetWide() - buttonPadding - npcFrame:GetWide()/2 - stockLabel:GetWide()/2, npcFrame:GetTall() + 140)
 		
 		local scroll = vgui.Create("DScrollPanel", npcFrame)
 		scroll:SetPos(0, 0)
@@ -317,6 +355,10 @@ function openMerchant(name, items)
 
 		for index, item in pairs(items[id]["Items"]) do
 			local itemName = getItemName(item.classid)
+			if util.greaterThanOne(item.quantity) then
+				itemName = itemName .." (" ..item.quantity ..")"
+			end
+			
 			local itemValue = item.price or 50
 		
 			local itemBox = vgui.Create("DButton")
@@ -339,7 +381,9 @@ function openMerchant(name, items)
 				
 				if util.greaterThanOne(item.quantity) then
 					flyout:AddOption("Buy all for " ..(itemValue * item.quantity), function()
-					
+						if !LocalPlayer():hasVguiDelay() then
+							buyItem(name, index, item.uniqueid, type, id, item.quantity)
+						end
 					end)
 					flyout:AddOption("Buy (x)", function()
 						local slider = vgui.Create("FalloutRP_NumberWang", frame)
@@ -350,7 +394,7 @@ function openMerchant(name, items)
 						slider:SetText("Buy")
 						slider:GetButton().DoClick = function()
 							if slider:ValidInput() and !LocalPlayer():hasVguiDelay() then
-								
+								buyItem(name, index, item.uniqueid, type, id, slider:GetAmount())
 							end
 						end
 					end)
@@ -384,11 +428,28 @@ function openMerchant(name, items)
 				self.hovered = true
 				surface.PlaySound("pepboy/click2.wav")
 				itemLabel:SetTextColor(COLOR_BLUE)
+				
+				// Draw item details
+				removeInspect()
+				/*
+				local inspectCopy = table.Copy(item)
+				if item.uniqueid < 0 then
+					inspectCopy = createItem(item.classid, 1)
+				end
+				
+				local frameX, frameY = frame:GetPos()
+				inspect = vgui.Create("FalloutRP_Item")
+				inspect:SetPos(frameX + frame:GetWide(), frameY)
+				inspect:SetItem(inspectCopy)
+				*/
 			end
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
 				
 				itemLabel:SetTextColor(COLOR_AMBER)
+				
+				// Remove item details
+				removeInspect()
 			end
 			
 			layout:Add(itemBox)

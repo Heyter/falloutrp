@@ -3,8 +3,8 @@ util.AddNetworkString("useAid")
 
 local meta = FindMetaTable("Player")
 
-function createAid(item)
-	item.quantity = 1
+function createAid(item, quantity)
+	item.quantity = quantity
 	
 	return item
 end

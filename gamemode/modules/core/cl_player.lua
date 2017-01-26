@@ -25,9 +25,11 @@ net.Receive("loadClientside", function()
 	local strength = net.ReadInt(8)
 	local equipped = net.ReadTable()
 	
+	
+	
 	ply.playerData = ply.playerData or {}
-	ply.name = name
-	ply.experience = experience
-	ply.strength = strength
-	ply.equipped = equipped
+	ply.playerData.name = name
+	ply.playerData.experience = experience
+	ply.playerData.strength = strength
+	ply.playerData.equipped = equipped
 end)

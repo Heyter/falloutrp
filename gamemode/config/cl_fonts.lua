@@ -21,3 +21,11 @@ surface.CreateFont("FalloutRP3", {
 	shadow = true,
 	font = "monofonto"
 })
+
+surface.CreateFont("FalloutRP4", {
+	size = 32,
+	weight = 600,
+	antialias = true,
+	shadow = true,
+	font = "monofonto"
+})

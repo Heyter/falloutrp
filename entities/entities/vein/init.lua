@@ -9,7 +9,7 @@ function ENT:Initialize()
 	self:SetUseType(SIMPLE_USE)
 end
 
-function ENT:hit(attacker)
+function ENT:hit(attacker, hitPos)
 	if IsValid(attacker) and attacker:IsPlayer() then
 		local roll = util.roll(15 + attacker:getLevel(), 100)
 
@@ -17,8 +17,10 @@ function ENT:hit(attacker)
 			self:EmitSound(VEIN_SOUND)
 			local loot = self:generateLoot()
 			
-			createLoot(attacker:GetPos() + Vector(40, 0, 0), loot)
+			createLoot(hitPos, loot)
 			self:reduceOres(#loot)
+			
+			attacker:notify("Mined chunk.", NOTIFY_HINT)
 		end
 	end
 end
