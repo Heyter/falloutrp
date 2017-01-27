@@ -1,5 +1,5 @@
 
-Ammo = {}
+local Ammo = {}
 
 local meta = FindMetaTable("Player")
 
@@ -104,7 +104,7 @@ addAmmo(3020, "Electron Charge Pack", "ElectronChargePack", "electronchargepacks
 addAmmo(3021, "Energy Cell", "EnergyCell", "energycells", "models/items/boxsrounds.mdl", 0.10, 0.25)
 addAmmo(3022, "Flamer Fuel", "FlamerFuel", "flamerfuel", "models/items/boxsrounds.mdl", 0.10, 0.25)
 addAmmo(3023, "Microfusion Cell", "MicrofusionCell", "microfusioncells", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3024, "Mini Nuke", "MiniNuke", "mininuke", "models/items/boxsrounds.mdl", 0.10, 0.25)
+addAmmo(3024, "Mini Nuke", "MiniNuke", "mininuke", "models/weapons/mininuke.mdl", 0.10, 0.25)
 addAmmo(3025, "Missile", "Missile", "missiles", "models/items/boxsrounds.mdl", 0.10, 0.25)
 addAmmo(3026, "Railway Spike", "RailwaySpike", "railwayspikes", "models/items/boxsrounds.mdl", 0.10, 0.25)
 addAmmo(3027, "Rocket", "Rocket", "rockets", "models/items/boxsrounds.mdl", 0.10, 0.25)

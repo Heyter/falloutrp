@@ -82,6 +82,15 @@ CHEST_LOCATIONS = {
 	{Position = Vector(8349, 4075, 17), Angles = Angle(0, -79, 2), Active = false},
 }
 
+function spawnchests()
+	for k,v in pairs(CHEST_LOCATIONS) do
+		local ent = ents.Create("chest")
+		ent:SetPos(v.Position)
+		ent:SetAngles(v.Angles)
+		ent:Spawn()
+	end
+end
+
 CHEST_MODEL = "models/props/cs_militia/footlocker01_closed.mdl"
 CHEST_RARE_MODEL = "models/props/cs_militia/footlocker01_closed.mdl"
 

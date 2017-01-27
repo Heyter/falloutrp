@@ -1,5 +1,5 @@
 
-Misc = {}
+local Misc = {}
 
 local meta = FindMetaTable("Player")
 

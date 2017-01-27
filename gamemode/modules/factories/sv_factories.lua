@@ -24,17 +24,14 @@ end
 
 function FACTORY:CheckStatus(ply, factory)
 	if factory:GetStatus() == 1 then --Contested
-		print(self.Message_CurrentlyContested)
-		--DarkRP.notify(ply, 1, 5, self.Message_CurrentlyContested)
+		ply:notify(self.Message_CurrentlyContested, NOTIFY_ERROR)
 		return
 	elseif factory:GetController() == ply:Team() then
-		print(self.Message_ControlledByYou)
-		--DarkRP.notify(ply, 1, 5, self.Message_ControlledByYou)
+		ply:notify(self.Message_ControlledByYou, NOTIFY_ERROR)
 		return
 	elseif factory:OnCooldown() then
 		local cd = factory:GetCooldown() - CurTime()
-		print("You must wait " ..string.FormattedTime(cd, "%02i:%02i") .." before doing another war!")
-		--DarkRP.notify(ply, 1, 5, "You must wait " ..string.FormattedTime(cd, "%02i:%02i") .." before doing another war!")
+		ply:notify("You must wait " ..string.FormattedTime(cd, "%02i:%02i") .." before doing another war!", NOTIFY_ERROR)
 		return
 	else
 		self:StartWar(ply:Team(), factory)
@@ -86,7 +83,7 @@ end
 
 function FACTORY:ChangeCaptureStatus(factory, owner)
 	if owner == nil then
-		factory:SetController(0)
+		factory:SetController(4)
 	else
 		factory:SetController(owner)
 	end
@@ -102,7 +99,7 @@ function FACTORY:EndWar(factory, winner)
 	
 	if winner == nil then
 		factory:SetStatus(0)
-		factory:SetController(0)
+		factory:SetController(4)
 	else
 		// Remove the existing timer
 		if timer.Exists("Factory" ..factory:EntIndex()) then

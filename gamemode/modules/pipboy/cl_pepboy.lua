@@ -18,7 +18,7 @@ local scrH = ScrH
 -- MINIMUM RESOLUTION = 1024 x 660
 local localplayer = LocalPlayer
 
-local PEPBOY_COLOR = Color( 34, 254, 140, 150 )
+PEPBOY_COLOR = Color( 34, 254, 140, 150 )
 local PEPBOY_COLOR_DISABLED = Color( 34, 254, 140, 30 )
 
 local PEPBOY_SIZE_X = 768
@@ -240,11 +240,8 @@ net.Receive( "pepboy_open", function()
 	local bit = net.ReadBit()
 	
 	if localplayer().pepboy_vgui or localplayer().pepboy_frame then
-		
-		
 		close()
 		return
-		
 	end	
 
 	localplayer().pepboy_frame = vgui.Create( "pepboy_frame" )
@@ -1575,7 +1572,7 @@ function VGUI:Paint( w, h )
 	
 	self.textStart = PEPBOY_CONTENT_SIZE_Y/1.45 - 54 - 320
 	
-	if self.itemIcon then
+	if self.itemIcon and (self.itemIcon != "") then
 	
 		surface.SetDrawColor( PEPBOY_COLOR )
 		surface.SetMaterial( self.itemIcon )
@@ -1587,6 +1584,8 @@ function VGUI:Paint( w, h )
 	
 	if self.itemModel then
 		self.textStart = self.textStart + 256
+	else
+		self.textStart = self.textStart + 64
 	end
 	
 	if self.stats then

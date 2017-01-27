@@ -52,7 +52,7 @@ end
 
 function ENT:remove()
 	CHEST_LOCATIONS[self.key]["Active"] = false
-	SafeRemoveEntity(self)
+	util.fadeRemove(self)
 end
 
 function ENT:addItem(item)

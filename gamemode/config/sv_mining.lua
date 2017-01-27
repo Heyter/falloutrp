@@ -111,12 +111,23 @@ VEINS = {
 	}
 } 
 
+function spawnrocks()
+	for k,v in pairs(VEINS) do
+		for a,b in pairs(v.Positions) do
+			local ent = ents.Create("vein")
+			ent:SetModel("models/props_mining/rock002.mdl")
+			ent:SetPos(b.Position)
+			ent:Spawn()
+		end
+	end
+end
+
 VEIN_RARE_CHANCE = 10 // % chance that a rare vein is spawned
 VEIN_TIMER = 300 // How often we try to spawn a new vein (seconds)
 VEIN_SOUND = "pickaxe/deploy.wav" // Sound made when a vein is mined successfully
 
 function printRockPositions()
-	for k,v in pairs(ents.FindByModel("models/rarerocks/crystal2.mdl")) do
+	for k,v in pairs(ents.FindByModel("models/props_c17/oildrum001_explosive.mdl")) do
 		local p = v:GetPos()
 		print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Active = false},")
 	end

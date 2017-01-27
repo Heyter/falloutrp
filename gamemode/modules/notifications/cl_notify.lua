@@ -2,7 +2,7 @@
 local meta = FindMetaTable("Player")
 
 local notifySounds = {
-	[NOTIFY_GENERIC] = "buttons/button10.wav",
+	[NOTIFY_GENERIC] = "buttons/button15.wav",
 	[NOTIFY_ERROR] = "buttons/button10.wav",
 	[NOTIFY_UNDO] = "buttons/button15.wav",
 	[NOTIFY_HINT] = "buttons/button15.wav",

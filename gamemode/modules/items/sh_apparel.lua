@@ -1,7 +1,7 @@
 
-local meta = FindMetaTable("Player")
+local Apparel = {}
 
-Apparel = {}
+local meta = FindMetaTable("Player")
 
 function addApparel(id, name, slot, model, durability, weight, value, level, minDamageThreshold, maxDamageThreshold, minDamageReflection, maxDamageReflection, minBonusHp, maxBonusHp)
 	Apparel[id] = {
@@ -19,6 +19,10 @@ function addApparel(id, name, slot, model, durability, weight, value, level, min
 		minBonusHp = minBonusHp,
 		maxBonusHp = maxBonusHp
 	}
+end
+
+function getApparel()
+	return Apparel
 end
 
 function findApparel(id)
