@@ -20,7 +20,7 @@ function ENT:hit(attacker, hitPos)
 			createLoot(hitPos, loot)
 			self:reduceOres(#loot)
 			
-			attacker:notify("Mined chunk.", NOTIFY_HINT)
+			attacker:notify("Mined chunk.", NOTIFY_GENERIC)
 		end
 	end
 end
@@ -52,6 +52,7 @@ function ENT:reduceOres(amount)
 	self.ores = self.ores - amount
 	
 	if self.ores == 0 then
+		VEINS[self:getType()]["Positions"][self.key]["Active"] = false
 		util.fadeRemove(self)
 	end
 end

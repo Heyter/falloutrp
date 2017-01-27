@@ -1,6 +1,5 @@
 
-local meta = FindMetaTable("Player")
-
+// Server
 function createMisc(item, quantity)
 	item.quantity = quantity or 1
 	

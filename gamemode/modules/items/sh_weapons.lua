@@ -1,7 +1,7 @@
 
 local meta = FindMetaTable("Player")
 
-Weapons = {}
+local Weapons = {}
 
 function addWeapon(id, name, type, slot, entity, model, durability, weight, value, level, minDamage, maxDamage, criticalChance, actionPoints, ammoType) 
 	Weapons[id] = {
@@ -20,6 +20,11 @@ function addWeapon(id, name, type, slot, entity, model, durability, weight, valu
 		actionPoints = actionPoints,
 		ammoType = ammoType,
 	}
+end
+
+
+function getWeapons()
+	return Weapons
 end
 
 function findWeapon(id)

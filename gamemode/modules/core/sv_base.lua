@@ -2,13 +2,12 @@
 hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local inflictor = dmgInfo:GetInflictor()
 	local attacker = dmgInfo:GetAttacker()
-	local damage = dmgInfo:GetDamage()
 	local damageType = dmgInfo:GetDamageType()
 	print(damage)
 	if IsValid(attacker) and attacker:IsPlayer() then
 		if IsValid(target) and target:IsPlayer() then
 			// Add Damage
-		
+			local damage = dmgInfo:GetDamage()
 			local weapon = attacker:GetActiveWeapon()
 			local weaponSlot = weapon.slot
 			
@@ -33,7 +32,7 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				print(damage)
 				// Unarmed and Explosives will need to be handled seperately
 				if damageType == DMG_BULLET then
-					damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage() * damage))
+					damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
 				elseif damageType == DMG_ENERGYBEAM then
 					damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
 				elseif damageType == DMG_SLASH then
@@ -67,7 +66,13 @@ hook.Add("PlayerSpawn", "SetupPlayer", function(ply)
 end)
 
 hook.Add("PlayerShouldTakeDamage", "SpawnTeamKill", function(victim, attacker)
-	if victim.spawnProtected or attacker.spawnProtected then
+	if victim.spawnProtected then
+		if IsValid(attacker) and attacker:IsPlayer() then
+			attacker:notify("That player is spawn protected.", NOTIFY_ERROR)
+		end
+		return false
+	elseif attacker.spawnProtected then
+		attacker:notify("You are spawn protected.", NOTIFY_ERROR)
 		return false
 	end
 	
@@ -82,7 +87,7 @@ hook.Add("InitPostEntity", "SpawnZoneChecker", function()
 	local safeStart, safeEnd = SAFEZONE_START, SAFEZONE_END
 
 	timer.Create("spawnZone", 0.5, 0, function()
-		for k,v in pairs(ents.FindInBox(safeStart, safeEnd)) do
+		for k,v in pairs(ents.FindInBox(SAFEZONE_START, SAFEZONE_END)) do
 			if IsValid(v) and v:IsPlayer() then
 				v.spawnProtected = true
 				
@@ -91,7 +96,9 @@ hook.Add("InitPostEntity", "SpawnZoneChecker", function()
 					
 					timer.Simple(10, function()
 						if IsValid(v) then
-							v.spawnProtected = false
+							if !table.HasValue(ents.FindInBox(SAFEZONE_START, SAFEZONE_END), v) then
+								v.spawnProtected = false
+							end
 							v.onSpawnTimer = false
 						end
 					end)

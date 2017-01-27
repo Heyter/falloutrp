@@ -102,6 +102,6 @@ end
 
 hook.Add("InitPostEntity", "spawnMerchants", function()
 	timer.Simple(1, function()
-		spawnMerchans()
+		spawnMerchants()
 	end)
 end)

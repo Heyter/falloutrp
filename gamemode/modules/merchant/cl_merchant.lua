@@ -431,17 +431,11 @@ function openMerchant(name, items)
 				
 				// Draw item details
 				removeInspect()
-				/*
-				local inspectCopy = table.Copy(item)
-				if item.uniqueid < 0 then
-					inspectCopy = createItem(item.classid, 1)
-				end
 				
 				local frameX, frameY = frame:GetPos()
 				inspect = vgui.Create("FalloutRP_Item")
-				inspect:SetPos(frameX + frame:GetWide(), frameY)
-				inspect:SetItem(inspectCopy)
-				*/
+				inspect:SetPos(frameX + frame:GetWide()/2 + inspect:GetWide()*2, frameY)
+				inspect:SetItem(item)
 			end
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false

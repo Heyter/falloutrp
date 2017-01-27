@@ -13,7 +13,7 @@ function ENT:Initialize()
 	self.loot = {}
 	self.iteration = 1
 	
-	self:SetController(0)
+	self:SetController(4)
 end
 
 function ENT:OnTakeDamage(dmg)

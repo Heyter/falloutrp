@@ -1,8 +1,5 @@
 
 //Server
-
-local meta = FindMetaTable("Player")
-
 function createApparel(item)
 	local damageThreshold = math.random(getApparelMinDamageThreshold(item.classid), getApparelMaxDamageThreshold(item.classid))
 	local damageReflection = math.random(getApparelMinDamageReflection(item.classid), getApparelMaxDamageReflection(item.classid))

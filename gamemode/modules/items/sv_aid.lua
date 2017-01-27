@@ -4,7 +4,7 @@ util.AddNetworkString("useAid")
 local meta = FindMetaTable("Player")
 
 function createAid(item, quantity)
-	item.quantity = quantity
+	item.quantity = quantity or 1
 	
 	return item
 end
@@ -58,14 +58,14 @@ function meta:doAidFunction(classid)
 		if util.positive(healthPercent) then
 			self:addHealthOverTime((healthPercent/100) * self:getMaxHealth(), time)
 		end
-		if util.positive(health) then
+		if health then
 			self:addHealthOverTime(health, time)
 		end
 	else
 		if util.positive(healthPercent) then
 			self:addHealth((healthPercent/100) * self:getMaxHealth())
 		end
-		if util.positive(health) then
+		if health then
 			self:addHealth(health)
 		end
 		if util.positive(hunger) then

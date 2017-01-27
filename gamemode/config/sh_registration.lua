@@ -24,7 +24,7 @@ RECOIL_PER_PERCEPTION = 0.03 // How much recoil is reduced for each point of per
 CRITICALHITDAMAGE_MULTIPLIER_PERCEPTION = 0.05 // How much critical hit damage is increased (multiplier) by for each point of perception
 
 // Endurance
-
+SPRINT_AMOUNT_ENDURANCE = 5 // How many extra sprint points you get for each endurance point
 HEALTHREGEN_HEALH_ENDURANCE = 2 // How much extra health is regened for each endurance point
 
 // Charisma

@@ -6,7 +6,8 @@ local meta = FindMetaTable("Player")
 
 // Called after 'playerData' table is set on client
 function meta:postLoadPlayer()
-	print("Post load player.")
+	// The player has been loaded in
+	self.loaded = true
 	
 	// Set team
 	self:SetTeam(self.playerData.faction)
@@ -22,8 +23,8 @@ function meta:postLoadPlayer()
 	self:setThirst(THIRST_MAX)
 	self:startThirstTimer()
 	
-	// The player has been loaded in
-	self.loaded = true
+	// Initialize stamina
+	tcb_StaminaStart(self)
 end
 
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table
@@ -49,6 +50,7 @@ end
 function meta:loadAllClientside()
 	for k,v in pairs(player.GetAll()) do
 		if v != self and v.loaded then
+			print(v)
 			self:loadClientside(v)
 		end
 	end

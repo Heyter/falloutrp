@@ -1,8 +1,5 @@
 
-//Server
-
-local meta = FindMetaTable("Player")
-
+// Server
 function createWeapon(item)
 	local damage = math.random(getWeaponMinDamage(item.classid), getWeaponMaxDamage(item.classid))
 	local durability = getWeaponMaxDurability(item.classid)

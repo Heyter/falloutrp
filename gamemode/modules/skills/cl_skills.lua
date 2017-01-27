@@ -47,13 +47,21 @@ function skillSelection(level)
 	frame:SetSize(frameW, frameH)
 	frame:SetPos(ScrW()/2 - frame:GetWide()/2, ScrH()/2 - frame:GetTall()/2)
 	frame:SetFontTitle("FalloutRP3", "WELCOME TO LEVEL " ..level)
+	frame:AddCloseButton()
 
+	local unlockables = vgui.Create("DLabel", frame)
+	unlockables:SetFont("FalloutRP2")
+	unlockables:SetText(LocalPlayer():getUnlockables(level))
+	unlockables:SetTextColor(COLOR_AMBER)
+	unlockables:SizeToContents()
+	unlockables:SetPos(frame:GetWide()/2 + frame:GetWide()/4 - unlockables:GetWide()/2 - 40, frame:GetTall()/2 - 150)
+	
 	local points = vgui.Create("DLabel", frame)
 	points:SetFont("FalloutRP3")
 	points:SetText("ASSIGN " ..pointsRemaining .." SKILL POINTS")
 	points:SetTextColor(COLOR_AMBER)
-	points:SetPos(frame:GetWide()/2, 500)
 	points:SizeToContents()
+	points:SetPos(frame:GetWide()/2 + frame:GetWide()/4 - points:GetWide()/2 - 40, 530)
 	points.UpdatePoints = function()
 		points:SetText("ASSIGN " ..pointsRemaining .." SKILL POINTS")
 	end
@@ -186,7 +194,7 @@ function skillSelection(level)
 	
 	local continueButton = vgui.Create("FalloutRP_Button", frame)
 	continueButton:SetSize(buttonW, buttonH)
-	continueButton:SetPos(frame:GetWide()/2 + continueButton:GetWide()/2, frame:GetTall() - 100 - continueButton:GetTall()*2)
+	continueButton:SetPos(frame:GetWide()/2 + frame:GetWide()/4 - continueButton:GetWide(), frame:GetTall() - 100 - continueButton:GetTall()*2 + 30)
 	continueButton.DoClick = function(self)
 		if canContinue then
 			canContinue = false // Don't allow another submit until we hear back from server

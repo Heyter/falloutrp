@@ -39,7 +39,7 @@ FACTORY.Setup = { //Name Of Place = Position, Check Received Every Salary For Ow
 -------------------------------------------DONT TOUCH BEYOND HERE----------------------------------------------------
 
 function FACTORY:controllerToString(controller)
-	if controller == 0 then
+	if controller == 4 then
 		return "Uncontested"
 	else
 		return team.GetName(controller) or ""

@@ -1,5 +1,5 @@
 
-Aid = {}
+local Aid = {}
 
 local meta = FindMetaTable("Player")
 
@@ -109,7 +109,18 @@ function meta:getAidQuantity(uniqueid)
 	return quantity or 1
 end
 
-addAid(4001, "Stimpack", "models/healthvial.mdl", 4, 25, 25)
-addAid(4002, "Super Stimpack", "models/items/healthkit.mdl", 4, 50, 50)
-addAid(4003, "Water Bottle", "models/drug_mod/the_bottle_of_water.mdl", 4, 15, nil, nil, nil, nil, nil, 40)
-addAid(4004, "Watermelon", "models/props_junk/watermelon01.mdl", 4, 15, nil, nil, nil, nil, 30, 15)
+addAid(4001, "Stimpack", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 75, 25)
+addAid(4002, "Super Stimpack", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 150, 50)
+addAid(4003, "Lay of Hands", "models/mosi/fallout4/props/aid/syringeammo.mdl", 0.2, 150, 100)
+addAid(4004, "Blood Bag", "models/mosi/fallout4/props/aid/bloodbag.mdl", 5, 20, nil, 150)
+addAid(4005, "Blood Serum", "models/mosi/fallout4/props/aid/mysteriousserum.mdl", 5, 20, nil, 300, 10, 2)
+addAid(4006, "Water Bottle", "models/props/cs_office/Water_bottle.mdl", 4, 15, nil, nil, nil, nil, nil, 45)
+addAid(4007, "Milk", "models/props_junk/garbage_milkcarton002a.mdl", 4, 15, nil, nil, nil, nil, nil, 20)
+addAid(4008, "Watermelon", "models/props_junk/watermelon01.mdl", 4, 15, nil, nil, nil, nil, 50, 20)
+addAid(4009, "Chinese Takeout", "models/props_junk/garbage_takeoutcarton001a.mdl", 4, 15, nil, nil, nil, nil, 45)
+addAid(4010, "Can of Beans", "models/props_junk/garbage_metalcan001a.mdl", 4, 15, nil, nil, nil, nil, 25)
+addAid(4011, "Soda", "models/props_junk/PopCan01a.mdl", 4, 15, nil, nil, nil, nil, nil, 20)
+addAid(4012, "Malt Liquor", "models/props_junk/garbage_glassbottle001a.mdl", 4, 15, nil, nil, nil, nil, nil, 15)
+addAid(4013, "Cactus", "models/props_lab/cactus.mdl", 4, 15, nil, -5, nil, nil, 35)
+addAid(4014, "Scapula", "models/Gibs/HGIBS_scapula.mdl", 4, 15, nil, -5, nil, nil, 20)
+addAid(4015, "Chunk of Meat", "models/Gibs/Antlion_gib_Large_2.mdl", 4, 15, nil, -15, nil, nil, 30)

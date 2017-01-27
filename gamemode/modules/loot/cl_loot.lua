@@ -8,6 +8,13 @@ local inspect // Draws the items information on a side panel
 
 local matLineDashed = Material("models/pepboy/line_y")
 
+local function removeInspect()
+	if inspect then
+		inspect:Remove()
+		inspect = nil
+	end
+end
+
 //Client
 net.Receive("loot", function()
 	local ent = net.ReadEntity()
@@ -19,10 +26,7 @@ net.Receive("loot", function()
 end)
 
 local function close(frame)
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
+	removeInspect()
 	
 	if frame then
 		frame:Remove()
@@ -172,10 +176,7 @@ function openLoot(ent, loot)
 			
 			itemLabel:SetTextColor(COLOR_AMBER)
 			
-			if inspect then
-				inspect:Remove()
-				inspect = nil
-			end
+			removeInspect()
 		end
 		
 		layout:Add(itemBox)
