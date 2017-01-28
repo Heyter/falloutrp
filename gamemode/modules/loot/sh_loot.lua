@@ -1,7 +1,7 @@
 
 //Shared
 LOOT = {
-	{id = 1001, prob = 1, quantity = 100},
+	{id = 1001, prob = 1, quantity = 1},
 	{id = 1002, prob = 1, quantity = 1},
 	{id = 1003, prob = 1, quantity = 1},
 	{id = 1004, prob = 1, quantity = 1},

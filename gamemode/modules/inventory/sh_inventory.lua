@@ -81,7 +81,6 @@ function meta:getInventoryCount(id)
 
 	for k,v in pairs(self.inventory[type]) do
 		if v.classid == id then
-			PrintTable(v)
 			return (v.quantity or 1), v.uniqueid
 		end
 	end

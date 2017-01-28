@@ -2,18 +2,21 @@
 // Server
 hook.Add("OnNPCKilled", "restoreNpcPosition", function(npc, attacker, inflictor)
 	if npc.key then
-		print(NPCS[npc:GetClass()]["Positions"][npc.key]["Active"])
 		NPCS[npc:GetClass()]["Positions"][npc.key]["Active"] = false
 	end
 end)
 
 hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
-	local npcLoot = getNpcLoot(npc)
+	local type = npc:GetClass()
+
+	local npcLoot = getNpcLoot(type)
 	local randomLoot = generateRandomLoot()
 	local actualLoot = {}
 	
 	for k,v in pairs(npcLoot) do
 		local quantity = v.quantity
+		quantity = math.random(quantity[1], quantity[2])
+		
 		local prob = v.prob
 		
 		if util.roll(prob, 100) then
@@ -31,7 +34,7 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	end
 	
 	if IsValid(attacker) and attacker:IsPlayer() then
-		attacker:addExp(getNpcExp(npc))
+		attacker:addExp(getNpcExp(type))
 	end
 end)
 
@@ -65,8 +68,9 @@ function spawnNpc(npc, inactiveNpcs)
 	NPCS[npc]["Positions"][randomLocation]["Active"] = true
 	
 	local ent = ents.Create(npc)
-	ent:SetPos(location["Position"])
+	ent:SetPos(location["Position"] + Vector(0, 0, 40))
 	ent:Spawn()
+	ent:DropToFloor()
 	ent:SetHealth(getNpcHealth(npc))
 	ent.key = randomLocation // So we know which position to restore to inactive when the npc dies
 end

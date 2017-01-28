@@ -35,8 +35,6 @@ function meta:loadInvApparel()
 end
 
 function meta:pickUpApparel(apparel)
-	print("Printing before insert")
-	PrintTable(apparel)
 	MySQLite.query("INSERT INTO apparel (steamid, classid, damageThreshold, damageReflection, bonusHp, durability) VALUES ('" ..self:SteamID() .."', " ..apparel.classid ..", " ..apparel.damageThreshold ..", " ..apparel.damageReflection ..", " ..apparel.bonusHp ..", " ..apparel.durability ..")", function()
 		// Get the last inserted id so we can store that in lua
 		MySQLite.query("SELECT uniqueid FROM weapons ORDER BY uniqueid DESC LIMIT 1", function(results)

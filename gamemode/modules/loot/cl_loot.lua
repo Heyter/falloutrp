@@ -49,7 +49,6 @@ function lootItem(ent, itemId, quantity)
 end
 	
 function openLoot(ent, loot)
-	PrintTable(loot)
 	local frame = vgui.Create("FalloutRP_Menu")
 	util.restoreMousePos() // So they can *spam click* loot and not always have to move their mouse back to that loot
 	frame:AddCloseButton()

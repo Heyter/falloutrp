@@ -14,12 +14,10 @@ function meta:depleteInventoryItem(type, uniqueid, quantity)
 	end
 	
 	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity then
-		print("Deleted the whole item")
 		// Delete the whole item from inventory
 		self.inventory[type][uniqueid] = nil
 		MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
 	else
-		print("Removed this quantity: " ..quantity)
 		// Just reduce the quantity count
 		self.inventory[type][uniqueid]["quantity"] = self.inventory[type][uniqueid]["quantity"] - quantity
 		MySQLite.query("UPDATE " ..type .." SET quantity = " ..self.inventory[type][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
@@ -66,7 +64,6 @@ function meta:dropAllInventory()
 	
 	// If the player had any items in the inventory then create the loot
 	if loot and #loot > 0 then
-		PrintTable(loot)
 		createLoot(self:GetPos(), loot)
 	end
 	
@@ -134,10 +131,6 @@ function meta:dropItem(uniqueid, classid, quantity)
 	// Store the item temp so we can drop it
 	local item = table.Copy(self.inventory[itemType][uniqueid])
 		
-	print(quantity)
-	print(util.positive(quantity))
-	print(item.quantity)
-	print(quantity)
 	if util.positive(quantity) and (item.quantity >= quantity) then
 		if quantity == item.quantity then
 			// Delete from lua
@@ -145,7 +138,6 @@ function meta:dropItem(uniqueid, classid, quantity)
 			// Delete from MySQL
 			MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 		else
-			print("New inventory quantity: " ..(self.inventory[itemType][uniqueid].quantity - quantity))
 			self.inventory[itemType][uniqueid].quantity = self.inventory[itemType][uniqueid].quantity - quantity
 			item.quantity = quantity
 			

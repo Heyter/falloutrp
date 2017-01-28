@@ -25,11 +25,8 @@ function generateRandomLoot(chest)
 end
 
 function meta:loot(ent)
-	print(3)
 	if self:inLootRange(ent) then
-		print(4)
 		if ent:GetClass() == "factory" then
-			print(5)
 			if ent:hasLoot(self) then
 				net.Start("loot")
 					net.WriteEntity(ent)
@@ -60,11 +57,6 @@ function meta:lootItem(ent, itemId, quantity)
 				return
 			end
 			
-			print("Printing item:")
-			PrintTable(item)
-			print("Quantity: " ..quantity)
-			print("---")
-			
 			// Remove the item
 			ent:removeItem(itemId, quantity, self)
 				
@@ -91,7 +83,6 @@ function createLoot(position, items)
 	loot:SetPos(position + Vector(0, 0, 25))
 	loot:Spawn()
 	for k,v in pairs(items) do
-		print(v)
 		loot:addItem(v)
 	end
 	loot:DropToFloor()

@@ -75,7 +75,6 @@ net.Receive("sendClientside", function()
 end)
 
 local function validateRegistration(name, teamId, values)
-	print("validate name")
 	net.Start("registrationValidation")
 		net.WriteString(name)
 		net.WriteInt(teamId, 8)
@@ -88,24 +87,18 @@ net.Receive("registrationValidation", function(len, ply)
 	local name = net.ReadString()
 	local extra = net.ReadString()
 	
-	print("validated name")
 	
 	if errorId and errorId > 0 then
 		if errorId == 1 then
 			LocalPlayer():notify("Name must be atleast " ..NAME_MIN .." characters.", NOTIFY_ERROR)
-			print("Name must be atleast " ..NAME_MIN .." characters.")
 		elseif errorId == 2 then
 			LocalPlayer():notify("Name must not exceed " ..NAME_MAX .." characters.", NOTIFY_ERROR)
-			print("Name must not exceed " ..NAME_MAX .." characters.")
 		elseif errorId == 3 then
 			LocalPlayer():notify("Name must not contain the following: " ..extra, NOTIFY_ERROR)
-			print("Name must not contain the following: " ..extra)
 		elseif errorId == 4 then
 			LocalPlayer():notify("You must use all of your available points.", NOTIFY_ERROR)
-			print("You must use all of your available points.") 
 		elseif errorId == 5 then
 			LocalPlayer():notify("You must use all of your available points.", NOTIFY_ERROR)
-			print("The name " ..name .." is already in use.")
 		end
 	end
 	
@@ -121,8 +114,7 @@ local function teamSelection()
 	main:SetPos(0, 0)
 	main:SetSize(ScrW(), ScrH())
 	main.Paint = function(self, w, h)
-		draw.RoundedBox(2, 0, 0, w, h, Color(255, 255, 100, 0))
-		Derma_DrawBackgroundBlur(self, self.startTime)
+		draw.RoundedBox(2, 0, 0, w, h, Color(255, 255, 100, 50))
 	end
 	main:ShowCloseButton(false)
 	main:SetTitle("")
@@ -188,7 +180,6 @@ local function teamSelection()
 	teamSelect()
 	
 	nameSelect = function(id)
-		print(id)
 		local frame = vgui.Create("FalloutRP_Menu", main)
 		frame:SetPos(ScrW()/2 - nameFrameW/2, ScrH()/2 - nameFrameH/2)
 		frame:SetSize(nameFrameW, nameFrameH)
@@ -356,6 +347,5 @@ local function teamSelection()
 end
 
 net.Receive("teamSelection", function(len, ply)
-	print("what")
 	teamSelection()
 end)

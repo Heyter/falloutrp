@@ -23,9 +23,6 @@ function meta:getDamageThreshold()
 	local damageThreshold = 0
 	
 	for type, info in pairs(self.equipped.apparel) do
-		print(type)
-		PrintTable(info)
-		print(info.damageThreshold)
 		damageThreshold = damageThreshold + (info.damageThreshold or 0)
 	end
 	

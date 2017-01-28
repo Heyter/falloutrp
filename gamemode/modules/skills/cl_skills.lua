@@ -27,9 +27,9 @@ net.Receive("validateSkills", function(len, ply)
 	local errorId = net.ReadInt(8)
 	
 	if errorId == 1 then
-		print("Used more points than allowed.") 
+
 	elseif errorId == 2 then
-		print("Used less points than allowed.")
+
 	end
 	
 	canContinue = true

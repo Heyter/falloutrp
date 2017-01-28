@@ -24,7 +24,6 @@ function meta:addExp(exp)
 	net.Broadcast()
 	
 	if self:getLevel() > currentLevel then
-		print("OK")
 		self:levelUp()
 	end
 	

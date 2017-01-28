@@ -3,7 +3,6 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local inflictor = dmgInfo:GetInflictor()
 	local attacker = dmgInfo:GetAttacker()
 	local damageType = dmgInfo:GetDamageType()
-	print(damage)
 	if IsValid(attacker) and attacker:IsPlayer() then
 		if IsValid(target) and target:IsPlayer() then
 			// Add Damage
@@ -19,17 +18,13 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				local damageType = getWeaponType(classid)
 				local critChance = getWeaponCriticalChance(classid)
 				
-				print("Printing new damage")
 				damage = attacker:getWeaponDamage(uniqueid)
-				print(damage)
 				
 				if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
 					damage = (damage * CRITICAL_MULTIPLIER)
 					damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
 				end
-				print("Printing damage type")
-				print(damageType)
-				print(damage)
+				
 				// Unarmed and Explosives will need to be handled seperately
 				if damageType == DMG_BULLET then
 					damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
@@ -45,8 +40,6 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 			// Reduce Damage
 				//Get Damage Threshold
 				
-			
-			print(damage)
 			dmgInfo:SetDamage(damage)
 			
 			// Reflect Damage
@@ -120,7 +113,7 @@ hook.Add("PlayerLoadout", "playerLoadout", function(ply)
 	
 	
 	// No default loadout
-	//return true
+	return true
 end)
 
 hook.Add("PlayerSpawnProp", "disableProps", function(ply)

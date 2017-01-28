@@ -51,9 +51,7 @@ function meta:unequipWeapon(uniqueid, classid)
 end
 
 function meta:equipWeapon(uniqueid, classid)
-	print(classid)
 	if self:canEquipWeapon(classid) then
-		print(classid)
 		local weaponType = getWeaponSlot(classid)
 	
 		// Remove current weapon
@@ -63,7 +61,7 @@ function meta:equipWeapon(uniqueid, classid)
 			
 			self:unequipWeapon(currentId, currentClass)
 		else
-			print("NOPE")
+
 		end
 		
 		// Give and select weapon

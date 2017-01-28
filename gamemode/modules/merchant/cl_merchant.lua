@@ -51,8 +51,6 @@ function sellItem(npc, uniqueid, type, id, quantity)
 end
 
 function openMerchant(name, items)
-	print(name)
-	PrintTable(items)
 	gui.EnableScreenClicker(true)
 	
 	lastNpc = name

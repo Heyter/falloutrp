@@ -22,8 +22,6 @@ function meta:loadPlayer()
 		if !results then
 			self:selectTeam()
 		else
-			print("Printing reuslts [1]")
-			print(results[1])
 			self.playerData = results[1]
 			
 			net.Start("loadPlayerData")
@@ -38,7 +36,6 @@ end
 function meta:loadAllClientside()
 	for k,v in pairs(player.GetAll()) do
 		if v != self and v.loaded then
-			print(v)
 			self:loadClientside(v)
 		end
 	end
