@@ -35,7 +35,7 @@ function ENT:generateLoot()
 	
 	// Add the default item and subtract ore amount
 	table.insert(loot, createItem(VEINS[self:getType()]["Default"], 1))
-	print(VEINS[self:getType()]["Default"])
+	
 	local extras = VEINS[self:getType()]["Extras"]
 	
 	for ore, chance in pairs(extras) do

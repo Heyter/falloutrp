@@ -41,9 +41,7 @@ function meta:unequipApparel(uniqueid, classid)
 end
 
 function meta:equipApparel(uniqueid, classid)
-	print(classid)
 	if self:canEquipApparel(classid) then
-		print(classid)
 		local apparelSlot = getApparelSlot(classid)
 	
 		// Remove current weapon

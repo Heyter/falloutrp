@@ -60,7 +60,6 @@ function updateSkillPoints(ply, values)
 end
 
 function validateSkills(ply, values)
-	PrintTable(values)
 	local beginningTotal, beginningValues = calcBeginningSkills(ply)
 	local total = 0
 	local errorId

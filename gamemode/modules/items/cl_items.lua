@@ -30,7 +30,7 @@ net.Receive("dropItem", function()
 	local itemType = net.ReadString()
 	local uniqueid = net.ReadInt(32)
 	local quantity = net.ReadInt(16)
-	print(itemType, uniqueid)
+
 	if util.positive(quantity) then
 		LocalPlayer().inventory[itemType][uniqueid].quantity = quantity
 	else

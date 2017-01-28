@@ -68,10 +68,12 @@ hook.Add("KeyRelease", "tcb_StaminaRelease", tcb_StaminaRelease)
 -- StaminaRestore
 function tcb_StaminaRestore(ply)
 	timer.Create("tcb_StaminaGain", staminaRestoreSpeed, 0, function( ) 
-		if ply:GetNWInt("tcb_Stamina") >= ply:getMaxSprintLength() then
-			return false
-		else
-			ply:SetNWInt("tcb_Stamina", ply:GetNWInt("tcb_Stamina") + 1)
+		if IsValid(ply) then
+			if ply:GetNWInt("tcb_Stamina") >= ply:getMaxSprintLength() then
+				return false
+			else
+				ply:SetNWInt("tcb_Stamina", ply:GetNWInt("tcb_Stamina") + 1)
+			end
 		end
 	end)	
 end

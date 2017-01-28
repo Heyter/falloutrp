@@ -9,14 +9,10 @@ local hungerDelay = HUNGER_DELAY
 local hungerRemove = HUNGER_REMOVE
 local hungerDamage = HUNGER_DAMAGE
 
-print(hungerMax, hungerDelay, hungerRemove, hungerDamage)
-
 local thirstMax = THIRST_MAX or 0 // Max thirst a player can have
 local thirstDelay = THIRST_DELAY
 local thirstRemove = THIRST_REMOVE
 local thirstDamage = THIRST_DAMAGE
-
-print(thirstMax, thirstDelay, thirstRemove, thirstDamage)
 
 function meta:setHunger(amount)
 	self.playerData.hunger = amount

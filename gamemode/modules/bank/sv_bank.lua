@@ -140,8 +140,6 @@ function meta:depositItem(uniqueid, classid, quantity)
 			
 			if sameItem then
 				// Add quantity to the current item already in the bank
-				print("SAME ITEM")
-				print(sameItem, quantity)
 				self.bank[itemType][sameItem]["quantity"] = self.bank[itemType][sameItem]["quantity"] + quantity
 				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
 				
