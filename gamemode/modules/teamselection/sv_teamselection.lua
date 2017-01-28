@@ -70,14 +70,8 @@ local function createCharacter(ply, name, teamId, values)
 		net.WriteTable(ply.playerData)
 	net.Send(ply)
 	
-	// Send the new player to all client's on the server
-	local data = ply.playerData
-	net.Start("sendClientside")
-		net.WriteEntity(ply)
-		net.WriteString(data.name)
-		net.WriteInt(data.experience, 32)
-		net.WriteInt(data.strength, 8)
-	net.Broadcast()
+	// The player has finished loading
+	self:postLoadPlayer()
 	
 	timer.Simple(5, function()
 		giveStartingWeapons(ply)

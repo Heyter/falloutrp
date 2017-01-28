@@ -106,7 +106,7 @@ function meta:sendInventory()
 	net.Start("loadEquipped")
 		net.WriteEntity(self)
 		net.WriteTable(self.equipped)
-	net.Broadcast()
+	net.Send(self)
 end
 
 function meta:pickUpItem(item, quantity)

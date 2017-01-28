@@ -11,6 +11,12 @@ net.Receive("loadEquipped", function()
 	local equipped = net.ReadTable()
 	
 	ply.equipped = equipped
+	
+	
+	// We have finished loading playerData, inventory, and equipped. Now send it to all clients
+	net.Start("loadPlayerData")
+	
+	net.SendToServer()
 end)
 
 net.Receive("depleteInventoryItem", function()
