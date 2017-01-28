@@ -7,6 +7,34 @@ hook.Add("OnNPCKilled", "restoreNpcPosition", function(npc, attacker, inflictor)
 	end
 end)
 
+hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
+	local npcLoot = getNpcLoot(npc)
+	local randomLoot = generateRandomLoot()
+	local actualLoot = {}
+	
+	for k,v in pairs(npcLoot) do
+		local quantity = v.quantity
+		local prob = v.prob
+		
+		if util.roll(prob, 100) then
+			local item = createItem(k, quantity)
+			
+			table.insert(actualLoot, item)
+		end
+	end
+	for k,v in pairs(randomLoot) do
+		table.insert(actualLoot, v)
+	end
+	
+	if actualLoot and #actualLoot > 0 then
+		createLoot(npc:GetPos(), actualLoot)
+	end
+	
+	if IsValid(attacker) and attacker:IsPlayer() then
+		attacker:addExp(getNpcExp(npc))
+	end
+end)
+
 function getActiveNpcs(type)
 	local active = 0
 	local inactive = {}

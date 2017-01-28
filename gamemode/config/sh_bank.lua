@@ -1,6 +1,6 @@
 
-BANK_WEIGHT = 500 // The max weight that a bank can hold
-BANK_MODEL = "models/fallout3/vaultdesk01.mdl" // The model of the bank
+BANK_WEIGHT = 300 // The max weight that a bank can hold
+BANK_MODEL = "models/sal/fallout4/safe.mdl" // The model of the bank
 
 BANK_POSITIONS = {
 	Vector(-9317, 10401, 0)

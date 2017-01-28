@@ -20,6 +20,7 @@ function ENT:hit(attacker, hitPos)
 			createLoot(hitPos, loot)
 			self:reduceOres(#loot)
 			
+			attacker:addExp(10)
 			attacker:notify("Mined chunk.", NOTIFY_GENERIC)
 		end
 	end

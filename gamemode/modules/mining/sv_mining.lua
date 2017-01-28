@@ -1,5 +1,11 @@
 
 // Server
+local function getRandomSize(type)
+	local info, size = table.Random(VEINS[type]["Sizes"])
+
+	return info, size
+end
+
 function spawnVein(inactiveVeins, type)
 	local randomLocation = table.Random(inactiveVeins)
 	local location = VEINS[type]["Positions"][randomLocation]
@@ -18,12 +24,6 @@ function spawnVein(inactiveVeins, type)
 	vein.key = randomLocation // So we know which location to set inactive when the vein is gone
 	
 	vein:Spawn()
-end
-
-function getRandomSize(type)
-	local info, size = table.Random(VEINS[type]["Sizes"])
-
-	return info, size
 end
 
 function getActiveVeins(type)

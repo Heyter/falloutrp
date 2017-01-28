@@ -12,19 +12,7 @@ function meta:postLoadPlayer()
 	// Set team
 	self:SetTeam(self.playerData.faction)
 	
-	// Set health
-	self:SetHealth(self:getMaxHealth())
-	
-	// Initialize hunger
-	self:setHunger(HUNGER_MAX)
-	self:startHungerTimer()
-			
-	// Initialize thirst
-	self:setThirst(THIRST_MAX)
-	self:startThirstTimer()
-	
-	// Initialize stamina
-	tcb_StaminaStart(self)
+	self:Spawn()
 end
 
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table

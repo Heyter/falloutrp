@@ -1,7 +1,7 @@
 
 MERCHANTS = {
 	["John Doyle"] = {
-		Position = Vector(-8999, 10400, 0),
+		Position = Vector(-10343, 11293, 8),
 		Angles = Angle(0, 0, 0),
 		Sale = {
 			[1] = {

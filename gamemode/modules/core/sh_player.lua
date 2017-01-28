@@ -13,7 +13,7 @@ end
 local meta = FindMetaTable("Player")
 
 function meta:getName()
-	return (self.playerData and self.playerData.name) or self:getNick()
+	return (self.playerData and self.playerData.name) or self:GetNick()
 end
 
 function meta:getMaxRunSpeed()

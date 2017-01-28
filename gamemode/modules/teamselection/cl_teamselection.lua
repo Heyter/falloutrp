@@ -28,7 +28,7 @@ local teams = {
 		Name = "Legion", 
 		Emblem = "falloutrp/factions/LegionEmblem.png",
 		Reputation = "falloutrp/factions/LegionReputation.png",
-		Description = "Increased damage with melee weapons and explosives.\nIncreased critical chance and critical damage."
+		Description = "Increased damage with melee weapons\nand explosives.\nIncreased critical\nchance and critical damage."
 	}
 }
 
@@ -39,7 +39,22 @@ net.Receive("createCharacter", function(len, ply)
 		
 		local plyData = net.ReadTable()
 		
-		LocalPlayer().playerData = plyData
+		LocalPlayer().playerData = plyData	
+		LocalPlayer().inventory = {
+			weapons = {},
+			apparel = {},
+			aid = {},
+			misc = {},
+			ammo = {}
+		}
+		LocalPlayer().equipped = {
+			weapons = {},
+			apparel = {}
+		}
+		
+		net.Start("createCharacter")
+		
+		net.SendToServer()
 	end
 end)
 
@@ -50,11 +65,13 @@ net.Receive("sendClientside", function()
 	local strength = net.ReadInt(8)
 	local equipped = net.ReadTable()
 	
-	ply.playerData = ply.playerData or {}
-	ply.name = name
-	ply.experience = experience
-	ply.strength = strength
-	ply.equipped = equipped
+	if ply != LocalPlayer() then
+		ply.playerData = ply.playerData or {}
+		ply.name = name
+		ply.experience = experience
+		ply.strength = strength
+		ply.equipped = equipped
+	end
 end)
 
 local function validateRegistration(name, teamId, values)
@@ -339,5 +356,6 @@ local function teamSelection()
 end
 
 net.Receive("teamSelection", function(len, ply)
+	print("what")
 	teamSelection()
 end)

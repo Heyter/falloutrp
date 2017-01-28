@@ -5,6 +5,25 @@ util.AddNetworkString("lootItem")
 
 local meta = FindMetaTable("Player")
 
+function generateRandomLoot(chest)
+	local loot = {}
+	
+	for k,v in pairs(LOOT) do
+		if chest then
+			prob = prob * 2
+		end
+		
+		local prob = v.prob
+		local quantity = v.quantity
+		
+		if util.roll(prob, 1000) then
+			table.insert(loot, createItem(k, v.quantity))
+		end
+	end
+	
+	return loot
+end
+
 function meta:loot(ent)
 	print(3)
 	if self:inLootRange(ent) then

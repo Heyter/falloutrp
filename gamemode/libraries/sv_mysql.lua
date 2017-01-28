@@ -122,13 +122,13 @@ local multistatements
 //local MySQLite_config = MySQLite_config or RP_MySQLConfig or FPP_MySQLConfig
 local MySQLite_config = {}
 MySQLite_config.EnableMySQL = true -- Set to true if you want to use an external MySQL database, false if you want to use the built in SQLite database (garrysmod/sv.db) of Garry's mod.
-MySQLite_config.Host = "underminepvp.com" -- This is the IP address of the MySQL host. Make sure the IP address is correct and in quotation marks (" ")
-MySQLite_config.Username = "underminepvp" -- This is the username to log in on the MySQL server.
+MySQLite_config.Host = "a2ls10.a2hosting.com" -- This is the IP address of the MySQL host. Make sure the IP address is correct and in quotation marks (" ")
+MySQLite_config.Username = "gamingli_nick" -- This is the username to log in on the MySQL server.
 								-- contact the owner of the server about the username and password. Make sure it's in quotation marks! (" ")
-MySQLite_config.Password = "Spbu9tpVUc" -- This is the Password to log in on the MySQL server,
+MySQLite_config.Password = "21220sql" -- This is the Password to log in on the MySQL server,
 									-- Everyone who has access to FTP on the server can read this password.
 									-- Make sure you know who to trust. Make sure it's in quotation marks (" ")
-MySQLite_config.Database_name = "underminepvp_gmod" -- This is the name of the Database on the MySQL server. Contact the MySQL server host to find out what this is
+MySQLite_config.Database_name = "gamingli_falloutrp" -- This is the name of the Database on the MySQL server. Contact the MySQL server host to find out what this is
 MySQLite_config.Database_port = 3306 -- This is the port of the MySQL server. Again, contact the MySQL server host if you don't know this.
 MySQLite_config.Preferred_module = "mysqloo" -- Preferred module, case sensitive, must be either "mysqloo" or "tmysql4". Only applies when both are installed.
 MySQLite_config.MultiStatements = false -- Only available in tmysql4: allow multiple SQL statements per query. Has no effect if no scripts use it.
