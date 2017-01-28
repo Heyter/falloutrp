@@ -38,10 +38,11 @@ function meta:craftItem(itemInfo)
 	if self:hasCraftingLevel(itemInfo.level) then
 		if self:hasCraftingMaterials(itemInfo.materials) then
 			if self:canInventoryFit(itemInfo) then
+				local quantity = itemInfo.quantity or 1
 				self:removeCraftingMaterials(itemInfo.materials)
 				
 				// Give the item to the player
-				self:pickUpItem(createItem(itemInfo.classid), 1)
+				self:pickUpItem(createItem(itemInfo.classid, 1, true), quantity)
 				
 				net.Start("craftItem")
 				

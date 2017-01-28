@@ -18,13 +18,12 @@ function spawnChest(inactiveChests)
 	
 	chest:Spawn()
 	
-	for k,v in pairs(LOOT) do
-		local roll = math.random(1, 100)
-		
-		if roll <= v.prob then
-			chest:addItem(createItem(v.id, v.quantity))
-		end
+	
+	local loot = generateRandomLoot(true)
+	for k,v in pairs(loot) do
+		chest:addItem(v)
 	end
+	chest:addItem(createItem(4001, 1))
 end
 
 function getActiveChests()

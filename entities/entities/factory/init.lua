@@ -84,10 +84,28 @@ end
 
 function ENT:addRandomItem(ply)
 	local itemTable = self:getInfo().Items
+	local chosen
+	local quantity = 1
+	
+	if self:GetPlace() == "Weapon Factory" or self:GetPlace() == "Materials Factory" then
+		quantity = math.random(5, 15)
+	end
+	
+	for k, item in pairs(itemTable) do
+		if !chosen then
+			local roll = util.roll(5, 100)
+			
+			if roll then
+				chosen = createItem(item, quantity)
+			end
+			
+			self:addItem(chosen, ply)
+		end
+	end
+	
+	// Incase no hits, just add a random item
 	local randomItem, index = table.Random(itemTable)
-	
 	local item = createItem(randomItem)
-	
 	self:addItem(item, ply)
 end
 

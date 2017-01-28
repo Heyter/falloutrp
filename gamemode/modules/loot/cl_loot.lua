@@ -166,10 +166,12 @@ function openLoot(ent, loot)
 			
 			itemLabel:SetTextColor(COLOR_BLUE)
 			
-			local frameX, frameY = frame:GetPos()
-			inspect = vgui.Create("FalloutRP_Item")
-			inspect:SetPos(frameX + frame:GetWide(), frameY)
-			inspect:SetItem(v)
+			if !isCap(v.classid) then
+				local frameX, frameY = frame:GetPos()
+				inspect = vgui.Create("FalloutRP_Item")
+				inspect:SetPos(frameX + frame:GetWide(), frameY)
+				inspect:SetItem(v)
+			end
 		end
 		itemBox.OnCursorExited = function(self)
 			self.hovered = false

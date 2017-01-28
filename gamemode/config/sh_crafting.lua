@@ -1,5 +1,5 @@
 
-WORKBENCH_MODEL = "models/props_trainstation/bench_indoor001a.mdl"
+WORKBENCH_MODEL = "models/mosi/fallout4/furniture/workstations/weaponworkbench01.mdl"
 
 WORKBENCH_POSITIONS = {
 	Vector(-8989, 10147, 19)

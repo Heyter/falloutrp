@@ -3,10 +3,15 @@
 NPCS = {
 	["npc_giantrat"] = {
 		Name = "Giant Rat",
-		Health = 300,
+		Health = 250,
 		Limit = 50, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 10, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		Experience = 20,
+		Loot = {
+			[4014] = {quantity = {1, 2}, prob = 80},
+			[5042] = {quantity = {1, 3}, prob = 80},
+		},
 		Positions = {
 			{Position = Vector(10022, -2350, 33), Active = false},
 			{Position = Vector(10475, -2772, 30), Active = false},
@@ -91,6 +96,11 @@ NPCS = {
 			Limit = 50, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 10, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 20,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5042] = {quantity = {1, 3}, prob = 80},
+			},
 			Positions = {
 				{Position = Vector(-11622, 3740, 0), Active = false},
 				{Position = Vector(-11471, 4033, 0), Active = false},
@@ -149,6 +159,11 @@ NPCS = {
 			Limit = 4, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 20,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5042] = {quantity = {1, 3}, prob = 80},
+			},
 			Positions = {
 				{Position = Vector(3984, -345, 0), Active = false},
 				{Position = Vector(-4768, -10181, 0), Active = false},
@@ -158,10 +173,15 @@ NPCS = {
 	},
 	["npc_mantis"] = {
 			Name = "Giant Mantis",
-			Health = 300,
+			Health = 200,
 			Limit = 20, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 20,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5042] = {quantity = {1, 3}, prob = 80},
+			},
 			Positions = {
 				{Position = Vector(4572, -1241, 29), Active = false},
 				{Position = Vector(4226, -1322, 17), Active = false},
@@ -204,10 +224,15 @@ NPCS = {
 	},
 	["npc_mantis_nymph"] = {
 			Name = "Giant Mantis Nymph",
-			Health = 300,
+			Health = 175,
 			Limit = 5, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 20,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5042] = {quantity = {1, 3}, prob = 80}
+			},
 			Positions = {
 				{Position = Vector(-7397, -9370, 73), Active = false},
 				{Position = Vector(13769, -10042, 40), Active = false},
@@ -218,10 +243,15 @@ NPCS = {
 	},
 	["npc_cazador"] = {
 			Name = "Cazador",
-			Health = 300,
+			Health = 350,
 			Limit = 20, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 30,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5043] = {quantity = {1, 3}, prob = 80},
+			},
 			Positions = {
 				{Position = Vector(5855, 3022, 28), Active = false},
 				{Position = Vector(6088, 2997, 22), Active = false},
@@ -259,10 +289,20 @@ NPCS = {
 	},
 	["npc_ghoulferal"] = {
 			Name = "Feral Ghoul",
-			Health = 300,
+			Health = 400,
 			Limit = 40, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 35,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5042] = {quantity = {1, 3}, prob = 80},
+				[5029] = {quantity = {1, 2}, prob = 25},
+				[5030] = {quantity = {1, 2}, prob = 25},
+				[5031] = {quantity = {1, 2}, prob = 25},
+				[5032] = {quantity = {1, 2}, prob = 10},
+				[5041] = {quantity = {1, 1}, prob = 1},
+			},
 			Positions = {
 				{Position = Vector(-9756, -11314, 20), Active = false},
 				{Position = Vector(-9740, -11444, 18), Active = false},
@@ -351,10 +391,20 @@ NPCS = {
 		},
 	["npc_ghoulferal_reaver"] = {
 			Name = "Feral Ghoul Reaver",
-			Health = 300,
+			Health = 400,
 			Limit = 6, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+			Experience = 35,
+			Loot = {
+				[4014] = {quantity = {1, 2}, prob = 80},
+				[5042] = {quantity = {1, 3}, prob = 80},
+				[5029] = {quantity = {1, 2}, prob = 25},
+				[5030] = {quantity = {1, 2}, prob = 25},
+				[5031] = {quantity = {1, 2}, prob = 25},
+				[5032] = {quantity = {1, 2}, prob = 10},
+				[5041] = {quantity = {1, 1}, prob = 1},
+			},
 			Positions = {
 				{Position = Vector(7695, -12192, 17), Active = false},
 				{Position = Vector(3350, -12114, 17), Active = false},
@@ -366,10 +416,22 @@ NPCS = {
 	},
 	["npc_deathclaw"] = { 
 		Name = "Deathclaw",
-		Health = 300,
+		Health = 800,
 		Limit = 15, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		Experience = 50,
+		Loot = {
+			[4014] = {quantity = {1, 8}, prob = 80},
+			[5043] = {quantity = {1, 3}, prob = 80},
+			[5029] = {quantity = {1, 2}, prob = 25},
+			[5030] = {quantity = {1, 2}, prob = 25},
+			[5031] = {quantity = {1, 2}, prob = 25},
+			[5032] = {quantity = {1, 2}, prob = 30},
+			[5040] = {quantity = {1, 1}, prob = 5},
+			[5041] = {quantity = {1, 1}, prob = 50},
+			[5039] = {quantity = {1, 1}, prob = 25},
+		},		
 		Positions = {
 			{Position = Vector(9659, 10653, 23), Active = false},
 			{Position = Vector(-6300, -5143, 0), Active = false},
@@ -400,10 +462,17 @@ NPCS = {
 	},
 	["npc_mirelurk"] = {
 		Name = "Mirelurk",
-		Health = 300,
+		Health = 600,
 		Limit = 15, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		Experience = 45,
+		Loot = {
+			[5030] = {quantity = {1, 8}, prob = 15},
+			[5031] = {quantity = {1, 3}, prob = 15},
+			[5044] = {quantity = {1, 2}, prob = 10},
+			[5043] = {quantity = {1, 2}, prob = 10},
+		},				
 		Positions = {
 			{Position = Vector(-6092, -362, -247), Active = false},
 			{Position = Vector(-6581, -347, -243), Active = false},
@@ -417,6 +486,9 @@ NPCS = {
 	},
 }
 
+function getNpcExp(type)
+	return (NPCS[type] and NPCS[type]["Experience"]) or 100
+end
 
 function getNpcName(type)
 	return (NPCS[type] and NPCS[type]["Name"]) or "N/A"

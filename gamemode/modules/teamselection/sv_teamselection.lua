@@ -12,6 +12,14 @@ function meta:selectTeam()
 	net.Send(self)
 end
 
+local function giveStartingWeapons(ply)
+	ply:pickUpItem(createItem(1015, 1, true), 1)
+	ply:pickUpItem(createItem(1044, 1, true), 1)
+	ply:pickUpItem(createItem(3017, 1, true), 20)
+	ply:pickUpItem(createItem(5014, 1, true), 10)
+	ply:pickUpItem(createItem(5033, 1, true), 10)
+end
+
 local function createCharacter(ply, name, teamId, values)
 	print(ply, name, teamId)
 	
@@ -46,6 +54,17 @@ local function createCharacter(ply, name, teamId, values)
 		["survival"] = 1,
 		["unarmed"] = 1
 	}
+	ply.inventory = {
+		weapons = {},
+		apparel = {},
+		aid = {},
+		misc = {},
+		ammo = {}
+	}
+	ply.equipped = {
+		weapons = {},
+		apparel = {}
+	}
 	
 	net.Start("createCharacter")
 		// Don't need to send anything, just close the menu
@@ -61,9 +80,9 @@ local function createCharacter(ply, name, teamId, values)
 		net.WriteInt(data.strength, 8)
 	net.Broadcast()
 	
-	ply:SetTeam(teamId)
-	ply:Spawn()
-	ply.loaded = true // Allowed to open pipboy now
+	timer.Simple(5, function()
+		giveStartingWeapons(ply)
+	end)
 end
 
 local function hasInvalidChars(name)
@@ -134,4 +153,8 @@ net.Receive("registrationValidation", function(len, ply)
 	local values = net.ReadTable()
 
 	validateRegistration(ply, name, teamId, values)
+end)
+
+net.Receive("createCharacter", function(len, ply)
+	ply:postLoadPlayer()
 end)

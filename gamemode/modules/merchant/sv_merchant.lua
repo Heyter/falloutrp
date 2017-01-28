@@ -7,6 +7,11 @@ local meta = FindMetaTable("Player")
 
 function meta:buyItem(npc, type, id, index, uniqueid, quantity)
 	// Create a copy of the item since the actual one will be deleted
+	if 1 == 1 then
+		self:notify("This is temporarily disabled, sorry.", NOTIFY_ERROR)
+		return
+	end
+	
 	local item = table.Copy(MERCHANTS[npc]["Sale"][id]["Items"][index])
 	
 	if item and (item.uniqueid == uniqueid) then

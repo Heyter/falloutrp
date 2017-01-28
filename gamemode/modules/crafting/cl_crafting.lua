@@ -196,6 +196,7 @@ function openCrafting(lastButton)
 			local itemLabel = vgui.Create("DLabel", itemBox)
 			itemLabel:SetPos(textPadding, textPadding/2)
 			itemLabel:SetFont("FalloutRP2")
+			print(v.classid)
 			itemLabel:SetText(getItemName(v.classid))
 			itemLabel:SizeToContents()
 			itemLabel:SetTextColor(COLOR_AMBER)
@@ -297,7 +298,7 @@ function openCrafting(lastButton)
 			
 			// The player has enough of the required item
 			if owned >= amount then
-				materialOwned:SetTextColor(COLOR_GREEN)
+				materialOwned:SetTextColor(COLOR_LIGHTGREEN)
 			else
 				// The player does not have enough of the required item
 				craft:SetDisabled(true)

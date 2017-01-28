@@ -33,6 +33,9 @@ function ENT:Use(activator)
 end
 
 function ENT:addItem(item)
+	self.loot = self.loot or {}
+	self.iteration = self.iteration or 1
+
 	self.loot[self.iteration] = item
 	
 	// Increate the iteration for the slot of the next item

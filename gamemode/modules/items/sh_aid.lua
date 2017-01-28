@@ -40,8 +40,6 @@ function addAid(id, name, model, weight, value, healthPercent, health, timeInter
 	}
 end
 
-addAid(3001, "Regen Potion", "modelx", 2, 30, nil, 100, 2, 60)
-
 function findAid(id)
 	if id then
 		return Aid[id]
@@ -122,5 +120,4 @@ addAid(4010, "Can of Beans", "models/props_junk/garbage_metalcan001a.mdl", 4, 15
 addAid(4011, "Soda", "models/props_junk/PopCan01a.mdl", 4, 15, nil, nil, nil, nil, nil, 20)
 addAid(4012, "Malt Liquor", "models/props_junk/garbage_glassbottle001a.mdl", 4, 15, nil, nil, nil, nil, nil, 15)
 addAid(4013, "Cactus", "models/props_lab/cactus.mdl", 4, 15, nil, -5, nil, nil, 35)
-addAid(4014, "Scapula", "models/Gibs/HGIBS_scapula.mdl", 4, 15, nil, -5, nil, nil, 20)
-addAid(4015, "Chunk of Meat", "models/Gibs/Antlion_gib_Large_2.mdl", 4, 15, nil, -15, nil, nil, 30)
+addAid(4014, "Chunk of Meat", "models/Gibs/Antlion_gib_Large_2.mdl", 4, 15, nil, -15, nil, nil, 30)
