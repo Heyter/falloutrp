@@ -6,6 +6,9 @@ local meta = FindMetaTable("Player")
 
 // Called after 'playerData' table is set on client
 function meta:postLoadPlayer()
+	// Send the players data to the clientside
+	self:sendClientside()
+
 	// The player has been loaded in
 	self.loaded = true
 	
@@ -22,12 +25,13 @@ function meta:loadPlayer()
 		if !results then
 			self:selectTeam()
 		else
+			// The player is in the playerdata table
 			self.playerData = results[1]
 			
 			net.Start("loadPlayerData")
 				net.WriteTable(self.playerData)
 				net.WriteEntity(self)
-			net.Broadcast()
+			net.Send(self)
 		end
 	end)
 end
@@ -39,6 +43,19 @@ function meta:loadAllClientside()
 			self:loadClientside(v)
 		end
 	end
+end
+
+// Send newly loaded player to all the players on their clientside
+function self:sendClientside()
+	// Send the new player to all client's on the server
+	local data = self.playerData
+	net.Start("sendClientside")
+		net.WriteEntity(self)
+		net.WriteString(data.name)
+		net.WriteInt(data.experience, 32)
+		net.WriteInt(data.strength, 8)
+		net.WriteTable(self.equipped)
+	net.Broadcast()
 end
 
 // Get the data of an existing player that's loaded on the server
