@@ -122,13 +122,14 @@ addMisc(5038, "Switchbox", "models/mosi/fallout4/electrical/conduits/switchbox.m
 //
 addMisc(5039, "Crystal Shard", "models/scalpet/crystalshar.mdl", 0.25, 500)
 
+addMisc(5041, "Claw", "models/Halokiller38/fallout/weapons/Melee/deathclawgauntlet.mdl", 0.25, 75)
+
 addMisc(5042, "Hide", "models/Gibs/HGIBS_scapula.mdl", 0.25, 25)
+
 addMisc(5043, "Leather", "models/Gibs/HGIBS_scapula.mdl", 0.25, 75 )
 
 addMisc(5044, "Cloth", "models/Gibs/HGIBS_scapula.mdl", 0.5, 25)
 
 addMisc(5045, "Cotton", "models/weapons/w_snowball.mdl", 0.25, 15)
-
-addMisc(5046, "Sage", "models/props/cs_office/Snowman_arm.mdl", 0.25, 15)
 
 addMisc(5046, "Sage", "models/props/cs_office/Snowman_arm.mdl", 0.25, 5)

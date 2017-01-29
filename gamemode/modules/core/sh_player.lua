@@ -7,13 +7,17 @@ local MOVEMENT_SPEED_AGILITY = MOVEMENT_SPEED_AGILITY
 local SPRINT_AMOUNT_ENDURANCE = SPRINT_AMOUNT_ENDURANCE
 
 function plyDataExists(ply)
-	return ply and ply.playerData and ply.equipped
+	if ply and ply.playerData and ply.equipped then
+		return true
+	end
+
+	return false
 end
 
 local meta = FindMetaTable("Player")
 
 function meta:getName()
-	return (self.playerData and self.playerData.name) or self:GetNick()
+	return (self.playerData and self.playerData.name) or self:Nick()
 end
 
 function meta:getMaxRunSpeed()

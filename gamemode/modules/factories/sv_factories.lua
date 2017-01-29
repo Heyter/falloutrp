@@ -115,7 +115,9 @@ function FACTORY:EndWar(factory, winner)
 			if faction != 0 then // The factory is owner by a faction
 				if factory:getInfo()["Type"] == "Caps" then
 					for k,ply in pairs(team.GetPlayers(faction)) do
-						ply:addCaps(factory:getInfo()["Amount"])
+						local caps = factory:getInfo()["Amount"]
+						ply:addCaps(caps)
+						ply:notify("You received " ..caps .." caps from the factory.", NOTIFY_HINT)
 					end
 				else
 					for k,ply in pairs(team.GetPlayers(faction)) do

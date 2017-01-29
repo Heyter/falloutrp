@@ -58,22 +58,6 @@ net.Receive("createCharacter", function(len, ply)
 	end
 end)
 
-net.Receive("sendClientside", function()
-	local ply = net.ReadEntity()
-	local name = net.ReadString()
-	local experience = net.ReadInt(32)
-	local strength = net.ReadInt(8)
-	local equipped = net.ReadTable()
-	
-	if ply != LocalPlayer() then
-		ply.playerData = ply.playerData or {}
-		ply.name = name
-		ply.experience = experience
-		ply.strength = strength
-		ply.equipped = equipped
-	end
-end)
-
 local function validateRegistration(name, teamId, values)
 	net.Start("registrationValidation")
 		net.WriteString(name)

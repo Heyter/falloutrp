@@ -23,6 +23,8 @@ function spawnChest(inactiveChests)
 	for k,v in pairs(loot) do
 		chest:addItem(v)
 	end
+	
+	// Add a stimpack by default
 	chest:addItem(createItem(4001, 1))
 end
 

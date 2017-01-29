@@ -9,15 +9,15 @@ function generateRandomLoot(chest)
 	local loot = {}
 	
 	for k,v in pairs(LOOT) do
+		local prob = v.prob
 		if chest then
 			prob = prob * 2
 		end
 		
-		local prob = v.prob
 		local quantity = v.quantity
 		
 		if util.roll(prob, 1000) then
-			table.insert(loot, createItem(k, v.quantity))
+			table.insert(loot, nil, createItem(k, quantity))
 		end
 	end
 	
@@ -32,6 +32,8 @@ function meta:loot(ent)
 					net.WriteEntity(ent)
 					net.WriteTable(ent:getLoot(self))
 				net.Send(self)
+			else
+				self:notify("This factory has no items available for you yet.", NOTIFY_ERROR, 5)
 			end
 		else
 			if ent:hasLoot() then
