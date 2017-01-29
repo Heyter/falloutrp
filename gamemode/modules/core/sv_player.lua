@@ -46,7 +46,9 @@ function meta:loadAllClientside()
 end
 
 // Send newly loaded player to all the players on their clientside
-function self:sendClientside()
+function meta:sendClientside()
+	print("Sending to clients")
+
 	// Send the new player to all client's on the server
 	local data = self.playerData
 	net.Start("sendClientside")

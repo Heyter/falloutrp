@@ -36,6 +36,8 @@ local function close(frame)
 end
 
 function lootItem(ent, itemId, quantity)
+	removeInspect()
+
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
 	

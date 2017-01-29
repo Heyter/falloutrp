@@ -86,7 +86,7 @@ end
 
 function createNpcTimers()
 	for npc, info in pairs(NPCS) do
-		timer.Create(npc .." spawner", info.SpawnRate, 0, function()
+		timer.Create(npc .." spawner", 10, 0, function()
 			addNpc(npc)
 		end)
 		

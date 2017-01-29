@@ -70,9 +70,6 @@ local function createCharacter(ply, name, teamId, values)
 		net.WriteTable(ply.playerData)
 	net.Send(ply)
 	
-	// The player has finished loading
-	self:postLoadPlayer()
-	
 	timer.Simple(5, function()
 		giveStartingWeapons(ply)
 	end)
