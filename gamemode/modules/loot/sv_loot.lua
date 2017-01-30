@@ -17,7 +17,8 @@ function generateRandomLoot(chest)
 		local quantity = v.quantity
 		
 		if util.roll(prob, 1000) then
-			table.insert(loot, nil, createItem(k, quantity))
+			print(k)
+			table.insert(loot, #loot + 1, createItem(v.id, quantity))
 		end
 	end
 	

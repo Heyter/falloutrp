@@ -11,9 +11,10 @@ end
 
 function ENT:hit(attacker, hitPos)
 	if IsValid(attacker) and attacker:IsPlayer() then
-		local roll = util.roll(15 + attacker:getLevel(), 100)
+		local roll = util.roll(20 + attacker:getLevel(), 100)
 
 		if roll then
+			attacker:ViewPunch(Angle(7, 0, 0))
 			self:EmitSound(VEIN_SOUND)
 			local loot = self:generateLoot()
 			

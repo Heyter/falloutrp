@@ -10,10 +10,11 @@ function spawnChest(inactiveChests)
 	CHEST_LOCATIONS[randomLocation]["Active"] = true // Set the location to active
 	chest.key = randomLocation // So we know which location to set inactive when the chest is gone
 	
-	local randomLocked = math.random(1, 3)
+	local randomLocked = math.random(1, 4)
 	if randomLocked == 1 then
 		// Make the chest locked
-		chest:lock(1) // Lock the chest and make it require level 1 lockpicking
+		local lvl = math.random(1, 10)
+		chest:lock(lvl) // Lock the chest and make it require level 1 lockpicking
 	end
 	
 	chest:Spawn()
@@ -59,7 +60,9 @@ function beginChestTimer()
 end
 
 hook.Add("InitPostEntity", "startChestTimer", function()
-	beginChestTimer()
+	timer.Simple(1, function()
+		beginChestTimer()
+	end)
 end)	
 
 /*
