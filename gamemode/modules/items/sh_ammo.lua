@@ -45,7 +45,7 @@ end
 // Base functions that have data that will not change
 function getAmmoName(id)
 	if tonumber(id) then
-		return findAmmo(id).name
+		return (findAmmo(id) and findAmmo(id).name) or "N/A"
 	end
 end
 function getAmmoType(id)

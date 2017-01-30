@@ -101,17 +101,25 @@ function createNpcTimers()
 end
 
 function spawnAllNpcs()
+	local count = 1
 	for k,v in pairs(NPCS) do
 		for a, b in pairs(v.Positions) do
-			local ent = ents.Create(k)
-			ent:SetPos(b.Position)
-			ent:Spawn()
-			ent:SetHealth(v.Health)
+			if count < 175 then
+				timer.Simple(0.25 * count, function()
+					print(k, a)
+					local ent = ents.Create("npc_giantrat")
+					ent:SetPos(b.Position + Vector(0, 0, 40))
+					ent:Spawn()
+					ent:DropToFloor()
+					ent:SetHealth(v.Health)
+				end)
+				count = count + 1
+			end
 		end
 	end
 end
 
-hook.Add("InitPostEntity", "createNpcTimers", function()
+hook.Remove("InitPostEntity", "createNpcTimers", function()
 	timer.Simple(1, function()
 		createNpcTimers()
 	end)
