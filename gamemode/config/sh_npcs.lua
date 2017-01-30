@@ -169,6 +169,26 @@ NPCS = {
 				{Position = Vector(-4768, -10181, 0), Active = false},
 				{Position = Vector(7057, 4396, -5), Active = false},
 				{Position = Vector(-2102, -5733, 0), Active = false},
+				{Position = Vector(7771, -11686, 16), Active = false},
+				{Position = Vector(7988, -11684, 16), Active = false},
+				{Position = Vector(7929, -11168, 16), Active = false},
+				{Position = Vector(7246, -11255, 16), Active = false},
+				{Position = Vector(10823, -11133, 37), Active = false},
+				{Position = Vector(10682, -11093, 38), Active = false},
+				{Position = Vector(11035, -10979, 32), Active = false},
+				{Position = Vector(10638, -10922, 32), Active = false},
+				{Position = Vector(6460, -12452, 17), Active = false},
+				{Position = Vector(6595, -12163, 16), Active = false},
+				{Position = Vector(6716, -12403, 17), Active = false},
+				{Position = Vector(7829, -12142, 16), Active = false},
+				{Position = Vector(7795, -12333, 16), Active = false},
+				{Position = Vector(3438, -12257, 16), Active = false},
+				{Position = Vector(3617, -12103, 16), Active = false},
+				{Position = Vector(-13348, 2870, 32), Active = false},
+				{Position = Vector(-13279, 2809, 40), Active = false},
+				{Position = Vector(-13453, 6087, 15), Active = false},
+				{Position = Vector(-13562, 6065, 14), Active = false},
+				{Position = Vector(-13459, 5832, 14), Active = false},
 			},		
 	},
 	["npc_mantis"] = {
@@ -287,7 +307,8 @@ NPCS = {
 				{Position = Vector(-3111, 12144, 0), Active = false},
 			},	
 	},
-	["npc_ghoulferal"] = {
+	/*
+	["npc_gecko_golden"] = {
 			Name = "Feral Ghoul",
 			Health = 400,
 			Limit = 40, // How many can be active on the map at once
@@ -389,7 +410,8 @@ NPCS = {
 				{Position = Vector(-13459, 5832, 14), Active = false},
 			},		
 		},
-	["npc_ghoulferal_reaver"] = {
+	*/
+	["npc_gecko_green"] = {
 			Name = "Feral Ghoul Reaver",
 			Health = 400,
 			Limit = 6, // How many can be active on the map at once
@@ -457,8 +479,45 @@ NPCS = {
 			{Position = Vector(8838, 923, 5), Active = false},
 			{Position = Vector(8147, -286, 0), Active = false},
 			{Position = Vector(-4828, -11729, 0), Active = false},
+			{Position = Vector(-10766, -11336, 14), Active = false},
+			{Position = Vector(-10373, -11360, 17), Active = false},
+			{Position = Vector(-10574, -12667, 15), Active = false},
+			{Position = Vector(-9008, -13259, 128), Active = false},
+			{Position = Vector(-8162, -13141, 23), Active = false},
+			{Position = Vector(-8271, -12863, 18), Active = false},
+			{Position = Vector(-8911, -12796, 14), Active = false},
+			{Position = Vector(-9071, -13248, 15), Active = false},
+			{Position = Vector(-8936, -13289, 16), Active = false},
+			{Position = Vector(-9427, -11751, 16), Active = false},
+			{Position = Vector(-9835, -11686, 18), Active = false},
+			{Position = Vector(-9388, -13223, 15), Active = false},
+			{Position = Vector(-9037, -12305, 15), Active = false},
+			{Position = Vector(-7930, -12224, 14), Active = false},
+			{Position = Vector(-9439, -13681, 15), Active = false},
+			{Position = Vector(-8593, -13703, 15), Active = false},
+			{Position = Vector(-9070, -13563, 14), Active = false},
+			{Position = Vector(-9190, -14138, 15), Active = false},
+			{Position = Vector(-9924, -13907, 15), Active = false},
+			{Position = Vector(-9908, -13585, 15), Active = false},
+			{Position = Vector(7736, -8607, 16), Active = false},
+			{Position = Vector(7654, -8729, 17), Active = false},
+			{Position = Vector(7551, -8560, 16), Active = false},
+			{Position = Vector(4568, -9454, 22), Active = false},
+			{Position = Vector(7963, -8488, 17), Active = false},
+			{Position = Vector(4816, -8798, 22), Active = false},
+			{Position = Vector(4670, -9616, 22), Active = false},
+			{Position = Vector(6919, -11227, 16), Active = false},
+			{Position = Vector(6680, -11088, 16), Active = false},
+			{Position = Vector(6763, -11253, 16), Active = false},
+			{Position = Vector(4620, -9078, 158), Active = false},
+			{Position = Vector(3946, -11184, 17), Active = false},
+			{Position = Vector(3750, -11026, 16), Active = false},
+			{Position = Vector(3758, -11327, 16), Active = false},
+			{Position = Vector(3579, -11136, 17), Active = false},
+			{Position = Vector(4710, -9213, 22), Active = false},
 		},		
 	},
+	/*
 	["npc_mirelurk"] = {
 		Name = "Mirelurk",
 		Health = 600,
@@ -483,6 +542,7 @@ NPCS = {
 			{Position = Vector(-6137, -3673, -205), Active = false},
 		},
 	},
+	*/
 }
 
 function getNpcExp(type)

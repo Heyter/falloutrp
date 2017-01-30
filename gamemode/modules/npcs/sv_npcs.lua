@@ -107,14 +107,14 @@ function spawnAllNpcs()
 			if count < 175 then
 				timer.Simple(0.25 * count, function()
 					print(k, a)
-					local ent = ents.Create("npc_giantrat")
+					local ent = ents.Create(k)
 					ent:SetPos(b.Position + Vector(0, 0, 40))
 					ent:Spawn()
 					ent:DropToFloor()
 					ent:SetHealth(v.Health)
 				end)
-				count = count + 1
 			end
+			count = count + 1
 		end
 	end
 end
