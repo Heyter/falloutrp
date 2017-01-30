@@ -100,7 +100,7 @@ addWeapon(1008, "Chinese Officer Sword", DMG_SLASH, "secondary", "weapon_chinese
 addWeapon(1009, "Cleaver", DMG_SLASH, "secondary", "weapon_cleaver", "models/Halokiller38/fallout/weapons/Melee/cleaver.mdl", 1120, 2.5, 1500, 4, 45, 50, 7.5, 1.76,nil)
 addWeapon(1010, "Combat Knife", DMG_SLASH, "secondary", "weapon_combatknife", "models/Halokiller38/fallout/weapons/Melee/combatknife.mdl", 1120, 2.5, 1500, 10, 45, 50, 10, 1.76, nil)
 addWeapon(1011, "Fireaxe", DMG_SLASH, "secondary", "weapon_fireaxe", "models/Halokiller38/fallout/weapons/Melee/fireaxe.mdl", 1120, 2.5, 1500, 1, 45, 50, 7.5, 1.76, nil)
-addWeapon(1012, "Hatchet", DMG_SLASH, "secondary", "weapon_hatchet", "models/Halokiller38/fallout/weapons/Melee/hatchet.mdl", 1120, 2.5, 1500, 7, 45, 50, 7.5, 1.76, NIL)
+addWeapon(1012, "Hatchet", DMG_SLASH, "secondary", "weapon_hatchet", "models/Halokiller38/fallout/weapons/Melee/hatchet.mdl", 1120, 2.5, 1500, 7, 45, 50, 7.5, 1.76, nil)
 addWeapon(1013, "Kitchen Knife", DMG_SLASH, "secondary", "weapon_kitchenknife", "models/Halokiller38/fallout/weapons/Melee/kitchenknife.mdl", 1120, 2.5, 1500, 1, 45, 50, 82.5, 2.75, 1.76, nil)
 addWeapon(1014, "Lily's Vertibird Blade", DMG_SLASH, "secondary", "weapon_lilysblade", "models/Halokiller38/fallout/weapons/Melee/lilysblade.mdl", 1120, 2.5, 1500, 27, 45, 50, 2.75, 1.76, nil)
 addWeapon(1015, "Machete", DMG_SLASH, "secondary", "weapon_machete", "models/Halokiller38/fallout/weapons/Melee/machete.mdl", 1120, 2.5, 1500, 1, 45, 50, 2.75, 1.76,nil)

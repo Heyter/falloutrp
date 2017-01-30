@@ -451,7 +451,6 @@ NPCS = {
 			{Position = Vector(6650, -10404, 16), Active = false},
 			{Position = Vector(3404, 8540, 10), Active = false},
 			{Position = Vector(5891, 8115, 6), Active = false},
-			{Position = Vector(-9575, -12374, 0), Active = false},
 			{Position = Vector(7728, 10293, 0), Active = false},
 			{Position = Vector(7070, 9469, 0), Active = false},
 			{Position = Vector(-11945, 4054, 2), Active = false},
