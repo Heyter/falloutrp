@@ -66,6 +66,9 @@ hook.Add("PlayerSpawn", "SetupPlayer", function(ply)
 			// Initialize stamina
 			tcb_StaminaStart(ply)
 			
+			// Initialize health regen
+			ply:startHealthRegen()
+			
 			if ply:Team() == TEAM_BOS then
 				ply:SetModel("models/player/fallout_3/tesla_power_armor.mdl")
 			elseif ply:Team() == TEAM_NCR then
@@ -110,28 +113,11 @@ end)
 hook.Add("PlayerLoadout", "playerLoadout", function(ply)
 	ply:Give("rphands")
 	
-	
-	
 	// No default loadout
 	return true
 end)
 
-hook.Add("PlayerSpawnProp", "disableProps", function(ply)
-	if ply:SteamID() == "STEAM_0:1:20515109" then
-		return true
-	end
-	
-	return false
-end)
-
-hook.Add("CanTool", "disableToolgun", function(ply)
-	if ply:SteamID() == "STEAM_0:1:20515109" then
-		return true
-	end
-	
-	return false
-end)
-
+// Spawn protection
 hook.Add("PlayerShouldTakeDamage", "SpawnTeamKill", function(victim, attacker)
 	if victim.spawnProtected then
 		if IsValid(attacker) and attacker:IsPlayer() then
@@ -149,7 +135,6 @@ hook.Add("PlayerShouldTakeDamage", "SpawnTeamKill", function(victim, attacker)
 	
 	return true
 end)
-
 hook.Add("InitPostEntity", "SpawnZoneChecker", function()
 	local safeStart, safeEnd = SAFEZONE_START, SAFEZONE_END
 

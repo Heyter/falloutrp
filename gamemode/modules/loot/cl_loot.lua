@@ -51,6 +51,8 @@ function lootItem(ent, itemId, quantity)
 end
 	
 function openLoot(ent, loot)
+	removeInspect()
+
 	local frame = vgui.Create("FalloutRP_Menu")
 	util.restoreMousePos() // So they can *spam click* loot and not always have to move their mouse back to that loot
 	frame:AddCloseButton()
@@ -162,6 +164,8 @@ function openLoot(ent, loot)
 		itemLabel:SetTextColor(COLOR_AMBER)
 		
 		itemBox.OnCursorEntered = function(self)
+			removeInspect()
+		
 			self.hovered = true
 			surface.PlaySound("pepboy/click2.wav")
 			
@@ -172,14 +176,17 @@ function openLoot(ent, loot)
 				inspect = vgui.Create("FalloutRP_Item")
 				inspect:SetPos(frameX + frame:GetWide(), frameY)
 				inspect:SetItem(v)
+				
+				// Allow inspect to be closes via X button
+				frame.inspect = inspect
 			end
 		end
 		itemBox.OnCursorExited = function(self)
+			removeInspect()
+		
 			self.hovered = false
 			
 			itemLabel:SetTextColor(COLOR_AMBER)
-			
-			removeInspect()
 		end
 		
 		layout:Add(itemBox)

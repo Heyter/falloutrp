@@ -26,7 +26,7 @@ function tcb_StaminaPress(ply, key)
 		if ply:GetMoveType() ==  MOVETYPE_LADDER then return end
 		local maxRun = ply:getMaxRunSpeed()
 		local maxWalk = ply:getMaxWalkSpeed()
-		if ply:GetNWInt( "tcb_Stamina" ) >= disableLevel then
+		if ply:GetNWInt( "tcb_Stamina" ) > disableLevel then
 			ply:SetRunSpeed(maxRun)
 			timer.Destroy("tcb_StaminaGain")
 			timer.Create( "tcb_StaminaTimer", staminaDrainSpeed, 0, function( )
@@ -46,7 +46,7 @@ function tcb_StaminaPress(ply, key)
 		end
 	end
 	if key == IN_JUMP or ply:KeyDown(IN_JUMP) then
-		if ply:GetNWInt("tcb_Stamina") >= disableLevel then
+		if ply:GetNWInt("tcb_Stamina") > disableLevel then
 			ply:SetJumpPower(defaultJump)
 			ply:SetNWInt("tcb_Stamina", ply:GetNWInt("tcb_Stamina") - 1)
 		else

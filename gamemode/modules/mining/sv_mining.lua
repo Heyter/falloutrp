@@ -62,11 +62,13 @@ function addVein()
 end
 
 function beginVeinTimer()
-	timer.Create("chestSpawn", CHEST_TIMER, 0, function()
+	timer.Create("veinSpawn", VEIN_TIMER, 0, function()
 		addVein()
 	end)
 end
 
-hook.Add("InitPostEntity", "startChestTimer", function()
-	beginVeinTimer()
+hook.Add("InitPostEntity", "startVeinTimer", function()
+	timer.Simple(5, function()
+		beginVeinTimer()
+	end)
 end)	

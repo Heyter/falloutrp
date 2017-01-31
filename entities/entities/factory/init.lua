@@ -47,11 +47,28 @@ function ENT:Use(activator)
 	end
 end
 
+function ENT:getOwners()
+	local owners = {}
+
+	for k,v in pairs(player.GetAll()) do
+		if v:GetController() == team.GetName(v) then
+			table.insert(owners, v)
+		end
+	end	
+	
+	return owners
+end
+
 function ENT:getInfo()
 	return FACTORY.Setup[game.GetMap()][self:GetPlace()]
 end
 
 function ENT:findExistingItem(classid, ply)
+	// There is currently no loot at the factory for the player, so by default there would be no existing item
+	if !(self.loot and self.loot[ply]) then
+		return false
+	end
+
 	for k, v in pairs(self.loot[ply]) do
 		if v.classid == classid then
 			return k // Return the index to add quantity on to

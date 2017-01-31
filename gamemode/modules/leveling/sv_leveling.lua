@@ -16,7 +16,7 @@ function meta:addExp(exp)
 	self.playerData.experience = self:getExp() + exp
 	
 	// Update in SQL
-	MySQLite.query("UPDATE playerdata SET experience = " ..self:getExp())
+	MySQLite.query("UPDATE playerdata SET experience = " ..self:getExp() .." WHERE steamid = '" ..self:SteamID() .."'")
 	
 	net.Start("addExperience")
 		net.WriteInt(self:getExp(), 32)

@@ -16,6 +16,11 @@ end
 
 local meta = FindMetaTable("Player")
 
+// Ulx power
+function meta:isAdmin()
+	return self:IsUserGroup("admin") or self:IsUserGroup("superadmin") or self:IsUserGroup("manager") or self:IsUserGroup("owner")
+end
+
 function meta:getName()
 	return (self.playerData and self.playerData.name) or self:Nick()
 end

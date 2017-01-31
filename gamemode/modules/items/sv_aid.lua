@@ -95,7 +95,7 @@ function meta:useAid(uniqueid, classid, quantity)
 		//Update client
 		net.Start("useAid")
 			net.WriteInt(uniqueid, 32)
-			net.WriteInt(classid, 16)
+			//net.WriteInt(classid, 16)
 			net.WriteInt(quantity, 16)
 		net.Send(self)
 	else

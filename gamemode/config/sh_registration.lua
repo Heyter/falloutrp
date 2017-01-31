@@ -6,9 +6,9 @@ SPECIAL = {
 	{Name = "Perception", Description = "Perception reduces the amount of recoil form weapons\nand also increases critical hit damage."},
 	{Name = "Endurance", Description = "Endurance increases the amount of time you can sprint for\n and also increases your health regeneration."},
 	{Name = "Charisma", Description = "Charisma reduces the buying price from vendors\nand also increases the selling price to vendors."},
-	{Name = "Intelligence", Description = "Intelligence increases the healing effects of first aid\and also increases the effects of food and drinks."},
-	{Name = "Agility", Description = "Agility increase the critical hit chance of weapons\and also increases player's movement speed."},
-	{Name = "Luck", Description = "Luck gives the player good fortune and increases the chance to get better loot."}
+	{Name = "Intelligence", Description = "Intelligence increases the healing effects of first aid\n and also increases the effects of food and drinks."},
+	{Name = "Agility", Description = "Agility increase the critical hit chance of weapons\n and also increases player's movement speed."},
+	{Name = "Luck", Description = "Luck gives the player good fortune and\n increases the chance to get better loot."}
 }
 
 NAME_MIN = 3 // Min characters that a name can be
@@ -25,7 +25,7 @@ CRITICALHITDAMAGE_MULTIPLIER_PERCEPTION = 0.05 // How much critical hit damage i
 
 // Endurance
 SPRINT_AMOUNT_ENDURANCE = 5 // How many extra sprint points you get for each endurance point
-HEALTHREGEN_HEALH_ENDURANCE = 2 // How much extra health is regened for each endurance point
+HEALTHREGEN_MULTIPLIER_ENDURANCE = 0.03 // How much health regen time is reduced (multiplier) for each endurance point
 
 // Charisma
 PRICE_MULTIPLIER_CHARISMA = 0.05 // How much buying/selling price is reduced/increased (multiplier) for each point of charisma

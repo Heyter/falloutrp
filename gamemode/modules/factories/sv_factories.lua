@@ -38,13 +38,12 @@ function FACTORY:CheckStatus(ply, factory)
 	end
 end
 
-function FACTORY:StartWar(clan, factory)
+function FACTORY:StartWar(side, factory)
 	factory:SetCooldown()
 	factory:SetStatus(1)
 	factory:SetTime(self.captureTime)
 	
-	// Notify the server that its being taken over
-	--CLANS:notifyAllClans("Clan factory", 5, clan.. " is taking over " ..factory:GetPlace())
+	notifyAll(team.GetName(side) .." is taking over " ..factory:GetPlace() .."!", NOTIFY_GENERIC)
 	
 	timer.Create("FACTORY " ..factory:GetPlace(), 1, self.captureTime, function()
 		self:CheckCaptureStatus(factory)
@@ -95,6 +94,7 @@ function FACTORY:EndWar(factory, winner)
 	if winner != nil then
 		// Create hook
 		--CLANS:notifyAllClans("Clan factory", 5, winner.. " has taken over " ..factory:GetPlace())
+		notifyAll(winner .." has taken over " ..factory:GetPlace() .."!", NOTIFY_GENERIC, 5)
 	end
 	
 	if winner == nil then
@@ -109,6 +109,11 @@ function FACTORY:EndWar(factory, winner)
 		factory:SetStatus(2)
 		factory:SetController(winner)
 		
+		// Notify owners
+		for k,v in pairs(factory:getOwners()) do
+			v:notify("Your " ..factory:GetPlace() .." will now begin to generate items!", NOTIFY_GENERIC, 5)
+		end
+		
 		timer.Create("Factory" ..factory:EntIndex(), factory:getInfo()["Delay"], 0, function()
 			local faction = factory:GetController()
 				
@@ -117,7 +122,7 @@ function FACTORY:EndWar(factory, winner)
 					for k,ply in pairs(team.GetPlayers(faction)) do
 						local caps = factory:getInfo()["Amount"]
 						ply:addCaps(caps)
-						ply:notify("You received " ..caps .." caps from the factory.", NOTIFY_HINT)
+						ply:notify("You received " ..caps .." caps from the factory.", NOTIFY_GENERIC)
 					end
 				else
 					for k,ply in pairs(team.GetPlayers(faction)) do

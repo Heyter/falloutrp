@@ -46,7 +46,7 @@ function meta:getEnduranceHealthRegen()
 	local endurance = self:getSkill("endurance")
 	local bonus = 0
 	
-	return bonus + (endurance * HEALTHREGEN_HEALH_ENDURANCE)
+	return bonus + (endurance * HEALTHREGEN_MULTIPLIER_ENDURANCE)
 end
 
 // Charisma

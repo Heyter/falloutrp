@@ -13,3 +13,9 @@ function meta:notify(message, type, length, removeDelay)
 		net.WriteBool(tobool(removeDelay))
 	net.Send(self)
 end
+
+function notifyAll(message, type, length, removeDelay)
+	for k,v in pairs(player.GetAll()) do
+		v:notify(message, type, length, removeDelay)
+	end
+end
