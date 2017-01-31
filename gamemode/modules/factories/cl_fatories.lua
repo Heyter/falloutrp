@@ -28,7 +28,7 @@ function FACTORY:DrawTerritories()
 				if time > 0 then
 					draw.DrawText(time, "FalloutRP3", pos.x, pos.y - 125, self.Color_Time)
 				end
-				if controller == "Uncontested" && status != 1 then
+				if (controller == "Uncontested" && status != 1) or (controller != "Uncontested" and controller != team.GetName(LocalPlayer():Team()))  then
 					controller = controller .."(/war)"
 				end
 				draw.DrawText(controller, "FalloutRP3", pos.x, pos.y - 100, self.Color_Controller)

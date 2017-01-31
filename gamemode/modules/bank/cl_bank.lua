@@ -67,6 +67,11 @@ local function closeBank()
 		menu:Remove()
 		menu = nil
 	end
+	
+	// Unfreeze the player
+	net.Start("openBank")
+	
+	net.SendToServer()
 end
 
 function openBank()

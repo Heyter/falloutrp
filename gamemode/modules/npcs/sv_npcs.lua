@@ -64,7 +64,8 @@ end
 function spawnNpc(npc, inactiveNpcs)
 	local randomLocation = table.Random(inactiveNpcs)
 	local location = NPCS[npc]["Positions"][randomLocation]
-		
+	
+	print(npc, randomLocation)
 	NPCS[npc]["Positions"][randomLocation]["Active"] = true
 	
 	local ent = ents.Create(npc)
@@ -86,14 +87,14 @@ end
 
 function createNpcTimers()
 	for npc, info in pairs(NPCS) do
-		timer.Create(npc .." spawner", 10, 0, function()
+		timer.Create(npc .." spawner", info.SpawnRate, 0, function()
 			addNpc(npc)
 		end)
 		
 		// Create some npcs on server start, so it isn't bare
 		for i = 1, info.StartAmount do
 			// Space out these timers some so we don't create a million entities all at once and stress the server
-			timer.Simple(1 * i, function()
+			timer.Simple(5 * i, function()
 				addNpc(npc)
 			end)
 		end
@@ -119,7 +120,7 @@ function spawnAllNpcs()
 	end
 end
 
-hook.Remove("InitPostEntity", "createNpcTimers", function()
+hook.Add("InitPostEntity", "createNpcTimers", function()
 	timer.Simple(1, function()
 		createNpcTimers()
 	end)

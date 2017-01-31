@@ -1,7 +1,7 @@
 
 net.Receive("useAid", function()
 	local uniqueid = net.ReadInt(32)
-	local classid = net.ReadInt(16)
+	//local classid = net.ReadInt(16)
 	local quantity = net.ReadInt(16)
 	
 	if quantity == LocalPlayer().inventory.aid[uniqueid]["quantity"] then

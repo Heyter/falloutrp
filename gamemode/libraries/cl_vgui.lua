@@ -117,6 +117,12 @@ function VGUI:AddCloseButton()
 		surface.DrawRect(0, 0, w, h)
 	end
 	close.DoClick = function()
+		// Close the item inspect screen if a player closes via X button
+		if self.inspect then
+			self.inspect:Remove()
+			self.inspect = nil
+		end
+	
 		gui.EnableScreenClicker(false)
 		self:Remove()
 	end

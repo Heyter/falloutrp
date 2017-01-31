@@ -180,10 +180,17 @@ net.Receive("depositItem", function(len, ply)
 end)
 
 function meta:openBank()
+	self:Lock()
+	
 	net.Start("openBank")
 	
 	net.Send(self)
 end
+
+// Freeze the player
+net.Receive("openBank", function(len, ply)
+	ply:UnLock()
+end)
 
 function meta:loadBankCount()
 	self.loadBankedCount = self.loadBankedCount + 1
