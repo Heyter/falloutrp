@@ -99,8 +99,10 @@ function spawnMerchants()
 	for name, info in pairs(MERCHANTS) do
 		local merchant = ents.Create("merchant")
 		merchant:SetPos(info.Position)
+		merchant:SetAngles(info.Angles)
 		merchant:Spawn()
 		merchant:SetNickname(name)
+		merchant:SetModel(info.Model)
 	end
 end
 

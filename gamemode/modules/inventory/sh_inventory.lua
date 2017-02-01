@@ -38,7 +38,7 @@ function meta:getInventoryWeight()
 end
 
 function meta:getMaxQuantity(item)
-	local singleWeight = self:getItemWeight(item.classid)
+	local singleWeight = getItemWeight(item.classid)
 	local totalWeight = 0
 	local itemCount = 0
 

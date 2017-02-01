@@ -2,7 +2,8 @@
 MERCHANTS = {
 	["Billy"] = {
 		Position = Vector(-9209, 13197.406250, 11),
-		Angles = Angle(0, 0, 0),
+		Angles = Angle(0, -70, 0),
+		Model = "models/humans/group01/male_04.mdl",
 		Sale = {
 			[1] = {
 				Type = "WEAPONS",
@@ -15,7 +16,8 @@ MERCHANTS = {
 	},
 	["John"] = {
 		Position = Vector(-7849, 13046, 9),
-		Angles = Angle(0, 0, 0),
+		Angles = Angle(0, 175, 0),
+		Model = "models/humans/group01/male_04.mdl",
 		Sale = {
 			[1] = {
 				Type = "AID",
@@ -28,7 +30,8 @@ MERCHANTS = {
 	},
 	["Sky"] = {
 		Position = Vector(-6580, 12722, 5),
-		Angles = Angle(0, 0, 0),
+		Angles = Angle(0, -135, 0),
+		Model = "models/humans/group01/female_04.mdl",
 		Sale = {
 			[1] = {
 				Type = "APPAREL",
@@ -41,7 +44,8 @@ MERCHANTS = {
 	},
 	["Samantha"] = {
 		Position = Vector(-8143, 10440, 13),
-		Angles = Angle(0, 0, 0),
+		Angles = Angle(0, 125, 0),
+		Model = "models/humans/group01/female_04.mdl",
 		Sale = {
 			[1] = {
 				Type = "MISC",
