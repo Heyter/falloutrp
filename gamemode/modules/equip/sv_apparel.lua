@@ -32,12 +32,7 @@ function meta:unequipApparel(uniqueid, classid)
 	// Remove from MySQL
 	MySQLite.query("UPDATE apparel SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 	
-	// Update clientside
-	net.Start("unequipApparel")
-		net.WriteInt(uniqueid, 32)
-		net.WriteInt(classid, 16)
-		net.WriteEntity(self)
-	net.Broadcast() // All players need to know the info about what a player is equipping
+	self:updateClientEquipment()
 end
 
 function meta:equipApparel(uniqueid, classid)
@@ -56,12 +51,7 @@ function meta:equipApparel(uniqueid, classid)
 		self.inventory.apparel[uniqueid]["equipped"] = true
 		self.equipped.apparel[apparelSlot] = self.inventory.apparel[uniqueid]
 			
-		//Update client
-		net.Start("equipApparel")
-			net.WriteInt(uniqueid, 32)
-			net.WriteInt(classid, 16)
-			net.WriteEntity(self)
-		net.Broadcast() // All players need to know the info about what a player is equipping
+		self:updateClientEquipment()
 			
 		//Update MySQL
 		MySQLite.query("UPDATE apparel SET equipped = 1 WHERE uniqueid = " ..uniqueid)
