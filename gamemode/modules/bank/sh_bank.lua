@@ -31,7 +31,7 @@ function meta:getBankWeight()
 end
 
 function meta:getMaxBankQuantity(classid, quantity)
-	local singleWeight = self:getItemWeight(classid)
+	local singleWeight = getItemWeight(classid)
 	local totalWeight = 0
 	local itemCount = 0
 

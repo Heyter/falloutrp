@@ -32,6 +32,10 @@ function meta:unequipApparel(uniqueid, classid)
 	// Remove from MySQL
 	MySQLite.query("UPDATE apparel SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 	
+	net.Start("unequipApparel")
+		net.WriteInt(uniqueid, 32)
+	net.Send(self)
+	
 	self:updateClientEquipment()
 end
 
@@ -55,6 +59,10 @@ function meta:equipApparel(uniqueid, classid)
 			
 		//Update MySQL
 		MySQLite.query("UPDATE apparel SET equipped = 1 WHERE uniqueid = " ..uniqueid)
+		
+		net.Start("equipApparel")
+			net.WriteInt(uniqueid, 32)
+		net.Send(self)
 	else
 		// Not enough level
 		self:notify("Level not high enough to equip that.", NOTIFY_ERROR)

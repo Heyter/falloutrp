@@ -7,11 +7,6 @@ net.Receive("updateEquipment", function(len, ply)
 	local ent = net.ReadEntity()
 	
 	ent.equipped = equipped
-	
-	// Reopen the pipboy for the player who just had their equipment change
-	if LocalPlayer() == ent then
-		openPepboyMiddle()
-	end
 end)
 
 function meta:equipItem(uniqueid, classid, quantity)
