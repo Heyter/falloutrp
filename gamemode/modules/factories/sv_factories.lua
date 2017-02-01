@@ -93,7 +93,7 @@ function FACTORY:EndWar(factory, winner)
 	
 	if winner != nil then
 		// Create hook
-		notifyAll(winner .." has taken over " ..factory:GetPlace() .."!", NOTIFY_GENERIC, 5)
+		notifyAll(team.GetName(winner) .." has taken over " ..factory:GetPlace() .."!", NOTIFY_GENERIC, 5)
 	end
 	
 	if winner == nil then
