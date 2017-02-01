@@ -1,5 +1,6 @@
 
 util.AddNetworkString("loadPlayerData")
+util.AddNetworkString("loadPlayerDataFinish")
 util.AddNetworkString("loadClientside")
 
 local meta = FindMetaTable("Player")
@@ -100,7 +101,7 @@ function meta:unload()
 	//Unload Bank
 end
 
-net.Receive("loadPlayerData", function(len, ply)
+net.Receive("loadPlayerDataFinish", function(len, ply)
 	if IsValid(ply) then
 		ply:postLoadPlayer()
 	end

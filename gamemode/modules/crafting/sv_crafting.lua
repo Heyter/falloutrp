@@ -10,10 +10,6 @@ function meta:openCrafting()
 	net.Send(self)
 end
 
-function meta:hasCraftingLevel(level)
-	return self:getLevel() >= level
-end
-
 function meta:hasCraftingMaterials(materials)
 	for material, amount in pairs(materials) do
 		local count, uniqueid = self:getInventoryCount(material)

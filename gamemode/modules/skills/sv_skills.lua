@@ -6,6 +6,7 @@ util.AddNetworkString("updateSkills")
 local meta = FindMetaTable("Player")
 
 function meta:addSkillPoints()
+
 	net.Start("addSkillPoints")
 		net.WriteInt(self:getLevel(), 8)
 	net.Send(self)

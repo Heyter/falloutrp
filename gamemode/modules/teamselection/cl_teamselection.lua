@@ -52,7 +52,7 @@ net.Receive("createCharacter", function(len, ply)
 			apparel = {}
 		}
 		
-		net.Start("createCharacter")
+		net.Start("loadPlayerDataFinish")
 		
 		net.SendToServer()
 	end

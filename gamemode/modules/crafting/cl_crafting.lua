@@ -156,62 +156,68 @@ function openCrafting(lastButton)
 		
 		local currentItem
 		for k,v in ipairs(RECIPES[type]) do
-			local itemBox = vgui.Create("DButton")
-			itemBox:SetSize(layout:GetWide() - scrollerW, 30)
-			itemBox.Paint = function(self, w, h)
-				surface.SetDrawColor(Color(0, 0, 0, 0))
-				surface.DrawRect(0, 0, w, h)
-				
-				
-				if self.selected and (currentItem == self) then
-					surface.SetDrawColor(COLOR_AMBERFADE)
-					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
-				
-					surface.SetDrawColor(COLOR_AMBER)
-					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
-				elseif self.hovered then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
-					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
+			if LocalPlayer():hasCraftingLevel(v.level) then
 			
-					surface.SetDrawColor(COLOR_AMBER)
-					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
+				local itemBox = vgui.Create("DButton")
+				itemBox:SetSize(layout:GetWide() - scrollerW, 30)
+				itemBox.Paint = function(self, w, h)
+					surface.SetDrawColor(Color(0, 0, 0, 0))
+					surface.DrawRect(0, 0, w, h)
+					
+					
+					if self.selected and (currentItem == self) then
+						surface.SetDrawColor(COLOR_AMBERFADE)
+						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
+					
+						surface.SetDrawColor(COLOR_AMBER)
+						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
+					elseif self.hovered then
+						surface.SetDrawColor(Color(255, 182, 66, 30))
+						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
+				
+						surface.SetDrawColor(COLOR_AMBER)
+						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
+					end
 				end
-			end
-			itemBox.DoClick = function(self)
-				self.selected = true
-				self:SetTextColor(COLOR_BLUE)
-				surface.PlaySound("pepboy/click1.wav")
-				
-				if currentItem then
-					// Reset the old button to not be selected
-					currentItem.selected = false
+				itemBox.DoClick = function(self)
+					self.selected = true
+					self:SetTextColor(COLOR_BLUE)
+					surface.PlaySound("pepboy/click1.wav")
+					
+					if currentItem then
+						// Reset the old button to not be selected
+						currentItem.selected = false
+					end
+					
+					currentItem = self
+					
+					openInfo(v, type, k)
 				end
+				itemBox:SetText("")
 				
-				currentItem = self
-				
-				openInfo(v, type, k)
-			end
-			itemBox:SetText("")
-			
-			local itemLabel = vgui.Create("DLabel", itemBox)
-			itemLabel:SetPos(textPadding, textPadding/2)
-			itemLabel:SetFont("FalloutRP2")
-			itemLabel:SetText(getItemName(v.classid))
-			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_AMBER)
-			
-			itemBox.OnCursorEntered = function(self)
-				self.hovered = true
-				surface.PlaySound("pepboy/click2.wav")
-				itemLabel:SetTextColor(COLOR_BLUE)
-			end
-			itemBox.OnCursorExited = function(self)
-				self.hovered = false
-				
+				local itemLabel = vgui.Create("DLabel", itemBox)
+				itemLabel:SetPos(textPadding, textPadding/2)
+				itemLabel:SetFont("FalloutRP2")
+				itemLabel:SetText(getItemName(v.classid))
+				if util.greaterThanOne(v.quantity) then
+					itemLabel:SetText(getItemName(v.classid) .."\t (" ..v.quantity ..")")
+				end
+				itemLabel:SizeToContents()
 				itemLabel:SetTextColor(COLOR_AMBER)
+				
+				itemBox.OnCursorEntered = function(self)
+					self.hovered = true
+					surface.PlaySound("pepboy/click2.wav")
+					itemLabel:SetTextColor(COLOR_BLUE)
+				end
+				itemBox.OnCursorExited = function(self)
+					self.hovered = false
+					
+					itemLabel:SetTextColor(COLOR_AMBER)
+				end
+				
+				layout:Add(itemBox)
 			end
-			
-			layout:Add(itemBox)
 		end
 	end
 	
@@ -248,7 +254,7 @@ function openCrafting(lastButton)
 			local frameX, frameY = frame:GetPos()
 			inspect = vgui.Create("FalloutRP_Item")
 			inspect:SetPos(frameX + frame:GetWide(), frameY)
-			inspect:SetItem(itemInfo)
+			inspect:SetItem(itemInfo, true)
 		end
 		icon.OnCursorExited = function(self)
 			if inspect then

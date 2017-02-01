@@ -234,18 +234,13 @@ NPCS = {
 				{Position = Vector(-7303, -9258, 73), Active = false},
 				{Position = Vector(-7205, -9362, 60), Active = false},
 				{Position = Vector(-13505, 127, 29), Active = false},
-				{Position = Vector(-13226, 215, 29), Active = false},
-				{Position = Vector(-13046, 413, 29), Active = false},
-				{Position = Vector(-12963, 652, 29), Active = false},
-				{Position = Vector(-9430, 5711, 29), Active = false},
-				{Position = Vector(-9630, 5529, 29), Active = false},
 				{Position = Vector(-8507, 5458, 33), Active = false}
 			},		
 	},
 	["npc_mantis_nymph"] = {
 			Name = "Giant Mantis Nymph",
 			Health = 175,
-			Limit = 15, // How many can be active on the map at once
+			Limit = 8, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 			Experience = 20,
@@ -258,7 +253,12 @@ NPCS = {
 				{Position = Vector(13769, -10042, 40), Active = false},
 				{Position = Vector(4226, -1322, 17), Active = false},
 				{Position = Vector(-9846, 5442, 29), Active = false},
-				{Position = Vector(-2870, -11791, 54), Active = false}
+				{Position = Vector(-2870, -11791, 54), Active = false},
+				{Position = Vector(-13226, 215, 29), Active = false},
+				{Position = Vector(-13046, 413, 29), Active = false},
+				{Position = Vector(-12963, 652, 29), Active = false},
+				{Position = Vector(-9430, 5711, 29), Active = false},
+				{Position = Vector(-9630, 5529, 29), Active = false},
 			},		
 	},
 	["npc_cazador"] = {
@@ -398,23 +398,13 @@ NPCS = {
 				{Position = Vector(10638, -10922, 32), Active = false},
 				{Position = Vector(6460, -12452, 17), Active = false},
 				{Position = Vector(6595, -12163, 16), Active = false},
-				{Position = Vector(6716, -12403, 17), Active = false},
-				{Position = Vector(7829, -12142, 16), Active = false},
-				{Position = Vector(7795, -12333, 16), Active = false},
-				{Position = Vector(3438, -12257, 16), Active = false},
-				{Position = Vector(3617, -12103, 16), Active = false},
-				{Position = Vector(-13348, 2870, 32), Active = false},
-				{Position = Vector(-13279, 2809, 40), Active = false},
-				{Position = Vector(-13453, 6087, 15), Active = false},
-				{Position = Vector(-13562, 6065, 14), Active = false},
-				{Position = Vector(-13459, 5832, 14), Active = false},
 			},		
 		},
 	*/
 	["npc_gecko_green"] = {
 			Name = "Green Gecko",
 			Health = 400,
-			Limit = 15, // How many can be active on the map at once
+			Limit = 12, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 			Experience = 35,
@@ -434,6 +424,16 @@ NPCS = {
 				{Position = Vector(8305, -9928, 16), Active = false},
 				{Position = Vector(7998, -8428, 17), Active = false},
 				{Position = Vector(4551, -8735, 22), Active = false},
+				{Position = Vector(6716, -12403, 17), Active = false},
+				{Position = Vector(7829, -12142, 16), Active = false},
+				{Position = Vector(7795, -12333, 16), Active = false},
+				{Position = Vector(3438, -12257, 16), Active = false},
+				{Position = Vector(3617, -12103, 16), Active = false},
+				{Position = Vector(-13348, 2870, 32), Active = false},
+				{Position = Vector(-13279, 2809, 40), Active = false},
+				{Position = Vector(-13453, 6087, 15), Active = false},
+				{Position = Vector(-13562, 6065, 14), Active = false},
+				{Position = Vector(-13459, 5832, 14), Active = false},
 			},		
 	},
 	["npc_deathclaw"] = { 

@@ -52,6 +52,9 @@ end
 function getWeaponMinDamage(id)
 	return findWeapon(id).minDamage
 end
+function getWeaponMedianDamage(id)
+	return math.floor((findWeapon(id).minDamage + findWeapon(id).maxDamage) / 2)
+end
 function getWeaponMaxDamage(id)
 	return findWeapon(id).maxDamage
 end

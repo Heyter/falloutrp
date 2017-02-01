@@ -17,7 +17,7 @@ function meta:getCurrentApparelId(type)
 end
 
 function meta:getCurrentApparel(type)
-	return self.equipped.weapons[type]
+	return self.equipped.apparel[type]
 end
 
 function meta:canEquipApparel(classid)

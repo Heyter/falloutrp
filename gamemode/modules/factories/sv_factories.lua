@@ -93,7 +93,6 @@ function FACTORY:EndWar(factory, winner)
 	
 	if winner != nil then
 		// Create hook
-		--CLANS:notifyAllClans("Clan factory", 5, winner.. " has taken over " ..factory:GetPlace())
 		notifyAll(winner .." has taken over " ..factory:GetPlace() .."!", NOTIFY_GENERIC, 5)
 	end
 	
