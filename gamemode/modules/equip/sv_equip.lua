@@ -3,6 +3,8 @@
 util.AddNetworkString("equipItem")
 util.AddNetworkString("unequipItem")
 
+util.AddNetworkString("updateEquipment")
+
 local meta = FindMetaTable("Player")
 
 function meta:depleteEquipped(item)
@@ -35,6 +37,13 @@ function meta:unequipItem(uniqueid, classid)
 	elseif isApparel(classid) then
 		self:unequipApparel(uniqueid, classid)
 	end
+end
+
+function meta:updateClientEquipment()
+	net.Start("updateEquipment")
+		net.WriteTable(self.equipped)
+		net.WriteEntity(self)
+	net.Broadcast()
 end
 
 net.Receive("equipItem", function(len, ply)

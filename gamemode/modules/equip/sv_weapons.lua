@@ -43,11 +43,7 @@ function meta:unequipWeapon(uniqueid, classid)
 	// Remove from MySQL
 	MySQLite.query("UPDATE weapons SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 	
-	// Update clientside
-	net.Start("unequipWeapon")
-		net.WriteInt(uniqueid, 32)
-		net.WriteInt(classid, 16)
-	net.Send(self)
+	self:updateClientEquipment()
 end
 
 function meta:equipWeapon(uniqueid, classid)
@@ -70,13 +66,9 @@ function meta:equipWeapon(uniqueid, classid)
 		//Update in lua
 		self.inventory.weapons[uniqueid]["equipped"] = true
 		self.equipped.weapons[weaponType] = self.inventory.weapons[uniqueid]
-			
-		//Update client
-		net.Start("equipWeapon")
-			net.WriteInt(uniqueid, 32)
-			net.WriteInt(classid, 16)
-		net.Send(self)
-			
+		
+		self:updateClientEquipment()
+		
 		//Update MySQL
 		MySQLite.query("UPDATE weapons SET equipped = 1 WHERE uniqueid = " ..uniqueid)
 	else
