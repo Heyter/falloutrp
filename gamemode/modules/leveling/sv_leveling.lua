@@ -4,6 +4,11 @@ util.AddNetworkString("addExperience")
 local meta = FindMetaTable("Player")
 
 function meta:levelUp()
+	if self.pvpProtected and (self:getLevel() >= PVP_PROTECTION_LEVEL) then
+		self.pvpProtected = false
+		self:notify("You're pvp protection has been disabled because you are no longer lower than level " ..PVP_PROTECTION_LEVEL .."!", NOTIFY_ERROR, 15)
+	end
+
 	self:addSkillPoints()
 	
 	hook.Call("LeveledUp", GAMEMODE, self, self:getLevel())

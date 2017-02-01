@@ -1,5 +1,35 @@
 
+util.AddNetworkString("pvpProtection")
+util.AddNetworkString("togglePvp")
+
+local meta = FindMetaTable("Player")
+
 // Pvp Protection
+function meta:pvpProtection()
+	if self:getLevel() <= PVP_PROTECTION_LEVEL then
+		net.Start("pvpProtection")
+		
+		net.Send(self)
+	else
+		self.pvpProtected = false
+	end
+end
+
+net.Receive("togglePvp", function(len, ply)
+	if IsValid(ply) then
+		ply.pvpProtected = true
+	end
+end)
+
+hook.Add("PlayerShouldTakeDamage", "PvpProtection", function(victim, attacker)
+	if victim.pvpProtected and IsValid(attacker) and attacker:IsPlayer() then
+		attacker:notify("That player is pvp protected.", NOTIFY_ERROR)
+		return false
+	elseif attacker.pvpProtected then
+		attacker:notify("You are pvp protected.", NOTIFY_ERROR)
+		return false
+	end
+end)
 
 
 // Spawn protection
@@ -17,8 +47,6 @@ hook.Add("PlayerShouldTakeDamage", "SpawnTeamKill", function(victim, attacker)
 	if victim:IsPlayer() and attacker:IsPlayer() then
 		return victim:Team() != attacker:Team()
 	end
-	
-	return true
 end)
 hook.Add("InitPostEntity", "SpawnZoneChecker", function()
 	local safeStart, safeEnd = SAFEZONE_START, SAFEZONE_END
