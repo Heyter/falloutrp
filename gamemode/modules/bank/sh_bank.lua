@@ -30,7 +30,7 @@ function meta:getBankWeight()
 	return weight
 end
 
-function meta:getMaxQuantity(classid, quantity)
+function meta:getMaxBankQuantity(classid, quantity)
 	local singleWeight = self:getItemWeight(classid)
 	local totalWeight = 0
 	local itemCount = 0
@@ -57,7 +57,7 @@ function meta:canBankFit(classid, quantity)
 	if self:getBankWeight() + addedWeight <= BANK_WEIGHT then // If the item (and/or specificied quantity) can fit
 		return true
 	elseif util.positive(quantity) then // If it's multiple items and can't fit them all, return the max amount of items that can fit
-		return self:getMaxQuantity(classid, quantity)
+		return self:getMaxBankQuantity(classid, quantity)
 	end
 	
 	return false
