@@ -4,8 +4,6 @@ util.AddNetworkString("addExperience")
 local meta = FindMetaTable("Player")
 
 function meta:levelUp()
-	MySQLite.query("UPDATE playerdata SET skillpoints = " ..self:getSkillPoints() + SKILLPOINTS_LEVEL)
-
 	self:addSkillPoints()
 	
 	hook.Call("LeveledUp", GAMEMODE, self, self:getLevel())
