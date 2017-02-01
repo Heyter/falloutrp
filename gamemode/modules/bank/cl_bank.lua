@@ -75,8 +75,6 @@ local function closeBank()
 end
 
 function openBank()
-	closeBank()
-
 	frame = vgui.Create("pepboy_frame")
 	frame:SetPos(0, 0)
 	frame:SetSize(ScrW(), ScrH())
