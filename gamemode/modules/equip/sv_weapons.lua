@@ -44,6 +44,10 @@ function meta:unequipWeapon(uniqueid, classid)
 	MySQLite.query("UPDATE weapons SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 	
 	self:updateClientEquipment()
+	
+	net.Start("unequipWeapon")
+		net.WriteInt(uniqueid, 32)
+	net.Send(self)
 end
 
 function meta:equipWeapon(uniqueid, classid)
@@ -70,7 +74,11 @@ function meta:equipWeapon(uniqueid, classid)
 		self:updateClientEquipment()
 		
 		//Update MySQL
-		MySQLite.query("UPDATE weapons SET equipped = 1 WHERE uniqueid = " ..uniqueid)
+		MySQLite.query("UPDATE weapons SET equipped = 1 WHERE uniqueid = " ..uniqueid)	
+		
+		net.Start("equipWeapon")
+			net.WriteInt(uniqueid, 32)
+		net.Send(self)
 	else
 		// Not enough level
 		self:notify("Level not high enough to equip that.", NOTIFY_ERROR)
