@@ -4,6 +4,13 @@ local frameW, frameH = 800, 600
 local buttonW, buttonH = 80, 40
 local canContinue = true // Don't allow players to keep trying to submit skills while validating on server still
 
+local function close()
+	if frame then
+		frame:Remove()
+		gui.EnableScreenClicker(false)
+	end
+end
+
 net.Receive("addSkillPoints", function(len, ply)
 	local level = net.ReadInt(8)
 	local skillpoints = net.ReadInt(16)
@@ -17,20 +24,15 @@ net.Receive("updateSkills", function(len, ply)
 	for skill, points in pairs(skills) do
 		LocalPlayer().playerData[skill] = points
 	end
-
-	if frame then
-		frame:Remove()
-		gui.EnableScreenClicker(false)
-	end
+	
+	close()
 end)
 
 net.Receive("validateSkills", function(len, ply)
 	local errorId = net.ReadInt(8)
 	
 	if errorId == 1 then
-
-	elseif errorId == 2 then
-
+		LocalPlayer():notify("You used more skill points than you have.", NOTIFY_ERROR)
 	end
 	
 	canContinue = true

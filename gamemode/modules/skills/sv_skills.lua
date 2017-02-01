@@ -54,7 +54,7 @@ function setSkillPoints(ply, skill, points)
 	ply.playerData[skill] = points
 end
 
-function updateSkillPoints(ply, values)
+function updateSkillPoints(ply, values, remainingPoints)
 	local newSkills = {}
 	local records = ""
 	
@@ -70,7 +70,11 @@ function updateSkillPoints(ply, values)
 	records = string.TrimRight(records, " ")
 	records = string.TrimRight(records, ",")
 	
-	print(records)
+	// Set the remaining skill points
+	ply.playerData.skillpoints = remainingPoints
+	MySQLite.query("UPDATE playerdata SET skillpoints = " ..ply:getSkillPoints() .." WHERE steamid = '" ..ply:SteamID() .. "'")
+	
+	// Update the player with their new skills
 	MySQLite.query("UPDATE playerdata SET " ..records .." WHERE steamid = '" ..ply:SteamID() .. "'")
 	
 	net.Start("updateSkills")
@@ -92,15 +96,16 @@ function validateSkills(ply, values)
 		end
 	end
 	
+	
+	// How many skill points the player now has left
+	local remainingPoints = total - beginningTotal - currentSkillPoints
+	
 	if total > beginningTotal + currentSkillPoints then
 		// Used more points than allowed for each level
 		errorId = 1
-	elseif total < beginningTotal + currentSkillPoints then
-		// Used less points than allowed for each level
-		errorId = 2
 	else
 		// Used exact amount of points, GOOD
-		updateSkillPoints(ply, values)
+		updateSkillPoints(ply, values, remainingPoints)
 	end
 	
 	if errorId then
