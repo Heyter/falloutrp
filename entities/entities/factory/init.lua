@@ -51,7 +51,7 @@ function ENT:getOwners()
 	local owners = {}
 
 	for k,v in pairs(player.GetAll()) do
-		if v:GetController() == team.GetName(v) then
+		if self:GetController() == team.GetName(v) then
 			table.insert(owners, v)
 		end
 	end	

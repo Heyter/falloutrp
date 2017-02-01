@@ -1,6 +1,7 @@
 
 util.AddNetworkString("loadBank")
 util.AddNetworkString("openBank")
+util.AddNetworkString("closeBank")
 util.AddNetworkString("depositItem")
 util.AddNetworkString("withdrawItem")
 
@@ -188,7 +189,7 @@ function meta:openBank()
 end
 
 // Freeze the player
-net.Receive("openBank", function(len, ply)
+net.Receive("closeBank", function(len, ply)
 	ply:UnLock()
 end)
 

@@ -14,7 +14,7 @@ net.Receive("loadEquipped", function()
 	
 	
 	// We have finished loading playerData, inventory, and equipped. Now send it to all clients
-	net.Start("loadPlayerData")
+	net.Start("loadPlayerDataFinish")
 	
 	net.SendToServer()
 end)

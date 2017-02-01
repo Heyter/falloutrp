@@ -162,7 +162,7 @@ function VGUI:Paint(w, h)
 	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
-function VGUI:SetItem(item)
+function VGUI:SetItem(item, creation)
 	local classid = item.classid
 
 	local name = getItemName(classid)
@@ -178,20 +178,26 @@ function VGUI:SetItem(item)
 	
 	// Item Specs
 	local startY = 140
-	
-	// Damage
-	if item.damage then
+
+	if isWeapon(classid) then
+		// Draw different values depending if the item is created already or not
+		local dmg
+		if creation then
+			dmg = "Damage: (" ..getWeaponMinDamage(classid) .."-" ..getWeaponMedianDamage(classid) ..")"
+		else
+			dmg = "Damage: " ..item.damage
+		end
+		
+		// Damage
 		local damage = vgui.Create("DLabel", self)
 		damage:SetPos(10, startY)
 		damage:SetFont("FalloutRP2")
 		damage:SetTextColor(COLOR_AMBER)
-		damage:SetText("Damage: " ..item.damage)
+		damage:SetText(dmg)
 		damage:SizeToContents()
-		startY = startY + 20
-	end
-	
-	// Crit Chance
-	if isWeapon(classid) then
+		startY = startY + 20	
+		
+		// Crit Chance
 		local crit = vgui.Create("DLabel", self)
 		crit:SetPos(10, startY)
 		crit:SetFont("FalloutRP2")
@@ -202,12 +208,24 @@ function VGUI:SetItem(item)
 	end
 	
 	if isApparel(classid) then
+		// Draw different values depending if the item is created already or not
+		local dt, dr, hp
+		if creation then
+			dt = "Dmg Threshold: (" ..getApparelMinDamageThreshold(classid) .."-" ..getApparelMedianDamageThreshold(classid) .."%)"
+			dr = "Dmg Reflect: (" ..getApparelMinDamageReflection(classid) .."-" ..getApparelMedianDamageReflection(classid) .."%)"
+			hp = "Bonus HP: (" ..getApparelMinBonusHp(classid) .."-" ..getApparelMedianBonusHp(classid) .."%)"
+		else
+			dt = "Dmg Threshold: " ..item.damageThreshold .."%"
+			dr = "Dmg Reflect: " ..item.damageReflection .."%"
+			hp = "Bonus HP: " ..item.bonusHp		
+		end
+		
 		// Damage Threshold
 		local damageThresh = vgui.Create("DLabel", self)
 		damageThresh:SetPos(10, startY)
 		damageThresh:SetFont("FalloutRP2")
 		damageThresh:SetTextColor(COLOR_AMBER)
-		damageThresh:SetText("Dmg Threshold: " ..item.damageThreshold .."%")
+		damageThresh:SetText(dt)
 		damageThresh:SizeToContents()
 		startY = startY + 20
 		
@@ -216,7 +234,7 @@ function VGUI:SetItem(item)
 		damageReflect:SetPos(10, startY)
 		damageReflect:SetFont("FalloutRP2")
 		damageReflect:SetTextColor(COLOR_AMBER)
-		damageReflect:SetText("Dmg Reflect: " ..item.damageReflection .."%")
+		damageReflect:SetText(dr)
 		damageReflect:SizeToContents()
 		startY = startY + 20
 		
@@ -225,7 +243,7 @@ function VGUI:SetItem(item)
 		bonushp:SetPos(10, startY)
 		bonushp:SetFont("FalloutRP2")
 		bonushp:SetTextColor(COLOR_AMBER)
-		bonushp:SetText("Bonus HP: " ..item.bonusHp)
+		bonushp:SetText(hp)
 		bonushp:SizeToContents()
 		startY = startY + 20
 	end

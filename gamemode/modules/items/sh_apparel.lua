@@ -56,17 +56,26 @@ end
 function getApparelMinDamageThreshold(id)
 	return findApparel(id).minDamageThreshold
 end
+function getApparelMedianDamageThreshold(id)
+	return math.floor((findApparel(id).minDamageThreshold + findApparel(id).maxDamageThreshold) / 2)
+end
 function getApparelMaxDamageThreshold(id)
 	return findApparel(id).maxDamageThreshold
 end
 function getApparelMinDamageReflection(id)
 	return findApparel(id).minDamageReflection or 0
 end
+function getApparelMedianDamageReflection(id)
+	return math.floor((findApparel(id).minDamageReflection + findApparel(id).maxDamageReflection) / 2)
+end
 function getApparelMaxDamageReflection(id)
 	return findApparel(id).maxDamageReflection or 0
 end
 function getApparelMinBonusHp(id)
 	return findApparel(id).minBonusHp or 0
+end
+function getApparelMedianBonusHp(id)
+	return math.floor((findApparel(id).minBonusHp + findApparel(id).maxBonusHp) / 2)
 end
 function getApparelMaxBonusHp(id)
 	return findApparel(id).maxBonusHp or 0

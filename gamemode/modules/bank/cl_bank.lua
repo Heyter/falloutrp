@@ -69,7 +69,7 @@ local function closeBank()
 	end
 	
 	// Unfreeze the player
-	net.Start("openBank")
+	net.Start("closeBank")
 	
 	net.SendToServer()
 end

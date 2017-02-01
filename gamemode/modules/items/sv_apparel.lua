@@ -7,9 +7,9 @@ function createApparel(item, quantity, useBase)
 	local durability = getApparelMaxDurability(item.classid)
 	
 	if useBase then
-		damageThreshold = math.random(getApparelMinDamageThreshold(item.classid), math.floor((getApparelMinDamageThreshold(item.classid) + getApparelMaxDamageThreshold(item.classid))/2))
-		damageReflection = math.random(getApparelMinDamageReflection(item.classid), math.floor((getApparelMinDamageReflection(item.classid) + getApparelMaxDamageReflection(item.classid))/2))
-		bonusHp = math.random(getApparelMinBonusHp(item.classid), math.floor((getApparelMinBonusHp(item.classid) + getApparelMaxBonusHp(item.classid))/2))
+		damageThreshold = math.random(getApparelMinDamageThreshold(item.classid), getApparelMedianDamageThreshold(item.classid))
+		damageReflection = math.random(getApparelMinDamageReflection(item.classid), getApparelMedianDamageReflection(item.classid))
+		bonusHp = math.random(getApparelMinBonusHp(item.classid), getApparelMedianBonusHp(item.classid))
 	else
 		damageThreshold = math.random(getApparelMinDamageThreshold(item.classid), getApparelMaxDamageThreshold(item.classid))
 		damageReflection = math.random(getApparelMinDamageReflection(item.classid), getApparelMaxDamageReflection(item.classid))

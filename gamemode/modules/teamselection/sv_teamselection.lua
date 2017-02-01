@@ -144,7 +144,3 @@ net.Receive("registrationValidation", function(len, ply)
 
 	validateRegistration(ply, name, teamId, values)
 end)
-
-net.Receive("createCharacter", function(len, ply)
-	ply:postLoadPlayer()
-end)
