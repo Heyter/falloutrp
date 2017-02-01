@@ -24,7 +24,7 @@ end
 function meta:addSkillPoints()
 	self.playerData.skillpoints = self:getSkillPoints() + SKILLPOINTS_LEVEL
 	
-	MySQLite("UPDATE playerData SET skillpoints = " ..self:getSkillPoints() .." WHERE steamid = '" ..ply:SteamID() .. "'")
+	MySQLite.query("UPDATE playerdata SET skillpoints = " ..self:getSkillPoints() .." WHERE steamid = '" ..self:SteamID() .. "'")
 	
 	// Open the menu for the player to allot their points
 	self:openSkillPoints()
