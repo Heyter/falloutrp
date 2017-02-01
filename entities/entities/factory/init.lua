@@ -105,7 +105,7 @@ function ENT:addRandomItem(ply)
 	local chosen
 	local quantity = 1
 	
-	if place == "Weapon Factory" or place == "Materials Factory" then
+	if place == "Ammunition Factory" or place == "Materials Factory" then
 		quantity = math.random(1, 10)
 	end
 	

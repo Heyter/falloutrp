@@ -5,11 +5,29 @@ util.AddNetworkString("updateSkills")
 
 local meta = FindMetaTable("Player")
 
-function meta:addSkillPoints()
+hook.Add("ShowSpare1", "openSkillPoints", function(ply)
+	if ply:getSkillPoints() > 0 then
+		// Open the menu
+		ply:openSkillPoints()
+	else
+		ply:notify("You don't have any skill points to allot.", NOTIFY_ERROR)
+	end
+end)
 
+function meta:openSkillPoints()
 	net.Start("addSkillPoints")
 		net.WriteInt(self:getLevel(), 8)
+		net.WriteInt(self:getSkillPoints(), 16)
 	net.Send(self)
+end
+
+function meta:addSkillPoints()
+	self.playerData.skillpoints = self:getSkillPoints() + SKILLPOINTS_LEVEL
+	
+	MySQLite("UPDATE playerData SET skillpoints = " ..self:getSkillPoints() .." WHERE steamid = '" ..ply:SteamID() .. "'")
+	
+	// Open the menu for the player to allot their points
+	self:openSkillPoints()
 end
 
 net.Receive("validateSkills", function(len, ply)
@@ -64,6 +82,7 @@ function validateSkills(ply, values)
 	local beginningTotal, beginningValues = calcBeginningSkills(ply)
 	local total = 0
 	local errorId
+	local currentSkillPoints = ply:getSkillPoints()
 
 	for k,v in ipairs(values) do
 		total = total + v
@@ -73,10 +92,10 @@ function validateSkills(ply, values)
 		end
 	end
 	
-	if total > beginningTotal + SKILLPOINTS_LEVEL then
+	if total > beginningTotal + currentSkillPoints then
 		// Used more points than allowed for each level
 		errorId = 1
-	elseif total < beginningTotal + SKILLPOINTS_LEVEL then
+	elseif total < beginningTotal + currentSkillPoints then
 		// Used less points than allowed for each level
 		errorId = 2
 	else

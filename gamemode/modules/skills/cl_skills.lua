@@ -6,8 +6,9 @@ local canContinue = true // Don't allow players to keep trying to submit skills 
 
 net.Receive("addSkillPoints", function(len, ply)
 	local level = net.ReadInt(8)
+	local skillpoints = net.ReadInt(16)
 	
-	skillSelection(level)
+	skillSelection(level, skillpoints)
 end)
 
 net.Receive("updateSkills", function(len, ply)
@@ -35,11 +36,11 @@ net.Receive("validateSkills", function(len, ply)
 	canContinue = true
 end)
 
-function skillSelection(level)
+function skillSelection(level, skillpoints)
 	local beginningTotal = 0
 	local beginningValues = {}
 	local values = {}
-	local pointsRemaining = SKILLPOINTS_LEVEL
+	local pointsRemaining = skillpoints
 	
 	gui.EnableScreenClicker(true)
 
@@ -179,7 +180,8 @@ function skillSelection(level)
 				total = total + v
 			end
 				
-			if total < beginningTotal + SKILLPOINTS_LEVEL then
+			// Check that thte total amount used is less than or equal to the amount of skillpoints the player has
+			if total < beginningTotal + skillpoints then
 				values[k] = values[k] + 1
 					
 				value:SetText(values[k])
