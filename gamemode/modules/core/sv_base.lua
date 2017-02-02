@@ -3,10 +3,10 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local inflictor = dmgInfo:GetInflictor()
 	local attacker = dmgInfo:GetAttacker()
 	local damageType = dmgInfo:GetDamageType()
-	if IsValid(attacker) and attacker:IsPlayer() then
-		if IsValid(target) and target:IsPlayer() then
+	local damage = dmgInfo:GetDamage()
+	if IsValid(attacker) and IsValid(target) then
+		if attacker:IsPlayer() then
 			// Add Damage
-			local damage = dmgInfo:GetDamage()
 			local weapon = attacker:GetActiveWeapon()
 			local weaponSlot = weapon.slot
 			
@@ -36,16 +36,19 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 					damage = damage + (damage * attacker:getScienceDamage())
 				end
 			end
+		end
 			
+		if target:IsPlayer() then
 			// Reduce Damage
-				//Get Damage Threshold
+			damage = damage + (damage * (target:getDamageThreshold() / 100)) 
 				
-			dmgInfo:SetDamage(damage)
 			
 			// Reflect Damage
-				// Get Damage Reflection
-			
+			local damageReflect = damage * (target:getDamageReflection() / 100)
+			attacker:TakeDamage(damageReflect, target)
 		end
+			
+		dmgInfo:SetDamage(damage)
 	end
 end)
 
