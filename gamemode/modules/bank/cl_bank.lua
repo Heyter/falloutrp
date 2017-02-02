@@ -87,7 +87,7 @@ function openBank()
 end
 
 net.Receive("openBank", function()
-	if frame and menu then 
+	if frame or menu then 
 		// Close the bank if it's already open
 		closeBank()
 	else
