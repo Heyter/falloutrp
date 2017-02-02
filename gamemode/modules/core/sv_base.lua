@@ -70,7 +70,7 @@ hook.Add("PlayerSpawn", "SetupPlayer", function(ply)
 			ply:startHealthRegen()
 			
 			// Ask Pvp protection
-			//ply:pvpProtection()
+			ply:pvpProtection()
 			
 			if ply:Team() == TEAM_BOS then
 				ply:SetModel("models/player/fallout_3/tesla_power_armor.mdl")
