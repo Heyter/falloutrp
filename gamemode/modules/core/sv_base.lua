@@ -42,10 +42,12 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 			// Reduce Damage
 			damage = damage + (damage * (target:getDamageThreshold() / 100)) 
 				
-			
 			// Reflect Damage
 			local damageReflect = damage * (target:getDamageReflection() / 100)
-			attacker:TakeDamage(damageReflect, target)
+			// Make the inflictor worldspawn, so damage reflection isn't a stack overflow
+			if (damageReflect > 0) and (inflictor != Entity(0)) then
+				attacker:TakeDamage(damageReflect, target, Entity(0))
+			end
 		end
 			
 		dmgInfo:SetDamage(damage)
