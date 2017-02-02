@@ -12,11 +12,7 @@ net.Receive("loadEquipped", function()
 	
 	ply.equipped = equipped
 	
-	
-	// We have finished loading playerData, inventory, and equipped. Now send it to all clients
-	net.Start("loadPlayerDataFinish")
-	
-	net.SendToServer()
+	LocalPlayer():loadPlayerDataCount()
 end)
 
 net.Receive("depleteInventoryItem", function()
