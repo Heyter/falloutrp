@@ -1,8 +1,22 @@
 
+// Keep track of how much player data has been loaded
+local dataCount = 0
+
 local meta = FindMetaTable("Player")
 
 function meta:getName()
 	return self.playerData.name or LocalPlayer():Name()
+end
+
+function meta:loadPlayerDataCount()
+	dataCount = dataCount + 1
+	
+	// We have finished loading playerData, inventory, and equipped. Configure the player, send their data to all clients
+	if dataCount == 2 then
+		net.Start("loadPlayerDataFinish")
+	
+		net.SendToServer()
+	end
 end
 
 net.Receive("loadPlayerData", function()
@@ -12,6 +26,8 @@ net.Receive("loadPlayerData", function()
 	if ply then
 		ply.playerData = data
 	end
+	
+	LocalPlayer():loadPlayerDataCount()
 end)
 
 net.Receive("loadClientside", function()
