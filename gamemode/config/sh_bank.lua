@@ -1,5 +1,5 @@
 
-BANK_WEIGHT = 300 // The max weight that a bank can hold
+BANK_WEIGHT = 750 // The max weight that a bank can hold
 BANK_MODEL = "models/sal/fallout4/safe.mdl" // The model of the bank
 
 BANK_POSITIONS = {
