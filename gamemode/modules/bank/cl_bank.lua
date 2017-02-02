@@ -55,7 +55,7 @@ net.Receive("loadBank", function()
 	LocalPlayer().bank = bank
 end)
 
-local function closeBank()
+function closeBank(unfreeze)
 	gui.EnableScreenClicker(false)
 
 	if frame then
@@ -69,9 +69,11 @@ local function closeBank()
 	end
 	
 	// Unfreeze the player
-	net.Start("closeBank")
-	
-	net.SendToServer()
+	if unfreeze then
+		net.Start("closeBank")
+		
+		net.SendToServer()
+	end
 end
 
 function openBank()
@@ -89,8 +91,10 @@ end
 net.Receive("openBank", function()
 	if frame or menu then 
 		// Close the bank if it's already open
-		closeBank()
+		print("Close")
+		closeBank(true)
 	else
+		print("Open")
 		openBank()
 	end
 end)

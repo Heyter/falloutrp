@@ -225,6 +225,8 @@ function openPepboyMiddle()
 end
 
 function openBankLeft()
+	closeBank()
+
 	local pepboy = openBank()
 	pepboy.buttonL.DoClick()
 	pepboy.catL:makeLayout()
