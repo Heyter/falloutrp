@@ -161,8 +161,8 @@ function meta:dropItem(uniqueid, classid, quantity)
 		end
 	net.Send(self)
 		
-	// Drop the item on the ground
-	createLoot(self:GetPos(), {item})
+	// Drop the item on the ground, directly in front of the player
+	createLoot(self:GetPos() + (self:GetForward() * 25), {item})
 end
 
 net.Receive("dropItem", function(len, ply)
