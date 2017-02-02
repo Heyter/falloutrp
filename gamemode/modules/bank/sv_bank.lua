@@ -181,7 +181,7 @@ net.Receive("depositItem", function(len, ply)
 end)
 
 function meta:openBank()
-	self:Lock()
+	self:SetMoveType(MOVETYPE_NONE)
 	
 	net.Start("openBank")
 	
@@ -190,7 +190,7 @@ end
 
 // Freeze the player
 net.Receive("closeBank", function(len, ply)
-	ply:UnLock()
+	ply:SetMoveType(MOVETYPE_WALK)
 end)
 
 function meta:loadBankCount()
