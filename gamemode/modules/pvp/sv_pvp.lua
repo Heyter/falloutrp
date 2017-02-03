@@ -4,6 +4,12 @@ util.AddNetworkString("togglePvp")
 
 local meta = FindMetaTable("Player")
 
+function meta:playerDeathExp()
+	local level = self:getLevel()
+	
+	return level * PVP_EXPERIENCE_LEVEL
+end
+
 // Pvp Protection
 function meta:pvpProtection()
 	if self:getLevel() <= PVP_PROTECTION_LEVEL then
