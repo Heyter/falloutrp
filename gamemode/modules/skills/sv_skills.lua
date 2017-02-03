@@ -96,9 +96,8 @@ function validateSkills(ply, values)
 		end
 	end
 	
-	
 	// How many skill points the player now has left
-	local remainingPoints = total - beginningTotal - currentSkillPoints
+	local remainingPoints = currentSkillPoints - (total - beginningTotal)
 	
 	if total > beginningTotal + currentSkillPoints then
 		// Used more points than allowed for each level

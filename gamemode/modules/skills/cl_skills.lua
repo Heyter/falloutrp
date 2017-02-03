@@ -26,6 +26,9 @@ net.Receive("updateSkills", function(len, ply)
 	end
 	
 	close()
+	
+	// Allow submissions again
+	canContinue = true
 end)
 
 net.Receive("validateSkills", function(len, ply)
