@@ -13,11 +13,13 @@ function meta:selectTeam()
 end
 
 local function giveStartingWeapons(ply)
-	ply:pickUpItem(createItem(1015, 1, true), 1)
-	ply:pickUpItem(createItem(1044, 1, true), 1)
-	ply:pickUpItem(createItem(3017, 1, true), 20)
-	ply:pickUpItem(createItem(5014, 1, true), 10)
-	ply:pickUpItem(createItem(5033, 1, true), 10)
+	ply:pickUpItem(createItem(1015, 1, true), 1) // Machete
+	ply:pickUpItem(createItem(1044, 1, true), 1) // Maria
+	ply:pickUpItem(createItem(3017, 20, true), 20) // Maria Ammo
+	ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
+	ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
+	ply:pickUpItem(createItem(5033, 10, true), 10) // Wooden sticks
+	ply:pickUpItem(createItem(5044, 10, true), 10) // Cotton
 end
 
 local function createCharacter(ply, name, teamId, values)

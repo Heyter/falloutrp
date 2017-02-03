@@ -5,12 +5,18 @@ util.AddNetworkString("buyItem")
 
 local meta = FindMetaTable("Player")
 
+function restock(npc, id, index)
+	
+end
+
 function meta:buyItem(npc, type, id, index, uniqueid, quantity)
 	// Create a copy of the item since the actual one will be deleted
+	/*
 	if 1 == 1 then
 		self:notify("This is temporarily disabled, sorry.", NOTIFY_ERROR)
 		return
 	end
+	*/
 	
 	local item = table.Copy(MERCHANTS[npc]["Sale"][id]["Items"][index])
 	
@@ -20,17 +26,18 @@ function meta:buyItem(npc, type, id, index, uniqueid, quantity)
 			self:addCaps(-item.price)
 			
 			// Remove item from npc's stock
-			if (quantity == item.quantity) or (item.quantity == 1) or !item.quantity then
+			if !item.quantity then
 				MERCHANTS[npc]["Sale"][id]["Items"][index] = nil
+			elseif (quantity == item.quantity) or (item.quantity == 1) then
+				MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] = 0 // Make it zero for all predetermined items so it stays in the table
 			else
 				MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] = MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] - quantity
 			end
 			
+			// Add stock back to the vendor
+			restock(npc, id, index)
+			
 			// Add item to player inventory
-			if item.uniqueid < 0 then
-				// If the item is a npc made item then we have to actually create the item
-				item = createItem(item.classid, quantity)
-			end
 			self:pickUpItem(item, quantity)
 			
 			// Reopen the npc shop menu
@@ -109,5 +116,10 @@ end
 hook.Add("InitPostEntity", "spawnMerchants", function()
 	timer.Simple(1, function()
 		spawnMerchants()
+	end)
+	
+	// Initalize the merchant's items
+	timer.Simple(5, function()
+		initializeMerchantItems()
 	end)
 end)
