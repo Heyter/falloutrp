@@ -255,6 +255,7 @@ function openCrafting(lastButton)
 			inspect = vgui.Create("FalloutRP_Item")
 			inspect:SetPos(frameX + frame:GetWide(), frameY)
 			inspect:SetItem(itemInfo, true)
+			frame.inspect = inspect
 		end
 		icon.OnCursorExited = function(self)
 			if inspect then

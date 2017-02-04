@@ -23,6 +23,11 @@ function FACTORY:CheckInTerritory(ply)
 end
 
 function FACTORY:CheckStatus(ply, factory)
+	if ply.pvpProtected then
+		ply:notify("You can't contest factories while being PvP protected.", NOTIFY_ERROR)
+		return
+	end
+
 	if factory:GetStatus() == 1 then --Contested
 		ply:notify(self.Message_CurrentlyContested, NOTIFY_ERROR)
 		return
@@ -54,7 +59,7 @@ function FACTORY:CheckCaptureStatus(factory)
 	local teams = {} 
 	
 	for k,v in pairs(ents.FindInSphere(factory:GetPos(), self.captureDistance)) do
-		if v:IsValid() && v:IsPlayer() && v:Alive() then
+		if v:IsValid() && v:IsPlayer() && v:Alive() && !v.pvpProteced then
 			if !teams[v:Team()] then
 				teams[v:Team()] = 1
 			else

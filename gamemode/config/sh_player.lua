@@ -1,2 +1,2 @@
 
-MAX_HEALTH = 200 // Maximum health of a player
+MAX_HEALTH = 250 // Maximum health of a player

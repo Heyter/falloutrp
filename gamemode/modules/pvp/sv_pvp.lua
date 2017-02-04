@@ -22,10 +22,16 @@ function meta:pvpProtection()
 end
 
 net.Receive("togglePvp", function(len, ply)
+	local toggle = net.ReadBool()
+
 	if IsValid(ply) then
-		ply.pvpProtected = true
+		ply.pvpProtected = toggle
 		
-		ply:notify("PvP protection enabled.", NOTIFY_GENERIC)
+		if toggle then
+			ply:notify("PvP protection enabled.", NOTIFY_GENERIC)
+		else
+			ply:notify("PvP protection disabled.", NOTIFY_ERROR)
+		end
 	end
 end)
 

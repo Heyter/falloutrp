@@ -13,13 +13,30 @@ function meta:selectTeam()
 end
 
 local function giveStartingWeapons(ply)
-	ply:pickUpItem(createItem(1015, 1, true), 1) // Machete
-	ply:pickUpItem(createItem(1044, 1, true), 1) // Maria
-	ply:pickUpItem(createItem(3017, 20, true), 20) // Maria Ammo
-	ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
-	ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
-	ply:pickUpItem(createItem(5033, 10, true), 10) // Wooden sticks
-	ply:pickUpItem(createItem(5044, 10, true), 10) // Cotton
+	timer.Simple(1, function()
+		ply:pickUpItem(createItem(1015, 1, true), 1) // Machete
+	end)	
+	timer.Simple(2, function()
+		ply:pickUpItem(createItem(3017, 20, true), 20) // Maria Ammo
+	end)
+	timer.Simple(3, function()
+		ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
+	end)	
+	timer.Simple(4, function()
+		ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
+	end)	
+	timer.Simple(5, function()
+		ply:pickUpItem(createItem(5033, 10, true), 10) // Wooden sticks
+	end)	
+	timer.Simple(6, function()
+		ply:pickUpItem(createItem(5044, 10, true), 10) // Cotton
+	end)
+	timer.Simple(7, function()
+		ply:pickUpItem(createItem(4001, 2, true), 2) // Stimpack
+	end)	
+	timer.Simple(8, function()
+		ply:pickUpItem(createItem(1044, 1, true), 1) // Maria
+	end)
 end
 
 local function createCharacter(ply, name, teamId, values)

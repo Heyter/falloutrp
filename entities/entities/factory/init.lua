@@ -40,9 +40,7 @@ function ENT:SetCooldown()
 end
 
 function ENT:Use(activator)
-	print(1)
 	if activator:IsPlayer() then
-		print(2)
 		activator:loot(self)
 	end
 end
@@ -51,7 +49,7 @@ function ENT:getOwners()
 	local owners = {}
 
 	for k,v in pairs(player.GetAll()) do
-		if self:GetController() == team.GetName(v) then
+		if self:GetController() == v:Team() then
 			table.insert(owners, v)
 		end
 	end	
@@ -99,22 +97,40 @@ function ENT:addItem(item, ply)
 	self.iteration = self.iteration + 1
 end
 
+local function getLootLevel(ply)
+	local lvl = ply:getLevel()
+	
+	if lvl <= 15 then
+		return 15
+	elseif lvl <= 30 then
+		return 30
+	elseif lvl <= 50 then
+		return 50
+	end
+end
+
 function ENT:addRandomItem(ply)
-	local itemTable = self:getInfo().Items
+	local lvl = getLootLevel(ply)
+	local type = self:getInfo().Type
+	local itemTable = LOOT_FACTORIES[lvl][type]
+	
 	local place = self:GetPlace()
 	local chosen
 	local quantity = 1
 	
+	/*
 	if place == "Ammunition Factory" or place == "Materials Factory" then
 		quantity = math.random(1, 10)
 	end
+	*/
 	
 	for k, item in pairs(itemTable) do
 		if !chosen then
-			local roll = util.roll(5, 100)
+			local roll = util.roll(item.prob * 5, 100)
 			
 			if roll then
-				chosen = createItem(item, quantity)
+				quantity = math.random(item.quantity[1], item.quantity[2])
+				chosen = createItem(item.id, quantity)
 			end
 		end
 	end

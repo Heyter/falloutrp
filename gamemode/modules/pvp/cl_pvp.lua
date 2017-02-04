@@ -3,7 +3,7 @@
 
 local frameW, frameH = 800, 600
 local buttonW, buttonH = 120, 80
-local description = " All players level " ..PVP_PROTECTION_LEVEL .." and lower have the option to enable PvP protection.\n\n This feature protects you from taking damage from players\n of the opposing factions.\n\n The purpose is to allow lower level players a chance to get items\n and materials without extra hassle.\n\n You will be asked about turning this on everytime you spawn.\n\n Would you like to enable it?"
+local description = " All players level " ..PVP_PROTECTION_LEVEL .." and lower have the option to enable PvP protection.\n\n This feature protects you from taking damage from players\n of the opposing factions.\n\n The purpose is to allow lower level players a chance to get items\n and materials without extra hassle.\n\n You will be asked about turning this on everytime you spawn.\n\n You will not be able to participant in factory capturing with this active.\n\n Would you like to enable it?"
 
 net.Receive("pvpProtection", function()
 	pvpProtectionMenu()
@@ -36,6 +36,7 @@ function pvpProtectionMenu()
 		
 		// Toggle pvp protection
 		net.Start("togglePvp")
+			net.WriteBool(true)
 		net.SendToServer()
 				
 		frame:Remove()
@@ -50,6 +51,10 @@ function pvpProtectionMenu()
 	no:SetPos(frameW/2 + no:GetWide(), 500)
 	no.DoClick = function()
 		surface.PlaySound("garrysmod/ui_click.wav")
+			
+		net.Start("togglePvp")
+			net.WriteBool(false)
+		net.SendToServer()
 				
 		frame:Remove()
 		gui.EnableScreenClicker(false)
