@@ -59,7 +59,7 @@ function FACTORY:CheckCaptureStatus(factory)
 	local teams = {} 
 	
 	for k,v in pairs(ents.FindInSphere(factory:GetPos(), self.captureDistance)) do
-		if v:IsValid() && v:IsPlayer() && v:Alive() && !v.pvpProteced then
+		if v:IsValid() && v:IsPlayer() && v:Alive() && !v.pvpProtected then
 			if !teams[v:Team()] then
 				teams[v:Team()] = 1
 			else
