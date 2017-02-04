@@ -3,11 +3,12 @@
 NPCS = {
 	["npc_giantrat"] = {
 		Name = "Giant Rat",
-		Health = 250,
-		Limit = 35, // How many can be active on the map at once
+		Level = 15,
+		Health = 450,
+		Limit = 30, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 10, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 20,
+		Experience = 75,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5042] = {quantity = {1, 3}, prob = 80},
@@ -92,11 +93,12 @@ NPCS = {
 	},
 	["npc_gecko"] = {
 			Name = "Gecko",
-			Health = 300,
+			Level = 15,
+			Health = 650,
 			Limit = 35, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 10, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-			Experience = 20,
+			Experience = 115,
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80},
@@ -155,14 +157,17 @@ NPCS = {
 	},
 	["npc_gecko_fire"] = {
 			Name = "Fire Gecko",
-			Health = 300,
+			Level = 50,
+			Health = 1000,
 			Limit = 10, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-			Experience = 20,
+			Experience = 250,
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80},
+				[5036] = {quantity = {1, 2}, prob = 50},
+				[5039] = {quantity = {1, 2}, prob = 5},
 			},
 			Positions = {
 				{Position = Vector(3984, -345, 0), Active = false},
@@ -193,11 +198,12 @@ NPCS = {
 	},
 	["npc_mantis"] = {
 			Name = "Giant Mantis",
-			Health = 200,
+			Level = 15,
+			Health = 500,
 			Limit = 20, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-			Experience = 20,
+			Experience = 75,
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80},
@@ -239,11 +245,12 @@ NPCS = {
 	},
 	["npc_mantis_nymph"] = {
 			Name = "Giant Mantis Nymph",
-			Health = 175,
+			Level = 15,
+			Health = 350,
 			Limit = 8, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-			Experience = 20,
+			Experience = 60,
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80}
@@ -263,11 +270,12 @@ NPCS = {
 	},
 	["npc_cazador"] = {
 			Name = "Cazador",
-			Health = 350,
+			Level = 30,
+			Health = 800,
 			Limit = 25, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-			Experience = 30,
+			Experience = 120,
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5043] = {quantity = {1, 3}, prob = 80},
@@ -403,11 +411,12 @@ NPCS = {
 	*/
 	["npc_gecko_green"] = {
 			Name = "Green Gecko",
-			Health = 400,
+			Level = 30,
+			Health = 1500,
 			Limit = 12, // How many can be active on the map at once
 			SpawnRate = 120, // How often (seconds) we try to spawn a new one
 			StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-			Experience = 35,
+			Experience = 125,
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80},
@@ -438,11 +447,12 @@ NPCS = {
 	},
 	["npc_deathclaw"] = { 
 		Name = "Deathclaw",
-		Health = 800,
+		Level = 50,
+		Health = 2000,
 		Limit = 20, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 50,
+		Experience = 250,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5043] = {quantity = {1, 3}, prob = 80},
@@ -558,4 +568,8 @@ end
 
 function getNpcLoot(type)
 	return NPCS[type]["Loot"]
+end
+
+function getNpcLevel(type)
+	return NPCS[type]["Level"]
 end

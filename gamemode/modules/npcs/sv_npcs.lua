@@ -10,7 +10,7 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	local type = npc:GetClass()
 
 	local npcLoot = getNpcLoot(type)
-	local randomLoot = generateRandomLoot()
+	local randomLoot = generateRandomLoot(getNpcLevel(type))
 	local actualLoot = {}
 	
 	for k,v in pairs(npcLoot) do

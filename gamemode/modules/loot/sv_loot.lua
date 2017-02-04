@@ -5,19 +5,18 @@ util.AddNetworkString("lootItem")
 
 local meta = FindMetaTable("Player")
 
-function generateRandomLoot(chest)
+function generateRandomLoot(lvl, chest)
 	local loot = {}
 	
-	for k,v in pairs(LOOT) do
+	for k,v in pairs(LOOT_LEVELS[lvl]) do
 		local prob = v.prob
 		if chest then
-			prob = prob * 2
+			prob = prob * 50
 		end
 		
-		local quantity = v.quantity
+		local quantity = math.random(v.quantity[1], v.quantity[2])
 		
 		if util.roll(prob, 1000) then
-			print(k)
 			table.insert(loot, #loot + 1, createItem(v.id, quantity))
 		end
 	end
