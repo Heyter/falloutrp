@@ -78,7 +78,7 @@ hook.Add("PlayerSpawn", "SetupPlayer", function(ply)
 			ply:pvpProtection()
 			
 			if ply:Team() == TEAM_BOS then
-				ply:SetModel("models/player/fallout_3/tesla_power_armor.mdl")
+				ply:SetModel("models/player/nikout/fallout/wintercombatarmormale.mdl")
 			elseif ply:Team() == TEAM_NCR then
 				ply:SetModel("models/player/ncr/desertranger.mdl")
 			elseif ply:Team() == TEAM_LEGION then
