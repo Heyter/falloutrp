@@ -2511,26 +2511,28 @@ function VGUI:Init()
 		
 		if localplayer().inventory and localplayer().inventory.weapons then
 			for k, v in pairs(localplayer().inventory.weapons) do
-				element:addItemListEntry({
-					label = getWeaponName(v.classid),
-					stats = {
-						{key = "Damage", val = localplayer():getWeaponDamage(k)},
-						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
-						{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
-						{key = "Durability", val = localplayer():getWeaponDurability(k)},
-						{key = "Level", val = getWeaponLevel(v.classid)},
-						{key = "Weight", val = getWeaponWeight(v.classid)},
-						{key = "Value", val = getWeaponValue(v.classid)},						
-					},
-					itemModel = getWeaponModel(v.classid),
-					
-					rightClickFunc = function()
-						local menu = vgui.Create("pepboy_rightclickbox", element)
-						menu:StoreItem(v)
-						menu:AddOptions({"Deposit"})
-						menu:Open()
-					end
-				})
+				if !v.equipped then
+					element:addItemListEntry({
+						label = getWeaponName(v.classid),
+						stats = {
+							{key = "Damage", val = localplayer():getWeaponDamage(k)},
+							{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
+							{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
+							{key = "Durability", val = localplayer():getWeaponDurability(k)},
+							{key = "Level", val = getWeaponLevel(v.classid)},
+							{key = "Weight", val = getWeaponWeight(v.classid)},
+							{key = "Value", val = getWeaponValue(v.classid)},						
+						},
+						itemModel = getWeaponModel(v.classid),
+						
+						rightClickFunc = function()
+							local menu = vgui.Create("pepboy_rightclickbox", element)
+							menu:StoreItem(v)
+							menu:AddOptions({"Deposit"})
+							menu:Open()
+						end
+					})
+				end
 			end
 		end	
 		
@@ -2546,26 +2548,28 @@ function VGUI:Init()
 	
 		if localplayer().inventory and localplayer().inventory.apparel then
 			for k, v in pairs(localplayer().inventory.apparel) do
-				element:addItemListEntry({
-					label = getApparelName(v.classid),
-					stats = {
-						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
-						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
-						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
-						{key = "Durability", val = localplayer():getApparelDurability(k)},
-						{key = "Level", val = getApparelLevel(v.classid)},
-						{key = "Weight", val = getApparelWeight(v.classid)},
-						{key = "Value", val = getApparelValue(v.classid)},						
-					},
-					itemModel = getApparelModel(v.classid),
-					
-					rightClickFunc = function()
-						local menu = vgui.Create("pepboy_rightclickbox", element)
-						menu:StoreItem(v)
-						menu:AddOptions({"Deposit"})
-						menu:Open()
-					end
-				})
+				if !v.equipped then
+					element:addItemListEntry({
+						label = getApparelName(v.classid),
+						stats = {
+							{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
+							{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
+							{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
+							{key = "Durability", val = localplayer():getApparelDurability(k)},
+							{key = "Level", val = getApparelLevel(v.classid)},
+							{key = "Weight", val = getApparelWeight(v.classid)},
+							{key = "Value", val = getApparelValue(v.classid)},						
+						},
+						itemModel = getApparelModel(v.classid),
+						
+						rightClickFunc = function()
+							local menu = vgui.Create("pepboy_rightclickbox", element)
+							menu:StoreItem(v)
+							menu:AddOptions({"Deposit"})
+							menu:Open()
+						end
+					})
+				end
 			end
 		end		
 		
