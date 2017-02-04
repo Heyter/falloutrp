@@ -48,7 +48,7 @@ function tcb_StaminaPress(ply, key)
 	if key == IN_JUMP or ply:KeyDown(IN_JUMP) then
 		if ply:GetNWInt("tcb_Stamina") > disableLevel then
 			ply:SetJumpPower(defaultJump)
-			ply:SetNWInt("tcb_Stamina", ply:GetNWInt("tcb_Stamina") - 1)
+			//ply:SetNWInt("tcb_Stamina", ply:GetNWInt("tcb_Stamina") - 1) Don't remove stamina for jumping
 		else
 			ply:SetJumpPower(0)
 		end
