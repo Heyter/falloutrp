@@ -58,7 +58,7 @@ hook.Add("KeyPress", "tcb_StaminaPress", tcb_StaminaPress)
 
 -- KeyRelease
 function tcb_StaminaRelease(ply, key)
-	if key == IN_SPEED and !ply:KeyDown(IN_SPEED) or (key == IN_JUMP and !ply:KeyDown(IN_JUMP)) then
+	if (key == IN_SPEED and !ply:KeyDown(IN_SPEED)) or (key == IN_JUMP and !ply:KeyDown(IN_JUMP)) then
 		timer.Destroy("tcb_StaminaTimer")
 		tcb_StaminaRestore(ply)
 	end
