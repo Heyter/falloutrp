@@ -174,8 +174,8 @@ addWeapon(1071, "Brass Knuckles", DMG_SLASH, "primary", "weapon_brassknuckles", 
 addWeapon(1072, "Deathclaw Gauntlet", DMG_SLASH, "primary", "weapon_deathclawgauntlet", "models/Halokiller38/fallout/weapons/Melee/deathclawgauntlet.mdl", 1120, 2.5, 2000, 25, 35, 60, 40, 1.76, nil)
 addWeapon(1073, "Spiked Knuckles", DMG_SLASH, "primary", "weapon_spikedknuckles", "models/Halokiller38/fallout/weapons/Melee/spikedknuckles.mdl", 1120, 2.5, 1000, 9, 30, 50, 25, 1.76, nil)
 
-addWeapon(1074, "Lockpick", DMG_SLASH, "primary", "lockpick", "models/weapons/w_crowbar.mdl", 1120, 2.5, 150, 3, 30, 50, 2.75, 1.76, nil)
-addWeapon(1075, "Pickaxe", DMG_SLASH, "primary", "eoti_tool_miningpick", "models/pickaxe/pickaxe_w.mdl", 1120, 2.5, 100, 1, 30, 50, 2.75, 1.76, nil)
+addWeapon(1074, "Lockpick", DMG_SLASH, "primary", "lockpick", "models/weapons/w_crowbar.mdl", 1120, 2.5, 150, 3, 0, 0, 2.75, 1.76, nil)
+addWeapon(1075, "Pickaxe", DMG_SLASH, "primary", "eoti_tool_miningpick", "models/pickaxe/pickaxe_w.mdl", 1120, 2.5, 100, 1, 0, 0, 2.75, 1.76, nil)
 
 
 
