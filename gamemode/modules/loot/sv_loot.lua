@@ -92,7 +92,7 @@ end
 
 net.Receive("lootItem", function(len, ply)
 	local ent = net.ReadEntity()
-	local itemId = net.ReadInt(8)
+	local itemId = net.ReadInt(16)
 	local quantity = net.ReadInt(16)
 	
 	ply:lootItem(ent, itemId, quantity)

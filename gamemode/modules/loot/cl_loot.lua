@@ -45,7 +45,7 @@ function lootItem(ent, itemId, quantity)
 	
 	net.Start("lootItem")
 		net.WriteEntity(ent)
-		net.WriteInt(itemId, 8)
+		net.WriteInt(itemId, 16)
 		net.WriteInt(quantity, 16)
 	net.SendToServer()
 end
