@@ -48,7 +48,7 @@ SCAVENGE = {
 		},
 		Limit = 10, // How many normal veins can be on map at a time
 		Default = 5014, // The default rock that is mined if the extra isn't rolled
-		Extras = {[5034] = 15, [5003] = 5, [5018] = 5, [5024] = 5, [1013] = 2, [1015] = 2, [1017] = 2, [1021] = 2, [1022] = 2, [1023] = 2, [1025] = 2, [1029] = 2, [1030] = 2, [1032] = 2} // Rock = Probability %
+		Extras = {[5034] = 15, [5003] = 5, [5018] = 5, [5024] = 5, [1015] = 2, [1017] = 2, [1021] = 2, [1022] = 2, [1023] = 2, [1025] = 2, [1029] = 2, [1030] = 2, [1032] = 2} // Rock = Probability %
 	},	
 	Herbal = { 
 		Sizes = {
