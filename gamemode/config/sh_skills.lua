@@ -51,4 +51,4 @@ DAMAGE_MULTIPLIER_SCIENCE = 0.005 // How much damage is increased (multiplier) f
 NPCDAMAGE_MULTIPLIER_SURVIVAL = 0.005 // How much damage is reduced (multiplier) for npcs for each point of survival
 
 // Unarmed
-DAMAGE_MULTIPLIER_UNARMED = 0.1 // How much damage is increased (multiplier) for unarmed for each point of unarmed
+DAMAGE_MULTIPLIER_UNARMED = 0.01 // How much damage is increased (multiplier) for unarmed for each point of unarmed
