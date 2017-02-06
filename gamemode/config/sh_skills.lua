@@ -27,7 +27,7 @@ DAMAGE_MULTIPLIER_ENERGYWEAPONS = 0.005 // How much damage is increased (multipl
 DAMAGE_MULTIPLIER_EXPLOSIVES = 0.03 // How much damage is increased (multiplier) for explosives for each point of explosives
 
 // Guns
-DAMAGE_MULTIPLIER_GUNS = 0.005 // How much damage is increased (multiplier) for guns for each point of guns
+DAMAGE_MULTIPLIER_GUNS = 0.0025 // How much damage is increased (multiplier) for guns for each point of guns
 
 // Lockpick
 
