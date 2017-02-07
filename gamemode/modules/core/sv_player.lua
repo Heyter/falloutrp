@@ -27,7 +27,8 @@ function meta:loadPlayer()
 			self:selectTeam()
 		else
 			// The player is in the playerdata table
-			self.playerData = results[1]
+			self.playerData = results[1] // Load their playerData
+			self:initializeRank() // Load their rank
 			
 			net.Start("loadPlayerData")
 				net.WriteTable(self.playerData)
@@ -58,6 +59,9 @@ function meta:sendClientside()
 		net.WriteInt(data.experience, 32)
 		net.WriteInt(data.strength, 8)
 		net.WriteTable(self.equipped)
+		
+		net.WriteInt(self:getKills(), 16)
+		net.WriteString(self:getRank())
 	net.Broadcast()
 end
 
@@ -70,6 +74,9 @@ function meta:loadClientside(ply)
 		net.WriteInt(data.experience, 32)
 		net.WriteInt(data.strength, 8)
 		net.WriteTable(ply.equipped)
+		
+		net.WriteInt(ply:getKills(), 16)
+		net.WriteString(ply:getRank())
 	net.Send(self)
 end
 
@@ -85,6 +92,9 @@ function meta:load()
 	
 	//Load Bank
 	self:loadBank()
+	
+	//Load Titles
+	self:loadTitles()
 	
 	//Load existing players data to clientside
 	self:loadAllClientside()
