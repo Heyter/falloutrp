@@ -27,6 +27,8 @@ net.Receive("loadPlayerData", function()
 		ply.playerData = data
 	end
 	
+	PrintTable(ply.playerData)
+	
 	LocalPlayer():loadPlayerDataCount()
 end)
 

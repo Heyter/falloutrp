@@ -89,6 +89,8 @@ local function createCharacter(ply, name, teamId, values)
 		apparel = {}
 	}
 	
+	ply:initializeRank()
+	
 	net.Start("createCharacter")
 		// Don't need to send anything, just close the menu
 		net.WriteTable(ply.playerData)
