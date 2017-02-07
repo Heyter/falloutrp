@@ -78,7 +78,7 @@ function meta:sellItem(npc, type, id, uniqueid, quantity)
 	table.insert(MERCHANTS[npc]["Sale"][id]["Items"], item)
 	
 	// Give player caps
-	self:addCaps(getItemValue(item.classid))
+	self:addCaps(getItemValue(item.classid) * quantity)
 	
 	// Reopen the npc shop menu
 	self:openMerchant(npc)
