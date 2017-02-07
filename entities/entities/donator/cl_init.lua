@@ -9,7 +9,7 @@ function ENT:Draw()
 end 
 
 hook.Add("PostDrawOpaqueRenderables", "DonatorHead", function()
-	for _, ent in pairs (ents.FindByClass("merchant")) do
+	for _, ent in pairs (ents.FindByClass("donator")) do
 		if ent:GetPos():Distance(LocalPlayer():GetPos()) < 1000 then
 			local Ang = ent:GetAngles()
 

@@ -125,6 +125,7 @@ function VGUI:AddCloseButton()
 	
 		gui.EnableScreenClicker(false)
 		self:Remove()
+		self = nil
 	end
 	close.OnCursorEntered = function(self)
 		self:SetTextColor(COLOR_BLUE)

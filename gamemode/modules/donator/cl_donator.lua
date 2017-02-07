@@ -3,10 +3,19 @@ local frame
 local frameW, frameH = 500, 300
 
 local function close()
-	
+	if frame then
+		frame:Remove()
+		frame = nil
+		
+		gui.EnableScreenClicker(false)
+	end
 end
 
 net.Receive("openTokenShop", function()
+	if frame then print("test1") close() end // Don't open multiple instances of the same menu
+	
+	print("test2")
+	
 	gui.EnableScreenClicker(true)
 
 	frame = vgui.Create("FalloutRP_Menu")
@@ -30,7 +39,15 @@ net.Receive("openTokenShop", function()
 	choice1:SetSize(frameW - 50, 40)
 	choice1:SetPos(25, 110)	
 	choice1.DoClick = function()
-	
+		if util.positive(LocalPlayer():getFactionChanges()) then
+			// Open the faction change menu
+			openFactionChange()
+			
+			surface.PlaySound("garrysmod/ui_click.wav")
+			close()
+		else
+			LocalPlayer():notify("You do not have any faction changes available.", NOTIFY_ERROR)
+		end
 	end
 	
 	local choice2 = vgui.Create("FalloutRP_Button", frame)
@@ -39,7 +56,15 @@ net.Receive("openTokenShop", function()
 	choice2:SetSize(frameW - 50, 40)
 	choice2:SetPos(25, 160)	
 	choice2.DoClick = function()
-	
+		if util.positive(LocalPlayer():getNameChanges()) then
+			// Open the name change menu
+			openNameChange()
+			
+			surface.PlaySound("garrysmod/ui_click.wav")
+			close()
+		else
+			LocalPlayer():notify("You do not have any name changes available.", NOTIFY_ERROR)
+		end	
 	end
 	
 	local choice3 = vgui.Create("FalloutRP_Button", frame)
@@ -48,6 +73,14 @@ net.Receive("openTokenShop", function()
 	choice3:SetSize(frameW - 50, 40)
 	choice3:SetPos(25, 210)
 	choice3.DoClick = function()
-	
+		if util.positive(LocalPlayer():getTitleCreations()) then
+			// Open the title creation menu
+			openTitleCreation()
+			
+			surface.PlaySound("garrysmod/ui_click.wav")
+			close()
+		else
+			LocalPlayer():notify("You do not have any title creations available.", NOTIFY_ERROR)
+		end	
 	end	
 end)

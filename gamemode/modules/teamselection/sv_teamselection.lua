@@ -101,17 +101,6 @@ local function createCharacter(ply, name, teamId, values)
 	end)
 end
 
-local function hasInvalidChars(name)
-	if name then
-		for k, char in pairs(NAME_INVALID) do
-			local start, finish = string.find(name, char, 1, true)
-			if start then
-				return char
-			end
-		end
-	end
-end
-
 local function usedAllPoints(values)
 	local total = 0
 
@@ -125,7 +114,7 @@ end
 local function validateRegistration(ply, name, teamId, values)
 	local errorId
 	local extra = "" // Extra info about the validation that needs to be sent back, ie: which char is bad
-	local badChar = hasInvalidChars(name)
+	local badChar = util.hasInvalidChars(name)
 	
 	if !name or #name < NAME_MIN then
 		// Error with not enough characters

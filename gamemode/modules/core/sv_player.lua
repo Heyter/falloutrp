@@ -82,6 +82,8 @@ end
 
 // Get all data related to a player when they join
 function meta:load()
+	print("Loading player")
+
 	self:Team(TEAM_FACTIONLESS) //Temporarily set their team while they're still loading
 
 	//Load Player

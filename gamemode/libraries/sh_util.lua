@@ -1,4 +1,15 @@
 
+// Checks if a string has invalid characters
+function util.hasInvalidChars(name)
+	if name then
+		for k, char in pairs(NAME_INVALID) do
+			local start, finish = string.find(name, char, 1, true)
+			if start then
+				return char
+			end
+		end
+	end
+end
 
 // Removes an entity by fading it's transparency (TAKES 1 second to remove entities)
 function util.fadeRemove(ent)
