@@ -16,6 +16,9 @@ function meta:loadPlayerDataCount()
 		net.Start("loadPlayerDataFinish")
 	
 		net.SendToServer()
+		
+		// Reset the data count incase they load again, ie: faction change
+		dataCount = 0
 	end
 end
 

@@ -82,7 +82,7 @@ net.Receive("registrationValidation", function(len, ply)
 		elseif errorId == 4 then
 			LocalPlayer():notify("You must use all of your available points.", NOTIFY_ERROR)
 		elseif errorId == 5 then
-			LocalPlayer():notify("You must use all of your available points.", NOTIFY_ERROR)
+			LocalPlayer():notify("Player with that name already exists.", NOTIFY_ERROR)
 		end
 	end
 	

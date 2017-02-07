@@ -29,7 +29,7 @@ function meta:addTitleCreation()
 	
 	local creations = self:getTitleCreations()
 	
-	MySQLite.query("UDPATE SET titlecreations = " ..creations .." WHERE steamid = '" ..self:SteamID() .."'")
+	MySQLite.query("UPDATE playerdata SET titlecreations = " ..creations .." WHERE steamid = '" ..self:SteamID() .."'")
 	
 	net.Start("updateTitleCreations")
 		net.WriteInt(creations, 8)

@@ -17,9 +17,10 @@ function meta:addKill()
 	net.Broadcast()
 	
 	// Unlocked a new rank at this level
-	if getRanks()[kills] then
-		self:setRank(getRanks()[kills])
+	if getRanks()[self:Team()][kills] then
+		self:setRank(getRanks()[self:Team()][kills])
 	end
+	
 end
 
 // Get the player's rank based on their kills when they join the server
@@ -27,7 +28,7 @@ function meta:initializeRank()
 	local rank = ""
 	local amount = -1
 	
-	for kills, name in pairs(getRanks()) do
+	for kills, name in pairs(getRanks()[self.playerData.faction]) do
 		if (kills > amount) and (self:getKills() >= kills) then
 			rank = name
 		end
