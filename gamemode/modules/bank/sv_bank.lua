@@ -154,7 +154,7 @@ function meta:depositItem(uniqueid, classid, quantity)
 						end
 						
 						invItem.uniqueid = itemId
-						invItem.quantity = invItem.quantity - quantity 
+						invItem.quantity = quantity
 						self.bank[itemType][itemId] = invItem
 						
 						// Update the client
