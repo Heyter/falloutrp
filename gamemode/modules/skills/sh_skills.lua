@@ -81,7 +81,12 @@ function meta:getAgilityMovementSpeed()
 end
 
 // Luck
-
+function meta:getLuckModifier()
+	local luck = self:getSkill("luck")
+	local bonus = 0
+	
+	return bonus + (luck * PROBABILITY_MULTIPLIER_LUCK)
+end
 
 // -----Skills-----
 
