@@ -1,7 +1,7 @@
 
 net.Receive("pickUpWeapon", function()
-	local uniqueId = net.ReadInt(32)
+	local uniqueid = net.ReadInt(32)
 	local weapon = net.ReadTable()
 	
-	LocalPlayer().inventory.weapons[uniqueId] = weapon
+	LocalPlayer().inventory.weapons[uniqueid] = weapon
 end)
