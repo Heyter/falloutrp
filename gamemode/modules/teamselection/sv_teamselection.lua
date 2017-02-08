@@ -53,7 +53,7 @@ local function createCharacter(ply, name, teamId, values)
 		["skillpoints"] = 0,
 		["vip"] = 0,
 		["playerkills"] = 0,
-		["factionchanges"] = 0,
+		["factionchanges"] = 1,
 		["namechanges"] = 0,
 		["titlecreations"] = 0,
 		["strength"] = values[1],
