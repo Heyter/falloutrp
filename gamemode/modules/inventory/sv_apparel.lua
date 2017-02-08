@@ -37,7 +37,7 @@ end
 function meta:pickUpApparel(apparel)
 	MySQLite.query("INSERT INTO apparel (steamid, classid, damageThreshold, damageReflection, bonusHp, durability) VALUES ('" ..self:SteamID() .."', " ..apparel.classid ..", " ..apparel.damageThreshold ..", " ..apparel.damageReflection ..", " ..apparel.bonusHp ..", " ..apparel.durability ..")", function()
 		// Get the last inserted id so we can store that in lua
-		MySQLite.query("SELECT uniqueid FROM weapons ORDER BY uniqueid DESC LIMIT 1", function(results)
+		MySQLite.query("SELECT uniqueid FROM apparel ORDER BY uniqueid DESC LIMIT 1", function(results)
 			local uniqueid = 0
 			if results and results[1] then
 				uniqueid = results[1]["uniqueid"]
