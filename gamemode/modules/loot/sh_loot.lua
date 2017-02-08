@@ -189,7 +189,7 @@ LOOT = {
 	{id = 5011, prob = 20, quantity = {1, 1}},
 	{id = 5012, prob = 20, quantity = {1, 1}},
 	{id = 5013, prob = 20, quantity = {1, 1}},
-	{id = 5014, prob = 1, quantity = {1, 10}},
+	{id = 5014, prob = 1, quantity = {1, 10}, material = true},
 	{id = 5015, prob = 20, quantity = {1, 1}},
 	{id = 5016, prob = 20, quantity = {1, 1}},
 	{id = 5017, prob = 20, quantity = {1, 1}},
@@ -202,26 +202,26 @@ LOOT = {
 	{id = 5024, prob = 20, quantity = {1, 1}},
 	{id = 5025, prob = 20, quantity = {1, 1}},
 	{id = 5026, prob = 20, quantity = {1, 1}},
-	{id = 5027, prob = 1, quantity = {1, 10}},
-	{id = 5028, prob = 0.1, quantity = {1, 5}},
-	{id = 5029, prob = 0.1, quantity = {1, 5}},
-	{id = 5030, prob = 0.1, quantity = {1, 5}},
-	{id = 5031, prob = 0.1, quantity = {1, 5}},
-	{id = 5032, prob = 0.1, quantity = {1, 5}},
-	{id = 5033, prob = 1, quantity = {1, 5}},
-	{id = 5034, prob = 1, quantity = {1, 5}},
-	{id = 5035, prob = 1, quantity = {1, 5}},
-	{id = 5036, prob = 1, quantity = {1, 1}},
-	{id = 5037, prob = 1, quantity = {1, 1}},
-	{id = 5038, prob = 1, quantity = {1, 1}},
-	{id = 5039, prob = 1, quantity = {1, 1}},
-	{id = 5040, prob = 1, quantity = {1, 1}},
-	{id = 5041, prob = 1, quantity = {1, 1}},
-	{id = 5042, prob = 1, quantity = {1, 10}},
-	{id = 5043, prob = 1, quantity = {1, 10}},
-	{id = 5044, prob = 1, quantity = {1, 10}},
-	{id = 5045, prob = 1, quantity = {1, 10}},
-	{id = 5046, prob = 1, quantity = {1, 5}},
+	{id = 5027, prob = 1, quantity = {1, 10}, material = true},
+	{id = 5028, prob = 0.1, quantity = {1, 5}, material = true},
+	{id = 5029, prob = 0.1, quantity = {1, 5}, material = true},
+	{id = 5030, prob = 0.1, quantity = {1, 5}, material = true},
+	{id = 5031, prob = 0.1, quantity = {1, 5}, material = true},
+	{id = 5032, prob = 0.1, quantity = {1, 5}, material = true},
+	{id = 5033, prob = 1, quantity = {1, 5}, material = true},
+	{id = 5034, prob = 1, quantity = {1, 5}, material = true},
+	{id = 5035, prob = 1, quantity = {1, 5}, material = true},
+	{id = 5036, prob = 1, quantity = {1, 1}, material = true},
+	{id = 5037, prob = 1, quantity = {1, 1}, material = true},
+	{id = 5038, prob = 1, quantity = {1, 1}, material = true},
+	{id = 5039, prob = 1, quantity = {1, 1}, material = true},
+	{id = 5040, prob = 1, quantity = {1, 1}, material = true},
+	{id = 5041, prob = 1, quantity = {1, 1}, material = true},
+	{id = 5042, prob = 1, quantity = {1, 10}, material = true},
+	{id = 5043, prob = 1, quantity = {1, 10}, material = true},
+	{id = 5044, prob = 1, quantity = {1, 10}, material = true},
+	{id = 5045, prob = 1, quantity = {1, 10}, material = true},
+	{id = 5046, prob = 1, quantity = {1, 5}, material = true},
 }
 
 LOOT_LEVELS = {
@@ -309,7 +309,7 @@ function structureFactoryLoot()
 				table.insert(LOOT_FACTORIES[level]["APPAREL"], item)
 			elseif isAmmo(item.id) then
 				table.insert(LOOT_FACTORIES[level]["AMMO"], item)
-			elseif isMisc(item.id) then
+			elseif isMisc(item.id) and item.material then
 				table.insert(LOOT_FACTORIES[level]["MISC"], item)
 			end
 		end
