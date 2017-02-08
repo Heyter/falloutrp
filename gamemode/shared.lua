@@ -3,6 +3,12 @@ GM.Author = "Gaming_Unlimited"
 
 DeriveGamemode("sandbox")
 
+// Team Enumerations
+TEAM_BOS = 1
+TEAM_NCR = 2
+TEAM_LEGION = 3
+TEAM_FACTIONLESS = 4
+
 strRootPath = string.Replace(GM.Folder, "gamemodes/", "")
 function searchPaths(originalPath, initial)
 	initial = initial or false
