@@ -126,7 +126,7 @@ function ENT:addRandomItem(ply)
 	
 	for k, item in pairs(itemTable) do
 		if !chosen then
-			local roll = util.roll((item.prob + (item.prob * ply:getLuckModifier())) * 7, 100)
+			local roll = util.roll((item.prob + (item.prob * ply:getLuckModifier())) * 5, 100)
 			
 			if roll then
 				quantity = math.random(item.quantity[1], item.quantity[2])
