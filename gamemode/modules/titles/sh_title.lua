@@ -11,5 +11,5 @@ end
 
 // Get the title that is equipped
 function meta:getTitle()
-	return self.title or ""
+	return self.title
 end

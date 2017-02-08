@@ -166,7 +166,7 @@ NPCS = {
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80},
-				[5036] = {quantity = {1, 2}, prob = 50},
+				[5036] = {quantity = {1, 2}, prob = 5},
 				[5039] = {quantity = {1, 2}, prob = 5},
 			},
 			Positions = {
@@ -420,11 +420,11 @@ NPCS = {
 			Loot = {
 				[4014] = {quantity = {1, 2}, prob = 80},
 				[5042] = {quantity = {1, 3}, prob = 80},
-				[5029] = {quantity = {1, 2}, prob = 25},
-				[5030] = {quantity = {1, 2}, prob = 25},
-				[5031] = {quantity = {1, 2}, prob = 25},
-				[5032] = {quantity = {1, 2}, prob = 10},
-				[5041] = {quantity = {1, 1}, prob = 1},
+				[5029] = {quantity = {1, 4}, prob = 25},
+				[5030] = {quantity = {1, 3}, prob = 10},
+				[5031] = {quantity = {1, 2}, prob = 5},
+				[5032] = {quantity = {1, 2}, prob = 2},
+				[5041] = {quantity = {1, 2}, prob = 10},
 			},
 			Positions = {
 				{Position = Vector(7695, -12192, 17), Active = false},
@@ -455,14 +455,14 @@ NPCS = {
 		Experience = 250,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
-			[5043] = {quantity = {1, 3}, prob = 80},
-			[5029] = {quantity = {1, 2}, prob = 25},
-			[5030] = {quantity = {1, 2}, prob = 25},
-			[5031] = {quantity = {1, 2}, prob = 25},
-			[5032] = {quantity = {1, 2}, prob = 30},
-			[5040] = {quantity = {1, 1}, prob = 5},
-			[5041] = {quantity = {1, 1}, prob = 50},
-			[5039] = {quantity = {1, 1}, prob = 25},
+			[5043] = {quantity = {1, 6}, prob = 80},
+			[5029] = {quantity = {1, 6}, prob = 25},
+			[5030] = {quantity = {1, 4}, prob = 8},
+			[5031] = {quantity = {1, 2}, prob = 4},
+			[5032] = {quantity = {1, 2}, prob = 2},
+			[5040] = {quantity = {1, 1}, prob = 4},
+			[5041] = {quantity = {1, 5}, prob = 50},
+			[5039] = {quantity = {1, 1}, prob = 15},
 		},		
 		Positions = {
 			{Position = Vector(9659, 10653, 23), Active = false},

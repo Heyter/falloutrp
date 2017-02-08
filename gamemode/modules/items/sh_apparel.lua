@@ -240,39 +240,39 @@ addApparel(2095, "Assault Hazmat Gloves",  "gloves", "IDK", 1100, 2.0, 1000, 45,
 addApparel(2096, "Generals Dress Gloves",  "gloves", "IDK", 1500, 2.0, 1500, 50, 5, 10, 5, 10, 5, 10)
 
 // Cloth
-addApparel(2041, "Standard Chest",  "chest", "IDK", 1500, 2.2, 1500, 1, 1, 5, 0, 0, 0, 0)
-addApparel(2042, "Standard Pants",  "pants", "IDK", 1400, 2.2, 1400, 2, 1, 1, 4, 0, 0, 0, 0)
-addApparel(2043, "Standard Helmet",  "helmet", "IDK", 1300, 2.2, 1200, 3, 1, 3, 0, 0, 0, 0)
-addApparel(2044, "Standard Gloves",  "gloves", "IDK", 1200, 2.2, 1100, 4, 1, 2, 0, 0, 0, 0)
-addApparel(2045, "Standard Shoes",  "shoes", "IDK", 1100, 2.2, 1000, 5, 1, 1, 0, 0, 0, 0)
+addApparel(2041, "Standard Chest",  "chest", "IDK", 1500, 2.2, 675, 1, 1, 5, 0, 0, 0, 0)
+addApparel(2042, "Standard Pants",  "pants", "IDK", 1400, 2.2, 360, 2, 1, 1, 4, 0, 0, 0, 0)
+addApparel(2043, "Standard Helmet",  "helmet", "IDK", 1300, 2.2, 225, 3, 1, 3, 0, 0, 0, 0)
+addApparel(2044, "Standard Gloves",  "gloves", "IDK", 1200, 2.2, 270, 4, 1, 2, 0, 0, 0, 0)
+addApparel(2045, "Standard Shoes",  "shoes", "IDK", 1100, 2.2, 225, 5, 1, 1, 0, 0, 0, 0)
 
 // Leather
-addApparel(2046, "Leather Chest",  "chest", "IDK", 1600, 2.2, 1600, 6, 1, 6, 1, 2, 0, 0)
-addApparel(2047, "Leather Pants",  "pants", "IDK", 1500, 2.2, 1500, 7, 1, 5, 1, 2, 0, 0)
-addApparel(2048, "Leather Helmet",  "helmet", "IDK", 1400, 2.2, 1400, 8, 1, 4, 1, 2, 0, 0)
-addApparel(2049, "Leather Gloves",  "gloves", "IDK", 1300, 2.2, 1300, 9, 1, 3, 1, 2, 0, 0)
-addApparel(2050, "Leather Shoes",  "shoes", "IDK", 1200, 2.2, 1200, 10, 1, 2, 1, 2, 0, 0)
+addApparel(2046, "Leather Chest",  "chest", "IDK", 1600, 2.2, 1125, 6, 1, 6, 1, 2, 0, 0)
+addApparel(2047, "Leather Pants",  "pants", "IDK", 1500, 2.2, 600, 7, 1, 5, 1, 2, 0, 0)
+addApparel(2048, "Leather Helmet",  "helmet", "IDK", 1400, 2.2, 375, 8, 1, 4, 1, 2, 0, 0)
+addApparel(2049, "Leather Gloves",  "gloves", "IDK", 1300, 2.2, 450, 9, 1, 3, 1, 2, 0, 0)
+addApparel(2050, "Leather Shoes",  "shoes", "IDK", 1200, 2.2, 375, 10, 1, 2, 1, 2, 0, 0)
 
 // Rock                        
-addApparel(2051, "Sturdy Chest",  "chest", "IDK", 1700, 2.2, 1700, 11, 1, 7, 1, 3, 1, 1)
-addApparel(2052, "Sturdy Pants",  "pants", "IDK", 1600, 2.2, 1600, 12,1, 6, 1, 3, 1, 1)
-addApparel(2053, "Sturdy Helmet",  "helmet", "IDK", 1500, 2.2, 1500, 13, 1, 5, 1, 3, 1, 1)
-addApparel(2054, "Sturdy Gloves",  "gloves", "IDK", 1400, 2.2, 1400, 14, 1, 4, 1, 3, 1, 1)
-addApparel(2055, "Sturdy Shoes",  "shoes", "IDK", 1300, 2.2, 1300, 15, 1, 3, 1, 3, 1, 1)
+addApparel(2051, "Sturdy Chest",  "chest", "IDK", 1700, 2.2, 900, 11, 1, 7, 1, 3, 1, 1)
+addApparel(2052, "Sturdy Pants",  "pants", "IDK", 1600, 2.2, 490, 12,1, 6, 1, 3, 1, 1)
+addApparel(2053, "Sturdy Helmet",  "helmet", "IDK", 1500, 2.2, 280, 13, 1, 5, 1, 3, 1, 1)
+addApparel(2054, "Sturdy Gloves",  "gloves", "IDK", 1400, 2.2, 360, 14, 1, 4, 1, 3, 1, 1)
+addApparel(2055, "Sturdy Shoes",  "shoes", "IDK", 1300, 2.2, 280, 15, 1, 3, 1, 3, 1, 1)
 
 // Copper and silver
-addApparel(2056, "Medium Chest",  "chest", "IDK", 1800, 2.2, 1800, 16, 1, 8, 1, 4, 1, 2)
-addApparel(2057, "Medium Pants",  "pants", "IDK", 1700, 2.2, 1700, 18, 1, 7, 1, 4, 1, 2)
-addApparel(2058, "Medium Helmet",  "helmet", "IDK", 1600, 2.2, 1600, 20, 1, 6, 1, 4, 1, 2)
-addApparel(2059, "Medium Gloves",  "gloves", "IDK", 1500, 2.2, 1500, 22, 1, 5, 1, 4, 1, 2)
-addApparel(2060, "Medium Shoes",  "shoes", "IDK", 1400, 2.2, 1400, 25, 1, 4, 1, 4, 1, 2)
+addApparel(2056, "Medium Chest",  "chest", "IDK", 1800, 2.2, 2790, 16, 1, 8, 1, 4, 1, 2)
+addApparel(2057, "Medium Pants",  "pants", "IDK", 1700, 2.2, 1460, 18, 1, 7, 1, 4, 1, 2)
+addApparel(2058, "Medium Helmet",  "helmet", "IDK", 1600, 2.2, 980, 20, 1, 6, 1, 4, 1, 2)
+addApparel(2059, "Medium Gloves",  "gloves", "IDK", 1500, 2.2, 1110, 22, 1, 5, 1, 4, 1, 2)
+addApparel(2060, "Medium Shoes",  "shoes", "IDK", 1400, 2.2, 980, 25, 1, 4, 1, 4, 1, 2)
 
 // Gold
-addApparel(2061, "Heavy Chest",  "chest", "IDK", 1900, 2.2, 1900, 28, 1, 9, 1, 5, 1, 3)
-addApparel(2062, "Heavy Pants",  "pants", "IDK", 1800, 2.2, 1800, 30, 1, 8, 1, 5, 1, 3)
-addApparel(2063, "Heavy Helmet",  "helmet", "IDK", 1700, 2.2, 1700, 34, 1, 7, 1, 5, 1, 3)
-addApparel(2064, "Heavy Gloves",  "gloves", "IDK", 1600, 2.2, 1600, 37, 1, 6, 1, 5, 1, 3)
-addApparel(2065, "Heavy Shoes",  "shoes", "IDK", 1500, 2.2, 1500, 40, 1, 5, 1, 5, 1, 3)
+addApparel(2061, "Heavy Chest",  "chest", "IDK", 1900, 2.2, 6200, 28, 1, 9, 1, 5, 1, 3)
+addApparel(2062, "Heavy Pants",  "pants", "IDK", 1800, 2.2, 4750, 30, 1, 8, 1, 5, 1, 3)
+addApparel(2063, "Heavy Helmet",  "helmet", "IDK", 1700, 2.2, 1350, 34, 1, 7, 1, 5, 1, 3)
+addApparel(2064, "Heavy Gloves",  "gloves", "IDK", 1600, 2.2, 2700, 37, 1, 6, 1, 5, 1, 3)
+addApparel(2065, "Heavy Shoes",  "shoes", "IDK", 1500, 2.2, 1350, 40, 1, 5, 1, 5, 1, 3)
 
 // Crystal
 addApparel(2066, "Power Armor Chest",  "chest", "IDK", 2000, 2.2, 2000, 42, 1, 10, 1, 5, 1, 5)

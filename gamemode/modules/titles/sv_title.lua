@@ -1,5 +1,8 @@
 
+// Token shop
 util.AddNetworkString("updateTitleCreations")
+// Functional
+util.AddNetworkString("updateTitle")
 
 local meta = FindMetaTable("Player")
 
@@ -43,5 +46,20 @@ function meta:addTitle(title)
 end
 
 function meta:equipTitle(title)
+	self.title = title
+	
+	self:updateTitle()
+end
 
+function meta:updateTitles()
+	net.Start("updateTitles")
+		net.WriteTable(self:getTitles())
+	net.Send(self)
+end
+
+function meta:updateTitle()
+	net.Start("updateTitle")
+		net.WriteEntity(self)
+		net.WriteTable(self:getTitle())
+	net.Broadcast()
 end
