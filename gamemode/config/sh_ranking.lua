@@ -46,7 +46,7 @@ local RANKS = {
 		[2500] = "Colonel",
 		[3500] = "Brigadier General",
 		[5000] = "General",
-}
+	}
 }
 
 function getRanks()
