@@ -1,4 +1,4 @@
-GM.Name = "Fallout Roleplay"
+GM.Name = "falloutrp"
 GM.Author = "Gaming_Unlimited"
 
 DeriveGamemode("sandbox")
