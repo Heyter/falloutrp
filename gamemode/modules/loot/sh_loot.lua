@@ -14,7 +14,7 @@ LOOT = {
 	{id = 1011, prob = 1, quantity = {1, 1}},
 	{id = 1012, prob = 1, quantity = {1, 1}},
 	{id = 1013, prob = 0.1, quantity = {1, 1}},
-	{id = 1014, prob = 1, quantity = {1, 1}},
+	{id = 1014, prob = 0.3, quantity = {1, 1}},
 	{id = 1015, prob = 1, quantity = {1, 1}},
 	{id = 1016, prob = 1, quantity = {1, 1}},
 	{id = 1017, prob = 1, quantity = {1, 1}},
