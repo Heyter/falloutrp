@@ -85,7 +85,7 @@ function getAidHealthOverTime(id)
 	local time = getAidTimeLength(id)
 
 	if health and time then
-		return health .." HP over " ..time " seconds"
+		return health .." HP over " ..time .." seconds"
 	end
 end
 
