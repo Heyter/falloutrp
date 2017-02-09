@@ -17,7 +17,7 @@ local function giveStartingWeapons(ply)
 		ply:pickUpItem(createItem(1015, 1, true), 1) // Machete
 	end)	
 	timer.Simple(2, function()
-		ply:pickUpItem(createItem(3017, 20, true), 20) // Maria Ammo
+		ply:pickUpItem(createItem(3017, 60, true), 60) // Maria Ammo
 	end)
 	timer.Simple(3, function()
 		ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
