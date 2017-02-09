@@ -8,7 +8,7 @@ local defaultJump = JUMP_POWER
 -- PlayerSpawn
 function tcb_StaminaStart(ply)
 	if ply.loaded then
-		timer.Destroy("tcb_StaminaTimer")
+		timer.Destroy("tcb_StaminaTimer" ..ply:UniqueID())
 		ply:SetRunSpeed(ply:getMaxRunSpeed())
 		ply:SetNWInt("tcb_Stamina", ply:getMaxSprintLength())
 		
@@ -28,11 +28,11 @@ function tcb_StaminaPress(ply, key)
 		local maxWalk = ply:getMaxWalkSpeed()
 		if ply:GetNWInt( "tcb_Stamina" ) > disableLevel then
 			ply:SetRunSpeed(maxRun)
-			timer.Destroy("tcb_StaminaGain")
-			timer.Create( "tcb_StaminaTimer", staminaDrainSpeed, 0, function( )
+			timer.Destroy("tcb_StaminaGain" ..ply:UniqueID())
+			timer.Create( "tcb_StaminaTimer" ..ply:UniqueID(), staminaDrainSpeed, 0, function( )
 				if ply:GetNWInt("tcb_Stamina") <= 0 then
 					ply:SetRunSpeed(maxWalk)
-					timer.Destroy("tcb_StaminaTimer")
+					timer.Destroy("tcb_StaminaTimer" ..ply:UniqueID())
 					return false
 				end
 				local vel = ply:GetVelocity()
@@ -42,7 +42,7 @@ function tcb_StaminaPress(ply, key)
 			end)
 		else
 			ply:SetRunSpeed(maxWalk)
-			timer.Destroy("tcb_StaminaTimer")
+			timer.Destroy("tcb_StaminaTimer" ..ply:UniqueID())
 		end
 	end
 	if key == IN_JUMP or ply:KeyDown(IN_JUMP) then
@@ -59,7 +59,7 @@ hook.Add("KeyPress", "tcb_StaminaPress", tcb_StaminaPress)
 -- KeyRelease
 function tcb_StaminaRelease(ply, key)
 	if (key == IN_SPEED and !ply:KeyDown(IN_SPEED)) or (key == IN_JUMP and !ply:KeyDown(IN_JUMP)) then
-		timer.Destroy("tcb_StaminaTimer")
+		timer.Destroy("tcb_StaminaTimer" ..ply:UniqueID())
 		tcb_StaminaRestore(ply)
 	end
 end
@@ -67,7 +67,7 @@ hook.Add("KeyRelease", "tcb_StaminaRelease", tcb_StaminaRelease)
 	
 -- StaminaRestore
 function tcb_StaminaRestore(ply)
-	timer.Create("tcb_StaminaGain", staminaRestoreSpeed, 0, function( ) 
+	timer.Create("tcb_StaminaGain" ..ply:UniqueID(), staminaRestoreSpeed, 0, function( ) 
 		if IsValid(ply) then
 			if ply:GetNWInt("tcb_Stamina") >= ply:getMaxSprintLength() then
 				return false
