@@ -25,8 +25,8 @@ local function drawPlayerInfo()
 				draw.DrawText(ply:getName(), "FalloutRP4", pos.x + 1, pos.y - 79, colors.black, 1)
 				draw.DrawText(ply:getName(), "FalloutRP4", pos.x, pos.y - 80, Color(255, 255, 100, 255), 1)							
 				
-				draw.DrawText(ply:getRank(), "FalloutRP4", pos.x + 1, pos.y - 49, colors.black, 1)
-				draw.DrawText(ply:getRank(), "FalloutRP4", pos.x, pos.y - 50, Color(255, 255, 100, 255), 1)				
+				draw.DrawText(ply:getRank(), "FalloutRP3", pos.x + 1, pos.y - 49, colors.black, 1)
+				draw.DrawText(ply:getRank(), "FalloutRP3", pos.x, pos.y - 50, Color(255, 255, 100, 255), 1)				
 				
 				draw.DrawText("Level: " ..ply:getLevel(), "FalloutRP3", pos.x + 1, pos.y - 19, colors.black, 1)
 				draw.DrawText("Level: " ..ply:getLevel(), "FalloutRP3", pos.x, pos.y - 20, Color(255, 255, 100, 255), 1)
