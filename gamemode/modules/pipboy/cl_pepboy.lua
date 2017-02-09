@@ -637,12 +637,29 @@ function VGUI:Init()
 		
 		if localplayer().inventory and localplayer().inventory.aid then
 			for k, v in pairs(localplayer().inventory.aid) do
+				local statistics = {
+					{key = "Weight", val = getAidWeight(v.classid)},
+					{key = "Value", val = getAidValue(v.classid)},	
+				}
+				
+				if getAidHealthOverTime(v.classid) then
+					table.insert(statistics, {key = "HOT", val = getAidHealthOverTime(v.classid)})
+				elseif getAidHealthPercent(v.classid) then
+					table.insert(statistics, {key = "Health", val = getAidHealthPercent(v.classid) .."%"})
+				elseif getAidHealth(v.classid) then
+					table.insert(statistics, {key = "Health", val = getAidHealth(v.classid)})
+				end
+				
+				if getAidHunger(v.classid) then
+					table.insert(statistics, {key = "Hunger", val = getAidHunger(v.classid)})
+				end
+				if getAidThirst(v.classid) then
+					table.insert(statistics, {key = "Thirst", val = getAidThirst(v.classid)})
+				end
+			
 				element:addItemListEntry({
 					label = getAidNameQuantity(v.classid, v.quantity),
-					stats = {
-						{key = "Weight", val = getAidWeight(v.classid)},
-						{key = "Value", val = getAidValue(v.classid)},						
-					},
+					stats = statistics,
 					itemModel = getAidModel(v.classid),
 					
 					rightClickFunc = function()
@@ -1741,14 +1758,20 @@ function VGUI:Paint( w, h )
 	surface.SetMaterial(matLine)
 	surface.DrawTexturedRect(60 + 128 + 50 - 4, 70 + 32 - 8, w - 50 + 8 - ( 60 + 128 + 50 - 4 ), 4)
 
+	// Name
 	draw.SimpleText(localplayer():getName(), "pepboy_40", 60 + 128 + 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	//draw.SimpleText("Hunger: ", "pepboy_40", w - 50, 70 + 32, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	
-	draw.SimpleText("Hunger:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText(hungerStatus, "pepboy_27", 60 + 128 + 50 + 150, 70 + 32 + 50, hungerColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText("Hydration:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	draw.SimpleText(thirstStatus, "pepboy_27", 60 + 128 + 50 + 150, 70 + 32 + 50 + 32, thirstColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
-	//draw.SimpleText( "SALARY   " .. DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) or self.salary, "pepboy_27",  w - 50, 70 + 32 + 50, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP )
+	// Rank
+	draw.SimpleText("Rank:", "pepboy_32", 60 + 128 + 50, 70 + 32 + 50 - 3, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(localplayer():getRank(), "pepboy_32", 60 + 128 + 50 + 150, 70 + 32 + 50 - 3, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	
+	// Hunger
+	draw.SimpleText("Hunger:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(hungerStatus, "pepboy_27", 60 + 128 + 50 + 150, 70 + 32 + 50 + 32, hungerColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	//Thirst
+	draw.SimpleText("Hydration:", "pepboy_27", 60 + 128 + 50, 70 + 32 + 50 + 32 + 32, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText(thirstStatus, "pepboy_27", 60 + 128 + 50 + 150, 70 + 32 + 50 + 32 + 32, thirstColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+
 	
 
 	surface.DrawTexturedRect( 40, PEPBOY_CONTENT_SIZE_Y/1.6, w - 80, 4 )
