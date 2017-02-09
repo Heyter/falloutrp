@@ -1,7 +1,7 @@
 
-RUN_SPEED		= 300	// Default run speed
+RUN_SPEED		= 280	// Default run speed
 WALK_SPEED		= 160	// Default walk speed
-JUMP_POWER		= 200	// Default jump power
+JUMP_POWER		= 160	// Default jump power
 SPRINT_LENGTH	= 100	// Default sprint length (points)
 
 DISABLE_RUN			= 0	// (0 - 100) When should Run & Jump get disabled
