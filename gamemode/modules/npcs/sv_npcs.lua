@@ -128,6 +128,17 @@ hook.Add("InitPostEntity", "createNpcTimers", function()
 	timer.Simple(1, function()
 		createNpcTimers()
 	end)
+	
+	// Set NPC damages
+	timer.Simple(2, function()
+		RunConsoleCommand("sk_deathclaw_dmg_slash", 40)
+		RunConsoleCommand("sk_deathclaw_dmg_slash_power", 45)
+		RunConsoleCommand("sk_deathclaw_dmg_slash_power_jump", 55)
+
+		RunConsoleCommand("sk_gecko_green_dmg_slash", 22)
+		RunConsoleCommand("sk_gecko_green_dmg_slash_power", 26)
+		RunConsoleCommand("sk_gecko_green_dmg_spit", 32)
+	end)
 end)
 
 function printNpcPositions()
