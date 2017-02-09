@@ -144,6 +144,12 @@ function meta:depositItem(uniqueid, classid, quantity)
 				self.bank[itemType][sameItem]["quantity"] = self.bank[itemType][sameItem]["quantity"] + quantity
 				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
 				
+				// Update the client
+				net.Start("depositItem")
+					net.WriteString(itemType)
+					net.WriteTable(self.inventory[itemType])
+					net.WriteTable(self.bank[itemType])
+				net.Send(self)				
 			else
 				// Create a duplicate item, but mark it as banked
 				MySQLite.query("INSERT INTO " ..itemType .." (steamid, classid, quantity, banked) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..", 1)", function()
