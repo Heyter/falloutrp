@@ -71,7 +71,7 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 						end
 						
 						bankItem.uniqueid = itemId
-						bankItem.quantity = bankItem.quantity - quantity
+						bankItem.quantity = quantity
 						self.inventory[itemType][itemId] = bankItem
 						
 						// Update the client
