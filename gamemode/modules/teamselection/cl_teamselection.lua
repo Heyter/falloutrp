@@ -89,7 +89,7 @@ net.Receive("registrationValidation", function(len, ply)
 	canContinue = true // Allow the user to try and submit a name again
 end) 
 
-local function teamSelection()
+function teamSelection()
 	//Enable mouse
 	gui.EnableScreenClicker(true)
 	
@@ -331,5 +331,5 @@ local function teamSelection()
 end
 
 net.Receive("teamSelection", function(len, ply)
-	teamSelection()
+	tutorialSlideShow(true)
 end)
