@@ -2,7 +2,17 @@
 //Client
 local meta = FindMetaTable("Player")
 
-net.Receive("updateEquipment", function(len, ply)
+// Called when a player drops their whole inventory (they die)
+net.Receive("clearEquipped", function()
+	local ply = net.ReadEntity()
+	
+	ply.equipped = {
+		weapons = {},
+		apparel = {}
+	}
+end)
+
+net.Receive("updateEquipment", function()
 	local equipped = net.ReadTable()
 	local ent = net.ReadEntity()
 	

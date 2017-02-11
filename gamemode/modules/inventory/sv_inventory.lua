@@ -69,8 +69,11 @@ function meta:dropAllInventory()
 	
 	net.Start("loadInventory")
 		net.WriteTable(self.inventory)
-		net.WriteTable(self.equipped)
 	net.Send(self)
+	
+	net.Start("clearEquipped")
+		net.WriteEntity(self)
+	net.Broadcast()
 end
 
 // Get data from all item tables for specific player
