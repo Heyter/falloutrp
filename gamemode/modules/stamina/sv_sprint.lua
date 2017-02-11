@@ -21,6 +21,7 @@ hook.Add("PlayerSpawn", "tcb_StaminaStart", tcb_StaminaStart)
 function tcb_StaminaPress(ply, key)
 
 	if key == IN_SPEED or ply:KeyDown(IN_SPEED) then
+		if !ply.loaded then return end
 		if ply:InVehicle() then return end
 		if ply:GetMoveType() == MOVETYPE_NOCLIP then return end
 		if ply:GetMoveType() ==  MOVETYPE_LADDER then return end
@@ -58,9 +59,11 @@ hook.Add("KeyPress", "tcb_StaminaPress", tcb_StaminaPress)
 
 -- KeyRelease
 function tcb_StaminaRelease(ply, key)
-	if (key == IN_SPEED and !ply:KeyDown(IN_SPEED)) or (key == IN_JUMP and !ply:KeyDown(IN_JUMP)) then
-		timer.Destroy("tcb_StaminaTimer" ..ply:UniqueID())
-		tcb_StaminaRestore(ply)
+	if ply.loaded then
+		if (key == IN_SPEED and !ply:KeyDown(IN_SPEED)) or (key == IN_JUMP and !ply:KeyDown(IN_JUMP)) then
+			timer.Destroy("tcb_StaminaTimer" ..ply:UniqueID())
+			tcb_StaminaRestore(ply)
+		end
 	end
 end
 hook.Add("KeyRelease", "tcb_StaminaRelease", tcb_StaminaRelease) 
