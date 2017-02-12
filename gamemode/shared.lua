@@ -3,6 +3,9 @@ GM.Author = "Gaming_Unlimited"
 
 DeriveGamemode("sandbox")
 
+// Used for chatting only
+DarkRP = {}
+
 // Team Enumerations
 TEAM_BOS = 1
 TEAM_NCR = 2
