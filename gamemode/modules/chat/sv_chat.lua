@@ -105,7 +105,7 @@ local function RP_ActualDoSay(ply, text, callback)
     end
 
 
-    DarkRP.talkToRange(ply, callback .. ply:Name(), text, 250)
+    DarkRP.talkToRange(ply, callback .. ply:getName(), text, 250)
     
 	return ""
 end
