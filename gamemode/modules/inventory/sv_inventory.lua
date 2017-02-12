@@ -1,6 +1,7 @@
 
 util.AddNetworkString("loadInventory")
 util.AddNetworkString("loadEquipped")
+util.AddNetworkString("clearEquipped")
 
 util.AddNetworkString("dropItem")
 util.AddNetworkString("dropAllInventory")
