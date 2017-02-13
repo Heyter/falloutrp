@@ -576,7 +576,7 @@ function VGUI:Init()
 						{key = "Weight", val = getApparelWeight(v.classid)},
 						{key = "Value", val = getApparelValue(v.classid)},						
 					},
-					itemModel = getApparelModel(v.classid),
+					//itemModel = getApparelModel(v.classid),
 					inUse = v.equipped,
 					
 					rightClickFunc = function()
@@ -2585,7 +2585,7 @@ function VGUI:Init()
 							{key = "Weight", val = getApparelWeight(v.classid)},
 							{key = "Value", val = getApparelValue(v.classid)},						
 						},
-						itemModel = getApparelModel(v.classid),
+						//itemModel = getApparelModel(v.classid),
 						
 						rightClickFunc = function()
 							local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -2776,7 +2776,7 @@ function VGUI:Init()
 						{key = "Weight", val = getApparelWeight(v.classid)},
 						{key = "Value", val = getApparelValue(v.classid)},						
 					},
-					itemModel = getApparelModel(v.classid),
+					//itemModel = getApparelModel(v.classid),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)

@@ -249,7 +249,10 @@ function openCrafting(lastButton)
 		local icon = vgui.Create("SpawnIcon", infoFrame)
 		icon:SetSize(128, 128)
 		icon:SetPos(infoFrame:GetWide()/2 - icon:GetWide()/2, 25)
-		icon:SetModel(getItemModel(id))
+		// There is no model for apparels yet
+		if !isApparel(id) then
+			icon:SetModel(getItemModel(id))
+		end
 		icon.OnCursorEntered = function(self)
 			local frameX, frameY = frame:GetPos()
 			inspect = vgui.Create("FalloutRP_Item")

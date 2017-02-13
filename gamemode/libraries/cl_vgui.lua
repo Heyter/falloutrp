@@ -175,7 +175,10 @@ function VGUI:SetItem(item, creation)
 	self.name:SetPos(self:GetWide()/2 - self.name:GetWide()/2, 10)
 	
 	// Model
-	self.model:SetModel(model)
+	// Don't draw apparel model because there are none yet
+	if !isApparel(classid) then
+		self.model:SetModel(model)
+	end
 	
 	// Item Specs
 	local startY = 140
