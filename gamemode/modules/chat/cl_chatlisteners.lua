@@ -144,7 +144,7 @@ local function loadChatReceivers()
     DarkRP.addChatReceiver("/y", DarkRP.getPhrase("yell"), function(ply) return LocalPlayer():GetPos():DistToSqr(ply:GetPos()) < 302500 end)
     DarkRP.addChatReceiver("/me", DarkRP.getPhrase("perform_your_action"), function(ply) return LocalPlayer():GetPos():DistToSqr(ply:GetPos()) < 62500 end)
 	DarkRP.addChatReceiver("/g", DarkRP.getPhrase("talk_to_your_group"), function(ply)
-        for _, v in pairs(team.GetPlayers(ply:Team())) do
+        for _, v in pairs(team.GetPlayers(LocalPlayer():Team())) do
 			if v != LocalPlayer() then
 				return true
 			end
