@@ -204,7 +204,9 @@ surface.CreateFont( "pepboy_50", {
 
 local function open()
 	//Close it first incase it was already open
-	close()
+	if localplayer().pepboy_frame and localplayer().pepboy_vgui then
+		close()
+	end
 
 	localplayer().pepboy_frame = vgui.Create( "pepboy_frame" )
 	localplayer().pepboy_frame:SetPos( 0, 0 )
