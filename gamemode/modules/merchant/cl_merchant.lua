@@ -448,7 +448,7 @@ function openMerchant(name, items)
 		end
 	end	
 	
-	if lastButton and lastNpc and lastType then
+	if lastButton and lastNpc and lastType and (lastNpc == name) then
 		buttons[lastButton].hovered = false
 		buttons[lastButton].selected = true
 		buttons[lastButton]:SetTextColor(COLOR_BLUE)
