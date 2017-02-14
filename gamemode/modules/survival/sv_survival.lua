@@ -14,6 +14,20 @@ local thirstDelay = THIRST_DELAY
 local thirstRemove = THIRST_REMOVE
 local thirstDamage = THIRST_DAMAGE
 
+local moans = {
+	"vo/npc/male01/moan01.wav",
+	"vo/npc/male01/moan02.wav",
+	"vo/npc/male01/moan03.wav",
+	"vo/npc/male01/moan04.wav",
+	"vo/npc/male01/moan05.wav",
+}
+
+function meta:moan()
+	local sound, index = table.Random(moans)
+	
+	self:EmitSound(sound)
+end
+
 function meta:setHunger(amount)
 	self.playerData.hunger = amount
 	
@@ -39,6 +53,8 @@ function meta:updateHunger(amount)
 	
 	if self:getHunger() <= 0 then // They are out of hunger
 		self:addHealth(-hungerDamage)
+		self:notify("You are hungry.", NOTIFY_GENERIC)
+		self:moan()
 	end
 end
 
@@ -69,12 +85,14 @@ function meta:addThirst(amount)
 end
 
 function meta:updateThirst(amount)
-	if (self:getThirst() - thirstRemove) >= 0 then // Player will still have positive hunger after this removal
+	if (self:getThirst() - thirstRemove) >= 0 then // Player will still have positive thirst after this removal
 		self:addThirst(-thirstRemove)
 	end
 	
-	if self:getThirst() <= 0 then // They are out of hunger
+	if self:getThirst() <= 0 then // They are out of thirst
 		self:addHealth(-thirstDamage)
+		self:notify("You are thirsty.", NOTIFY_GENERIC)
+		self:moan()
 	end
 end
 
