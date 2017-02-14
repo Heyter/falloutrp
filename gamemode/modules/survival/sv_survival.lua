@@ -47,8 +47,16 @@ function meta:addHunger(amount)
 end
 
 function meta:updateHunger(amount)
+	local oldStatus = self:getHungerStatus()
+
 	if (self:getHunger() - hungerRemove) >= 0 then // Player will still have positive hunger after this removal
 		self:addHunger(-hungerRemove)
+		
+		local newStatus = self:getHungerStatus()
+		
+		if newStatus != oldStatus then
+			self:notify("You are feeling " ..newStatus .."!")
+		end
 	end
 	
 	if self:getHunger() <= 0 then // They are out of hunger
@@ -85,8 +93,16 @@ function meta:addThirst(amount)
 end
 
 function meta:updateThirst(amount)
+	local oldStatus = self:getThirstStatus()
+
 	if (self:getThirst() - thirstRemove) >= 0 then // Player will still have positive thirst after this removal
 		self:addThirst(-thirstRemove)
+		
+		local newStatus = self:getThirstStatus()
+		
+		if newStatus != oldStatus then
+			self:notify("You are feeling " ..newStatus .."!")
+		end
 	end
 	
 	if self:getThirst() <= 0 then // They are out of thirst
