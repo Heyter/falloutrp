@@ -37,8 +37,6 @@ function meta:getThirstStatus()
 		return "Dehydrated", Color(125, 95, 0, 255)	
 	elseif thirst <= .6 * maxThirst then // Below 60%
 		return "Thirsty", Color(100, 120, 0, 255)		
-	elseif thirst <= .6 * maxThirst then // Below 60%
-		return "Thirsty", Color(100, 120, 0, 255)
 	elseif thirst <= .8 * maxThirst then // Below 80%
 		return "Parched", Color(65, 175, 0, 255)
 	else // Above 80%
