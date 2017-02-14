@@ -40,6 +40,7 @@ local matGlow = Material( "models/pepboy/glow" )
 local matBlur = Material( "pp/blurscreen" )
 local matShipment = Material( "models/pepboy/item_icon_shipment" )
 local matMachine = Material( "models/pepboy/item_icon_machine" )
+local map = Material("materials/falloutrp/map/map.jpg")
 
 local WEAPON_ICONS = {
 
@@ -372,7 +373,7 @@ function VGUI:Init()
 		self.buttonR = vgui.Create( "pepboy_catbutton_text", self )
 		self.buttonR:SetPos( scrW()/2 + 75, scrH()/2 + PEPBOY_SIZE_Y/2 - 10 )
 		self.buttonR:SetSize( 150, 50 )
-		self.buttonR.label = "SETTINGS"
+		self.buttonR.label = "EXTRA"
 		self.buttonR.DoClick = function()
 		
 			self.buttonL.active = false
@@ -732,19 +733,32 @@ function VGUI:Init()
 	self.catR:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 0.9 )
 	//self.catR:addTop( "SAL", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) end, 1.3 )
 	//self.catR:addTop( "CASH", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) end, 2.2 )
-	self.catR:SetTitle( "MAINT", 2.5 )
+	self.catR:SetTitle( "EXTRAS", 2.5 )
 
 	
 	local settings_panel = function()
-		
 		local panel = vgui.Create( "pepboy_settings_page", self.catR )
 		panel:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		panel:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 		
 		return panel
-		
 	end
-	self.catR:addBottom( "Settings", settings_panel )
+	
+	local map_panel = function()
+		local panel = vgui.Create("DPanel", self.catR)
+		panel:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
+		panel:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
+		panel.Paint = function(self, w, h)
+			surface.SetDrawColor(Color(255, 255, 255, 255))
+			surface.SetMaterial(map)
+			surface.DrawTexturedRect(0, 0, w, h)
+		end
+		
+		return panel
+	end	
+	
+	self.catR:addBottom("Map", map_panel)
+	self.catR:addBottom("Settings", settings_panel)
 	
 	self.catR:makeLayout()
 	self.catR:Hide()
