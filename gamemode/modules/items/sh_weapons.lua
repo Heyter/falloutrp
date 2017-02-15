@@ -120,7 +120,7 @@ addWeapon(1023, "Lead Pipe", DMG_SLASH, "secondary", "weapon_leadpipe", "models/
 addWeapon(1024, "Nail Board", DMG_SLASH, "secondary", "weapon_nailboard", "models/Halokiller38/fallout/weapons/Melee/nailboard.mdl", 1120, 2.5, 200, 1, 10, 20, 5, 1.76, nil)
 addWeapon(1025, "Nine Iron", DMG_SLASH, "secondary", "weapon_nineiron", "models/Halokiller38/fallout/weapons/Melee/9iron.mdl", 1120, 2.5, 300, 1, 15, 25, 3, 1.76, nil)
 addWeapon(1026, "Police Baton", DMG_SLASH, "secondary", "weapon_policebaton", "models/Halokiller38/fallout/weapons/Melee/baton.mdl", 1120, 2.5, 500, 1, 20, 25, 5, 2.75, nil)
-addWeapon(1027, "Pool Cue", DMG_SLASH, "secondary", "weapon_poolcue", "models/weapons/w_pistol.mdl", 1120, 2.5, 550, 1, 20, 25, 10, 1.76, nil)
+addWeapon(1027, "Pool Cue", DMG_SLASH, "secondary", "weapon_poolcue", "models/Halokiller38/fallout/weapons/Melee/poolcue.mdl", 1120, 2.5, 550, 1, 20, 25, 10, 1.76, nil)
 addWeapon(1028, "Rebar Club", DMG_SLASH, "secondary", "weapon_rebarclub", "models/Halokiller38/fallout/weapons/Melee/rebar.mdl", 1120, 2.5, 750, 12, 30, 50, 10, 1.76, nil)
 addWeapon(1029, "Shovel", DMG_SLASH, "secondary", "weapon_shovel", "models/Halokiller38/fallout/weapons/Melee/shovel.mdl", 1120, 2.5, 100, 1, 10, 15, 5, 1.76,  nil)
 addWeapon(1030, "Sledge Hammer", DMG_SLASH, "secondary", "weapon_sledgehammer", "models/Halokiller38/fallout/weapons/Melee/sledgehammer.mdl", 1120, 2.5, 300, 1, 15, 25, 10, 1.76, nil)
