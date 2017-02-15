@@ -13,11 +13,13 @@ end
 
 // Disable give weapons
 function GM:PlayerGiveSWEP(ply)
+	ply:notify("Please use the F4 menu to equip your own weapons.", NOTIFY_GENERIC)
 	return ply:isAdmin()
 end
 
 // Disable spawn weapons
 function GM:PlayerSpawnSWEP(ply)
+	ply:notify("Please use the F4 menu to equip your own weapons.", NOTIFY_GENERIC)
 	return ply:isAdmin()
 end
 
