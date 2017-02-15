@@ -55,13 +55,13 @@ function meta:updateHunger(amount)
 		local newStatus = self:getHungerStatus()
 		
 		if newStatus != oldStatus then
-			self:notify("You are feeling " ..newStatus .."!")
+			self:notify("You are feeling " ..newStatus .."!", NOTIFY_GENERIC)
 		end
 	end
 	
 	if self:getHunger() <= 0 then // They are out of hunger
 		self:addHealth(-hungerDamage)
-		self:notify("You are hungry.", NOTIFY_GENERIC)
+		self:notify("You need food.", NOTIFY_GENERIC)
 		self:moan()
 	end
 end
@@ -101,13 +101,13 @@ function meta:updateThirst(amount)
 		local newStatus = self:getThirstStatus()
 		
 		if newStatus != oldStatus then
-			self:notify("You are feeling " ..newStatus .."!")
+			self:notify("You are feeling " ..newStatus .."!", NOTIFY_GENERIC)
 		end
 	end
 	
 	if self:getThirst() <= 0 then // They are out of thirst
 		self:addHealth(-thirstDamage)
-		self:notify("You are thirsty.", NOTIFY_GENERIC)
+		self:notify("You need water.", NOTIFY_GENERIC)
 		self:moan()
 	end
 end

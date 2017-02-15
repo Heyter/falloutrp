@@ -31,9 +31,6 @@ function meta:removeNameChange()
 end
 
 function meta:changeName(name)
-	// Remove a name change token
-	self:removeNameChange()
-
 	// Update in lua, broadcast to all
 	self.playerData.name = name
 	net.Start("updateNameChange")
@@ -61,6 +58,7 @@ local function validateNameChange(ply, name)
 				ply:notify("Player with that name already exists.", NOTIFY_ERROR, 3, true)
 			else
 				ply:changeName(name)
+				ply:removeNameChange() // Remove a name change token
 			end
 		end)
 	end
