@@ -1,5 +1,13 @@
 
-// Server
+// Freeze props on spawning (Easier for making npc positions)
+local count = 0
+function GM:PlayerSpawnedProp(ply, model, ent)
+	local obj = ent:GetPhysicsObject()
+	obj:EnableMotion(false)
+
+	//count = count + 1 
+	//ply:notify("Count: " ..count, NOTIFY_GENERIC)
+end 
 
 // Disable prop spawn
 function GM:PlayerSpawnProp(ply)

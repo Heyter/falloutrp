@@ -98,7 +98,7 @@ function teamSelection()
 	main:SetPos(0, 0)
 	main:SetSize(ScrW(), ScrH())
 	main.Paint = function(self, w, h)
-		draw.RoundedBox(2, 0, 0, w, h, Color(255, 255, 100, 50))
+		draw.RoundedBox(2, 0, 0, w, h, Color(20, 20, 20, 50))
 	end
 	main:ShowCloseButton(false)
 	main:SetTitle("")
