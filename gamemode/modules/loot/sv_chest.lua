@@ -65,8 +65,6 @@ function spawnChest(inactiveChests)
 	
 	// Add a stimpack by default
 	chest:addItem(createItem(4001, 1))
-	
-	print(chest:GetPos())
 end
 
 function getActiveChests()

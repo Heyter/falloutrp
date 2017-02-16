@@ -131,19 +131,80 @@ hook.Add("InitPostEntity", "createNpcTimers", function()
 	
 	// Set NPC damages
 	timer.Simple(2, function()
-		RunConsoleCommand("sk_deathclaw_dmg_slash", 40)
-		RunConsoleCommand("sk_deathclaw_dmg_slash_power", 45)
-		RunConsoleCommand("sk_deathclaw_dmg_slash_power_jump", 55)
-
+		// Rat
+		RunConsoleCommand("sk_giantrat_dmg_slash", 7)
+		RunConsoleCommand("sk_giantrat_dmg_slash_power", 13)		
+		
+		// Gecko
+		RunConsoleCommand("sk_gecko_dmg_slash", 9)
+		RunConsoleCommand("sk_gecko_dmg_slash_power", 15)		
+		
+		// Trog
+		RunConsoleCommand("sk_streettrog_dmg_slash", 13)
+		RunConsoleCommand("sk_streettrog_dmg_slash_power", 19)
+		
+		// Mirelurk
+		RunConsoleCommand("sk_mirelurk_dmg_slash", 10)
+		RunConsoleCommand("sk_mirelurk_dmg_slash_power", 16)
+		RunConsoleCommand("sk_mirelurk_dmg_strike", 20)				
+		
+		// Cazador
+		RunConsoleCommand("sk_cazador_dmg_slash", 12)
+		RunConsoleCommand("sk_cazador_dmg_slash_power", 17)		
+		
+		// Spore Carrier
+		RunConsoleCommand("sk_sporecarrier_dmg_slash", 18)
+		RunConsoleCommand("sk_sporecarrier_dmg_slash_power", 26)
+		
+		// Ghoul
+		RunConsoleCommand("sk_ghoulferal_dmg_slash", 17)
+		RunConsoleCommand("sk_ghoulferal_dmg_slash_power", 24)			
+		
+		// Ghoul Roamer
+		RunConsoleCommand("sk_ghoulferal_roamer_dmg_slash", 18)
+		RunConsoleCommand("sk_ghoulferal_roamer_dmg_slash_power", 25)				
+		
+		// Ghoul Swamp
+		RunConsoleCommand("sk_ghoulferal_swamp_dmg_slash", 19)
+		RunConsoleCommand("sk_ghoulferal_swamp_dmg_slash_power", 26)			
+		
+		// Ghoul Reaver
+		RunConsoleCommand("sk_ghoulferal_reaver_dmg_slash", 25)
+		RunConsoleCommand("sk_ghoulferal_reaver_dmg_slash_power", 34)		
+		RunConsoleCommand("sk_ghoulferal_reaver_dmg_grenade", 45)		
+		
+		// Swamplurk / Nukalurk
+		RunConsoleCommand("sk_mirelurk_dmg_slash", 22)
+		RunConsoleCommand("sk_mirelurk_dmg_slash_power", 26)
+		RunConsoleCommand("sk_mirelurk_dmg_strike", 40)			
+		
+		// Green Gecko
 		RunConsoleCommand("sk_gecko_green_dmg_slash", 22)
 		RunConsoleCommand("sk_gecko_green_dmg_slash_power", 26)
-		RunConsoleCommand("sk_gecko_green_dmg_spit", 32)
+		RunConsoleCommand("sk_gecko_green_dmg_spit", 32)		
+		
+		// Fire Gecko
+		RunConsoleCommand("sk_gecko_fire_dmg_slash", 32)
+		RunConsoleCommand("sk_gecko_fire_dmg_slash_power", 36)
+		RunConsoleCommand("sk_gecko_fire_dmg_flame", 2)
+	
+		// Deathclaw
+		RunConsoleCommand("sk_deathclaw_dmg_slash", 40)
+		RunConsoleCommand("sk_deathclaw_dmg_slash_power", 45)
+		RunConsoleCommand("sk_deathclaw_dmg_slash_power_jump", 55)	
+		
+		// Deathclaw alphamale
+		RunConsoleCommand("sk_deathclaw_alphamale_dmg_slash", 60)
+		RunConsoleCommand("sk_deathclaw_alphamale_dmg_slash_power", 65)
+		RunConsoleCommand("sk_deathclaw_alphamale_dmg_slash_power_jump", 75)
 	end)
 end)
 
 function printNpcPositions()
 	for k,v in pairs(ents.FindByModel("models/props_borealis/bluebarrel001.mdl")) do
-		local p = v:GetPos()
-		print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Active = false},")
+		if v:GetColor().r == 63 and v:GetColor().g == 0 and v:GetColor().b == 0 then
+			local p = v:GetPos()
+			print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Active = false},")
+		end
 	end
 end
