@@ -21,9 +21,23 @@ local function drawPlayerInfo()
 				local pos = ply:EyePos()
 				pos.z = pos.z + 10  // The position we want is a bit above the position of the eyes
 				pos = pos:ToScreen()
+				
+				local name = ply:getName()
+				
+				// Player titles
+				if ply.title and ply.title.title then
+					local prefix = tobool(ply.title.prefix)
+					local title = ply.title.title
+					
+					if prefix then
+						name = title ..ply:getName()
+					else
+						name = name ..title
+					end
+				end
 			
-				draw.DrawText(ply:getName(), "FalloutRP4", pos.x + 1, pos.y - 79, colors.black, 1)
-				draw.DrawText(ply:getName(), "FalloutRP4", pos.x, pos.y - 80, Color(255, 255, 100, 255), 1)							
+				draw.DrawText(name, "FalloutRP4", pos.x + 1, pos.y - 79, colors.black, 1)
+				draw.DrawText(name, "FalloutRP4", pos.x, pos.y - 80, Color(255, 255, 100, 255), 1)							
 				
 				draw.DrawText(ply:getRank(), "FalloutRP3", pos.x + 1, pos.y - 49, colors.black, 1)
 				draw.DrawText(ply:getRank(), "FalloutRP3", pos.x, pos.y - 50, Color(255, 255, 100, 255), 1)				

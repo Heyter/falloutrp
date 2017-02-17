@@ -744,6 +744,37 @@ function VGUI:Init()
 		return panel
 	end
 	
+	local titles_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catR )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+		
+		if localplayer().titles then
+			for k, v in pairs(localplayer().titles) do
+				element:addItemListEntry({
+					label = v.title,
+					stats = {
+						{key = "", val = displayTitle(localplayer():getName(), v)}, // Preview the title		
+					},
+					inUse = tobool(v.equipped),
+					
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+						if tobool(v.equipped) then
+							menu:AddOptions({"Hide"})
+						else
+							menu:AddOptions({"Show"})
+						end
+						menu:Open()
+					end
+				})
+			end
+		end
+		
+		return element
+	end	
+	
 	local map_panel = function()
 		local panel = vgui.Create("DPanel", self.catR)
 		panel:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
@@ -757,6 +788,7 @@ function VGUI:Init()
 		return panel
 	end	
 	
+	self.catR:addBottom("Titles", titles_panel)
 	self.catR:addBottom("Map", map_panel)
 	self.catR:addBottom("Settings", settings_panel)
 	
@@ -1223,6 +1255,18 @@ function VGUI:Init()
 	self.item = nil
 	self.offset = 0
 	self.menuTypes = {
+	["Show"] = function()
+		net.Start("equipTitle")
+			net.WriteString(self.item.title)
+		net.SendToServer()
+		close()
+	end,
+	["Hide"] = function()
+		net.Start("unequipTitle")
+			net.WriteString(self.item.title)
+		net.SendToServer()
+		close()
+	end,
 	["Use"] = function()
 		localplayer():useItem(self.item.uniqueid, self.item.classid, 1)
 	end,		
