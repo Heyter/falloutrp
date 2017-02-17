@@ -1,0 +1,371 @@
+2017-02-17 13:01:35 -0500
+Turned on 2x exp for the weekend (2/17-2/19)
+
+2017-02-17 13:00:14 -0500
+Implemented buying, creating, wearing, and viewing titles
+
+2017-02-16 17:12:22 -0500
+Added ~10 more types of npcs and optimized npc loot to give more relevant items
+
+2017-02-15 20:49:39 -0500
+Make lockpick and pickaxe display that they do 0 damage
+
+2017-02-15 15:27:00 -0500
+Fixed pool cue model
+
+2017-02-15 15:06:56 -0500
+Notify players about the F4 menu when they try to spawn a weapon through the Q menu
+
+2017-02-15 15:05:51 -0500
+Modified faction change and name change tokens so it will allow for ulx namechange and ulx factionchange
+
+2017-02-14 14:02:40 -0500
+Notify about hunger and thirst status changes.
+
+2017-02-14 13:58:52 -0500
+Increased hunger/thirst damage and added moans/messages to alert them.
+
+2017-02-14 00:25:05 -0500
+Added map in pipboy
+
+2017-02-13 14:49:10 -0500
+Added /dropmoney and stopped drawing models for apparel items because we don't have models for them yet so they're errors.
+
+2017-02-13 12:06:13 -0500
+Only close the pipboy if it is open
+
+2017-02-13 12:00:01 -0500
+Merge branch 'master' of https://github.com/NickSchleicher/falloutrp
+
+2017-02-12 21:20:41 -0500
+Merchant menu will only remember the last tab if and only if the lastNpc is the same as the npc you are purchasing from
+
+2017-02-12 15:08:56 -0500
+Fix group chat team comparison and don't allow spam scavenging
+
+2017-02-12 14:56:59 -0500
+Fixed ooc and normal chat using player's name instead of rp name
+
+2017-02-12 12:45:51 -0500
+Added support for darkrp chatting
+
+2017-02-11 12:21:32 -0500
+Change tutorial filepaths
+
+2017-02-11 12:05:04 -0500
+Update player's inventory on the clientside when they drop all their inventory
+
+2017-02-11 02:27:02 -0500
+Nerfed npc health some
+
+2017-02-10 20:42:17 -0500
+Finished tutorial
+
+2017-02-09 16:19:58 -0500
+Fixed bank dupe issue when withdrawing an item you don't have any of in your inventory
+
+2017-02-09 15:47:39 -0500
+Change rank color, nerf gecko hp, remove duplicate loadInvAid function
+
+2017-02-09 14:45:57 -0500
+Draw player rank in a smaller font
+
+2017-02-09 14:45:09 -0500
+Buff some of the npc's damage
+
+2017-02-09 13:52:05 -0500
+Finish concatenating health over time
+
+2017-02-09 13:15:19 -0500
+Make stamina timers unique to the player
+
+2017-02-09 12:36:27 -0500
+Reduced probability of getting lily's vertibird
+
+2017-02-09 01:34:03 -0500
+Update deposit on clientside if a same item exists
+
+2017-02-09 01:17:28 -0500
+Changed gamemode name to falloutrp
+
+2017-02-08 15:05:36 -0500
+Editted loot probability, values on items, and some progress on titles
+
+2017-02-08 00:47:31 -0500
+Fixed banking depositing the remaining amount of inventory items instead of requested amount
+
+2017-02-07 20:35:41 -0500
+Change query ran in apparel pickup to search for apparel instead of weapons
+
+2017-02-07 20:34:30 -0500
+Changed uniqueId to uniqueid, to be more standard
+
+2017-02-07 20:16:22 -0500
+Tone factory loot probability modifier back down to 5, from 7
+
+2017-02-07 20:15:57 -0500
+Make luck impact factory loot as well
+
+2017-02-07 20:14:36 -0500
+Made luck actually do something
+
+2017-02-07 19:58:13 -0500
+Only add items to the factory loot table if it is marked as a material
+
+2017-02-07 19:32:29 -0500
+Move team enumerations to shared.lua so it's available to all files on startup
+
+2017-02-07 19:27:52 -0500
+Default factionchanges to 1 on character creation
+
+2017-02-07 18:33:38 -0500
+Finished faction change, name change, and ranks
+
+2017-02-07 09:33:23 -0500
+Added token shop with selection screen
+
+2017-02-06 19:44:28 -0500
+Give caps multiplied by the amount of quantity sold
+
+2017-02-06 19:31:22 -0500
+Progress on vip, kill tracking, faction changing, name changing, title creating
+
+2017-02-06 15:23:17 -0500
+Nerfed unarmed skillpoint damage
+
+2017-02-06 15:22:08 -0500
+Nerfed gun skillpoiint damage more
+
+2017-02-06 15:21:09 -0500
+Nerfed damage increased by skillpoints
+
+2017-02-06 13:36:21 -0500
+Removed kitchen knife from scavenge
+
+2017-02-05 13:10:11 -0500
+Parentheses the boolean expression for stamina key release
+
+2017-02-05 12:48:54 -0500
+Add IN_JUMP to KeyRelease for stamina
+
+2017-02-05 12:21:52 -0500
+Update lockpick and pickaxe to display that they do 0 damage
+
+2017-02-05 12:04:53 -0500
+Change itemId to a 16 bit number because loot iterations can go very high
+
+2017-02-05 10:57:00 -0500
+Update pvp protection level to 10
+
+2017-02-04 13:15:07 -0500
+Updated BOS player model
+
+2017-02-04 13:02:56 -0500
+Buffed stamina some
+
+2017-02-04 13:01:13 -0500
+Increased factory probability
+
+2017-02-04 12:57:39 -0500
+Made it so equipped items can't be banked.
+
+2017-02-04 12:24:10 -0500
+Fix variable typo for pvp protection in factory zone
+
+2017-02-04 12:05:59 -0500
+2/3/2017 Launch date
+
+2017-02-03 15:11:41 -0500
+Implemented merchant buying and adding new starting items
+
+2017-02-03 13:07:52 -0500
+Added lockpick back, it got lost somewhere/somehow
+
+2017-02-03 01:09:09 -0500
+Give experience for player kills based on that players level and fixed skillpoint allocation
+
+2017-02-02 16:28:17 -0500
+Fix stack overflow with constant cycle of damage reflection
+
+2017-02-02 15:35:13 -0500
+Increase base bank weight to 750
+
+2017-02-02 15:06:50 -0500
+Made damage threshold and damage reflection apply to damage taken
+
+2017-02-02 14:30:31 -0500
+Make bank still closable when it runs functions
+
+2017-02-02 14:12:44 -0500
+Load player data and inventory differently so no errors happen when a new player joins
+
+2017-02-02 13:13:01 -0500
+Finished pvp protection
+
+2017-02-02 12:03:29 -0500
+Drop loot directly in front of player
+
+2017-02-02 11:55:39 -0500
+Instead of locking the player on bank open, set their movetype so they can still use E key
+
+2017-02-01 17:54:06 -0500
+Finished serverside pvp protection
+
+2017-02-01 17:33:33 -0500
+Fix equipped boolean on inventory tables not updating on client
+
+2017-02-01 17:07:03 -0500
+Only close the bank if it's already open so that the player doesn't become unfrozen after being frozen
+
+2017-02-01 16:41:56 -0500
+Remove adding skill points in levelUp function
+
+2017-02-01 16:00:05 -0500
+Fixed the way equipped items are sent to clientside
+
+2017-02-01 14:56:07 -0500
+Disallow multiple openings of skillpoint menu and allow the player to use less skillpoints than they have
+
+2017-02-01 14:41:07 -0500
+Make the factory winner message say the actual team name instead of the team index
+
+2017-02-01 14:39:18 -0500
+Removed bad deathclaw position
+
+2017-02-01 14:35:45 -0500
+Fixed npc positions and npc models
+
+2017-02-01 13:41:41 -0500
+Fix syntax errors with skills and change duplicate function getMaxQuantity to getMaxBankQuantity
+
+2017-02-01 13:23:12 -0500
+Add option to use skillpoints whenever and fix ammo factories only spawning 1 of quantity
+
+2017-02-01 00:44:55 -0500
+Changed crafting menu to only show items you have level for, quantites, etc. ALso bug fixes
+
+2017-01-31 12:12:36 -0500
+Only admins can spawn in objects and bug fixes
+
+2017-01-30 18:49:56 -0500
+World loot table
+
+2017-01-29 22:41:53 -0500
+Bug fixes
+
+2017-01-29 12:20:12 -0500
+Beta lua error fixes
+
+2017-01-28 11:41:55 -0500
+Fixing constant spawning on player join
+
+2017-01-28 02:21:51 -0500
+Beta fixes
+
+2017-01-28 00:19:14 -0500
+Beta state
+
+2017-01-27 01:34:25 -0500
+Added NPC positions, bug fixes, added items
+
+2017-01-26 01:43:15 -0500
+Completed merchants and bug fixes
+
+2017-01-25 13:50:20 -0500
+Finished merchants
+
+2017-01-25 01:03:33 -0500
+Progress on merchants.
+
+2017-01-24 19:25:53 -0500
+Added item previewing in the loot and crafting menus. Completed mining and started on vendors
+
+2017-01-24 01:35:22 -0500
+Bug fixes, added ammo to weapons, added chest and vein positions, and added vein functionality
+
+2017-01-22 20:58:36 -0500
+First beta stage.
+
+2017-01-20 15:26:46 -0500
+Finished banking, configured skills to actually benefit things
+
+2017-01-18 19:19:43 -0500
+Progress on depositing and withdrawing items
+
+2017-01-18 12:40:43 -0500
+Fixed get inventory weight and added to banking
+
+2017-01-18 00:54:22 -0500
+Started adding bank and inventory to new pipboy and changed some inventory functions to be more general
+
+2017-01-16 23:28:21 -0500
+Added crafting and finished skillpoints selection
+
+2017-01-14 13:14:17 -0500
+Work on skills
+
+2017-01-13 09:02:54 -0500
+Added close button for falloutrp menus
+
+2017-01-12 01:17:42 -0500
+Fixed emblem on factory page of pipboy.
+
+2017-01-11 01:01:43 -0500
+Added more aid functionality, fixed hunger and thirst, added special, skills, and working on factories in pipboy
+
+2017-01-10 00:48:29 -0500
+Added hunger, thirst. Finished aid
+
+2017-01-09 17:08:15 -0500
+Worked on use of aid items
+
+2017-01-08 13:53:18 -0500
+Added apparel and ammo, added factories, added registration skills
+
+2017-01-06 08:17:18 -0500
+Added loot multiple and drop multiple
+
+2017-01-05 12:53:15 -0500
+Added support for looting items of quantity
+
+2017-01-04 01:05:59 -0500
+Stacking of items in inventory and looting
+
+2017-01-03 00:15:03 -0500
+Synching dropping with clientside
+
+2017-01-02 17:32:05 -0500
+Equipping of weapons
+
+2017-01-02 01:55:31 -0500
+Added misc to inventory and looting
+
+2016-12-31 11:39:31 -0500
+Synced picking up of items with clientside
+
+2016-12-31 02:18:04 -0500
+Added looting and reworked inventory some
+
+2016-12-29 08:06:07 -0500
+Pipboy and drop/equip/un-equip
+
+2016-12-28 00:40:36 -0500
+Started inventory and items
+
+2016-12-26 11:57:01 -0500
+Server to Clientside of leveling, skills, character creation
+
+2016-12-26 01:31:44 -0500
+Adding leveling and experience
+
+2016-12-24 15:15:00 -0500
+New player creation and pipboy prototype
+
+2016-12-23 01:08:18 -0500
+Finished first team selection panel and editted faction pictures
+
+2016-12-22 00:26:26 -0500
+Initial setup of gamemode and some progress on team selection
+
+2016-12-18 23:20:22 -0500
+Initial commit
