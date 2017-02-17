@@ -36,7 +36,9 @@ function meta:changeFaction(id)
 	self:notify("You have changed your faction to " ..team.GetName(id), NOTIFY_GENERIC)
 	
 	// Reload the player
-	self:load()
+	timer.Simple(2, function()
+		self:load()
+	end)
 end
 
 net.Receive("factionChange", function(len, ply)
