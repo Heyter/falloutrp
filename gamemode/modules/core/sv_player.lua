@@ -77,6 +77,8 @@ function meta:loadClientside(ply)
 		
 		net.WriteInt(ply:getKills(), 16)
 		net.WriteString(ply:getRank())
+		
+		net.WriteTable(ply.title)
 	net.Send(self)
 end
 

@@ -1,4 +1,13 @@
 
+// Converts a boolean to a number
+function util.boolToNumber(bool)
+	if bool then
+		return 1
+	else
+		return 0
+	end
+end
+
 // Checks if a string has invalid characters
 function util.hasInvalidChars(name)
 	if name then

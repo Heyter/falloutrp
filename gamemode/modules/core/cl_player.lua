@@ -45,6 +45,8 @@ net.Receive("loadClientside", function()
 	local kills = net.ReadInt(16)
 	local rank = net.ReadString()
 	
+	local title = net.ReadTable()
+	
 	ply.playerData = ply.playerData or {}
 	ply.playerData.name = name
 	ply.playerData.experience = experience
@@ -53,6 +55,8 @@ net.Receive("loadClientside", function()
 	
 	ply.playerData.playerkills = kills
 	ply.playerData.rank = rank
+	
+	ply.title = title
 end)
 
 net.Receive("sendClientside", function()
