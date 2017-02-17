@@ -80,6 +80,10 @@ function getItemNameQuantity(classid, quantity)
 	if util.positive(quantity) then
 		if isCap(classid) then
 			return "Caps (" ..quantity ..")"
+		elseif isWeapon(classid) then // Weapons purchased have quantity
+			return getWeaponName(classid)
+		elseif isApparel(classid) then // Apparel purchased have quantity
+			return getApparelName(classid)
 		elseif isAmmo(classid) then
 			return getAmmoNameQuantity(classid, quantity)
 		elseif isAid(classid) then
