@@ -16,6 +16,7 @@ end
 
 function meta:addExp(exp)
 	local exp = math.ceil(exp)
+	exp = exp * 2
 	local currentLevel = self:getLevel()
 
 	self.playerData.experience = self:getExp() + exp
