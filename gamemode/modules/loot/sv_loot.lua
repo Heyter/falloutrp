@@ -58,6 +58,7 @@ function meta:lootItem(ent, itemId, quantity)
 			if util.positive(canFit) then 
 				quantity = canFit
 			elseif canFit != true then // Can't fit any amount of the item into inventory
+				self:notify("You cannot fit anymore items in your inventory!", NOTIFY_ERROR)
 				return
 			end
 			
