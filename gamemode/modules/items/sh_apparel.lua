@@ -107,31 +107,31 @@ addApparel(2001, "Hard hat", "helmet", "models/props_2fort/hardhat001.mdl", 1000
 
 addApparel(2002, "Dirty Fedora", "helmet", "IDK", 1000, 0.5, 500, 1, 3, 5, 0, 0)
 
-addApparel(2003, "Green Rag Hat", "IDK", 1000, 0.5, 200, 1, 1, 2, 0, 0)
+addApparel(2003, "Green Rag Hat", "helmet", "IDK", 1000, 0.5, 200, 1, 1, 2, 0, 0)
 
-addApparel(2004, "Rusty Metal Helmet", "helmet", "IDK", 1200, 3.0, 1000, 4, 2, 4, 0, 0)
+addApparel(2004, "Rusty Metal helmet", "helmet", "IDK", 1200, 3.0, 1000, 4, 2, 4, 0, 0)
 
 addApparel(2005, "Golf Visored", "helmet", "IDK", 1000, 1.0, 950, 5, 1, 1, 2)
 
-addApparel(2006, "Batting Helmet",  "Helmet", "IDK",1300, 2.5, 1020, 10, 3, 4 ,0 ,0)
+addApparel(2006, "Batting helmet",  "helmet", "IDK",1300, 2.5, 1020, 10, 3, 4 ,0 ,0)
 
-addApparel(2007, "Army Helmet",  "Helmet", "IDK",1500, 3.0, 1010, 15, 1,  6, 1, 3, 0, 0)
+addApparel(2007, "Army helmet",  "helmet", "IDK",1500, 3.0, 1010, 15, 1,  6, 1, 3, 0, 0)
 
-addApparel(2008, "Security Helmet",  "Helmet", "IDK", 1550, 3.5, 1150, 20, 3, 5, 2, 2, 0, 0)
+addApparel(2008, "Security helmet",  "helmet", "IDK", 1550, 3.5, 1150, 20, 3, 5, 2, 2, 0, 0)
 
-addApparel(2009, "Gas Mask",  "Helmet", "IDK", 1600, 2.5, 1100, 25, 3, 4, 2, 2, 0, 0)
+addApparel(2009, "Gas Mask",  "helmet", "IDK", 1600, 2.5, 1100, 25, 3, 4, 2, 2, 0, 0)
 
-addApparel(2010, "Military Cap",  "Helmet", "IDK", 1600, 3.5, 1150, 25, 3, 6, 1, 3, 0, 0)
+addApparel(2010, "Military Cap",  "helmet", "IDK", 1600, 3.5, 1150, 25, 3, 6, 1, 3, 0, 0)
 
-addApparel(2011, "Gas Mask",  "Helmet", "IDK", 1600, 2.5, 1100, 25, 3, 4, 2, 2, 1, 2)
+addApparel(2011, "Gas Mask",  "helmet", "IDK", 1600, 2.5, 1100, 25, 3, 4, 2, 2, 1, 2)
 
-addApparel(2012, "Medical Helmet",  "Helmet", "IDK", 1600, 2.0, 1100, 30, 2, 3, 2, 4, 2, 4)
+addApparel(2012, "Medical helmet",  "helmet", "IDK", 1600, 2.0, 1100, 30, 2, 3, 2, 4, 2, 4)
 
-addApparel(2013, "Assault Gas Mask",  "Helmet", "IDK", 1600, 2.5, 1100, 35, 3, 4, 2, 2, 3, 5)
+addApparel(2013, "Assault Gas Mask",  "helmet", "IDK", 1600, 2.5, 1100, 35, 3, 4, 2, 2, 3, 5)
 
-addApparel(2014, "Russian Ushanka",  "Helmet", "IDK", 1600, 3.0, 1150, 40, 3, 5, 2, 3, 0, 0)
+addApparel(2014, "Russian Ushanka",  "helmet", "IDK", 1600, 3.0, 1150, 40, 3, 5, 2, 3, 0, 0)
 
-addApparel(2015, "General's Hat",  "Helmet", "IDK", 1600, 3.0, 1500, 50, 4, 7, 2, 6, 5, 7)
+addApparel(2015, "General's Hat",  "helmet", "IDK", 1600, 3.0, 1500, 50, 4, 7, 2, 6, 5, 7)
 
 addApparel(2016, "Construction T-Shirt ",  "chest", "IDK", 1000, 2.0, 1000, 1, 1, 2, 1, 2, 0, 0)
 
@@ -242,42 +242,42 @@ addApparel(2096, "Generals Dress Gloves",  "gloves", "IDK", 1500, 2.0, 1500, 50,
 // Cloth
 addApparel(2041, "Standard Chest",  "chest", "IDK", 1500, 2.2, 675, 1, 1, 5, 0, 0, 0, 0)
 addApparel(2042, "Standard Pants",  "pants", "IDK", 1400, 2.2, 360, 2, 1, 1, 4, 0, 0, 0, 0)
-addApparel(2043, "Standard Helmet",  "helmet", "IDK", 1300, 2.2, 225, 3, 1, 3, 0, 0, 0, 0)
+addApparel(2043, "Standard helmet",  "helmet", "IDK", 1300, 2.2, 225, 3, 1, 3, 0, 0, 0, 0)
 addApparel(2044, "Standard Gloves",  "gloves", "IDK", 1200, 2.2, 270, 4, 1, 2, 0, 0, 0, 0)
 addApparel(2045, "Standard Shoes",  "shoes", "IDK", 1100, 2.2, 225, 5, 1, 1, 0, 0, 0, 0)
 
 // Leather
 addApparel(2046, "Leather Chest",  "chest", "IDK", 1600, 2.2, 1125, 6, 1, 6, 1, 2, 0, 0)
 addApparel(2047, "Leather Pants",  "pants", "IDK", 1500, 2.2, 600, 7, 1, 5, 1, 2, 0, 0)
-addApparel(2048, "Leather Helmet",  "helmet", "IDK", 1400, 2.2, 375, 8, 1, 4, 1, 2, 0, 0)
+addApparel(2048, "Leather helmet",  "helmet", "IDK", 1400, 2.2, 375, 8, 1, 4, 1, 2, 0, 0)
 addApparel(2049, "Leather Gloves",  "gloves", "IDK", 1300, 2.2, 450, 9, 1, 3, 1, 2, 0, 0)
 addApparel(2050, "Leather Shoes",  "shoes", "IDK", 1200, 2.2, 375, 10, 1, 2, 1, 2, 0, 0)
 
 // Rock                        
 addApparel(2051, "Sturdy Chest",  "chest", "IDK", 1700, 2.2, 900, 11, 1, 7, 1, 3, 1, 1)
 addApparel(2052, "Sturdy Pants",  "pants", "IDK", 1600, 2.2, 490, 12,1, 6, 1, 3, 1, 1)
-addApparel(2053, "Sturdy Helmet",  "helmet", "IDK", 1500, 2.2, 280, 13, 1, 5, 1, 3, 1, 1)
+addApparel(2053, "Sturdy helmet",  "helmet", "IDK", 1500, 2.2, 280, 13, 1, 5, 1, 3, 1, 1)
 addApparel(2054, "Sturdy Gloves",  "gloves", "IDK", 1400, 2.2, 360, 14, 1, 4, 1, 3, 1, 1)
 addApparel(2055, "Sturdy Shoes",  "shoes", "IDK", 1300, 2.2, 280, 15, 1, 3, 1, 3, 1, 1)
 
 // Copper and silver
 addApparel(2056, "Medium Chest",  "chest", "IDK", 1800, 2.2, 2790, 16, 1, 8, 1, 4, 1, 2)
 addApparel(2057, "Medium Pants",  "pants", "IDK", 1700, 2.2, 1460, 18, 1, 7, 1, 4, 1, 2)
-addApparel(2058, "Medium Helmet",  "helmet", "IDK", 1600, 2.2, 980, 20, 1, 6, 1, 4, 1, 2)
+addApparel(2058, "Medium helmet",  "helmet", "IDK", 1600, 2.2, 980, 20, 1, 6, 1, 4, 1, 2)
 addApparel(2059, "Medium Gloves",  "gloves", "IDK", 1500, 2.2, 1110, 22, 1, 5, 1, 4, 1, 2)
 addApparel(2060, "Medium Shoes",  "shoes", "IDK", 1400, 2.2, 980, 25, 1, 4, 1, 4, 1, 2)
 
 // Gold
 addApparel(2061, "Heavy Chest",  "chest", "IDK", 1900, 2.2, 6200, 28, 1, 9, 1, 5, 1, 3)
 addApparel(2062, "Heavy Pants",  "pants", "IDK", 1800, 2.2, 4750, 30, 1, 8, 1, 5, 1, 3)
-addApparel(2063, "Heavy Helmet",  "helmet", "IDK", 1700, 2.2, 1350, 34, 1, 7, 1, 5, 1, 3)
+addApparel(2063, "Heavy helmet",  "helmet", "IDK", 1700, 2.2, 1350, 34, 1, 7, 1, 5, 1, 3)
 addApparel(2064, "Heavy Gloves",  "gloves", "IDK", 1600, 2.2, 2700, 37, 1, 6, 1, 5, 1, 3)
 addApparel(2065, "Heavy Shoes",  "shoes", "IDK", 1500, 2.2, 1350, 40, 1, 5, 1, 5, 1, 3)
 
 // Crystal
 addApparel(2066, "Power Armor Chest",  "chest", "IDK", 2000, 2.2, 2000, 42, 1, 10, 1, 5, 1, 5)
 addApparel(2067, "Power Armor Pants",  "pants", "IDK", 2000, 2.2, 1900, 44, 1, 9, 1, 5, 1, 5)
-addApparel(2068, "Power Armor Helmet",  "helmet", "IDK", 2000, 2.2, 1800, 46, 1, 8, 1, 5, 1, 5)
+addApparel(2068, "Power Armor helmet",  "helmet", "IDK", 2000, 2.2, 1800, 46, 1, 8, 1, 5, 1, 5)
 addApparel(2069, "Power Armor Gloves",  "gloves", "IDK", 1900, 2.2, 1700, 48, 1, 7, 1, 5, 1, 5)
 addApparel(2070, "Power Armor Shoes",  "shoes", "IDK", 1900, 2.2, 1600, 50, 1, 6, 1, 5, 1, 5)
 
