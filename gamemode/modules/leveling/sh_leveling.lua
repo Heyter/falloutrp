@@ -10,7 +10,11 @@ function meta:getExp()
 end
 
 function meta:getLevel()
-	return expToLevel(self:getExp())
+	if self.playerData and self.playerData.experience then
+		return expToLevel(self:getExp())
+	else
+		return 0
+	end
 end
 
 function meta:getCurrentLevelExp()
