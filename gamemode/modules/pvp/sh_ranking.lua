@@ -6,5 +6,5 @@ function meta:getKills()
 end
 
 function meta:getRank()
-	return self.playerData.rank or ""
+	return (self.playerData and self.playerData.rank) or ""
 end
