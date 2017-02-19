@@ -128,7 +128,7 @@ MySQLite_config.Username = "gamingli_nick" -- This is the username to log in on 
 MySQLite_config.Password = "21220sql" -- This is the Password to log in on the MySQL server,
 									-- Everyone who has access to FTP on the server can read this password.
 									-- Make sure you know who to trust. Make sure it's in quotation marks (" ")
-MySQLite_config.Database_name = "gamingli_falloutrp" -- This is the name of the Database on the MySQL server. Contact the MySQL server host to find out what this is
+MySQLite_config.Database_name = "gamingli_falloutrp_test" -- This is the name of the Database on the MySQL server. Contact the MySQL server host to find out what this is
 MySQLite_config.Database_port = 3306 -- This is the port of the MySQL server. Again, contact the MySQL server host if you don't know this.
 MySQLite_config.Preferred_module = "mysqloo" -- Preferred module, case sensitive, must be either "mysqloo" or "tmysql4". Only applies when both are installed.
 MySQLite_config.MultiStatements = false -- Only available in tmysql4: allow multiple SQL statements per query. Has no effect if no scripts use it.
