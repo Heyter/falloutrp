@@ -6,34 +6,39 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local damage = dmgInfo:GetDamage()
 	if IsValid(attacker) and IsValid(target) then
 		if attacker:IsPlayer() then
-			// Add Damage
-			local weapon = attacker:GetActiveWeapon()
-			local weaponSlot = weapon.slot
-			
-			local item = attacker.equipped.weapons[weaponSlot] // The actual item that the player is equipping
-			if item then
-				local uniqueid = item.uniqueid
-				local classid = item.classid
+			if attacker.spawnProtected then
+				damage = 0
+				attacker:notify("You can't damage NPCs while spawn protected.", NOTIFY_ERROR)
+			else
+				// Add Damage
+				local weapon = attacker:GetActiveWeapon()
+				local weaponSlot = weapon.slot
 				
-				local damageType = getWeaponType(classid)
-				local critChance = getWeaponCriticalChance(classid)
-				
-				damage = attacker:getWeaponDamage(uniqueid)
-				
-				if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
-					damage = (damage * CRITICAL_MULTIPLIER)
-					damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
-				end
-				
-				// Unarmed and Explosives will need to be handled seperately
-				if damageType == DMG_BULLET then
-					damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
-				elseif damageType == DMG_ENERGYBEAM then
-					damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
-				elseif damageType == DMG_SLASH then
-					damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + attacker:getFactionMeleeWeaponsDamage()))
-				elseif damageType == DMG_PLASMA then
-					damage = damage + (damage * attacker:getScienceDamage())
+				local item = attacker.equipped.weapons[weaponSlot] // The actual item that the player is equipping
+				if item then
+					local uniqueid = item.uniqueid
+					local classid = item.classid
+					
+					local damageType = getWeaponType(classid)
+					local critChance = getWeaponCriticalChance(classid)
+					
+					damage = attacker:getWeaponDamage(uniqueid)
+					
+					if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
+						damage = (damage * CRITICAL_MULTIPLIER)
+						damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
+					end
+					
+					// Unarmed and Explosives will need to be handled seperately
+					if damageType == DMG_BULLET then
+						damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
+					elseif damageType == DMG_ENERGYBEAM then
+						damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
+					elseif damageType == DMG_SLASH then
+						damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + attacker:getFactionMeleeWeaponsDamage()))
+					elseif damageType == DMG_PLASMA then
+						damage = damage + (damage * attacker:getScienceDamage())
+					end
 				end
 			end
 		end
