@@ -21,17 +21,37 @@ function meta:pvpProtection()
 	end
 end
 
+function meta:togglePvp(toggle)
+	self.pvpProtected = toggle
+
+	if toggle then
+		self:notify("PvP protection enabled.", NOTIFY_GENERIC)
+	else
+		self:notify("PvP protection disabled.", NOTIFY_ERROR)
+	end
+end
+
+local function sayPvpToggle(ply, text)
+	if string.sub(text, 1, #"/pvp") == "/pvp" then
+		if ply.pvpProtected then
+			if ply:getLevel() <= PVP_PROTECTION_LEVEL then
+				ply:togglePvp(!ply.pvpProtected)
+			else
+				ply:notify("This is only available for players level " ..PVP_PROTECTION_LEVEL .." and below!", NOTIFY_ERROR)
+			end
+		else
+			ply:notify("You can only do this in spawn!", NOTIFY_ERROR)
+		end
+		return ""
+	end
+end
+hook.Add("PlayerSay", "WarSay", FACTORY.WarSay)
+
 net.Receive("togglePvp", function(len, ply)
 	local toggle = net.ReadBool()
 
 	if IsValid(ply) then
-		ply.pvpProtected = toggle
-		
-		if toggle then
-			ply:notify("PvP protection enabled.", NOTIFY_GENERIC)
-		else
-			ply:notify("PvP protection disabled.", NOTIFY_ERROR)
-		end
+		ply:togglePvp(toggle)
 	end
 end)
 
