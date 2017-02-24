@@ -16,7 +16,6 @@ end
 
 function meta:addExp(exp)
 	local exp = math.ceil(exp)
-	exp = exp * 2 // Double exp weekend
 	local currentLevel = self:getLevel()
 
 	self.playerData.experience = self:getExp() + exp
