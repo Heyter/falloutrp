@@ -33,7 +33,7 @@ end
 
 local function sayPvpToggle(ply, text)
 	if string.sub(text, 1, #"/pvp") == "/pvp" then
-		if ply.pvpProtected then
+		if ply.spawnProtected then
 			if ply:getLevel() <= PVP_PROTECTION_LEVEL then
 				ply:togglePvp(!ply.pvpProtected)
 			else
@@ -45,7 +45,7 @@ local function sayPvpToggle(ply, text)
 		return ""
 	end
 end
-hook.Add("PlayerSay", "WarSay", FACTORY.WarSay)
+hook.Add("PlayerSay", "PvpToggle", sayPvpToggle)
 
 net.Receive("togglePvp", function(len, ply)
 	local toggle = net.ReadBool()
