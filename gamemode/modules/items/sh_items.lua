@@ -134,3 +134,7 @@ end
 function isMisc(classid)
 	return classidToType(classid) == TYPE_MISC
 end
+
+function isStackable(classid)
+	return isAmmo(classid) or isAid(classid) or isMisc(classid)
+end
