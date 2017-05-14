@@ -10,32 +10,28 @@ function restock(npc, id, index)
 end
 
 function meta:buyItem(npc, type, id, index, uniqueid, quantity)
-	// Create a copy of the item since the actual one will be deleted
-	/*
-	if 1 == 1 then
-		self:notify("This is temporarily disabled, sorry.", NOTIFY_ERROR)
-		return
-	end
-	*/
-	
 	local item = table.Copy(MERCHANTS[npc]["Sale"][id]["Items"][index])
 	
 	if item and (item.uniqueid == uniqueid) then
 		if self:canAfford(item.price) then
 			// Remove player caps
-			self:addCaps(-item.price)
+			self:addCaps(-item.price * (quantity or 1))
 			
 			// Remove item from npc's stock
 			if !item.quantity then
 				MERCHANTS[npc]["Sale"][id]["Items"][index] = nil
 			elseif (quantity == item.quantity) or (item.quantity == 1) then
-				MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] = 0 // Make it zero for all predetermined items so it stays in the table
+				if util.positive(item.uniqueid) then
+					MERCHANTS[npc]["Sale"][id]["Items"][index] = nil // Remove the item if it's not predetermined
+				else
+					MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] = 0 // Make it zero for all predetermined items so it stays in the table
+				end
 			else
 				MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] = MERCHANTS[npc]["Sale"][id]["Items"][index]["quantity"] - quantity
 			end
 			
 			// Add stock back to the vendor
-			restock(npc, id, index)
+			// restock(npc, id, index)
 			
 			// Add item to player inventory
 			self:pickUpItem(item, quantity)
@@ -75,7 +71,19 @@ function meta:sellItem(npc, type, id, uniqueid, quantity)
 	self:depleteInventoryItem(type, uniqueid, quantity)
 	
 	// Add item to npc
-	table.insert(MERCHANTS[npc]["Sale"][id]["Items"], item)
+	local addToExisting = false
+	if isStackable(item.classid) then
+		for k,v in pairs(MERCHANTS[npc]["Sale"][id]["Items"]) do
+			if v.classid == item.classid then
+				MERCHANTS[npc]["Sale"][id]["Items"][k].quantity = v.quantity + item.quantity
+				addToExisting = true
+				break
+			end
+		end
+	end
+	if !addToExisting then
+		table.insert(MERCHANTS[npc]["Sale"][id]["Items"], item)
+	end
 	
 	// Give player caps
 	self:addCaps(getItemValue(item.classid) * quantity)
