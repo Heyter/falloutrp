@@ -23,7 +23,7 @@ local lengthDivisor = 10
 local textPadding = 5
 
 local matLineDashed = Material("models/pepboy/line_y")
-	
+
 local VGUI = {}
 function VGUI:Init()
 	self:SetTitle("")
@@ -34,75 +34,79 @@ function VGUI:Init()
 
 	surface.SetFont(self.font)
 	self.textX, self.textY = surface.GetTextSize(self.title)
-	
+
 	self:SetSize(500, 400)
 	self:SetPos(ScrW()/2 - self:GetWide()/2, ScrH()/2 - self:GetTall()/2)
 end
-	
+
 function VGUI:Paint(w, h)
 	// Doubling two translucent frames creates a cooler effect
 	surface.SetDrawColor(Color(0, 0, 0, 185))
-	surface.DrawRect(0, 0, w, h)		
+	surface.DrawRect(0, 0, w, h)
 	surface.SetDrawColor(Color(0, 0, 0, 150))
-	surface.DrawRect(0, 0, w, h)		
-			
+	surface.DrawRect(0, 0, w, h)
+
 	/*
 	surface.SetDrawColor(Color(0, 0, 0, 185))
 	surface.DrawRect(offsetX, offsetY, w - offsetX*2, h - offsetY*2)
 	*/
-			
+
 	surface.SetFont(self.font)
 	surface.SetTextColor(COLOR_AMBER)
 	surface.SetTextPos(offsetX + w/6 + textPadding, offsetY - (self.textY/2) + barHeight/2)
 	surface.DrawText(self.title)
-			
+
 	// Top left middle bar
 	surface.SetDrawColor(COLOR_AMBER)
-	surface.DrawRect(offsetX, offsetY, w/6, barHeight)		
-			
+	surface.DrawRect(offsetX, offsetY, w/6, barHeight)
+
 	// Top right middle bar
 	surface.SetDrawColor(COLOR_AMBER)
 	surface.DrawRect(offsetX + w/6 + textPadding*2 + self.textX, offsetY, w - offsetX*2 - w/6 - textPadding*2 - self.textX, barHeight)
-		
+
 		if !self.hideSideBars then
 			// Top left bar
 			surface.SetDrawColor(COLOR_AMBER)
 			surface.SetMaterial(matLineDashed)
-			surface.DrawTexturedRect(offsetX, offsetY + barHeight, barHeight, h/lengthDivisor)		
-					
+			surface.DrawTexturedRect(offsetX, offsetY + barHeight, barHeight, h/lengthDivisor)
+
 			// Top right bar
-			surface.SetDrawColor(COLOR_AMBER)	
+			surface.SetDrawColor(COLOR_AMBER)
 			surface.SetMaterial(matLineDashed)
-			surface.DrawTexturedRect(w - offsetX - barHeight, offsetY + barHeight, barHeight, h/lengthDivisor)		
+			surface.DrawTexturedRect(w - offsetX - barHeight, offsetY + barHeight, barHeight, h/lengthDivisor)
 		end
-				
+
 	// Bottom middle bar
 	surface.SetDrawColor(COLOR_AMBER)
 	surface.DrawRect(offsetX, h - offsetY - barHeight, w - offsetX*2, barHeight)
-			
+
 		if !self.hideSideBars then
 			// Bottom left bar
 			surface.SetDrawColor(COLOR_AMBER)
 			surface.SetMaterial(matLineDashed)
-			surface.DrawTexturedRectRotated(offsetX, h - h/lengthDivisor - barHeight, barHeight, h/lengthDivisor, 180)		
-			
+			surface.DrawTexturedRectRotated(offsetX, h - h/lengthDivisor - barHeight, barHeight, h/lengthDivisor, 180)
+
 			// Bottom right bar
 			surface.SetDrawColor(COLOR_AMBER)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRectRotated(w - offsetX, h - h/lengthDivisor - barHeight, barHeight, h/lengthDivisor, 180)
 		end
 end
-	
+
 function VGUI:HideSideBars()
 	self.hideSideBars = true
-end	
-	
+end
+
 function VGUI:SetFontTitle(font, title)
 	self.font = font
 	self.title = title
-	
+
 	surface.SetFont(font)
 	self.textX, self.textY = surface.GetTextSize(title)
+end
+
+function VGUI:onClose()
+
 end
 
 function VGUI:AddCloseButton()
@@ -122,8 +126,9 @@ function VGUI:AddCloseButton()
 			self.inspect:Remove()
 			self.inspect = nil
 		end
-	
+
 		gui.EnableScreenClicker(false)
+		self:onClose()
 		self:Remove()
 		self = nil
 	end
@@ -137,19 +142,74 @@ end
 
 vgui.Register("FalloutRP_Menu", VGUI, "DFrame")
 
+// Scroll List Menu
+local VGUI = {}
+
+function VGUI:Init()
+	local container = vgui.Create("DPanel", self)
+	local parent = container:GetParent()
+	local contentStartX = offsetX + barHeight + textPadding*2
+	local contentStartY = offsetY + barHeight + parent.textY/2 + textPadding
+	container:SetPos(contentStartX, contentStartY)
+	container:SetSize(parent:GetWide() - contentStartX*2, parent:GetTall() - contentStartY*2)
+	container.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+
+	local scroll = vgui.Create("DScrollPanel", container)
+	scroll:SetPos(0, 0)
+	scroll:SetSize(container:GetWide(), container:GetTall())
+	scroll.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+
+	local scroller = scroll:GetVBar()
+	scroller.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+	scroller.btnDown.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+	scroller.btnUp.Paint = function(self, w, h)
+		surface.SetDrawColor(Color(0, 0, 0, 0))
+		surface.DrawRect(0, 0, w, h)
+	end
+	scroller.btnGrip.Paint = function(self, w, h)
+		surface.SetDrawColor(COLOR_AMBER)
+		surface.SetMaterial(matLineDashed)
+		surface.DrawTexturedRect(0, 0, 3, h)
+	end
+
+	local scrollerW = scroller:GetWide()
+	local layout = vgui.Create("DListLayout", scroll)
+	layout:SetSize(scroll:GetWide(), scroll:GetTall())
+	layout:SetPos(0, 0)
+
+	self.container = container
+	self.scroll = scroll
+	self.scroller = scroller
+	self.layout = layout
+end
+
+vgui.Register("FalloutRP_Scroll_List", VGUI, "FalloutRP_Menu")
+
 // Item draw
 local VGUI = {}
 
 function VGUI:Init()
 	local width, height = 200, 400
 	self:SetSize(width, height)
-	
+
 	self.name = vgui.Create("DLabel", self)
 	self.name:SetPos(10, 10)
 	self.name:SetFont("FalloutRP2")
 	self.name:SetText("")
 	self.name:SetTextColor(COLOR_AMBER)
-	
+
 	self.model = vgui.Create("SpawnIcon", self)
 	self.model:SetSize(80, 80)
 	self.model:SetPos(width/2 - self.model:GetWide()/2, 50)
@@ -158,7 +218,7 @@ end
 function VGUI:Paint(w, h)
 	surface.SetDrawColor(COLOR_BLACKFADE)
 	surface.DrawRect(0, 0, w, h)
-	
+
 	surface.SetDrawColor(COLOR_GRAY)
 	surface.DrawOutlinedRect(0, 0, w, h)
 end
@@ -168,18 +228,18 @@ function VGUI:SetItem(item, creation)
 
 	local name = getItemName(classid)
 	local model = getItemModel(classid)
-	
+
 	// Name
 	self.name:SetText(name)
 	self.name:SizeToContents()
 	self.name:SetPos(self:GetWide()/2 - self.name:GetWide()/2, 10)
-	
+
 	// Model
 	// Don't draw apparel model because there are none yet
 	if !isApparel(classid) then
 		self.model:SetModel(model)
 	end
-	
+
 	// Item Specs
 	local startY = 140
 
@@ -191,7 +251,7 @@ function VGUI:SetItem(item, creation)
 		else
 			dmg = "Damage: " ..item.damage
 		end
-		
+
 		// Damage
 		local damage = vgui.Create("DLabel", self)
 		damage:SetPos(10, startY)
@@ -199,8 +259,8 @@ function VGUI:SetItem(item, creation)
 		damage:SetTextColor(COLOR_AMBER)
 		damage:SetText(dmg)
 		damage:SizeToContents()
-		startY = startY + 20	
-		
+		startY = startY + 20
+
 		// Crit Chance
 		local crit = vgui.Create("DLabel", self)
 		crit:SetPos(10, startY)
@@ -210,7 +270,7 @@ function VGUI:SetItem(item, creation)
 		crit:SizeToContents()
 		startY = startY + 20
 	end
-	
+
 	if isApparel(classid) then
 		// Draw different values depending if the item is created already or not
 		local dt, dr, hp
@@ -221,9 +281,9 @@ function VGUI:SetItem(item, creation)
 		else
 			dt = "Dmg Threshold: " ..item.damageThreshold .."%"
 			dr = "Dmg Reflect: " ..item.damageReflection .."%"
-			hp = "Bonus HP: " ..item.bonusHp		
+			hp = "Bonus HP: " ..item.bonusHp
 		end
-		
+
 		// Damage Threshold
 		local damageThresh = vgui.Create("DLabel", self)
 		damageThresh:SetPos(10, startY)
@@ -232,7 +292,7 @@ function VGUI:SetItem(item, creation)
 		damageThresh:SetText(dt)
 		damageThresh:SizeToContents()
 		startY = startY + 20
-		
+
 		// Damage Reflection
 		local damageReflect = vgui.Create("DLabel", self)
 		damageReflect:SetPos(10, startY)
@@ -241,7 +301,7 @@ function VGUI:SetItem(item, creation)
 		damageReflect:SetText(dr)
 		damageReflect:SizeToContents()
 		startY = startY + 20
-		
+
 		// Bonus HP
 		local bonushp = vgui.Create("DLabel", self)
 		bonushp:SetPos(10, startY)
@@ -251,7 +311,7 @@ function VGUI:SetItem(item, creation)
 		bonushp:SizeToContents()
 		startY = startY + 20
 	end
-	
+
 	if isAid(classid) then
 		// Health Percent
 		if getAidHealthPercent(classid) then
@@ -263,7 +323,7 @@ function VGUI:SetItem(item, creation)
 			healthPercent:SizeToContents()
 			startY = startY + 20
 		end
-		
+
 		// Health
 		if getAidHealth(classid) then
 			local health = vgui.Create("DLabel", self)
@@ -274,7 +334,7 @@ function VGUI:SetItem(item, creation)
 			health:SizeToContents()
 			startY = startY + 20
 		end
-		
+
 		// Health Over Time
 		if getAidHealthOverTime(classid) then
 			local hot = vgui.Create("DLabel", self)
@@ -285,7 +345,7 @@ function VGUI:SetItem(item, creation)
 			hot:SizeToContents()
 			startY = startY + 20
 		end
-		
+
 		// Hunger
 		if getAidHunger(classid) then
 			local hunger = vgui.Create("DLabel", self)
@@ -296,7 +356,7 @@ function VGUI:SetItem(item, creation)
 			hunger:SizeToContents()
 			startY = startY + 20
 		end
-		
+
 		// Thirst
 		if getAidThirst(classid) then
 			local thirst = vgui.Create("DLabel", self)
@@ -308,7 +368,7 @@ function VGUI:SetItem(item, creation)
 			startY = startY + 20
 		end
 	end
-	
+
 	// Level
 	if getItemLevel(classid) then
 		local level = vgui.Create("DLabel", self)
@@ -319,7 +379,7 @@ function VGUI:SetItem(item, creation)
 		level:SizeToContents()
 		startY = startY + 20
 	end
-	
+
 	// Durability
 	if item.durability then
 		local durability = vgui.Create("DLabel", self)
@@ -330,7 +390,7 @@ function VGUI:SetItem(item, creation)
 		durability:SizeToContents()
 		startY = startY + 20
 	end
-	
+
 	// Weight
 	local weight = vgui.Create("DLabel", self)
 	weight:SetPos(10, startY)
@@ -339,7 +399,7 @@ function VGUI:SetItem(item, creation)
 	weight:SetText("Weight: " ..getItemWeight(classid))
 	weight:SizeToContents()
 	startY = startY + 20
-	
+
 	// Value
 	local value = vgui.Create("DLabel", self)
 	value:SetPos(10, startY)
@@ -361,7 +421,7 @@ end
 
 function VGUI:Paint(w, h)
 	draw.RoundedBox(0, 0, 0, w, h, COLOR_BLACK)
-	
+
 	if self:GetDisabled() then
 		self:SetTextColor(COLOR_GRAY)
 	end
@@ -383,18 +443,18 @@ vgui.Register("FalloutRP_Button", VGUI, "Button")
 local VGUI = {}
 function VGUI:Init()
 	self:SetSize(200, 150)
-	
+
 	self:HideSideBars()
 	self:AddCloseButton()
-	
+
 	self:SetFontTitle("FalloutRP1", "Select Amount")
-	
+
 	self.slider = vgui.Create("DNumberWang", self)
 	self.slider:SetSize(45, 25)
 	self.slider:SetPos(self:GetWide()/2 - self.slider:GetWide()/2, self:GetTall()/2 - self.slider:GetTall()/2 - 30)
 	self.slider:SetMin(0)
 	self.slider:SetDecimals(0) // Whole numbers only
-	
+
 	self.button = vgui.Create("FalloutRP_Button", self)
 	self.button:SetText("Ok")
 	self.button:SetSize(50, 30)
@@ -411,7 +471,7 @@ end
 
 function VGUI:ValidInput()
 	local value = self:GetAmount()
-	
+
 	return util.isInt(value) and (value >= self.slider:GetMin()) and (value <= self.slider:GetMax())
 end
 

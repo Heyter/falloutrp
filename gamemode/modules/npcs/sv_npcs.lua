@@ -16,36 +16,40 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	end
 	local randomLoot = generateRandomLoot(getNpcLevel(type), false, luckModifier)
 	local actualLoot = {}
-	
+
 	for k,v in pairs(npcLoot) do
 		local quantity = v.quantity
 		quantity = math.random(quantity[1], quantity[2])
-		
+
 		local prob = v.prob
-		
+
 		if util.roll(prob, 100) then
 			local item = createItem(k, quantity)
-			
+
 			table.insert(actualLoot, item)
 		end
 	end
 	for k,v in pairs(randomLoot) do
 		table.insert(actualLoot, v)
 	end
-	
+
 	if actualLoot and #actualLoot > 0 then
 		createLoot(npc:GetPos(), actualLoot)
 	end
-	
+
 	if IsValid(attacker) and attacker:IsPlayer() then
-		attacker:addExp(getNpcExp(type))
+		if attacker:hasXpShareParty() then
+			attacker:shareXpParty(getNpcExp(type))
+		else
+			attacker:addExp(getNpcExp(type))
+		end
 	end
 end)
 
 function getActiveNpcs(type)
 	local active = 0
 	local inactive = {}
-	
+
 	for k, v in pairs(NPCS[type]["Positions"]) do
 		if v.Active then
 			active = active + 1
@@ -53,7 +57,7 @@ function getActiveNpcs(type)
 			table.insert(inactive, k)
 		end
 	end
-	 
+
 	return active, inactive
 end
 
@@ -68,10 +72,10 @@ end
 function spawnNpc(npc, inactiveNpcs)
 	local randomLocation = table.Random(inactiveNpcs)
 	local location = NPCS[npc]["Positions"][randomLocation]
-	
+
 	print(npc, randomLocation)
 	NPCS[npc]["Positions"][randomLocation]["Active"] = true
-	
+
 	local ent = ents.Create(npc)
 	ent:SetPos(location["Position"] + Vector(0, 0, 40))
 	ent:Spawn()
@@ -82,7 +86,7 @@ end
 
 function addNpc(npc)
 	local numActive, inactiveNpcs = getActiveNpcs(npc)
-	 
+
 	if numActive < getNpcLimit(npc) then
 		// Haven't hit the limit for amount of this npc's yet
 		spawnNpc(npc, inactiveNpcs)
@@ -94,7 +98,7 @@ function createNpcTimers()
 		timer.Create(npc .." spawner", info.SpawnRate, 0, function()
 			addNpc(npc)
 		end)
-		
+
 		// Create some npcs on server start, so it isn't bare
 		for i = 1, info.StartAmount do
 			// Space out these timers some so we don't create a million entities all at once and stress the server
@@ -128,71 +132,71 @@ hook.Add("InitPostEntity", "createNpcTimers", function()
 	timer.Simple(1, function()
 		createNpcTimers()
 	end)
-	
+
 	// Set NPC damages
 	timer.Simple(2, function()
 		// Rat
 		RunConsoleCommand("sk_giantrat_dmg_slash", 7)
-		RunConsoleCommand("sk_giantrat_dmg_slash_power", 13)		
-		
+		RunConsoleCommand("sk_giantrat_dmg_slash_power", 13)
+
 		// Gecko
 		RunConsoleCommand("sk_gecko_dmg_slash", 9)
-		RunConsoleCommand("sk_gecko_dmg_slash_power", 15)		
-		
+		RunConsoleCommand("sk_gecko_dmg_slash_power", 15)
+
 		// Trog
 		RunConsoleCommand("sk_streettrog_dmg_slash", 13)
 		RunConsoleCommand("sk_streettrog_dmg_slash_power", 19)
-		
+
 		// Mirelurk
 		RunConsoleCommand("sk_mirelurk_dmg_slash", 10)
 		RunConsoleCommand("sk_mirelurk_dmg_slash_power", 16)
-		RunConsoleCommand("sk_mirelurk_dmg_strike", 20)				
-		
+		RunConsoleCommand("sk_mirelurk_dmg_strike", 20)
+
 		// Cazador
 		RunConsoleCommand("sk_cazador_dmg_slash", 12)
-		RunConsoleCommand("sk_cazador_dmg_slash_power", 17)		
-		
+		RunConsoleCommand("sk_cazador_dmg_slash_power", 17)
+
 		// Spore Carrier
 		RunConsoleCommand("sk_sporecarrier_dmg_slash", 18)
 		RunConsoleCommand("sk_sporecarrier_dmg_slash_power", 26)
-		
+
 		// Ghoul
 		RunConsoleCommand("sk_ghoulferal_dmg_slash", 17)
-		RunConsoleCommand("sk_ghoulferal_dmg_slash_power", 24)			
-		
+		RunConsoleCommand("sk_ghoulferal_dmg_slash_power", 24)
+
 		// Ghoul Roamer
 		RunConsoleCommand("sk_ghoulferal_roamer_dmg_slash", 18)
-		RunConsoleCommand("sk_ghoulferal_roamer_dmg_slash_power", 25)				
-		
+		RunConsoleCommand("sk_ghoulferal_roamer_dmg_slash_power", 25)
+
 		// Ghoul Swamp
 		RunConsoleCommand("sk_ghoulferal_swamp_dmg_slash", 19)
-		RunConsoleCommand("sk_ghoulferal_swamp_dmg_slash_power", 26)			
-		
+		RunConsoleCommand("sk_ghoulferal_swamp_dmg_slash_power", 26)
+
 		// Ghoul Reaver
 		RunConsoleCommand("sk_ghoulferal_reaver_dmg_slash", 25)
-		RunConsoleCommand("sk_ghoulferal_reaver_dmg_slash_power", 34)		
-		RunConsoleCommand("sk_ghoulferal_reaver_dmg_grenade", 45)		
-		
+		RunConsoleCommand("sk_ghoulferal_reaver_dmg_slash_power", 34)
+		RunConsoleCommand("sk_ghoulferal_reaver_dmg_grenade", 45)
+
 		// Swamplurk / Nukalurk
 		RunConsoleCommand("sk_mirelurk_dmg_slash", 22)
 		RunConsoleCommand("sk_mirelurk_dmg_slash_power", 26)
-		RunConsoleCommand("sk_mirelurk_dmg_strike", 40)			
-		
+		RunConsoleCommand("sk_mirelurk_dmg_strike", 40)
+
 		// Green Gecko
 		RunConsoleCommand("sk_gecko_green_dmg_slash", 22)
 		RunConsoleCommand("sk_gecko_green_dmg_slash_power", 26)
-		RunConsoleCommand("sk_gecko_green_dmg_spit", 32)		
-		
+		RunConsoleCommand("sk_gecko_green_dmg_spit", 32)
+
 		// Fire Gecko
 		RunConsoleCommand("sk_gecko_fire_dmg_slash", 32)
 		RunConsoleCommand("sk_gecko_fire_dmg_slash_power", 36)
 		RunConsoleCommand("sk_gecko_fire_dmg_flame", 2)
-	
+
 		// Deathclaw
 		RunConsoleCommand("sk_deathclaw_dmg_slash", 40)
 		RunConsoleCommand("sk_deathclaw_dmg_slash_power", 45)
-		RunConsoleCommand("sk_deathclaw_dmg_slash_power_jump", 55)	
-		
+		RunConsoleCommand("sk_deathclaw_dmg_slash_power_jump", 55)
+
 		// Deathclaw alphamale
 		RunConsoleCommand("sk_deathclaw_alphamale_dmg_slash", 60)
 		RunConsoleCommand("sk_deathclaw_alphamale_dmg_slash_power", 65)
