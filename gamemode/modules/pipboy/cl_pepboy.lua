@@ -791,8 +791,37 @@ function VGUI:Init()
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
 		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 
-		if self.party then
-			// Draw party members
+		if LocalPlayer().party then
+			local leader = LocalPlayer().party.leader
+			element:addItemListEntry({
+				label = leader:getName() .." (Leader)",
+				desc = "Leader of the party",
+				rightClickFunc = function()
+					if leader == LocalPlayer() then
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:AddOptions({"Invite Player", "Disbandon Party", "Party Settings"})
+						menu:Open()
+					end
+				end
+			})
+
+			// Draw Members
+			for k,v in pairs(LocalPlayer().party.members) do
+				element:addItemListEntry({
+					label = v:getName(),
+					desc = "Member of the party",
+					rightClickFunc = function()
+						if leader == LocalPlayer() then
+							print("Right click options")
+
+							local menu = vgui.Create("pepboy_rightclickbox", element)
+							menu:StoreItem(v)
+							menu:AddOptions({"Kick"})
+							menu:Open()
+						end
+					end
+				})
+			end
 		else
 			element:addItemListEntry({
 				label = "Create new party",
@@ -800,7 +829,7 @@ function VGUI:Init()
 				clickFunc = function()
 					net.Start("createParty")
 					net.SendToServer()
-					
+
 					close()
 				end
 			})
@@ -1277,115 +1306,136 @@ function VGUI:Init()
 	self.item = nil
 	self.offset = 0
 	self.menuTypes = {
-	["Show"] = function()
-		net.Start("equipTitle")
-			net.WriteString(self.item.title)
-		net.SendToServer()
-		close()
-	end,
-	["Hide"] = function()
-		net.Start("unequipTitle")
-			net.WriteString(self.item.title)
-		net.SendToServer()
-		close()
-	end,
-	["Use"] = function()
-		localplayer():useItem(self.item.uniqueid, self.item.classid, 1)
-	end,
-	["Equip"] = function()
-		localplayer():equipItem(self.item.uniqueid, self.item.classid, 1)
-	end,
-	["Equip all"] = function()
-		localplayer():equipItem(self.item.uniqueid, self.item.classid, self.item.quantity)
-	end,
-	["Equip (x)"] = function()
-		local frame = self:GetParent():GetParent()
-		local item = self.item
-		local slider = vgui.Create("FalloutRP_NumberWang", frame)
-		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
-		slider:SetMinimum(1)
-		slider:SetMaximum(self.item.quantity)
-		slider:SetValue(1)
-		slider:SetText("Equip")
-		slider:GetButton().DoClick = function()
-			if slider:ValidInput() then
-				localplayer():equipItem(item.uniqueid, item.classid, slider:GetAmount())
+		["Show"] = function()
+			net.Start("equipTitle")
+				net.WriteString(self.item.title)
+			net.SendToServer()
+			close()
+		end,
+		["Hide"] = function()
+			net.Start("unequipTitle")
+				net.WriteString(self.item.title)
+			net.SendToServer()
+			close()
+		end,
+		["Use"] = function()
+			localplayer():useItem(self.item.uniqueid, self.item.classid, 1)
+		end,
+		["Equip"] = function()
+			localplayer():equipItem(self.item.uniqueid, self.item.classid, 1)
+		end,
+		["Equip all"] = function()
+			localplayer():equipItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+		end,
+		["Equip (x)"] = function()
+			local frame = self:GetParent():GetParent()
+			local item = self.item
+			local slider = vgui.Create("FalloutRP_NumberWang", frame)
+			slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+			slider:SetMinimum(1)
+			slider:SetMaximum(self.item.quantity)
+			slider:SetValue(1)
+			slider:SetText("Equip")
+			slider:GetButton().DoClick = function()
+				if slider:ValidInput() then
+					localplayer():equipItem(item.uniqueid, item.classid, slider:GetAmount())
+				end
 			end
-		end
-	end,
-	["Un-Equip"] = function()
-		localplayer():unequipItem(self.item.uniqueid, self.item.classid)
-	end,
-	["Drop"] = function()
-		localplayer():dropItem(self.item.uniqueid, self.item.classid)
-	end,
-	["Drop all"] = function()
-		localplayer():dropItem(self.item.uniqueid, self.item.classid, self.item.quantity)
-	end,
-	["Drop (x)"] = function()
-		local frame = self:GetParent():GetParent()
-		local item = self.item
-		print(item)
-		PrintTable(item)
-		local slider = vgui.Create("FalloutRP_NumberWang", frame)
-		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
-		slider:SetMinimum(1)
-		slider:SetMaximum(self.item.quantity)
-		slider:SetValue(1)
-		slider:SetText("Drop")
-		slider:GetButton().DoClick = function()
-			if slider:ValidInput() then
-				localplayer():dropItem(item.uniqueid, item.classid, slider:GetAmount())
+		end,
+		["Un-Equip"] = function()
+			localplayer():unequipItem(self.item.uniqueid, self.item.classid)
+		end,
+		["Drop"] = function()
+			localplayer():dropItem(self.item.uniqueid, self.item.classid)
+		end,
+		["Drop all"] = function()
+			localplayer():dropItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+		end,
+		["Drop (x)"] = function()
+			local frame = self:GetParent():GetParent()
+			local item = self.item
+			print(item)
+			PrintTable(item)
+			local slider = vgui.Create("FalloutRP_NumberWang", frame)
+			slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+			slider:SetMinimum(1)
+			slider:SetMaximum(self.item.quantity)
+			slider:SetValue(1)
+			slider:SetText("Drop")
+			slider:GetButton().DoClick = function()
+				if slider:ValidInput() then
+					localplayer():dropItem(item.uniqueid, item.classid, slider:GetAmount())
+				end
 			end
-		end
-	end,
-	["Withdraw"] = function()
-		local quantity = self.item.quantity or 0
-		localplayer():withdrawItem(self.item.uniqueid, self.item.classid, quantity)
-	end,
-	["Withdraw all"] = function()
-		localplayer():withdrawItem(self.item.uniqueid, self.item.classid, self.item.quantity)
-	end,
-	["Withdraw (x)"] = function()
-		local frame = self:GetParent():GetParent()
-		local item = self.item
-		local slider = vgui.Create("FalloutRP_NumberWang", frame)
-		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
-		slider:SetMinimum(1)
-		slider:SetMaximum(self.item.quantity)
-		slider:SetValue(1)
-		slider:SetText("Withdraw")
-		slider:GetButton().DoClick = function()
-			if slider:ValidInput() then
-				localplayer():withdrawItem(item.uniqueid, item.classid, slider:GetAmount())
+		end,
+		["Withdraw"] = function()
+			local quantity = self.item.quantity or 0
+			localplayer():withdrawItem(self.item.uniqueid, self.item.classid, quantity)
+		end,
+		["Withdraw all"] = function()
+			localplayer():withdrawItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+		end,
+		["Withdraw (x)"] = function()
+			local frame = self:GetParent():GetParent()
+			local item = self.item
+			local slider = vgui.Create("FalloutRP_NumberWang", frame)
+			slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+			slider:SetMinimum(1)
+			slider:SetMaximum(self.item.quantity)
+			slider:SetValue(1)
+			slider:SetText("Withdraw")
+			slider:GetButton().DoClick = function()
+				if slider:ValidInput() then
+					localplayer():withdrawItem(item.uniqueid, item.classid, slider:GetAmount())
+				end
 			end
-		end
-	end,
-	["Deposit"] = function()
-		local quantity = self.item.quantity or 0
-		localplayer():depositItem(self.item.uniqueid, self.item.classid, quantity)
-	end,
-	["Deposit all"] = function()
-		localplayer():depositItem(self.item.uniqueid, self.item.classid, self.item.quantity)
-	end,
-	["Deposit (x)"] = function()
-		local frame = self:GetParent():GetParent()
-		local item = self.item
-		local slider = vgui.Create("FalloutRP_NumberWang", frame)
-		slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
-		slider:SetMinimum(1)
-		slider:SetMaximum(self.item.quantity)
-		slider:SetValue(1)
-		slider:SetText("Deposit")
-		slider:GetButton().DoClick = function()
-			if slider:ValidInput() then
-				print("Deposited this much:")
-				print(slider:GetAmount())
-				localplayer():depositItem(item.uniqueid, item.classid, slider:GetAmount())
+		end,
+		["Deposit"] = function()
+			local quantity = self.item.quantity or 0
+			localplayer():depositItem(self.item.uniqueid, self.item.classid, quantity)
+		end,
+		["Deposit all"] = function()
+			localplayer():depositItem(self.item.uniqueid, self.item.classid, self.item.quantity)
+		end,
+		["Deposit (x)"] = function()
+			local frame = self:GetParent():GetParent()
+			local item = self.item
+			local slider = vgui.Create("FalloutRP_NumberWang", frame)
+			slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
+			slider:SetMinimum(1)
+			slider:SetMaximum(self.item.quantity)
+			slider:SetValue(1)
+			slider:SetText("Deposit")
+			slider:GetButton().DoClick = function()
+				if slider:ValidInput() then
+					print("Deposited this much:")
+					print(slider:GetAmount())
+					localplayer():depositItem(item.uniqueid, item.classid, slider:GetAmount())
+				end
 			end
+		end,
+
+		// Party Functions
+		["Kick"] = function()
+			net.Start("kickParty")
+				net.WriteEntity(item)
+			net.SendToServer()
+		end,
+		["Invite Player"] = function()
+			local frame = self:GetParent():GetParent()
+			local menu = vgui.Create("FalloutRP_Menu")
+			menu:AddCloseButton()
+			menu:MakePopup()
+		end,
+		["Disbandon Party"] = function()
+			net.Start("disbandonParty")
+			net.SendToServer()
+			close()
+		end,
+		["Party Settings"] = function()
+
 		end
-	end
-}
+	}
 end
 
 function VGUI:StoreItem(item)

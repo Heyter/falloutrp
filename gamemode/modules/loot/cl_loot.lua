@@ -21,13 +21,13 @@ net.Receive("loot", function()
 	local loot = net.ReadTable()
 
 	openLoot(ent, loot)
-	
+
 	LocalPlayer():removeVguiDelay()
 end)
 
 local function close(frame)
 	removeInspect()
-	
+
 	if frame then
 		frame:Remove()
 		util.saveMousePos()
@@ -40,16 +40,16 @@ function lootItem(ent, itemId, quantity)
 
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
-	
+
 	local quantity = quantity or 0
-	
+
 	net.Start("lootItem")
 		net.WriteEntity(ent)
 		net.WriteInt(itemId, 16)
 		net.WriteInt(quantity, 16)
 	net.SendToServer()
 end
-	
+
 function openLoot(ent, loot)
 	removeInspect()
 
@@ -57,7 +57,7 @@ function openLoot(ent, loot)
 	util.restoreMousePos() // So they can *spam click* loot and not always have to move their mouse back to that loot
 	frame:AddCloseButton()
 	frame:MakePopup()
-	
+
 	local container = vgui.Create("DPanel", frame)
 	local parent = container:GetParent()
 	local contentStartX = offsetX + barHeight + textPadding*2
@@ -66,9 +66,9 @@ function openLoot(ent, loot)
 	container:SetSize(parent:GetWide() - contentStartX*2, parent:GetTall() - contentStartY*2)
 	container.Paint = function(self, w, h)
 		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)		
+		surface.DrawRect(0, 0, w, h)
 	end
-	
+
 	local scroll = vgui.Create("DScrollPanel", container)
 	scroll:SetPos(0, 0)
 	scroll:SetSize(container:GetWide(), container:GetTall())
@@ -76,7 +76,7 @@ function openLoot(ent, loot)
 		surface.SetDrawColor(Color(0, 0, 0, 0))
 		surface.DrawRect(0, 0, w, h)
 	end
-	
+
 	local scroller = scroll:GetVBar()
 	scroller.Paint = function(self, w, h)
 		surface.SetDrawColor(Color(0, 0, 0, 0))
@@ -89,29 +89,29 @@ function openLoot(ent, loot)
 	scroller.btnUp.Paint = function(self, w, h)
 		surface.SetDrawColor(Color(0, 0, 0, 0))
 		surface.DrawRect(0, 0, w, h)
-	end	
+	end
 	scroller.btnGrip.Paint = function(self, w, h)
 		surface.SetDrawColor(COLOR_AMBER)
 		surface.SetMaterial(matLineDashed)
 		surface.DrawTexturedRect(0, 0, 3, h)
 	end
-	
+
 	local scrollerW = scroller:GetWide()
 	local layout = vgui.Create("DListLayout", scroll)
 	layout:SetSize(scroll:GetWide(), scroll:GetTall())
 	layout:SetPos(0, 0)
-	
+
 	for k,v in pairs(loot) do
 		local itemBox = vgui.Create("DButton")
 		itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 		itemBox.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
-			
+
 			if self.hovered then
 				surface.SetDrawColor(Color(255, 182, 66, 30))
 				surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
-			
+
 				surface.SetDrawColor(COLOR_AMBER)
 				surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 			end
@@ -128,7 +128,7 @@ function openLoot(ent, loot)
 		itemBox.DoRightClick = function()
 			if util.greaterThanOne(v.quantity) then // The itme has quantity
 				surface.PlaySound("pepboy/click1.wav")
-				
+
 				local flyout = vgui.Create("DMenu", frame)
 				flyout:AddOption("Loot all", function()
 					if !LocalPlayer():hasVguiDelay() then
@@ -136,7 +136,7 @@ function openLoot(ent, loot)
 						close(frame)
 					end
 				end)
-				flyout:AddOption("Loot (x)", function()	
+				flyout:AddOption("Loot (x)", function()
 					local slider = vgui.Create("FalloutRP_NumberWang", frame)
 					slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
 					slider:SetMinimum(1)
@@ -150,45 +150,45 @@ function openLoot(ent, loot)
 						end
 					end
 				end)
-				
+
 				flyout:Open()
 			end
 		end
 		itemBox:SetText("")
-		
+
 		local itemLabel = vgui.Create("DLabel", itemBox)
 		itemLabel:SetPos(textPadding, textPadding/2)
 		itemLabel:SetFont("FalloutRP2")
 		itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
 		itemLabel:SizeToContents()
 		itemLabel:SetTextColor(COLOR_AMBER)
-		
+
 		itemBox.OnCursorEntered = function(self)
 			removeInspect()
-		
+
 			self.hovered = true
 			surface.PlaySound("pepboy/click2.wav")
-			
+
 			itemLabel:SetTextColor(COLOR_BLUE)
-			
+
 			if !isCap(v.classid) then
 				local frameX, frameY = frame:GetPos()
 				inspect = vgui.Create("FalloutRP_Item")
 				inspect:SetPos(frameX + frame:GetWide(), frameY)
 				inspect:SetItem(v)
-				
+
 				// Allow inspect to be closes via X button
 				frame.inspect = inspect
 			end
 		end
 		itemBox.OnCursorExited = function(self)
 			removeInspect()
-		
+
 			self.hovered = false
-			
+
 			itemLabel:SetTextColor(COLOR_AMBER)
 		end
-		
+
 		layout:Add(itemBox)
 	end
 end
