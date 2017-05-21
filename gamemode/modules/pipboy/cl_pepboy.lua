@@ -793,9 +793,15 @@ function VGUI:Init()
 
 		if LocalPlayer().party then
 			local leader = LocalPlayer().party.leader
+
+			local desc = "Leader of the party"
+			if leader == LocalPlayer() then
+				desc = "Right click your name to edit the party. Right click members to perform actions."
+			end
+
 			element:addItemListEntry({
 				label = leader:getName() .." (Leader)",
-				desc = "Leader of the party",
+				desc = desc,
 				rightClickFunc = function()
 					if leader == LocalPlayer() then
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -809,15 +815,20 @@ function VGUI:Init()
 			for k,v in pairs(LocalPlayer().party.members) do
 				element:addItemListEntry({
 					label = v:getName(),
+					stats = {
+						{key = "Health", val = v:Health()},
+					},
 					desc = "Member of the party",
 					rightClickFunc = function()
 						if leader == LocalPlayer() then
-							print("Right click options")
-
 							local menu = vgui.Create("pepboy_rightclickbox", element)
 							menu:StoreItem(v)
 							menu:AddOptions({"Kick"})
 							menu:Open()
+						elseif v == LocalPlayer() then
+							local menu = vgui.Create("pepboy_rightclickbox", element)
+							menu:StoreItem(v)
+							menu:AddOptions({"Party Settings"})
 						end
 					end
 				})
@@ -835,7 +846,7 @@ function VGUI:Init()
 			})
 		end
 
-		return panel
+		return element
 	end
 
 	self.catR:addBottom("Titles", titles_panel)
@@ -1418,14 +1429,71 @@ function VGUI:Init()
 		// Party Functions
 		["Kick"] = function()
 			net.Start("kickParty")
-				net.WriteEntity(item)
+				net.WriteEntity(self.item)
 			net.SendToServer()
+			close()
 		end,
 		["Invite Player"] = function()
 			local frame = self:GetParent():GetParent()
-			local menu = vgui.Create("FalloutRP_Menu")
+
+			local menu = vgui.Create("FalloutRP_Scroll_List", frame)
+			menu:SetFontTitle("FalloutRP3", "Invite Player")
 			menu:AddCloseButton()
+			menu.onClose = function() timer.Simple(0.1, function() gui.EnableScreenClicker(true) end) end
 			menu:MakePopup()
+
+			local layout = menu.layout
+			local scrollerW = menu.scroller:GetWide()
+			local textPadding = 10
+
+			for k,v in pairs(player.GetAll()) do
+				if (v != LocalPlayer()) and !table.HasValue(LocalPlayer().party.members, v) then
+					local playerBox = vgui.Create("DButton")
+					playerBox:SetSize(layout:GetWide() - scrollerW, 30)
+					playerBox.Paint = function(self, w, h)
+						surface.SetDrawColor(Color(0, 0, 0, 0))
+						surface.DrawRect(0, 0, w, h)
+
+						if self.hovered then
+							surface.SetDrawColor(Color(255, 182, 66, 30))
+							surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
+
+							surface.SetDrawColor(COLOR_AMBER)
+							surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
+						end
+					end
+					playerBox:SetText("")
+
+					playerBox.DoClick = function()
+						surface.PlaySound("pepboy/click1.wav")
+
+						net.Start("inviteParty")
+							net.WriteEntity(v)
+						net.SendToServer()
+					end
+
+					local playerLabel = vgui.Create("DLabel", playerBox)
+					playerLabel:SetPos(textPadding, textPadding/2)
+					playerLabel:SetFont("FalloutRP2")
+					playerLabel:SetText(v:getName())
+					playerLabel:SizeToContents()
+					playerLabel:SetTextColor(COLOR_AMBER)
+
+					playerBox.OnCursorEntered = function(self)
+						self.hovered = true
+						surface.PlaySound("pepboy/click2.wav")
+
+						playerLabel:SetTextColor(COLOR_BLUE)
+					end
+					playerBox.OnCursorExited = function(self)
+						self.hovered = false
+
+						playerLabel:SetTextColor(COLOR_AMBER)
+					end
+
+					layout:Add(playerBox)
+				end
+			end
 		end,
 		["Disbandon Party"] = function()
 			net.Start("disbandonParty")
@@ -1433,7 +1501,61 @@ function VGUI:Init()
 			close()
 		end,
 		["Party Settings"] = function()
+			local frame = self:GetParent():GetParent()
 
+			local menu = vgui.Create("FalloutRP_Menu", frame)
+			menu:SetFontTitle("FalloutRP3", "Party Settings")
+			menu:AddCloseButton()
+			menu:MakePopup()
+			menu.onClose = function() timer.Simple(0.1, function() gui.EnableScreenClicker(true) end) end
+
+			local settings = LocalPlayer().party.settings
+
+			local offset = 50
+
+			local xpShare
+
+			if LocalPlayer().party.leader == LocalPlayer() then
+				xpShare = vgui.Create("DCheckBoxLabel", menu)
+				xpShare:SetSize(50, 50)
+				xpShare:SetPos(50, offset)
+				xpShare:SetFont("FalloutRP3")
+				xpShare:SetTextColor(COLOR_AMBER)
+				xpShare:SetText("Exp Sharing")
+				xpShare:SetValue(settings.xpShare)
+
+				offset = 100
+			end
+
+			local playerHud = vgui.Create("DCheckBoxLabel", menu)
+			playerHud:SetSize(50, 50)
+			playerHud:SetPos(50, offset)
+			playerHud:SetFont("FalloutRP3")
+			playerHud:SetTextColor(COLOR_AMBER)
+			playerHud:SetText("Hide Party HUD")
+			playerHud:SetValue(tobool(LocalPlayer().partyHidePlayers))
+
+			local submit = vgui.Create("FalloutRP_Button", menu)
+			submit:SetSize(80, 50)
+			submit:SetFont("FalloutRP3")
+			submit:SetText("Finish")
+			submit:SetPos(menu:GetWide()/2 - submit:GetWide()/2, menu:GetTall() - submit:GetTall() * 2)
+			submit.DoClick = function()
+				// Send leader only details
+				if xpShare then
+					local newSettings = {
+						xpShare = xpShare:GetChecked()
+					}
+
+					net.Start("settingsParty")
+						net.WriteTable(newSettings)
+					net.SendToServer()
+				end
+
+				LocalPlayer().partyHidePlayers = playerHud:GetChecked()
+
+				close()
+			end
 		end
 	}
 end

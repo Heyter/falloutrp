@@ -6,6 +6,7 @@ local meta = FindMetaTable("Player")
 util.AddNetworkString("createParty")
 util.AddNetworkString("disbandonParty")
 util.AddNetworkString("updateParty")
+util.AddNetworkString("settingsParty")
 util.AddNetworkString("kickParty")
 util.AddNetworkString("inviteParty")
 
@@ -23,6 +24,12 @@ net.Receive("kickParty", function(len, ply)
     ply:kickParty(member)
 end)
 
+net.Receive("settingsParty", function(len, ply)
+    local settings = net.ReadTable()
+
+    ply:settingsParty(settings)
+end)
+
 net.Receive("inviteParty", function(len, ply)
     local member = net.ReadEntity()
 
@@ -30,9 +37,11 @@ net.Receive("inviteParty", function(len, ply)
 end)
 
 function PARTY:updateAllMembers(index)
-    for k,v in pairs(self.parties[party].members) do
+    for k,v in pairs(self.parties[index].members) do
         v:updateParty()
     end
+
+    self.parties[index].leader:updateParty()
 end
 
 function meta:updateParty()
@@ -47,6 +56,33 @@ function meta:updateParty()
       net.Start("updateParty")
           net.WriteBool(hasParty)
       net.Send(self)
+    end
+end
+
+function meta:hasXpShareParty()
+    return self.party and PARTY.parties[self.party].settings.xpShare
+end
+
+function meta:shareXpParty(exp)
+    local members = {}
+
+    for k,v in pairs(ents.FindInSphere(self:GetPos(), PARTY.shareRadius)) do
+        if IsValid(v) and v:IsPlayer() then
+            if v == PARTY.parties[self.party].leader or table.HasValue(PARTY.parties[self.party].members, v) then
+                table.insert(members, v)
+            end
+        end
+    end
+
+    local exp = exp / #members
+
+    for k,v in pairs(members) do
+        v:addExp(exp)
+
+        // Experience is still 'shared' if it's just 1 person, it's just shared in full
+        if #members > 1 then
+            v:notify("Some of your experience was shared with party members.", NOTIFY_GENERIC)
+        end
     end
 end
 
@@ -97,26 +133,26 @@ function meta:disbandonParty(disconnected)
 end
 
 function meta:kickParty(member, disconnected)
-    if IsValid(member) and self.party and member.party then
-        if PARTY.parties[member.party].leader == self then
-            if disconnected then
-                meta:disbandonParty(disconnected)
-                return
+    if IsValid(member) and self:isPartyLeader() and member.party then
+        if disconnected then
+            meta:disbandonParty(disconnected)
+            return
+        end
+
+        for k,v in pairs(PARTY.parties[member.party].members) do
+            if v == member then
+                PARTY.parties[member.party].members[k] = nil
+
+                self:notify("You have kicked " ..member:getName() .." from your party.", NOTIFY_GENERIC)
+                member:notify("You have been kicked from your party.", NOTIFY_GENERIC)
+
+                local index = member.party
+
+                member.party = nil
+                member:updateParty()
+
+                PARTY:updateAllMembers(index)
             end
-
-            for k,v in pairs(PARTY.parties[member.party]) do
-                if v == member then
-                    PARTY.parties[member.party].members[k] = nil
-
-                    self:notify("You have kicked " ..member:getName() .." from your party.", NOTIFY_GENERIC)
-                    member:notify("You have been kicked from your party.", NOTIFY_GENERIC)
-
-                    member.party = nil
-                    member:updateParty()
-                end
-            end
-        else
-            self:notify("You are not allowed to kick other players.", NOTIFY_ERROR)
         end
     else
         self:notify("That member is no longer available.", NOTIFY_ERROR)
@@ -151,9 +187,19 @@ function meta:inviteParty(member)
             self:notify("You have invited " ..member:getName() .." to join your party.", NOTIFY_GENERIC)
             member:notify("You have been invited to join " ..self:getName() .."'s party. Type /accept to join.", NOTIFY_GENERIC, 7)
         else
-            self:notify("You must wait " ..(CurTime() - self.partyInviteTime) .." more seconds to invite again.", NOTIFY_ERROR)
+            self:notify("You must wait " ..math.floor(self.partyInviteTime - CurTime()) .." more seconds to invite again.", NOTIFY_ERROR)
         end
     end
+end
+
+function meta:settingsParty(settings)
+    if self:isPartyLeader() then
+        PARTY.parties[self.party].settings = settings
+    end
+
+    self:notify("You have updated the party's settings.", NOTIFY_GENERIC)
+
+    PARTY:updateAllMembers(self.party)
 end
 
 function meta:isPartyLeader()
@@ -161,8 +207,10 @@ function meta:isPartyLeader()
 end
 
 hook.Add("PlayerSay", "joinParty", function(ply, text)
-    if string.sub(text, 1, #PARTY.acceptText) then
+    if string.sub(text, 1, #PARTY.acceptText) == PARTY.acceptText then
         ply:joinParty()
+
+        return ""
     end
 end)
 

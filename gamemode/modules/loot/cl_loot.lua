@@ -53,53 +53,13 @@ end
 function openLoot(ent, loot)
 	removeInspect()
 
-	local frame = vgui.Create("FalloutRP_Menu")
+	local frame = vgui.Create("FalloutRP_Scroll_List")
 	util.restoreMousePos() // So they can *spam click* loot and not always have to move their mouse back to that loot
 	frame:AddCloseButton()
 	frame:MakePopup()
 
-	local container = vgui.Create("DPanel", frame)
-	local parent = container:GetParent()
-	local contentStartX = offsetX + barHeight + textPadding*2
-	local contentStartY = offsetY + barHeight + parent.textY/2 + textPadding
-	container:SetPos(contentStartX, contentStartY)
-	container:SetSize(parent:GetWide() - contentStartX*2, parent:GetTall() - contentStartY*2)
-	container.Paint = function(self, w, h)
-		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)
-	end
-
-	local scroll = vgui.Create("DScrollPanel", container)
-	scroll:SetPos(0, 0)
-	scroll:SetSize(container:GetWide(), container:GetTall())
-	scroll.Paint = function(self, w, h)
-		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)
-	end
-
-	local scroller = scroll:GetVBar()
-	scroller.Paint = function(self, w, h)
-		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)
-	end
-	scroller.btnDown.Paint = function(self, w, h)
-		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)
-	end
-	scroller.btnUp.Paint = function(self, w, h)
-		surface.SetDrawColor(Color(0, 0, 0, 0))
-		surface.DrawRect(0, 0, w, h)
-	end
-	scroller.btnGrip.Paint = function(self, w, h)
-		surface.SetDrawColor(COLOR_AMBER)
-		surface.SetMaterial(matLineDashed)
-		surface.DrawTexturedRect(0, 0, 3, h)
-	end
-
-	local scrollerW = scroller:GetWide()
-	local layout = vgui.Create("DListLayout", scroll)
-	layout:SetSize(scroll:GetWide(), scroll:GetTall())
-	layout:SetPos(0, 0)
+	local layout = frame.layout
+	local scrollerW = frame.scroller:GetWide()
 
 	for k,v in pairs(loot) do
 		local itemBox = vgui.Create("DButton")
