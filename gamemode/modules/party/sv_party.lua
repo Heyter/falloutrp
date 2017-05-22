@@ -1,5 +1,5 @@
 PARTY.parties = PARTY.parties or {}
-PARTY.index = 1 // Increment this every time a new party is created
+PARTY.index = PARTY.index or 1 // Increment this every time a new party is created
 
 local meta = FindMetaTable("Player")
 
@@ -109,6 +109,7 @@ end
 
 function meta:disbandonParty(disconnected)
     if self:isPartyLeader() then
+        print("Test4")
         local index = self.party
 
         for k,v in pairs(PARTY.parties[self.party].members) do
@@ -135,7 +136,7 @@ end
 function meta:kickParty(member, disconnected)
     if IsValid(member) and self:isPartyLeader() and member.party then
         if disconnected then
-            meta:disbandonParty(disconnected)
+            self:disbandonParty(disconnected)
             return
         end
 
@@ -180,12 +181,16 @@ function meta:inviteParty(member)
         if member.party then
             self:notify("That player is already in a party.", NOTIFY_GENERIC)
         elseif !(self.partyInviteTime and self.partyInviteTime > CurTime()) then
-            // Invite player
-            self.partyInviteTime = CurTime() + PARTY.inviteCooldown
-            member.invitedParty = self.party
+            if member:Team() == self:Team() then
+                // Invite player
+                self.partyInviteTime = CurTime() + PARTY.inviteCooldown
+                member.invitedParty = self.party
 
-            self:notify("You have invited " ..member:getName() .." to join your party.", NOTIFY_GENERIC)
-            member:notify("You have been invited to join " ..self:getName() .."'s party. Type /accept to join.", NOTIFY_GENERIC, 7)
+                self:notify("You have invited " ..member:getName() .." to join your party.", NOTIFY_GENERIC)
+                member:notify("You have been invited to join " ..self:getName() .."'s party. Type " ..PARTY.acceptText .." to join.", NOTIFY_GENERIC, 7)
+            else
+                self:notify("You cannot invite players in another faction.", NOTIFY_ERROR)
+            end
         else
             self:notify("You must wait " ..math.floor(self.partyInviteTime - CurTime()) .." more seconds to invite again.", NOTIFY_ERROR)
         end
@@ -215,5 +220,6 @@ hook.Add("PlayerSay", "joinParty", function(ply, text)
 end)
 
 hook.Add("PlayerDisconnected", "removeFromParty", function(ply)
+    print("TEST1")
     ply:kickParty(ply, true)
 end)
