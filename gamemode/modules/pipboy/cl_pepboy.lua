@@ -1447,7 +1447,7 @@ function VGUI:Init()
 			local textPadding = 10
 
 			for k,v in pairs(player.GetAll()) do
-				if (v != LocalPlayer()) and !table.HasValue(LocalPlayer().party.members, v) then
+				if (v != LocalPlayer()) and !table.HasValue(LocalPlayer().party.members, v) and (v:Team() == LocalPlayer():Team()) then
 					local playerBox = vgui.Create("DButton")
 					playerBox:SetSize(layout:GetWide() - scrollerW, 30)
 					playerBox.Paint = function(self, w, h)
