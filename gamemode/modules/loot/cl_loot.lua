@@ -54,6 +54,7 @@ function openLoot(ent, loot)
 	removeInspect()
 
 	local frame = vgui.Create("FalloutRP_Scroll_List")
+	frame:CreateScroll()
 	util.restoreMousePos() // So they can *spam click* loot and not always have to move their mouse back to that loot
 	frame:AddCloseButton()
 	frame:MakePopup()
@@ -70,10 +71,10 @@ function openLoot(ent, loot)
 
 			if self.hovered then
 				surface.SetDrawColor(Color(255, 182, 66, 30))
-				surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
+				surface.DrawRect(0, 0, w, h)
 
 				surface.SetDrawColor(COLOR_AMBER)
-				surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
+				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
 		itemBox.DoClick = function()

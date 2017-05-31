@@ -39,30 +39,32 @@ function VGUI:Init()
 	self:SetPos(ScrW()/2 - self:GetWide()/2, ScrH()/2 - self:GetTall()/2)
 end
 
-function VGUI:Paint(w, h)
+function VGUI:DrawBackground()
+	local w, h = self:GetWide(), self:GetTall()
 	// Doubling two translucent frames creates a cooler effect
 	surface.SetDrawColor(Color(0, 0, 0, 185))
 	surface.DrawRect(0, 0, w, h)
 	surface.SetDrawColor(Color(0, 0, 0, 150))
 	surface.DrawRect(0, 0, w, h)
+end
 
-	/*
-	surface.SetDrawColor(Color(0, 0, 0, 185))
-	surface.DrawRect(offsetX, offsetY, w - offsetX*2, h - offsetY*2)
-	*/
+function VGUI:Paint(w, h)
+	self:DrawBackground()
 
 	surface.SetFont(self.font)
 	surface.SetTextColor(COLOR_AMBER)
 	surface.SetTextPos(offsetX + w/6 + textPadding, offsetY - (self.textY/2) + barHeight/2)
 	surface.DrawText(self.title)
 
+	if !self.hideAllBars then
 	// Top left middle bar
 	surface.SetDrawColor(COLOR_AMBER)
 	surface.DrawRect(offsetX, offsetY, w/6, barHeight)
 
 	// Top right middle bar
+	local titlePadding = (self.textX and self.textX > 0 and textPadding*2) or 0 // Keep a full width bar if there is no title
 	surface.SetDrawColor(COLOR_AMBER)
-	surface.DrawRect(offsetX + w/6 + textPadding*2 + self.textX, offsetY, w - offsetX*2 - w/6 - textPadding*2 - self.textX, barHeight)
+	surface.DrawRect(offsetX + w/6 + titlePadding + self.textX, offsetY, w - offsetX*2 - w/6 - textPadding*2 - self.textX, barHeight)
 
 		if !self.hideSideBars then
 			// Top left bar
@@ -91,10 +93,15 @@ function VGUI:Paint(w, h)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRectRotated(w - offsetX, h - h/lengthDivisor - barHeight, barHeight, h/lengthDivisor, 180)
 		end
+	end
 end
 
 function VGUI:HideSideBars()
 	self.hideSideBars = true
+end
+
+function VGUI:HideAllBars()
+	self.hideAllBars = true
 end
 
 function VGUI:SetFontTitle(font, title)
@@ -146,6 +153,10 @@ vgui.Register("FalloutRP_Menu", VGUI, "DFrame")
 local VGUI = {}
 
 function VGUI:Init()
+
+end
+
+function VGUI:CreateScroll()
 	local container = vgui.Create("DPanel", self)
 	local parent = container:GetParent()
 	local contentStartX = offsetX + barHeight + textPadding*2
@@ -425,6 +436,20 @@ function VGUI:Paint(w, h)
 	if self:GetDisabled() then
 		self:SetTextColor(COLOR_GRAY)
 	end
+end
+
+function VGUI:SetDisabled()
+	self.disabled = true
+	self:SetTextColor(COLOR_GRAY)
+end
+
+function VGUI:SetEnabled()
+	self.disabled = false
+	self:SetTextColor(COLOR_AMBER)
+end
+
+function VGUI:GetDisabled()
+	return self.disabled
 end
 
 function VGUI:OnCursorEntered()

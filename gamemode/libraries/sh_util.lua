@@ -24,12 +24,12 @@ end
 function util.fadeRemove(ent)
 	local increment = 25
 	ent:SetColor(Color(255, 255, 255, 255 - increment))
-	
+
 	//Fade all the way to nothing
 	for i = 1, 10 do
 		timer.Simple(0.1 * i, function()
 			local color = ent:GetColor()
-			
+
 			ent:SetRenderMode(RENDERMODE_TRANSALPHA)
 			ent:SetColor(Color(color.r, color.g, color.b, color.a - increment))
 
@@ -64,7 +64,7 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	local winner = nil
 
 	for k, v in pairs( tab ) do
-		if ( v > highest ) then 
+		if ( v > highest ) then
 			winner = k
 			highest = v
 		end
@@ -74,22 +74,27 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	if currentValue == highest then
 		return currentKey
 	end
-	
+
 	return winner
 end
 
 if CLIENT then
-function util.saveMousePos()
-	local mouseX, mouseY = input.GetCursorPos()
-	LocalPlayer().savedMouseX = mouseX
-	LocalPlayer().savedMouseY = mouseY
-end
-
-function util.restoreMousePos()
-	local mouseX, mouseY = LocalPlayer().savedMouseX, LocalPlayer().savedMouseY
-	
-	if mouseX and mouseY then
-		input.SetCursorPos(mouseX, mouseY)
+	function util.saveMousePos()
+		local mouseX, mouseY = input.GetCursorPos()
+		LocalPlayer().savedMouseX = mouseX
+		LocalPlayer().savedMouseY = mouseY
 	end
-end
+
+	function util.restoreMousePos()
+		local mouseX, mouseY = LocalPlayer().savedMouseX, LocalPlayer().savedMouseY
+
+		if mouseX and mouseY then
+			input.SetCursorPos(mouseX, mouseY)
+		end
+	end
+
+	// Return PEPBOY_COLOR with 255 alpha
+	function util.getPepboyColor()
+		return Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 255)
+	end
 end
