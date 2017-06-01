@@ -7,6 +7,8 @@ local frameW, frameH = 1000, 800
 local coinsAdd = Material("icon16/coins_add.png")
 local coinsDelete = Material("icon16/coins_delete.png")
 
+local removeInspect
+
 net.Receive("beginTrade", function()
     local tradeInfo = net.ReadTable()
     LocalPlayer().trade = tradeInfo
@@ -16,15 +18,19 @@ end)
 
 net.Receive("updateTrade", function()
     local tradeInfo = net.ReadTable()
+    local updater = net.ReadEntity()
+
     LocalPlayer().trade = tradeInfo
 
-    updateTrade()
+    updateTrade(updater)
 end)
 
 net.Receive("closeTrade", function()
     LocalPlayer().trade = nil
 
     if tradeWindow then
+        removeInspect()
+
         tradeWindow:Remove()
         tradeWindow = nil
     end
@@ -40,7 +46,7 @@ end
 
 local inventoryTypes = {"WEAPONS", "APPAREL", "AMMO", "AID", "MISC"}
 
-local function removeInspect()
+removeInspect = function()
 	if inspect then
 		inspect:Remove()
 		inspect = nil
@@ -55,6 +61,7 @@ local function getYouStatus()
 
     return (!LocalPlayer().trade[LocalPlayer()].lockedIn and !LocalPlayer().trade[LocalPlayer()].accepted and 1)
         or (LocalPlayer().trade[LocalPlayer()].lockedIn and LocalPlayer().trade[getOtherTrader()].lockedIn and 2)
+        or (LocalPlayer().trade[LocalPlayer()].lockedIn and LocalPlayer().trade[getOtherTrader()].accepted and 2)
         or (LocalPlayer().trade[LocalPlayer()].lockedIn and !LocalPlayer().trade[getOtherTrader()].lockedIn and 3)
         or (LocalPlayer().trade[LocalPlayer()].accepted and 4)
 end
@@ -108,15 +115,24 @@ local function unofferCaps(caps)
     net.SendToServer()
 end
 
-function updateTrade()
-    if tradeWindow.lastOpenInventory then
-        showInventory(tradeWindow.lastOpenInventory)
-    else
-        showInventory(1)
-    end
+function updateTrade(updater)
+    if IsValid(updater) and updater:IsPlayer() and updater == LocalPlayer() then
+        // If you did the update, then only update inventory, your offer, and statuses
+        if tradeWindow.lastOpenInventory then
+            showInventory(tradeWindow.lastOpenInventory)
+        else
+            showInventory(1)
+        end
 
-    showYou()
-    showThem()
+        showYou()
+        showThemStatus()
+    elseif IsValid(updater) and updater:IsPlayer() and updater == getOtherTrader() then
+        showThem()
+        showYouStatus()
+    else
+        showYouStatus()
+        showThemStatus()
+    end
 end
 
 function openTrade()
@@ -297,7 +313,7 @@ function openTrade()
                 if util.greaterThanOne(v.quantity) then
                     surface.PlaySound("pepboy/click1.wav")
 
-                    local flyout = vgui.Create("DMenu", frame)
+                    local flyout = vgui.Create("DMenu", menu)
                     flyout:AddOption("Offer all", function()
                         offerItem(v.classid, k, v.quantity)
                     end)
@@ -311,6 +327,7 @@ function openTrade()
                         slider:GetButton().DoClick = function()
                             if slider:ValidInput() then
                                 offerItem(v.classid, k, slider:GetAmount())
+                                slider:Remove()
                             end
                         end
                     end)
@@ -546,27 +563,32 @@ function openTrade()
             end
         end
 
-        local status = getYouStatus()
-        local statusButton = vgui.Create("FalloutRP_Button", menu)
-        local removeCapsX, removeCapsY = removeCaps:GetPos()
-        statusButton:SetSize(container:GetWide()*.4, 20)
-        statusButton:SetPos(itemsX + container:GetWide() - statusButton:GetWide(), removeCapsY)
-        statusButton:SetText(getYouStatusText())
-        if status == 3 then
-            statusButton:SetDisabled()
-        end
-        statusButton.DoClick = function(self)
-            if !self:GetDisabled() then
-                net.Start("updateStatusTrade")
-                    net.WriteInt(status, 8)
-                net.SendToServer()
+        showYouStatus = function()
+            local status = getYouStatus()
+            local statusButton = vgui.Create("FalloutRP_Button", menu)
+            local removeCapsX, removeCapsY = removeCaps:GetPos()
+            statusButton:SetSize(container:GetWide()*.4, 20)
+            statusButton:SetPos(itemsX + container:GetWide() - statusButton:GetWide(), removeCapsY)
+            statusButton:SetText(getYouStatusText())
+            if status == 3 then
+                statusButton:SetDisabled()
             end
+            statusButton.DoClick = function(self)
+                if !self:GetDisabled() then
+                    net.Start("updateStatusTrade")
+                        net.WriteInt(status, 8)
+                    net.SendToServer()
+                end
+            end
+
+            table.insert(tradeWindow.you, statusButton)
         end
+
+        showYouStatus()
 
         table.insert(tradeWindow.you, menu)
         table.insert(tradeWindow.you, caps)
         table.insert(tradeWindow.you, removeCaps)
-        table.insert(tradeWindow.you, statusButton)
     end
 
     showThem = function()
@@ -599,19 +621,55 @@ function openTrade()
 
         for k,v in pairs(LocalPlayer().trade[otherTrader].offer.items) do
             local itemBox = vgui.Create("DButton")
-    		itemBox:SetSize(layout:GetWide() - scrollerW, 30)
-    		itemBox.Paint = function(self, w, h)
-    			surface.SetDrawColor(Color(0, 0, 0, 0))
-    			surface.DrawRect(0, 0, w, h)
+            itemBox:SetSize(layout:GetWide() - scrollerW, 30)
+            itemBox.Paint = function(self, w, h)
+                surface.SetDrawColor(Color(0, 0, 0, 0))
+                surface.DrawRect(0, 0, w, h)
 
-    			if self.hovered then
-    				surface.SetDrawColor(Color(255, 182, 66, 30))
-    				surface.DrawRect(0, 0, w, h)
+                if self.hovered then
+                    surface.SetDrawColor(Color(255, 182, 66, 30))
+                    surface.DrawRect(0, 0, w, h)
 
-    				surface.SetDrawColor(COLOR_AMBER)
-    				surface.DrawOutlinedRect(0, 0, w, h)
-    			end
-    		end
+                    surface.SetDrawColor(COLOR_AMBER)
+                    surface.DrawOutlinedRect(0, 0, w, h)
+                end
+            end
+            itemBox:SetText("")
+
+            local itemLabel = vgui.Create("DLabel", itemBox)
+            itemLabel:SetPos(textPadding, textPadding/2)
+            itemLabel:SetFont("FalloutRP1")
+            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SizeToContents()
+            itemLabel:SetTextColor(COLOR_AMBER)
+
+            itemBox.OnCursorEntered = function(self)
+                removeInspect()
+
+                self.hovered = true
+                surface.PlaySound("pepboy/click2.wav")
+
+                itemLabel:SetTextColor(COLOR_BLUE)
+
+                if !isCap(v.classid) then
+                    local frameX, frameY = tradeWindow:GetPos()
+                    inspect = vgui.Create("FalloutRP_Item")
+                    inspect:SetPos(frameX - inspect:GetWide(), frameY)
+                    inspect:SetItem(v)
+
+                    // Allow inspect to be closed via X button
+                    tradeWindow.inspect = inspect
+                end
+            end
+            itemBox.OnCursorExited = function(self)
+                removeInspect()
+
+                self.hovered = false
+
+                itemLabel:SetTextColor(COLOR_AMBER)
+            end
+
+            layout:Add(itemBox)
         end
 
         // Caps
@@ -623,17 +681,22 @@ function openTrade()
         caps:SetText("Caps: " ..string.Comma(LocalPlayer().trade[otherTrader].offer.caps))
         caps:SizeToContents()
 
-        local statusText = vgui.Create("DLabel", menu)
-        local capsX, capsY = caps:GetPos()
-        statusText:SetFont("FalloutRP1")
-        statusText:SetTextColor(COLOR_AMBER)
-        statusText:SetText("Status: " ..getThemStatus())
-        statusText:SizeToContents()
-        statusText:SetPos(itemsX + container:GetWide() - statusText:GetWide(), capsY)
+        showThemStatus = function()
+            local statusText = vgui.Create("DLabel", menu)
+            local capsX, capsY = caps:GetPos()
+            statusText:SetFont("FalloutRP1")
+            statusText:SetTextColor(COLOR_AMBER)
+            statusText:SetText("Status: " ..getThemStatus())
+            statusText:SizeToContents()
+            statusText:SetPos(itemsX + container:GetWide() - statusText:GetWide(), capsY)
+
+            table.insert(tradeWindow.them, statusText)
+        end
+
+        showThemStatus()
 
         table.insert(tradeWindow.them, menu)
         table.insert(tradeWindow.them, caps)
-        table.insert(tradeWindow.them, statusText)
     end
 
     inventoryButtons[1]:DoClick()
