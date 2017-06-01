@@ -1,7 +1,4 @@
-
-print("DID SOMEONE SAY QUESTS")
-
-QUESTS = {}
+QUESTS = QUESTS or {}
 
 function addQuest(id, name, description, starter, preconditions, rewards, ...)
 	local args = {...}
@@ -37,3 +34,21 @@ function addQuest(id, name, description, starter, preconditions, rewards, ...)
 		}
 	end
 end
+
+// Add Quests Below Here
+addQuest(
+2,
+"Exploring the Town",
+"Welcome! I am x. This is The Sanctuary! Here you will find a variety of merchants and tool stations you will need on your adventures. Please go explore this town! Go talk to each merchant and then return to x.",
+{npc = "npc_x"},
+{quests = {1}, level = 1},
+{experience = 100, items = {[1001] = 5}},
+1,
+"Talk to John",
+1,
+"Talk to Sky",
+1,
+"Talk to Samantha",
+1,
+"Talk to Billy"
+)

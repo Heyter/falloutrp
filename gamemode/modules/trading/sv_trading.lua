@@ -50,8 +50,6 @@ net.Receive("updateStatusTrade", function(len, ply)
 end)
 
 function TRADING:beginTrade(playerA, playerB)
-    print(playerA, playerB)
-
     local index = TRADING.index
     TRADING.index = TRADING.index + 1
 
@@ -112,10 +110,13 @@ function TRADING:resetStatus(trade)
     end
 end
 
-function TRADING:updateTrade(id)
+function TRADING:updateTrade(id, updater)
     for k,v in pairs(self.trades[id]) do
         net.Start("updateTrade")
             net.WriteTable(TRADING:getTrade(id))
+            if updater then
+                net.WriteEntity(updater)
+            end
         net.Send(k)
     end
 end
@@ -184,8 +185,9 @@ function TRADING:completeTrade(id)
 
             transfer[index].weight = transfer[index].weight + getItemWeight(item.classid)
             table.insert(transfer[index].items, item)
-            transfer[index].caps = v.offer.caps
         end
+
+        transfer[index].caps = v.offer.caps
 
         // Store and Check PlayerB next iteration
         index = index + 1
@@ -220,7 +222,7 @@ function TRADING:completeTrade(id)
         end
         // Add THEIR items
         for k, item in pairs(transfer[otherIndex].items) do
-            ply:pickUpItem(item, item.quantity)
+            ply:pickUpItem(table.Copy(item), item.quantity)
         end
 
         // Deduct their caps, give to you
@@ -293,7 +295,7 @@ function meta:offerItem(classid, uniqueid, quantity)
             TRADING:resetStatus(self.trade)
         end
 
-        TRADING:updateTrade(self.trade)
+        TRADING:updateTrade(self.trade, self)
     end
 end
 
@@ -308,19 +310,16 @@ function meta:unofferItem(uniqueid, quantity)
     end
 
     if self.trade then
-        local other = TRADING:getOtherTrader(self)
-        if other then
-            local item = TRADING:getOfferItem(self, uniqueid)
-            item.quantity = item.quantity or 0
-            item.quantity = item.quantity - quantity
+        local item = TRADING:getOfferItem(self, uniqueid)
+        item.quantity = item.quantity or 0
+        item.quantity = item.quantity - quantity
 
-            if !util.positive(item.quantity) then
-                TRADING.trades[self.trade][self].offer.items[uniqueid] = nil
-            end
-
-            TRADING:resetStatus(self.trade)
-            TRADING:updateTrade(self.trade)
+        if !util.positive(item.quantity) then
+            TRADING.trades[self.trade][self].offer.items[uniqueid] = nil
         end
+
+        TRADING:resetStatus(self.trade)
+        TRADING:updateTrade(self.trade, self)
     end
 end
 
@@ -337,7 +336,7 @@ function meta:offerCaps(caps)
         end
 
         TRADING.trades[self.trade][self].offer.caps = TRADING.trades[self.trade][self].offer.caps + caps
-        TRADING:updateTrade(self.trade)
+        TRADING:updateTrade(self.trade, self)
     end
 end
 
@@ -354,7 +353,7 @@ function meta:unofferCaps(caps)
         end
 
         TRADING.trades[self.trade][self].offer.caps = TRADING.trades[self.trade][self].offer.caps - caps
-        TRADING:updateTrade(self.trade)
+        TRADING:updateTrade(self.trade, self)
     end
 end
 
@@ -386,6 +385,7 @@ function meta:acceptTrade()
             self:notify("That player is busy right now.", NOTIFY_ERROR)
         else
             if (self:GetPos():Distance(requestor:GetPos()) < TRADING.tradeDistance) then
+                self.requestedTrade = nil
                 TRADING:beginTrade(self, requestor)
             else
                 self:notify("That player is too far away.", NOTIFY_ERROR)
