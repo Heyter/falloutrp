@@ -8,27 +8,32 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 		if attacker:IsPlayer() then
 			if attacker.spawnProtected then
 				damage = 0
-				attacker:notify("You can't damage NPCs while spawn protected.", NOTIFY_ERROR)
+
+				if !attacker.lastSpawnProtectionNotify || (attacker.lastSpawnProtectionNotify < CurTime()) then
+					attacker:notify("You can't damage others while spawn protected.", NOTIFY_ERROR)
+
+					attacker.lastSpawnProtectionNotify = CurTime() + 3
+				end
 			else
 				// Add Damage
 				local weapon = attacker:GetActiveWeapon()
 				local weaponSlot = weapon.slot
-				
+
 				local item = attacker.equipped.weapons[weaponSlot] // The actual item that the player is equipping
 				if item then
 					local uniqueid = item.uniqueid
 					local classid = item.classid
-					
+
 					local damageType = getWeaponType(classid)
 					local critChance = getWeaponCriticalChance(classid)
-					
+
 					damage = attacker:getWeaponDamage(uniqueid)
-					
+
 					if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
 						damage = (damage * CRITICAL_MULTIPLIER)
 						damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
 					end
-					
+
 					// Unarmed and Explosives will need to be handled seperately
 					if damageType == DMG_BULLET then
 						damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
@@ -42,11 +47,11 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				end
 			end
 		end
-			
+
 		if target:IsPlayer() then
 			// Reduce Damage
-			damage = damage + (damage * (target:getDamageThreshold() / 100)) 
-				
+			damage = damage + (damage * (target:getDamageThreshold() / 100))
+
 			// Reflect Damage
 			local damageReflect = damage * (target:getDamageReflection() / 100)
 			// Make the inflictor worldspawn, so damage reflection isn't a stack overflow
@@ -54,7 +59,7 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				attacker:TakeDamage(damageReflect, target, Entity(0))
 			end
 		end
-			
+
 		dmgInfo:SetDamage(damage)
 	end
 end)
@@ -64,24 +69,24 @@ hook.Add("PlayerSpawn", "SetupPlayer", function(ply)
 		timer.Simple(1, function()
 			// Set health
 			ply:SetHealth(ply:getMaxHealth())
-			
+
 			// Initialize hunger
 			ply:setHunger(HUNGER_MAX)
 			ply:startHungerTimer()
-					
+
 			// Initialize thirst
 			ply:setThirst(THIRST_MAX)
 			ply:startThirstTimer()
-			
+
 			// Initialize stamina
 			tcb_StaminaStart(ply)
-			
+
 			// Initialize health regen
 			ply:startHealthRegen()
-			
+
 			// Ask Pvp protection
 			ply:pvpProtection()
-			
+
 			if ply:Team() == TEAM_BOS then
 				ply:SetModel("models/player/nikout/fallout/wintercombatarmormale.mdl")
 			elseif ply:Team() == TEAM_NCR then
@@ -125,7 +130,7 @@ end)
 // Loadout
 hook.Add("PlayerLoadout", "playerLoadout", function(ply)
 	ply:Give("rphands")
-	
+
 	// No default loadout
 	return true
 end)
