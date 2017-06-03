@@ -24,7 +24,7 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 					local uniqueid = item.uniqueid
 					local classid = item.classid
 
-					local damageType = getWeaponType(classid)
+					damageType = getWeaponType(classid)
 					local critChance = getWeaponCriticalChance(classid)
 
 					damage = attacker:getWeaponDamage(uniqueid)
@@ -39,24 +39,29 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 						damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
 					elseif damageType == DMG_ENERGYBEAM then
 						damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
-					elseif damageType == DMG_SLASH then
+					elseif (damageType == DMG_SLASH) or (damageType == DMG_CLUB) then
 						damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + attacker:getFactionMeleeWeaponsDamage()))
 					elseif damageType == DMG_PLASMA then
 						damage = damage + (damage * attacker:getScienceDamage())
 					end
 				end
 			end
-		end
 
-		if target:IsPlayer() then
-			// Reduce Damage
-			damage = damage + (damage * (target:getDamageThreshold() / 100))
+			if target:IsPlayer() then
+				// Reduce Damage
+				damage = damage + (damage * (target:getDamageThreshold() / 100))
 
-			// Reflect Damage
-			local damageReflect = damage * (target:getDamageReflection() / 100)
-			// Make the inflictor worldspawn, so damage reflection isn't a stack overflow
-			if (damageReflect > 0) and (inflictor != Entity(0)) then
-				attacker:TakeDamage(damageReflect, target, Entity(0))
+				// Reflect Damage
+				local damageReflect = damage * (target:getDamageReflection() / 100)
+				// Make the inflictor worldspawn, so damage reflection isn't a stack overflow
+				if (damageReflect > 0) and (inflictor != Entity(0)) then
+					attacker:TakeDamage(damageReflect, target, Entity(0))
+				end
+
+				// Head bob
+				if damageType == DMG_CLUB then
+					target:ViewPunch(Angle(math.random(10, 70), math.random(-5, -5), math.random(-170, 170)))
+				end
 			end
 		end
 

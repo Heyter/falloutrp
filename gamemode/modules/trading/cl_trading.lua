@@ -564,6 +564,11 @@ function openTrade()
         end
 
         showYouStatus = function()
+            if tradeWindow.you and tradeWindow.you.statusButton then
+                tradeWindow.you.statusButton:Remove()
+                tradeWindow.you.statusButton = nil
+            end
+
             local status = getYouStatus()
             local statusButton = vgui.Create("FalloutRP_Button", menu)
             local removeCapsX, removeCapsY = removeCaps:GetPos()
@@ -581,7 +586,7 @@ function openTrade()
                 end
             end
 
-            table.insert(tradeWindow.you, statusButton)
+            tradeWindow.you.statusButton = statusButton
         end
 
         showYouStatus()
@@ -682,6 +687,11 @@ function openTrade()
         caps:SizeToContents()
 
         showThemStatus = function()
+            if tradeWindow.you and tradeWindow.you.statusText then
+                tradeWindow.you.statusText:Remove()
+                tradeWindow.you.statusText = nil
+            end
+
             local statusText = vgui.Create("DLabel", menu)
             local capsX, capsY = caps:GetPos()
             statusText:SetFont("FalloutRP1")
@@ -690,7 +700,7 @@ function openTrade()
             statusText:SizeToContents()
             statusText:SetPos(itemsX + container:GetWide() - statusText:GetWide(), capsY)
 
-            table.insert(tradeWindow.them, statusText)
+            tradeWindow.you.statusText = statusText
         end
 
         showThemStatus()

@@ -3,7 +3,7 @@ local meta = FindMetaTable("Player")
 
 local Weapons = {}
 
-function addWeapon(id, name, type, slot, entity, model, durability, weight, value, level, minDamage, maxDamage, criticalChance, actionPoints, ammoType) 
+function addWeapon(id, name, type, slot, entity, model, durability, weight, value, level, minDamage, maxDamage, criticalChance, actionPoints, ammoType)
 	Weapons[id] = {
 		name = name,
 		type = type,
@@ -80,12 +80,12 @@ end
 // Functions that have data which can change
 function meta:getWeaponDamage(uniqueid, location)
 	local location = location or "inventory"
-	
+
 	return self[location].weapons[uniqueid]["damage"] or 0
 end
 function meta:getWeaponDurability(uniqueid, location)
 	local location = location or "inventory"
-	
+
 	return self[location].weapons[uniqueid]["durability"] or 0
 end
 
@@ -104,7 +104,7 @@ addWeapon(1007, "Chance's Knife", DMG_SLASH, "secondary", "weapon_chancesknife",
 addWeapon(1008, "Chinese Officer Sword", DMG_SLASH, "secondary", "weapon_chineseofficersword", "models/Halokiller38/fallout/weapons/Melee/chineseofficersword.mdl", 1120, 2.5, 3575, 31, 65, 75, 35, 1.76, nil)
 addWeapon(1009, "Cleaver", DMG_SLASH, "secondary", "weapon_cleaver", "models/Halokiller38/fallout/weapons/Melee/cleaver.mdl", 1120, 2.5, 1200, 4, 25, 30, 10, 1.76,nil)
 addWeapon(1010, "Combat Knife", DMG_SLASH, "secondary", "weapon_combatknife", "models/Halokiller38/fallout/weapons/Melee/combatknife.mdl", 1120, 2.5, 1170, 10, 30, 40, 30, 1.76, nil)
-addWeapon(1011, "Fireaxe", DMG_SLASH, "secondary", "weapon_fireaxe", "models/Halokiller38/fallout/weapons/Melee/fireaxe.mdl", 1120, 2.5, 500, 1, 15, 25, 7.5, 1.76, nil)
+addWeapon(1011, "Fireaxe", DMG_CLUB, "secondary", "weapon_fireaxe", "models/Halokiller38/fallout/weapons/Melee/fireaxe.mdl", 1120, 2.5, 500, 1, 15, 25, 7.5, 1.76, nil)
 addWeapon(1012, "Hatchet", DMG_SLASH, "secondary", "weapon_hatchet", "models/Halokiller38/fallout/weapons/Melee/hatchet.mdl", 1120, 2.5, 355, 7, 20, 35, 20, 1.76, nil)
 addWeapon(1013, "Kitchen Knife", DMG_SLASH, "secondary", "weapon_kitchenknife", "models/Halokiller38/fallout/weapons/Melee/kitchenknife.mdl", 1120, 2.5, 5000, 1, 30, 50, 62.5, 2.75, 1.76, nil)
 addWeapon(1014, "Lily's Vertibird Blade", DMG_SLASH, "secondary", "weapon_lilysblade", "models/Halokiller38/fallout/weapons/Melee/lilysblade.mdl", 1120, 2.5, 2000, 5, 1, 125, 75, 1.76, nil)
@@ -157,7 +157,6 @@ addWeapon(1053, "Hunting Revolver", DMG_BULLET, "secondary", "weapon_huntingrevo
 addWeapon(1054, "Police Pistol", DMG_BULLET, "secondary", "weapon_policepistol", "models/Halokiller38/fallout/weapons/Pistols/policepistol.mdl", 1120, 2.5, 4620, 30, 35, 60, 20, 1.76, 3004)
 addWeapon(1055, "Ranger Sequoia", DMG_BULLET, "secondary", "weapon_rangersequoia", "models/Halokiller38/fallout/weapons/Pistols/rangersequoia.mdl", 1120, 2.5, 3970, 31, 40, 50, 10, 1.76, 3007)
 addWeapon(1056, "Silence .22", DMG_BULLET, "secondary", "weapon_22mmpistolsil", "models/Halokiller38/fallout/weapons/Pistols/silenced22pistol.mdl", 1120, 2.5, 740, 8, 15, 30, 10, 1.76, 3007)
-
 addWeapon(1057, "Battle Rifle", DMG_BULLET, "primary", "weapon_battlerifle", "models/Halokiller38/fallout/weapons/Rifles/thismachine.mdl", 1120, 2.5, 970, 10, 20, 30, 2.75, 5, 3002)
 addWeapon(1058, "Hunting Rifle", DMG_BULLET, "primary", "weapon_huntingrifleext", "models/Halokiller38/fallout/weapons/Rifles/huntingrifleext.mdl", 1120, 2.5, 2870, 20, 30, 40, 15, 1.76, 3002)
 addWeapon(1059, "Hunting Rifle (Scope)", DMG_BULLET, "primary", "weapon_huntingriflescp", "models/Halokiller38/fallout/weapons/Rifles/huntingriflescoped.mdl", 1120, 2.5, 5470, 32, 40, 50, 15, 1.76, 3002)
@@ -181,8 +180,3 @@ addWeapon(1073, "Spiked Knuckles", DMG_SLASH, "primary", "weapon_spikedknuckles"
 
 addWeapon(1074, "Lockpick", DMG_SLASH, "primary", "lockpick", "models/weapons/w_crowbar.mdl", 1120, 2.5, 130, 2, 0, 0, 2.75, 1.76, nil)
 addWeapon(1075, "Pickaxe", DMG_SLASH, "primary", "eoti_tool_miningpick", "models/pickaxe/pickaxe_w.mdl", 1120, 2.5, 55, 1, 0, 0, 2.75, 1.76, nil)
-
-
-
-
-
