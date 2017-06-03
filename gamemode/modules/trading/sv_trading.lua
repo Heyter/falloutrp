@@ -183,7 +183,8 @@ function TRADING:completeTrade(id)
                 return
             end
 
-            transfer[index].weight = transfer[index].weight + getItemWeight(item.classid)
+            local quantity = item.quantity or 1
+            transfer[index].weight = transfer[index].weight + (getItemWeight(item.classid) * quantity)
             table.insert(transfer[index].items, item)
         end
 
@@ -209,7 +210,7 @@ function TRADING:completeTrade(id)
         local currentWeight = ply:getInventoryWeight()
         local outgoingWeight = v.weight
         local incomingWeight = transfer[otherIndex].weight
-
+        print(ply, outgoingWeight, incomingWeight)
         currentWeight = currentWeight - outgoingWeight + incomingWeight
         if currentWeight > maxWeight then
             TRADING:failTrade(ply, "You do not have enough inventory space.", ply:Nick() .." does not have enough inventory space.")

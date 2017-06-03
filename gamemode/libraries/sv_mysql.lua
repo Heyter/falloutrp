@@ -379,7 +379,7 @@ end
 function connectToMySQL(host, username, password, database_name, database_port)
     database_port = database_port or 3306
     local func = mysqlOO and msOOConnect or TMySQL and tmsqlConnect or function() end
-	
+
     func(host, username, password, database_name, database_port)
 end
 
