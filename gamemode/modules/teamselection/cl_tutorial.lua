@@ -25,11 +25,11 @@ local images = {
 local function timeButton(button)
 	if !IsValid(button) then return end
 	if !button.time then button.time = wait end
-	if button.time == 1 then button:SetText("Continue") button:SetDisabled(false) return end
-	
+	if button.time == 1 then button:SetText("Continue") button:SetEnabled() return end
+
 	button.time = button.time - 1
 	button:SetText("Continue (" ..button.time ..")")
-	
+
 	timer.Simple(1, function()
 		timeButton(button)
 	end)
@@ -49,9 +49,9 @@ function tutorialSlideShow(newPlayer)
 		frame:AddCloseButton()
 	end
 	frame:MakePopup()
-	
+
 	local index = 1
-	 
+
 	local imgPanel = vgui.Create("DPanel", frame)
 	imgPanel:SetSize(700, 400)
 	imgPanel:SetPos(50, 50)
@@ -59,18 +59,18 @@ function tutorialSlideShow(newPlayer)
 		surface.SetDrawColor(Color(255, 255, 255, 255))
 		surface.SetMaterial(Material(images[index]["image"]))
 		surface.DrawTexturedRect(0, 0, w, h)
-		
+
 		surface.SetDrawColor(COLOR_AMBER)
 		surface.DrawOutlinedRect(0, 0, w, h)
 	end
-	
+
 	local info = vgui.Create("DLabel", frame)
 	info:SetFont("FalloutRP2")
 	info:SetPos(50, 460)
 	info:SetTextColor(COLOR_AMBER)
 	info:SetText(images[index]["description"])
 	info:SizeToContents()
-	
+
 	local button = vgui.Create("FalloutRP_Button", frame)
 	button:SetSize(80, 40)
 	button:SetPos(frame:GetWide()/2 - button:GetWide()/2, 550 - button:GetTall()/2)
@@ -80,7 +80,7 @@ function tutorialSlideShow(newPlayer)
 			index = index + 1
 			info:SetText(images[index]["description"])
 			info:SizeToContents()
-			
+
 			if newPlayer then
 				self:SetDisabled(true)
 				self.time = wait
@@ -89,7 +89,7 @@ function tutorialSlideShow(newPlayer)
 		else
 			frame:Remove()
 			frame = nil
-			
+
 			// Now allow them to choose another team
 			if newPlayer then
 				teamSelection()
@@ -98,7 +98,7 @@ function tutorialSlideShow(newPlayer)
 	end
 	if newPlayer then
 		button:SetDisabled(true)
-	
+
 		timeButton(button)
 	end
 end
