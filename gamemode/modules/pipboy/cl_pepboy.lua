@@ -1437,6 +1437,7 @@ function VGUI:Init()
 			local frame = self:GetParent():GetParent()
 
 			local menu = vgui.Create("FalloutRP_Scroll_List", frame)
+			menu:CreateScroll()
 			menu:SetFontTitle("FalloutRP3", "Invite Player")
 			menu:AddCloseButton()
 			menu.onClose = function() timer.Simple(0.1, function() gui.EnableScreenClicker(true) end) end
