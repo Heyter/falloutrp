@@ -407,7 +407,7 @@ function meta:requestTrade()
                 self.requestTradeTime = CurTime() + TRADING.requestCooldown
                 ent.requestedTrade = self
 
-                ent:notify(self:getName() .." has requested to trade with you.", NOTIFY_GENERIC)
+                ent:notify(self:getName() .." has requested to trade with you. Type /accept", NOTIFY_GENERIC, 10)
                 self:notify("You have sent a trade request to " ..ent:getName() ..".", NOTIFY_GENERIC)
             else
                 self:notify("You must wait " ..math.floor(self.requestTradeTime - CurTime()) .." more seconds to request a trade again.", NOTIFY_ERROR)

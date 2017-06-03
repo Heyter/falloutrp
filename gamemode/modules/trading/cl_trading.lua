@@ -2,7 +2,7 @@ local showInventory, showYou, showThem // Trade window functions
 local tradeWindow
 local inspect
 local inventoryButtons
-local frameW, frameH = 1000, 800
+local frameW, frameH = 900, 700
 
 local coinsAdd = Material("icon16/coins_add.png")
 local coinsDelete = Material("icon16/coins_delete.png")

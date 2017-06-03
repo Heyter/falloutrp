@@ -42,9 +42,9 @@ end
 function VGUI:DrawBackground()
 	local w, h = self:GetWide(), self:GetTall()
 	// Doubling two translucent frames creates a cooler effect
-	surface.SetDrawColor(Color(0, 0, 0, 185))
+	surface.SetDrawColor(COLOR_BLACKFADE)
 	surface.DrawRect(0, 0, w, h)
-	surface.SetDrawColor(Color(0, 0, 0, 150))
+	surface.SetDrawColor(Color(0, 0, 0, 170))
 	surface.DrawRect(0, 0, w, h)
 end
 
