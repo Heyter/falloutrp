@@ -60,7 +60,11 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 
 				// Head bob
 				if damageType == DMG_CLUB then
-					target:ViewPunch(Angle(math.random(10, 70), math.random(-5, -5), math.random(-170, 170)))
+					target:headBob()
+				end
+
+				if damageType == DMG_SLASH then
+					attacker:bleedAttack(target, damage)
 				end
 			end
 		end
