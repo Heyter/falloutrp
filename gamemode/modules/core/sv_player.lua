@@ -7,15 +7,16 @@ local meta = FindMetaTable("Player")
 
 // Called after 'playerData' table is set on client
 function meta:postLoadPlayer()
-	// Send the players data to the clientside
+	// Send the player's data to the clientside
 	self:sendClientside()
 
 	// The player has been loaded in
 	self.loaded = true
-	
+	print(self:getName() .." has been fully loaded.")
+
 	// Set team
 	self:SetTeam(self.playerData.faction)
-	
+
 	self:Spawn()
 end
 
@@ -29,7 +30,7 @@ function meta:loadPlayer()
 			// The player is in the playerdata table
 			self.playerData = results[1] // Load their playerData
 			self:initializeRank() // Load their rank
-			
+
 			net.Start("loadPlayerData")
 				net.WriteTable(self.playerData)
 				net.WriteEntity(self)
@@ -59,7 +60,7 @@ function meta:sendClientside()
 		net.WriteInt(data.experience, 32)
 		net.WriteInt(data.strength, 8)
 		net.WriteTable(self.equipped)
-		
+
 		net.WriteInt(self:getKills(), 16)
 		net.WriteString(self:getRank())
 	net.Broadcast()
@@ -74,10 +75,10 @@ function meta:loadClientside(ply)
 		net.WriteInt(data.experience, 32)
 		net.WriteInt(data.strength, 8)
 		net.WriteTable(ply.equipped)
-		
+
 		net.WriteInt(ply:getKills(), 16)
 		net.WriteString(ply:getRank())
-		
+
 		//net.WriteTable(ply.title or {})
 	net.Send(self)
 end
@@ -90,16 +91,19 @@ function meta:load()
 
 	//Load Player
 	self:loadPlayer()
-	
+
 	//Load Inventory and Equipped
 	self:loadInventory()
-	
+
 	//Load Bank
 	self:loadBank()
-	
+
+	//Load Quests
+	self:loadQuests()
+
 	//Load Titles
 	self:loadTitles()
-	
+
 	//Load existing players data to clientside
 	self:loadAllClientside()
 end
@@ -109,9 +113,9 @@ function meta:unload()
 	//Unload Player
 
 	//Unload Inventory
-	
+
 	//Unload Equipped
-	
+
 	//Unload Bank
 end
 

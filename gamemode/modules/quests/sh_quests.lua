@@ -1,4 +1,5 @@
 QUESTS = QUESTS or {}
+QUESTS.quests = QUESTS.quests or {}
 
 function addQuest(id, name, description, starter, preconditions, rewards, ...)
 	local args = {...}
@@ -23,7 +24,7 @@ function addQuest(id, name, description, starter, preconditions, rewards, ...)
 			tasks[count]["task"] = args[i]
 		end
 
-		QUESTS[id] = {
+		QUESTS.quests[id] = {
 			id = id,
 			name = name,
 			description = description,
@@ -35,7 +36,34 @@ function addQuest(id, name, description, starter, preconditions, rewards, ...)
 	end
 end
 
+function QUESTS:getName(id)
+	return self.quests[id].name
+end
+
+function QUESTS:getDescription(id)
+	return self.quests[id].description
+end
+
+function QUESTS:getTasks(questId)
+	return self.quests[questId].tasks
+end
+
+function QUESTS:getTaskProgress(questId, taskId)
+	return self:getTasks(questId)[taskId].task
+end
+
 // Add Quests Below Here
+addQuest(
+1,
+"To The Sanctuary",
+"Escape the vault and venture out to find The Sanctuary. Once you find it, look for the man named “Governor Eden/Locke/Beckman“",
+{npc = "npc_x"},
+{quests = {}, level = 1},
+{experience = 100, items = {[1001] = 5}},
+1,
+"Escape the Sanctuary"
+)
+
 addQuest(
 2,
 "Exploring the Town",
