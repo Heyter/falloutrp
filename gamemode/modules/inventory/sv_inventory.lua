@@ -10,11 +10,6 @@ util.AddNetworkString("depleteInventoryItem")
 local meta = FindMetaTable("Player")
 
 function meta:depleteInventoryItem(type, uniqueid, quantity)
-    print(self.inventory[type])
-    print(self.inventory[type][uniqueid])
-    print(type)
-    print(uniqueid)
-    print(quantity)
 	if self.inventory[type][uniqueid].equipped then
 		self:depleteEquipped(self.inventory[type][uniqueid])
 	end
