@@ -425,32 +425,6 @@ function VGUI:Init()
 		return element
 	end
 
-	/*
-	local rules_panel = function()
-
-		local element = vgui.Create( "pepboy_textlist", self.catL )
-		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
-		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
-		element:addListEntry( "1. Respect the admins" )
-		element:addListEntry( "2. No probclimbing" )
-		element:addListEntry( "3. No spamming" )
-
-		return element
-
-	end
-	*/
-
-	/*
-	local commands_panel = function()
-
-		local element = vgui.Create( "pepboy_textlist", self.catL )
-		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
-		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
-
-		return element
-	end
-	*/
-
 	local skills_panel = function()
 
 		local element = vgui.Create("pepboy_itemlist", self.catL)
@@ -849,9 +823,40 @@ function VGUI:Init()
 		return element
 	end
 
+	local quests_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catR )
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
+
+		if LocalPlayer().quests then
+			for k,v in pairs(LocalPlayer().quests) do
+				element:addItemListEntry({
+					label = QUESTS:getName(k),
+					desc = QUESTS:getDescription(k),
+					statsLarge = LocalPlayer():getQuestStats(k),
+					rightClickFunc = function()
+						local menu = vgui.Create("pepboy_rightclickbox", element)
+						menu:StoreItem(v)
+
+						if v.track then
+							menu:AddOptions({"Stop tracking quest"})
+						else
+							menu:AddOptions({"Track quest"})
+						end
+
+						menu:Open()
+					end
+				})
+			end
+		end
+
+		return element
+	end
+
 	self.catR:addBottom("Titles", titles_panel)
 	self.catR:addBottom("Map", map_panel)
 	self.catR:addBottom("Party", party_panel)
+	self.catR:addBottom("Quests", quests_panel)
 	self.catR:addBottom("Settings", settings_panel)
 
 	self.catR:makeLayout()
@@ -1557,6 +1562,12 @@ function VGUI:Init()
 
 				close()
 			end
+		end,
+		["Stop tracking quest"] = function()
+			self.item.track = false
+		end,
+		["Track quest"] = function()
+			self.item.track = true
 		end
 	}
 end
@@ -1623,6 +1634,7 @@ function VGUI:addItemListEntry( entry )
 	local rightClickFunc = entry.rightClickFunc or function() end
 	local disabledClickFunc = entry.disabledClickFunc or function() end
 	local stats = entry.stats or nil
+	local statsLarge = entry.statsLarge or nil
 	local itemIcon = entry.itemIcon or nil
 	local itemModel = entry.itemModel or nil
 	local inUse = entry.inUse or nil // Track whether the item is equipped or not
@@ -1634,6 +1646,7 @@ function VGUI:addItemListEntry( entry )
 		infoPanel:SetSize(PEPBOY_CONTENT_SIZE_X/2 + 50, PEPBOY_CONTENT_SIZE_Y)
 		infoPanel:setDesc(desc)
 		infoPanel:setStats(stats)
+		infoPanel:setStatsLarge(statsLarge)
 		infoPanel:setItemIcon(itemIcon)
 		if itemModel then
 			infoPanel:setIconModel(itemModel)
@@ -1862,6 +1875,25 @@ function VGUI:Paint( w, h )
 		self.textStart = self.textStart + 64
 	end
 
+	if self.statsLarge then
+		for k,v in pairs(self.statsLarge) do
+			// Allow multiple rows of stats
+			offsetY = (k - 1) * 50
+
+			surface.SetDrawColor( PEPBOY_COLOR )
+			surface.SetMaterial( matLine )
+			surface.DrawTexturedRect( 8, self.textStart - 20 + offsetY, ( w - PEPBOY_PADDING ), 4 )
+			surface.SetMaterial( matLineDashed )
+			surface.DrawTexturedRect( ( ( w - 4 - PEPBOY_PADDING )/2 + PEPBOY_PADDING ) + ( w - 4 - PEPBOY_PADDING )/2, self.textStart - 20 + offsetY, 4, 50 )
+
+			draw.SimpleText( v.key, "pepboy_27", 8, self.textStart - 20 + 50/2 + offsetY, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+
+			draw.SimpleText( v.val, "pepboy_27", ( ( w - 4 - PEPBOY_PADDING )/2 + PEPBOY_PADDING ) + ( w - 4 - PEPBOY_PADDING )/2 - 4, self.textStart - 20 + 50/2 + offsetY, PEPBOY_COLOR, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
+		end
+
+		self.textStart = self.textStart + 54 + offsetY
+	end
+
 	if self.stats then
 		for k, v in pairs(self.stats) do
 
@@ -1968,6 +2000,11 @@ function VGUI:setStats( t )
 	self.stats = t
 
 end
+
+function VGUI:setStatsLarge(stats)
+	self.statsLarge = stats
+end
+
 vgui.Register( "pepboy_itemlist_info", VGUI, "Panel" )
 
 

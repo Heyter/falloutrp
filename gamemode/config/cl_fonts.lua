@@ -57,3 +57,25 @@ surface.CreateFont("FalloutRPHUD1Blur", {
 	outline = false,
 	blursize = 5
 })
+
+surface.CreateFont("FalloutRPQuest1", {
+	font      = "Impact",
+	size      = 22,
+	weight    = 400,
+	underline = false,
+	italic = true,
+	additive  = false,
+	outline = false,
+	blursize = 0
+})
+
+surface.CreateFont("FalloutRPQuest2", {
+	font      = "Impact",
+	size      = 18,
+	weight    = 400,
+	underline = false,
+	italic = false,
+	additive  = false,
+	outline = false,
+	blursize = 0
+})

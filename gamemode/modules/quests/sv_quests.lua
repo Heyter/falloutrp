@@ -1,5 +1,6 @@
 
 util.AddNetworkString("loadQuests")
+util.AddNetworkString("updateQuest")
 
 function QUESTS:getSQLName(questId)
     return "quest" ..questId
@@ -23,16 +24,8 @@ end
 
 local meta = FindMetaTable("Player")
 
-function meta:hasQuest(id)
-    return self.quests and self.quests[id] != nil
-end
-
-function meta:isQuestComplete(id)
-    return self.quests and self.quests[id].completed
-end
-
 function meta:isQuestTaskComplete(questId, taskId)
-    local needed = QUESTS:getTaskProgress(questId, taskId)
+    local needed = QUESTS:getTaskProgressNeeded(questId, taskId)
 
     return self.quests and self.quests[questId] and (self.quests[questId].tasks[taskId] >= needed)
 end
@@ -60,9 +53,7 @@ function meta:acceptQuest(questId, taskId)
 
     local taskNames, taskValues = QUESTS:getSQLTasksNameValues(questId)
 
-    MySQLite.query("INSERT INTO " ..QUESTS:getSQLName(questId) .."(steamid, " ..taskNames .."completed) VALUES ('" ..self:SteamID() .."', " ..taskValues .." 0)", function()
-
-    end)
+    MySQLite.query("INSERT INTO " ..QUESTS:getSQLName(questId) .."(steamid, " ..taskNames .."completed) VALUES ('" ..self:SteamID() .."', " ..taskValues .." 0)")
 end
 
 function meta:loadQuestCount()
@@ -111,6 +102,9 @@ function meta:loadQuests()
     end
 end
 
-function meta:updateTask(quest, task, amount)
-
+function meta:updateQuest(questId)
+    net.Start("updateQuest")
+        net.WriteInt(questId, 16)
+        net.WriteTable(self.quests[questId])
+    net.Send(self)
 end

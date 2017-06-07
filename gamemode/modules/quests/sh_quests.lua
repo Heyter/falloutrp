@@ -1,6 +1,20 @@
 QUESTS = QUESTS or {}
 QUESTS.quests = QUESTS.quests or {}
 
+local meta = FindMetaTable("Player")
+
+function meta:hasQuest(id)
+    return self.quests and self.quests[id] != nil
+end
+
+function meta:isQuestComplete(id)
+    return self.quests and self.quests[id].completed
+end
+
+function meta:getTaskProgress(questId, taskId)
+	return self.quests[questId].tasks[taskId]
+end
+
 function addQuest(id, name, description, starter, preconditions, rewards, ...)
 	local args = {...}
 	local tasks = {}
@@ -48,7 +62,7 @@ function QUESTS:getTasks(questId)
 	return self.quests[questId].tasks
 end
 
-function QUESTS:getTaskProgress(questId, taskId)
+function QUESTS:getTaskProgressNeeded(questId, taskId)
 	return self:getTasks(questId)[taskId].task
 end
 
