@@ -1,5 +1,6 @@
 QUESTS = QUESTS or {}
 QUESTS.quests = QUESTS.quests or {}
+QUESTS.questGivers = QUESTS.questGivers or {}
 
 local meta = FindMetaTable("Player")
 
@@ -13,6 +14,22 @@ end
 
 function meta:getTaskProgress(questId, taskId)
 	return self.quests[questId].tasks[taskId]
+end
+
+function meta:metQuestPreconditions(id)
+    local conditions = QUESTS:getPreconditions(id)
+
+    if self:getLevel() < conditions.level then
+        return false
+    end
+
+    for k,v in pairs(conditions.quests) do
+        if !self:isQuestComplete(v) then
+            return false
+        end
+    end
+
+    return true
 end
 
 function addQuest(id, name, description, starter, preconditions, rewards, ...)
@@ -50,8 +67,22 @@ function addQuest(id, name, description, starter, preconditions, rewards, ...)
 	end
 end
 
+function addQuestGiver(name, position, angles, model, quests)
+    QUESTS.questGivers[name] = {
+        position = position,
+        angles = angles,
+        model = model,
+        quests = quests,
+        name = name
+    }
+end
+
 function QUESTS:getName(id)
 	return self.quests[id].name
+end
+
+function QUESTS:getPreconditions(id)
+    return self.quests[id].preconditions
 end
 
 function QUESTS:getDescription(id)
@@ -65,6 +96,19 @@ end
 function QUESTS:getTaskProgressNeeded(questId, taskId)
 	return self:getTasks(questId)[taskId].task
 end
+
+function QUESTS:getGiverQuests(name)
+    return self.questGivers[name].quests
+end
+
+// Add Questgivers below Here
+addQuestGiver(
+"Governor Dave",
+Vector(-9450.132813, 9965.731445, 0.031250),
+Angle(0, -90, 0),
+"models/humans/group01/male_04.mdl",
+{2}
+)
 
 // Add Quests Below Here
 addQuest(
