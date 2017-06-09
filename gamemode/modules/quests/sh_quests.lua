@@ -9,7 +9,7 @@ function meta:hasQuest(id)
 end
 
 function meta:isQuestComplete(id)
-    return self.quests and self.quests[id].completed
+    return self.quests and self.quests[id] and self.quests[id].completed
 end
 
 function meta:getTaskProgress(questId, taskId)
@@ -32,7 +32,23 @@ function meta:metQuestPreconditions(id)
     return true
 end
 
-function addQuest(id, name, description, starter, preconditions, rewards, ...)
+function meta:isQuestTaskComplete(questId, taskId)
+    local needed = QUESTS:getTaskProgressNeeded(questId, taskId)
+
+    return self.quests and self.quests[questId] and (self.quests[questId].tasks[taskId] >= needed)
+end
+
+function meta:finishedQuestTasks(questId)
+    for k,v in pairs(QUESTS:getTasks(questId)) do
+        if !self:isQuestTaskComplete(questId, k) then
+            return false
+        end
+    end
+
+    return true
+end
+
+function addQuest(id, name, description, starter, preconditions, rewards, removals, ...)
 	local args = {...}
 	local tasks = {}
 
@@ -62,6 +78,7 @@ function addQuest(id, name, description, starter, preconditions, rewards, ...)
 			start = start,
 			preconditions = preconditions,
 			rewards = rewards,
+            removals = removals,
 			tasks = tasks
 		}
 	end
@@ -83,6 +100,14 @@ end
 
 function QUESTS:getPreconditions(id)
     return self.quests[id].preconditions
+end
+
+function QUESTS:getRewards(id)
+    return self.quests[id].rewards
+end
+
+function QUESTS:getRemovals(id)
+    return self.quests[id].removals
 end
 
 function QUESTS:getDescription(id)
@@ -107,17 +132,18 @@ addQuestGiver(
 Vector(-9450.132813, 9965.731445, 0.031250),
 Angle(0, -90, 0),
 "models/humans/group01/male_04.mdl",
-{2}
+{1, 2}
 )
 
 // Add Quests Below Here
 addQuest(
 1,
 "To The Sanctuary",
-"Escape the vault and venture out to find The Sanctuary. Once you find it, look for the man named “Governor Eden/Locke/Beckman“",
+"Escape the vault and venture out to find The Sanctuary. Once you find it, look for the man named “Governor Dave“",
 {npc = "npc_x"},
 {quests = {}, level = 1},
 {experience = 100, items = {[1001] = 5}},
+nil,
 1,
 "Escape the Sanctuary"
 )
@@ -128,7 +154,8 @@ addQuest(
 "Welcome! I am x. This is The Sanctuary! Here you will find a variety of merchants and tool stations you will need on your adventures. Please go explore this town! Go talk to each merchant and then return to x.",
 {npc = "npc_x"},
 {quests = {1}, level = 1},
-{experience = 100, items = {[1001] = 5}},
+{experience = 100, items = {[1001] = 1}, caps = 1000},
+nil,
 1,
 "Talk to John",
 1,

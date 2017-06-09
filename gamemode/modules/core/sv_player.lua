@@ -18,6 +18,20 @@ function meta:postLoadPlayer()
 	self:SetTeam(self.playerData.faction)
 
 	self:Spawn()
+
+	if self.newPlayer then
+		self:newPlayerSpawn()
+	end
+end
+
+// Spawn in cave, accept first quest
+function meta:newPlayerSpawn()
+	timer.Simple(1, function()
+		self:SetPos(Vector(-8441, 14589, -310))
+		self:SetAngles(Angle(0, -110, 0))
+
+		self:acceptQuest(1)
+	end)
 end
 
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table

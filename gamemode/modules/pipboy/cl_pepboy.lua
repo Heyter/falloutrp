@@ -830,23 +830,25 @@ function VGUI:Init()
 
 		if LocalPlayer().quests then
 			for k,v in pairs(LocalPlayer().quests) do
-				element:addItemListEntry({
-					label = QUESTS:getName(k),
-					desc = QUESTS:getDescription(k),
-					statsLarge = LocalPlayer():getQuestStats(k),
-					rightClickFunc = function()
-						local menu = vgui.Create("pepboy_rightclickbox", element)
-						menu:StoreItem(v)
+				if !v.completed then
+					element:addItemListEntry({
+						label = QUESTS:getName(k),
+						desc = QUESTS:getDescription(k),
+						statsLarge = LocalPlayer():getQuestStats(k),
+						rightClickFunc = function()
+							local menu = vgui.Create("pepboy_rightclickbox", element)
+							menu:StoreItem(v)
 
-						if v.track then
-							menu:AddOptions({"Stop tracking quest"})
-						else
-							menu:AddOptions({"Track quest"})
+							if v.track then
+								menu:AddOptions({"Stop tracking quest"})
+							else
+								menu:AddOptions({"Track quest"})
+							end
+
+							menu:Open()
 						end
-
-						menu:Open()
-					end
-				})
+					})
+				end
 			end
 		end
 

@@ -234,7 +234,7 @@ function VGUI:Paint(w, h)
 	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
-function VGUI:SetItem(item, creation)
+function VGUI:SetItem(item, craftingCreated, questCreated)
 	local classid = item.classid
 
 	local name = getItemName(classid)
@@ -257,8 +257,10 @@ function VGUI:SetItem(item, creation)
 	if isWeapon(classid) then
 		// Draw different values depending if the item is created already or not
 		local dmg
-		if creation then
+		if craftingCreated then
 			dmg = "Damage: (" ..getWeaponMinDamage(classid) .."-" ..getWeaponMedianDamage(classid) ..")"
+		elseif questCreated then
+			dmg = "Damage: (" ..getWeaponMedianDamage(classid) .."-" ..getWeaponMaxDamage(classid) ..")"
 		else
 			dmg = "Damage: " ..item.damage
 		end
@@ -285,10 +287,14 @@ function VGUI:SetItem(item, creation)
 	if isApparel(classid) then
 		// Draw different values depending if the item is created already or not
 		local dt, dr, hp
-		if creation then
+		if craftingCreated then
 			dt = "Dmg Threshold: (" ..getApparelMinDamageThreshold(classid) .."-" ..getApparelMedianDamageThreshold(classid) .."%)"
 			dr = "Dmg Reflect: (" ..getApparelMinDamageReflection(classid) .."-" ..getApparelMedianDamageReflection(classid) .."%)"
 			hp = "Bonus HP: (" ..getApparelMinBonusHp(classid) .."-" ..getApparelMedianBonusHp(classid) .."%)"
+		elseif questCreated then
+			dt = "Dmg Threshold: (" ..getApparelMedianDamageThreshold(classid) .."-" ..getApparelMaxDamageThreshold(classid) .."%)"
+			dr = "Dmg Reflect: (" ..getApparelMedianDamageReflection(classid) .."-" ..getApparelMaxDamageReflection(classid) .."%)"
+			hp = "Bonus HP: (" ..getApparelMedianBonusHp(classid) .."-" ..getApparelMaxBonusHp(classid) .."%)"
 		else
 			dt = "Dmg Threshold: " ..item.damageThreshold .."%"
 			dr = "Dmg Reflect: " ..item.damageReflection .."%"
