@@ -3,11 +3,25 @@ util.AddNetworkString("loadQuests")
 util.AddNetworkString("updateQuest")
 util.AddNetworkString("openQuestMenu")
 util.AddNetworkString("acceptQuest")
+util.AddNetworkString("completeQuest")
+util.AddNetworkString("returnQuestMaterials")
 
 net.Receive("acceptQuest", function(len, ply)
     local questId = net.ReadInt(16)
 
     ply:acceptQuest(questId)
+end)
+
+net.Receive("completeQuest", function(len, ply)
+    local questId = net.ReadInt(16)
+
+    ply:completeQuest(questId)
+end)
+
+net.Receive("returnQuestMaterials", function(len, ply)
+    local questId = net.ReadInt(16)
+
+    ply:returnQuestMaterials(questId)
 end)
 
 function QUESTS:spawnQuestGivers()
@@ -44,12 +58,6 @@ end
 
 local meta = FindMetaTable("Player")
 
-function meta:isQuestTaskComplete(questId, taskId)
-    local needed = QUESTS:getTaskProgressNeeded(questId, taskId)
-
-    return self.quests and self.quests[questId] and (self.quests[questId].tasks[taskId] >= needed)
-end
-
 function meta:addQuestProgress(questId, taskId, progress)
     if !self:hasQuest(questId) then return end
     if self:isQuestTaskComplete(questId, taskId)  then return end
@@ -57,6 +65,54 @@ function meta:addQuestProgress(questId, taskId, progress)
     self.quests[questId].tasks[taskId] = self.quests[questId].tasks[taskId] + progress
 
     MySQLite.query("UPDATE " ..QUESTS:getSQLName(questId) .." SET " ..QUESTS:getSQLTask(taskId) .." = " ..self.quests[questId].tasks[taskId] .." WHERE steamid = '" ..self:SteamID() .."'")
+
+    self:updateQuest(questId)
+
+    self:notify("Task progress updated.", NOTIFY_GENERIC)
+end
+
+function meta:returnQuestMaterials(questId)
+    local removals = QUESTS:getRemovals(questId)
+    local returnedSome = false
+
+    for k,v in pairs(removals) do
+        local taskId = v[1]
+
+        if self:isQuestTaskComplete(questId, taskId) then
+            continue
+        end
+
+        local uniqueid = self:hasInventoryItem(classidToStringType(k), k)
+        local invItem = self:getInventoryItem(uniqueid, k)
+
+        local progressGained = 0
+
+        if invItem then
+            invItem.quantity = invItem.quantity or 1
+
+            local has = self:getTaskProgress(questId, taskId)
+            local need = QUESTS:getTaskProgressNeeded(questId, taskId)
+            local togo = need - has
+
+            if invItem.quantity >= togo then
+                self:depleteInventoryItem(classidToStringType(k), uniqueid, togo)
+                progressGained = togo
+            else
+                self:depleteInventoryItem(classidToStringType(k), uniqueid, invItem.quantity)
+                progressGained = invItem.quantity
+            end
+
+            self:addQuestProgress(questId, taskId, progressGained)
+
+            returnedSome = true
+        end
+    end
+
+    if returnedSome then
+        self:notify("You have returned some items.", NOTIFY_GENERIC)
+    else
+        self:notify("You have no items to return.", NOTIFY_ERROR)
+    end
 end
 
 function meta:acceptQuest(questId)
@@ -80,6 +136,48 @@ function meta:acceptQuest(questId)
     self:updateQuest(questId)
 
     self:notify("You have accepted " ..QUESTS:getName(questId), NOTIFY_GENERIC)
+end
+
+function meta:completeQuest(questId)
+    // Check finished all tasks
+    if !self:finishedQuestTasks(questId) then return end
+
+    // Check has space for reward items
+    local rewards = QUESTS:getRewards(questId)
+    if rewards.items then
+        local weight = 0
+
+        for k,v in pairs(rewards.items) do
+            local itemWeight = getItemWeight(k) * v
+
+            weight = weight + itemWeight
+
+            if weight + self:getInventoryWeight() > self:getMaxInventory() then
+                self:notify("You don't have enough space for your rewards.", NOTIFY_ERROR, 5)
+                return
+            end
+        end
+    end
+
+    if rewards.items then
+        for k,v in pairs(rewards.items) do
+            self:pickUpItem(createItem(k, v, false, true), v)
+        end
+    end
+    if rewards.experience then
+        self:addExp(rewards.experience)
+    end
+    if rewards.caps then
+        self:addCaps(rewards.caps)
+    end
+
+    self.quests[questId].completed = true
+
+    self:updateQuest(questId)
+
+    MySQLite.query("UPDATE " ..QUESTS:getSQLName(questId) .." SET completed = 1 WHERE steamid = '" ..self:SteamID() .."'")
+
+    self:notify("You have completed " ..QUESTS:getName(questId) .."!", NOTIFY_GENERIC)
 end
 
 function meta:loadQuestCount()
