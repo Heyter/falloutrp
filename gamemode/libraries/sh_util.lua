@@ -97,4 +97,27 @@ if CLIENT then
 	function util.getPepboyColor()
 		return Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 255)
 	end
+
+	function util.textWrap(text, size, font)
+	  surface.SetFont(font)
+
+	  local splitText = string.Split(text, " ")
+	  local wrappedText = ""
+
+	  local newLine = ""
+	  for i = 1, #splitText do
+	    local temp = "" ..newLine ..splitText[i]
+
+	    if surface.GetTextSize(temp) > size then
+	      wrappedText = wrappedText ..newLine .."\n"
+	      newLine = "" ..splitText[i]
+	    else
+	      newLine = newLine .." " ..splitText[i]
+	    end
+	  end
+
+	  wrappedText = string.Trim(wrappedText ..newLine, " ")
+
+	  return wrappedText
+	end
 end

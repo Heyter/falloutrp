@@ -1,6 +1,26 @@
 
 util.AddNetworkString("loadQuests")
 util.AddNetworkString("updateQuest")
+util.AddNetworkString("openQuestMenu")
+util.AddNetworkString("acceptQuest")
+
+net.Receive("acceptQuest", function(len, ply)
+    local questId = net.ReadInt(16)
+
+    ply:acceptQuest(questId)
+end)
+
+function QUESTS:spawnQuestGivers()
+    for k,v in pairs(self.questGivers) do
+        local giver = ents.Create("questgiver")
+        giver:SetPos(v.position)
+        giver:SetAngles(v.angles)
+        giver:Spawn()
+        giver:SetModel(v.model)
+        giver:SetNickname(v.name)
+        giver:DropToFloor()
+    end
+end
 
 function QUESTS:getSQLName(questId)
     return "quest" ..questId
@@ -39,7 +59,7 @@ function meta:addQuestProgress(questId, taskId, progress)
     MySQLite.query("UPDATE " ..QUESTS:getSQLName(questId) .." SET " ..QUESTS:getSQLTask(taskId) .." = " ..self.quests[questId].tasks[taskId] .." WHERE steamid = '" ..self:SteamID() .."'")
 end
 
-function meta:acceptQuest(questId, taskId)
+function meta:acceptQuest(questId)
     if self:hasQuest(questId) then return end
 
     self.quests[questId] = {
@@ -50,10 +70,16 @@ function meta:acceptQuest(questId, taskId)
     for i = 1, #QUESTS:getTasks(questId) do
         self.quests[questId].tasks[i] = 0
     end
+    // Not needed on the server side, but easier track accepted quests by default and send to client in update
+    self.quests[questId].track = true
 
     local taskNames, taskValues = QUESTS:getSQLTasksNameValues(questId)
 
     MySQLite.query("INSERT INTO " ..QUESTS:getSQLName(questId) .."(steamid, " ..taskNames .."completed) VALUES ('" ..self:SteamID() .."', " ..taskValues .." 0)")
+
+    self:updateQuest(questId)
+
+    self:notify("You have accepted " ..QUESTS:getName(questId), NOTIFY_GENERIC)
 end
 
 function meta:loadQuestCount()
@@ -108,3 +134,7 @@ function meta:updateQuest(questId)
         net.WriteTable(self.quests[questId])
     net.Send(self)
 end
+
+hook.Add("InitPostEntity", "spawnQuestGivers", function()
+    QUESTS:spawnQuestGivers()
+end)
