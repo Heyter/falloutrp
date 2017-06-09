@@ -3,20 +3,20 @@ util.AddNetworkString("useAid")
 
 local meta = FindMetaTable("Player")
 
-function createAid(item, quantity, useBase)
+function createAid(item, quantity)
 	item.quantity = quantity or 1
-	
+
 	return item
 end
 
 function meta:addHealth(health)
 	local currentHp = self:Health()
-	
+
 	if currentHp + health > self:getMaxHealth() then
 		self:SetHealth(self:getMaxHealth())
 	else
 		self:SetHealth(currentHp + health)
-		
+
 		// Kill the player if they go below 0 health
 		if self:Health() <= 0 then
 			self:Kill()
@@ -30,7 +30,7 @@ function meta:addHealthOverTime(health, timeInterval, timeLength)
 	end
 
 	local healthInterval = health / (timeLength / timeInterval)
-	
+
 	timer.Create("healthOverTime" ..self:EntIndex(), timeInterval, (timeLength / 2), function()
 		if IsValid(self) then
 			self:addHealth(healthInterval)
@@ -46,7 +46,7 @@ function meta:doAidFunction(classid)
 	local timeLength = getAidTimeLength(classid)
 	local hunger = getAidHunger(classid)
 	local thirst = getAidThirst(classid)
-	
+
 	if util.positive(time) then
 		if util.positive(healthPercent) then
 			self:addHealthOverTime((healthPercent/100) * self:getMaxHealth(), time)
@@ -84,7 +84,7 @@ function meta:useAid(uniqueid, classid, quantity)
 
 		// Do the function associated with the aid
 		self:doAidFunction(classid)
-				
+
 		//Update client
 		net.Start("useAid")
 			net.WriteInt(uniqueid, 32)
