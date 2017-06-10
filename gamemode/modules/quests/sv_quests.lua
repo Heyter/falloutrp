@@ -135,7 +135,7 @@ function meta:acceptQuest(questId)
 
     self:updateQuest(questId)
 
-    self:notify("You have accepted " ..QUESTS:getName(questId), NOTIFY_GENERIC)
+    self:notify("You have accepted " ..QUESTS:getName(questId), NOTIFY_GENERIC, 10)
 end
 
 function meta:completeQuest(questId)
@@ -178,6 +178,8 @@ function meta:completeQuest(questId)
     MySQLite.query("UPDATE " ..QUESTS:getSQLName(questId) .." SET completed = 1 WHERE steamid = '" ..self:SteamID() .."'")
 
     self:notify("You have completed " ..QUESTS:getName(questId) .."!", NOTIFY_GENERIC)
+
+    hook.Call("QuestCompleted", GAMEMODE, self, questId)
 end
 
 function meta:loadQuestCount()

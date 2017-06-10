@@ -2,6 +2,7 @@
 util.AddNetworkString("loadPlayerData")
 util.AddNetworkString("loadPlayerDataFinish")
 util.AddNetworkString("loadClientside")
+util.AddNetworkString("revealWorld")
 
 local meta = FindMetaTable("Player")
 
@@ -28,9 +29,13 @@ end
 function meta:newPlayerSpawn()
 	timer.Simple(1, function()
 		self:SetPos(Vector(-8441, 14589, -310))
-		self:SetAngles(Angle(0, -110, 0))
+		self:SetEyeAngles(Angle(2, -90, 0))
 
+		self.newPlayer = false
 		self:acceptQuest(1)
+
+		net.Start("revealWorld")
+		net.Send(self)
 	end)
 end
 

@@ -80,3 +80,25 @@ net.Receive("sendClientside", function()
 		ply.playerData.rank = rank
 	end
 end)
+
+net.Receive("revealWorld", function()
+	LocalPlayer().hideWorld = false
+end)
+
+local blur = Material("pp/blurscreen")
+local blurAmount = 5
+
+hook.Add("HUDPaint", "LoadingBackground", function()
+	if LocalPlayer().hideWorld or !LocalPlayer().playerData then
+		surface.SetDrawColor(Color(255, 255, 255, 255))
+		surface.SetMaterial(blur)
+		for i = 1, 3 do
+			blur:SetFloat("$blur", (i / 3) * (blurAmount))
+			blur:Recompute()
+			render.UpdateScreenEffectTexture()
+			surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
+		end
+
+		draw.RoundedBox(0, 0, 0, ScrW(), ScrH(), Color(45, 25, 10, 253))
+	end
+end)
