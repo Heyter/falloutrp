@@ -145,7 +145,7 @@ addQuest(
 {experience = 100, items = {[1001] = 5}},
 nil,
 1,
-"Escape the Sanctuary"
+"Find the Sanctuary"
 )
 
 addQuest(
