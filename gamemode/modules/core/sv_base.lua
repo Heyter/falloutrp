@@ -66,7 +66,11 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				if damageType == DMG_SLASH then
 					attacker:bleedAttack(target, damage)
 				end
+			elseif target:IsNPC() then
+				npcOutOfRange(target, attacker)
 			end
+		elseif attacker:IsNPC() then
+			attacker.lastHit = CurTime()
 		end
 
 		dmgInfo:SetDamage(damage)

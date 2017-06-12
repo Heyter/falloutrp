@@ -1,5 +1,4 @@
 
-// Server
 hook.Add("OnNPCKilled", "restoreNpcPosition", function(npc, attacker, inflictor)
 	if npc.key then
 		NPCS[npc:GetClass()]["Positions"][npc.key]["Active"] = false
@@ -65,8 +64,38 @@ local function getNpcLimit(type)
 	return NPCS[type]["Limit"]
 end
 
-function getNpcHealth(type)
-	return NPCS[type]["Health"] or 100
+function npcOutOfRange(npc, ply)
+	if !IsValid(npc) or !IsValid(ply) then return end
+
+	local recheck = NPCS.regenChecker
+
+	if npc.lastHit and npc.lastHit + recheck > CurTime() then return end
+	if npc.lastRangeTest and npc.lastRangeTest + recheck > CurTime() then return end
+
+	npc.lastRangeTest = CurTime()
+
+	local trace = {
+		start = util.getFeetPosition(npc),
+		endpos = ply:GetShootPos() - Vector(0, 0, 10),
+		filter = npc
+	}
+
+	local result = util.TraceLine(trace)
+
+	if result.Entity != ply then
+		local maxHealth = getNpcHealth(npc:GetClass())
+
+		// If it's a fallout configured npc
+		if maxHealth != 100 then
+			local regen = maxHealth * NPCS.regenPercentage
+
+			if npc:Health() + regen > maxHealth then
+				npc:SetHealth(maxHealth)
+			else
+				npc:SetHealth(npc:Health() + regen)
+			end
+		end
+	end
 end
 
 function spawnNpc(npc, inactiveNpcs)
