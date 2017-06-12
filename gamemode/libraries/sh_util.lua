@@ -8,6 +8,23 @@ function util.boolToNumber(bool)
 	end
 end
 
+// Get the position of an entity's 'foot'
+function util.getFeetPosition(ent)
+	local trace = util.traceDown(ent)
+
+	return trace and trace.HitPos
+end
+
+// Run a trace from the player directly down, to see what they're standing on
+function util.traceDown(ent)
+	local data = {
+		start = ent:GetPos(),
+		endpos = ent:GetPos() - Vector(0, 0, 150)
+	}
+
+	return util.TraceLine(data)
+end
+
 // Checks if a string has invalid characters
 function util.hasInvalidChars(name)
 	if name then

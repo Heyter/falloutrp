@@ -1,6 +1,6 @@
 
 // NPC Config
-NPCS = {
+NPCS = NPCS or {
 	// Level 1-15 NPCs
 	["npc_giantrat"] = {
 		Name = "Giant Rat",
@@ -12,9 +12,9 @@ NPCS = {
 		Experience = 45,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
-			[5042] = {quantity = {1, 2}, prob = 80},	
-			[5045] = {quantity = {1, 1}, prob = 40},	
-		},				
+			[5042] = {quantity = {1, 2}, prob = 80},
+			[5045] = {quantity = {1, 1}, prob = 40},
+		},
 		Positions = {
 			{Position = Vector(-5150, 13443, 53), Active = false},
 			{Position = Vector(-5283, 13730, 67), Active = false},
@@ -93,9 +93,9 @@ NPCS = {
 			{Position = Vector(-4376, 5790, 25), Active = false},
 			{Position = Vector(-4572, 5773, 26), Active = false},
 			{Position = Vector(-4582, 6014, 25), Active = false},
-			{Position = Vector(-4573, 6211, 25), Active = false},	
+			{Position = Vector(-4573, 6211, 25), Active = false},
 		},
-	},	
+	},
 	["npc_mantis_nymph"] = {
 		Name = "Mantis Nymph",
 		Level = 15,
@@ -106,7 +106,7 @@ NPCS = {
 		Experience = 50,
 		Loot = {
 			[5046] = {quantity = {1, 3}, prob = 80},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-6158, 7392, 30), Active = false},
 			{Position = Vector(-7071, 7225, 68), Active = false},
@@ -134,7 +134,7 @@ NPCS = {
 			{Position = Vector(-801, 11621, 34), Active = false},
 			{Position = Vector(-779, 11021, 32), Active = false},
 		},
-	},	
+	},
 	["npc_mantis"] = {
 		Name = "Mantis",
 		Level = 15,
@@ -145,7 +145,7 @@ NPCS = {
 		Experience = 60,
 		Loot = {
 			[5046] = {quantity = {1, 5}, prob = 80},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-3069, 9229, 36), Active = false},
 			{Position = Vector(-2957, 9009, 45), Active = false},
@@ -194,7 +194,7 @@ NPCS = {
 			{Position = Vector(-5209, 6736, 27), Active = false},
 			{Position = Vector(-5185, 5841, 26), Active = false},
 		},
-	},	
+	},
 	["npc_gecko"] = {
 		Name = "Gecko",
 		Level = 15,
@@ -211,7 +211,7 @@ NPCS = {
 			[5045] = {quantity = {1, 4}, prob = 80},
 			[5028] = {quantity = {1, 2}, prob = 10},
 			[5041] = {quantity = {1, 1}, prob = 5},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-9241, 6978, 25), Active = false},
 			{Position = Vector(-9116, 6823, 26), Active = false},
@@ -277,7 +277,7 @@ NPCS = {
 			{Position = Vector(-2546, 5133, 125), Active = false},
 			{Position = Vector(-2739, 5247, 114), Active = false},
 		},
-	},	
+	},
 	["npc_streettrog"] = {
 		Name = "Trog",
 		Level = 15,
@@ -303,7 +303,7 @@ NPCS = {
 			[5031] = {quantity = {1, 1}, prob = 5},
 			[5037] = {quantity = {1, 1}, prob = 3},
 			[5038] = {quantity = {1, 1}, prob = 3},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-13258, 2725, 66), Active = false},
 			{Position = Vector(-13400, 2866, 45), Active = false},
@@ -362,9 +362,9 @@ NPCS = {
 			{Position = Vector(-1980, 4472, 95), Active = false},
 			{Position = Vector(-12957, 238, 218), Active = false},
 			{Position = Vector(-11618, 231, 117), Active = false},
-			{Position = Vector(-11165, 147, 143), Active = false},	
+			{Position = Vector(-11165, 147, 143), Active = false},
 		},
-	},	
+	},
 	["npc_mirelurk"] = {
 		Name = "Mirelurk",
 		Level = 15,
@@ -377,7 +377,7 @@ NPCS = {
 			[5028] = {quantity = {1, 10}, prob = 70},
 			[5042] = {quantity = {1, 8}, prob = 80},
 			[5046] = {quantity = {1, 5}, prob = 60},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-6052, -95, -213), Active = false},
 			{Position = Vector(-6617, -206, -210), Active = false},
@@ -410,10 +410,10 @@ NPCS = {
 			{Position = Vector(-5122, -1952, 23), Active = false},
 			{Position = Vector(-6601, 1219, -262), Active = false},
 		},
-	},	
-	
+	},
+
 	// Level 15-30 NPCs
-	
+
 	["npc_cazador"] = {
 		Name = "Cazador",
 		Level = 30,
@@ -425,7 +425,7 @@ NPCS = {
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5043] = {quantity = {1, 3}, prob = 80},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-8569, -2926, 28), Active = false},
 			{Position = Vector(-8355, -3779, 26), Active = false},
@@ -513,7 +513,7 @@ NPCS = {
 			{Position = Vector(-3409, 316, 173), Active = false},
 			{Position = Vector(-3923, -1140, 49), Active = false},
 		},
-	},	
+	},
 	["npc_sporecarrier"] = {
 		Name = "Spore Carrier",
 		Level = 30,
@@ -531,7 +531,7 @@ NPCS = {
 			[4004] = {quantity = {1, 2}, prob = 6},
 			[5046] = {quantity = {1, 5}, prob = 50},
 			[5044] = {quantity = {1, 2}, prob = 25},
-		},				
+		},
 		Positions = {
 			{Position = Vector(4904, -11538, 28), Active = false},
 			{Position = Vector(4858, -11320, 27), Active = false},
@@ -564,7 +564,7 @@ NPCS = {
 			{Position = Vector(13387, -844, 31), Active = false},
 			{Position = Vector(13285, -1941, 33), Active = false},
 		},
-	},	
+	},
 	["npc_ghoulferal_swamp"] = {
 		Name = "Swamp Ghoul",
 		Level = 30,
@@ -582,7 +582,7 @@ NPCS = {
 			[4004] = {quantity = {1, 2}, prob = 6},
 			[5046] = {quantity = {1, 5}, prob = 50},
 			[5044] = {quantity = {1, 2}, prob = 25},
-		},				
+		},
 		Positions = {
 			{Position = Vector(10886, 4389, 37), Active = false},
 			{Position = Vector(10641, 4118, 72), Active = false},
@@ -611,7 +611,7 @@ NPCS = {
 			{Position = Vector(7642, 9407, 37), Active = false},
 			{Position = Vector(7383, 8473, 158), Active = false},
 		},
-	},	
+	},
 	["npc_ghoulferal"] = {
 		Name = "Ghoul",
 		Level = 30,
@@ -637,7 +637,7 @@ NPCS = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-10813, -11280, 25), Active = false},
 			{Position = Vector(-10378, -11236, 29), Active = false},
@@ -739,7 +739,7 @@ NPCS = {
 			{Position = Vector(7786, -11194, 27), Active = false},
 			{Position = Vector(7157, -12524, 27), Active = false},
 		},
-	},	
+	},
 	["npc_ghoulferal_reaver"] = {
 		Name = "Ghoul Reaver",
 		Level = 30,
@@ -766,7 +766,7 @@ NPCS = {
 			[5036] = {quantity = {1, 1}, prob = 3},
 			[5031] = {quantity = {1, 1}, prob = 7},
 			[5030] = {quantity = {1, 2}, prob = 9},
-		},				
+		},
 		Positions = {
 			{Position = Vector(-7709, -13306, 40), Active = false},
 			{Position = Vector(-6903, -13280, 44), Active = false},
@@ -793,7 +793,7 @@ NPCS = {
 			{Position = Vector(3993, -8689, 27), Active = false},
 			{Position = Vector(8279, -8402, 27), Active = false},
 		},
-	},	
+	},
 	["npc_ghoulferal_roamer"] = {
 		Name = "Ghoul Roamer",
 		Level = 30,
@@ -820,7 +820,7 @@ NPCS = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
-		},				
+		},
 		Positions = {
 			{Position = Vector(10532, -10547, 41), Active = false},
 			{Position = Vector(9654, -10547, 41), Active = false},
@@ -949,7 +949,7 @@ NPCS = {
 			{Position = Vector(1285, 12005, 33), Active = false},
 			{Position = Vector(2647, 13343, 64), Active = false},
 		},
-	},		
+	},
 	["npc_gecko_green"] = {
 		Name = "Green Gecko",
 		Level = 30,
@@ -966,7 +966,7 @@ NPCS = {
 			[5039] = {quantity = {1, 1}, prob = 6}, //Crystal shard
 			[5032] = {quantity = {1, 1}, prob = 4}, //Crystal
 			[5041] = {quantity = {1, 2}, prob = 12}, //Claw
-		},				
+		},
 		Positions = {
 			{Position = Vector(4386, 4300, 30), Active = false},
 			{Position = Vector(3698, 3274, 26), Active = false},
@@ -1006,7 +1006,7 @@ NPCS = {
 			{Position = Vector(8086, 3949, 25), Active = false},
 			{Position = Vector(5638, 5002, 22), Active = false},
 		},
-	},	
+	},
 	["npc_nukalurk"] = {
 		Name = "Nukalurk",
 		Level = 30,
@@ -1020,7 +1020,7 @@ NPCS = {
 			[5034] = {quantity = {1, 1}, prob = 25}, //Sheet metal
 			[5014] = {quantity = {1, 4}, prob = 60}, //Scrap metal
 			[5032] = {quantity = {1, 2}, prob = 50}, //Crystal
-		},				
+		},
 		Positions = {
 			{Position = Vector(9620, 3571, 60), Active = false},
 			{Position = Vector(11056, 1895, 58), Active = false},
@@ -1048,7 +1048,7 @@ NPCS = {
 			{Position = Vector(7087, 3623, -3), Active = false},
 			{Position = Vector(13174, -5392, 344), Active = false},
 		},
-	},	
+	},
 	["npc_swamplurk"] = {
 		Name = "Swamplurk",
 		Level = 30,
@@ -1063,7 +1063,7 @@ NPCS = {
 			[5046] = {quantity = {1, 15}, prob = 40}, //Sage
 			[4001] = {quantity = {1, 2}, prob = 30}, //Stimpack
 			[4008] = {quantity = {1, 4}, prob = 30}, //Water melon
-		},				
+		},
 		Positions = {
 			{Position = Vector(9370, 8486, -482), Active = false},
 			{Position = Vector(10821, 8986, -367), Active = false},
@@ -1078,10 +1078,10 @@ NPCS = {
 			{Position = Vector(3298, 8721, 39), Active = false},
 			{Position = Vector(7471, 7725, 23), Active = false},
 		},
-	},	
-	
+	},
+
 	// Level 30-50 NPCs
-	
+
 	["npc_gecko_fire"] = {
 		Name = "Fire Gecko",
 		Level = 50,
@@ -1095,7 +1095,7 @@ NPCS = {
 			[5043] = {quantity = {1, 8}, prob = 90},
 			[5032] = {quantity = {1, 2}, prob = 50}, //Crystal
 			[5040] = {quantity = {1, 1}, prob = 25}, //Plasma
-		},				
+		},
 		Positions = {
 			{Position = Vector(8772, 12064, 33), Active = false},
 			{Position = Vector(9796, 12493, 27), Active = false},
@@ -1121,7 +1121,7 @@ NPCS = {
 			{Position = Vector(2600, 7469, 34), Active = false},
 			{Position = Vector(10482, 13537, 25), Active = false},
 		},
-	},	
+	},
 	/*
 	["npc_magmalurk"] = {
 		Name = "Magma Lurk",
@@ -1131,10 +1131,10 @@ NPCS = {
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 45,
 		Loot = {
-		},				
+		},
 		Positions = {
 		},
-	},	
+	},
 	*/
 	["npc_deathclaw"] = {
 		Name = "Deathclaw",
@@ -1153,7 +1153,7 @@ NPCS = {
 			[5036] = {quantity = {1, 1}, prob = 8}, //Holo disk
 			[5031] = {quantity = {1, 2}, prob = 12}, //Gold
 			[5030] = {quantity = {1, 2}, prob = 14}, //Silver
-		},				
+		},
 		Positions = {
 			{Position = Vector(10702, 12440, 26), Active = false},
 			{Position = Vector(11426, 13059, 28), Active = false},
@@ -1204,7 +1204,7 @@ NPCS = {
 			{Position = Vector(7503, -886, 25), Active = false},
 			{Position = Vector(5756, 7645, 37), Active = false},
 		},
-	},	
+	},
 	["npc_deathclaw_alphamale"] = {
 		Name = "Deathclaw Alphamale",
 		Level = 50,
@@ -1222,7 +1222,7 @@ NPCS = {
 			[5036] = {quantity = {1, 1}, prob = 15}, //Holo disk
 			[5031] = {quantity = {1, 2}, prob = 30}, //Gold
 			[5030] = {quantity = {1, 2}, prob = 35}, //Silver
-		},				
+		},
 		Positions = {
 			{Position = Vector(7127, 10839, 41), Active = false},
 			{Position = Vector(9098, 10883, 46), Active = false},
@@ -1233,8 +1233,11 @@ NPCS = {
 			{Position = Vector(11184, 5249, 209), Active = false},
 			{Position = Vector(7268, 5287, 35), Active = false},
 		},
-	},	
+	},
 }
+
+NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack
+NPCS.regenChecker = 5 // How often an evaded show it tracked
 
 function getNpcExp(type)
 	return (NPCS[type] and NPCS[type]["Experience"]) or 100
