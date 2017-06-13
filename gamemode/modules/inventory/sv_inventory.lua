@@ -58,7 +58,9 @@ function meta:dropAllInventory()
 	for type, items in pairs(self.inventory) do
 		for uniqueid, item in pairs(items) do
 			MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
-			table.insert(loot, item)
+			if !isQuestItem(item.classid) then
+				table.insert(loot, item)
+			end
 			self.inventory[type][uniqueid] = nil
 		end
 	end
@@ -131,6 +133,11 @@ end
 
 function meta:dropItem(uniqueid, classid, quantity)
 	local itemType = classidToStringType(classid)
+
+	if isQuestItem(classid) then
+		self:notify("You cannot drop a quest item", NOTIFY_ERROR)
+		return
+	end
 
 	// Store the item temp so we can drop it
 	local item = table.Copy(self.inventory[itemType][uniqueid])
