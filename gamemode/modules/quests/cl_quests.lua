@@ -391,13 +391,13 @@ hook.Add("HUDPaint", "questTracker", function()
                 local offset = 15
 
                 // Quest Name
-                draw.SimpleText(QUESTS:getName(k), "FalloutRPQuest1", ScrW() - 200, offset, color, false, 0)
+                draw.SimpleText(QUESTS:getName(k), "FalloutRPQuest1", ScrW() - 250, offset, color, false, 0)
 
                 // Quest Tasks
                 for k,v in pairs(LocalPlayer():getQuestStats(k)) do
                     offset = offset + 25
 
-                    draw.SimpleText(v.key .." " ..v.val, "FalloutRPQuest2", ScrW() - 180, offset, COLOR_WHITE, false, 0)
+                    draw.SimpleText(v.key .." " ..v.val, "FalloutRPQuest2", ScrW() - 230, offset, COLOR_WHITE, false, 0)
                 end
 
             end

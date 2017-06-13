@@ -37,7 +37,7 @@ MERCHANTS = {
 					{time = 300, uniqueid = -5, quantity = 5, price = 400, classid = 4012},
 					{time = 300, uniqueid = -6, quantity = 1, price = 5000, classid = 4003},
 				},
-			},	
+			},
 		},
 	},
 	["Sky"] = {
@@ -55,7 +55,7 @@ MERCHANTS = {
 					{time = 300, uniqueid = -4, quantity = 1, price = 3600, classid = 2044},
 					{time = 300, uniqueid = -5, quantity = 1, price = 3300, classid = 2045},
 				},
-			},	
+			},
 		},
 	},
 	["Samantha"] = {
@@ -91,13 +91,14 @@ function initializeMerchantItems()
 	for merchant, info in pairs(MERCHANTS) do
 		for k, itemInfo in pairs(info.Sale) do
 			for a, item in ipairs(itemInfo.ItemsMimic) do
+				print(item.classid)
 				local newItem = createItem(item.classid, item.quantity, true)
 				newItem.uniqueid = item.uniqueid
 				newItem.price = item.price
 				newItem.quantity = item.quantity
-				
+
 				table.insert(MERCHANTS[merchant]["Sale"][k]["Items"], newItem)
-				
+
 				restock(merchant, k, a, item.time)
 			end
 		end

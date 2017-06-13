@@ -16,28 +16,28 @@ end
 
 local function giveStartingWeapons(ply)
 	timer.Simple(1, function()
-		ply:pickUpItem(createItem(1015, 1, true), 1) // Machete
+		ply:pickUpItem(createItem(1023, 1, true), 1) // Lead Pipe
 	end)
 	timer.Simple(2, function()
-		ply:pickUpItem(createItem(3017, 60, true), 60) // Maria Ammo
+		ply:pickUpItem(createItem(2018, 1, true), 1) // Green Rags
 	end)
 	timer.Simple(3, function()
-		ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
+		ply:pickUpItem(createItem(2030, 1, true), 1) // Raggedy Green Slacks
 	end)
 	timer.Simple(4, function()
-		ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
+		ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
 	end)
 	timer.Simple(5, function()
-		ply:pickUpItem(createItem(5033, 10, true), 10) // Wooden sticks
+		ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
 	end)
 	timer.Simple(6, function()
-		ply:pickUpItem(createItem(5044, 10, true), 10) // Cotton
+		ply:pickUpItem(createItem(5033, 10, true), 5) // Wooden sticks
 	end)
 	timer.Simple(7, function()
-		ply:pickUpItem(createItem(4001, 2, true), 2) // Stimpack
+		ply:pickUpItem(createItem(5044, 10, true), 5) // Cotton
 	end)
 	timer.Simple(8, function()
-		ply:pickUpItem(createItem(1044, 1, true), 1) // Maria
+		ply:pickUpItem(createItem(4001, 2, true), 2) // Stimpack
 	end)
 end
 

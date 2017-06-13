@@ -1,4 +1,4 @@
- 
+
 //Shared
 
 TYPE_CAP = 0
@@ -96,9 +96,17 @@ function getItemNameQuantity(classid, quantity)
 	end
 end
 
+function isQuestItem(classid)
+    if isMisc(classid) then
+        return getMiscQuest(classid)
+    end
+
+    return false
+end
+
 function classidToType(classid)
 	local index = classid .."" // Convert id number to string so we can index it
-	
+
 	return tonumber(index[1])
 end
 
@@ -106,11 +114,11 @@ function classidToStringType(classid)
 	if isWeapon(classid) then
 		return "weapons"
 	elseif isApparel(classid) then
-		return "apparel"	
+		return "apparel"
 	elseif isAmmo(classid) then
-		return "ammo"	
+		return "ammo"
 	elseif isAid(classid) then
-		return "aid"	
+		return "aid"
 	elseif isMisc(classid) then
 		return "misc"
 	end

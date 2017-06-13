@@ -129,17 +129,17 @@ end
 // Add Questgivers below Here
 addQuestGiver(
 "Governor Dave",
-Vector(-9450.132813, 9965.731445, 0.031250),
-Angle(0, -90, 0),
+Vector(-9450, 9965, 40),
+Angle(0, 27, 0),
 "models/humans/group01/male_04.mdl",
-{1, 2}
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 )
 
 // Add Quests Below Here
 addQuest(
 1,
 "To The Sanctuary",
-"Escape the vault and venture out to find The Sanctuary. Once you find it, look for the man named “Governor Dave“",
+"Escape the vault and venture out to find The Sanctuary. Once you find it, look for the man named Governor Dave",
 {npc = "npc_x"},
 {quests = {}, level = 1},
 {experience = 100, items = {[1001] = 5}},
@@ -164,4 +164,108 @@ nil,
 "Talk to Samantha",
 1,
 "Talk to Billy"
+)
+
+addQuest(
+3,
+"My First Crafted Weapon",
+"Hello again! I hope you enjoyed meeting all the faces around the city! However, it's time you get a weapon to defend yourself while you are adventuring the wasteland. For now, try to sneak around them and gather the materials for a Silence .22 Pistol.",
+{npc = "Governor Dave"},
+{quests = {2}, level = 1},
+{experience = 275, caps = 163},
+nil,
+1,
+"Craft the Silence .22 pistol"
+)
+
+addQuest(
+4,
+"Mr. Fuzzypants",
+"Hello again! Glad to see you have the ability to defend yourself! Now, I need to ask you for a favor. You see, the other day I was venturing out with my teddybear Mr. Fuzzypants. We went into a cave when a gecko came out of nowhere and I dropped Mr. Fuzzypants. Can you please go retrieve him!",
+{npc = "Governor Dave"},
+{quests = {3}, level = 1},
+{experience = 275, caps = 204},
+{[5047] = {1, 1}},
+1,
+"Retrieve Mr. Fuzzypants from the cave"
+)
+
+addQuest(
+5,
+"Protecting Yourself",
+"Hello there again! Now that you have ventured out in the wastelands, you definitely know the dangers out there. It’s time for you to protect yourself from them other than just a weapon. Go out and collect cotton and craft a Green Rag Helmet.",
+{npc = "Governor Dave"},
+{quests = {4}, level = 1},
+{experience = 525, caps = 245},
+nil,
+1,
+"Craft a Green Rag Helmet"
+)
+
+addQuest(
+6,
+"Factory Expert",
+"Hello there again wanderer! Now that you have weapons and protection, it's time for you to learn about factories. Factories litter the wasteland continuously creating supplies like ammo, weapons, or materials. These are on your map and can be captured depending on your faction. You should go out to one and retrieve a few items from it.",
+{npc = "Governor Dave"},
+{quests = {5}, level = 5},
+{experience = 1250, caps = 130},
+nil,
+1,
+"Visit the Materials Factory",
+1,
+"Visit the Apparel Factory",
+1,
+"Visit the Caps Factory",
+ 1,
+"Visit the Ammo Factory"
+)
+
+addQuest(
+7,
+"Bank Robber",
+"Good you're here! I need help! I was on my way to the bank when a man came from behind me and robber me of everything I had! Please chase after him! I saw him going towards the vault. It should be on your map. Please go find my valuables! If you get my stuff back I will give you a great reward for my gratitude.",
+{npc = "Governor Dave"},
+{quests = {6}, level = 5},
+{experience = 1250, caps = 195},
+{[5048] = 1},
+1,
+"Return valuables"
+)
+
+addQuest(
+8,
+"Ghoul Invasion",
+"Hey wanderer! I got a message that a nearby northern settlement was invaded by a pack of feral ghouls. Please go help them if you can. While you’re there you can capture the Apparel Factory for a bonus reward!",
+{npc = "Governor Dave"},
+{quests = {7}, level = 5},
+{experience = 1725, caps = 260},
+nil,
+5,
+"Kill 5 Feral Gouls"
+)
+
+addQuest(
+9,
+"Low On Ammunition",
+"Hello again! We could really use some help! Our armory is low on bullets from all the nearby mutated animals. If you could please craft 120 bullets of 9mm and .22 ammo.",
+{npc = "Governor Dave"},
+{quests = {8}, level = 5},
+{experience = 1725, caps = 325},
+nil,
+120,
+"Craft 120 Bullets of 9mm",
+120,
+"Craft 120 bullets of .22"
+)
+
+addQuest(
+10,
+"Medical Supplies",
+"Hello traveler! By now you are somewhat experienced out there in the Wasteland. You have probably been injured and would like to know how to stay out venturing for longer periods of time! Go out and collect 4 sage and craft 1 pipe. Then go craft a syringe. If you manage to do this I will give you a few extra to help you out.",
+{npc = "Governor Dave"},
+{quests = {9}, level = 5},
+{experience = 2275, caps = 390},
+nil,
+1,
+"Craft 1 Stimpack"
 )
