@@ -1,6 +1,6 @@
 
 if !FACTORY then
-	FACTORY = {} 
+	FACTORY = {}
 end
 
 ------------------------------------------EDIT BELOW HERE--------------------------------------------------------------
@@ -27,9 +27,9 @@ FACTORY.Setup = { //Name Of Place = Position, Check Received Every Salary For Ow
 		["Apparel Factory"] = {Pos = Vector(1400, 3280, 30), Items = {1001, 1002, 1003}, Delay = 300},
 		["Ammunition Factory"] = {Pos = Vector(1400, 3280, 30), Items = {1001, 1002, 1003}, Delay = 300},
 		["Materials Factory"] = {Pos = Vector(1400, 3280, 30), Items = {1001, 1002, 1003}, Delay = 300},
-	},	
+	},
 	["rp_oldworld_fix"] = {
-		["Bottlecap Factory"] = {Pos = Vector(3585, -9319, 2), Type = "Caps", Amount = 250, Delay = 420, Description = "The bottlecap factory automatically gives bottlecaps to the players of the owning faction."},
+		["Bottlecap Factory"] = {Pos = Vector(3585, -9319, 2), Type = "Caps", Amount = 100, Delay = 300, Description = "The bottlecap factory automatically gives bottlecaps to the players of the owning faction."},
 		["Weapon Factory"] = {Pos = Vector(10127, 8297, -572), Type = "WEAPONS", Default = 1011, Delay = 420, Description = "The weapon factory automatically creates weapons and stores them inside the factory itself, waiting for the players of the owning faction to loot them."},
 		["Apparel Factory"] = {Pos = Vector(-9607, -12451, 0), Type = "APPAREL", Default = 2001, Delay = 420, Description = "The apparel factory automatically creates apparel and stores them inside the factory itself, waiting for the players of the owning faction to loot them."},
 		["Ammunition Factory"]  = {Pos = Vector(11864, -11829, 9), Type = "AMMO", Default = 3015, Delay = 420, Description = "The ammunition factory automatically creates ammunition and stores them inside the factory itself, waiting for the players of the owning faction to loot them."},

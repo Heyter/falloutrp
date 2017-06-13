@@ -1,6 +1,6 @@
 
 // NPC Config
-NPCS = NPCS or {
+NPCS = {
 	// Level 1-15 NPCs
 	["npc_giantrat"] = {
 		Name = "Giant Rat",
@@ -303,6 +303,7 @@ NPCS = NPCS or {
 			[5031] = {quantity = {1, 1}, prob = 5},
 			[5037] = {quantity = {1, 1}, prob = 3},
 			[5038] = {quantity = {1, 1}, prob = 3},
+[5040] = {quantity = {1, 2}, prob = 20},
 		},
 		Positions = {
 			{Position = Vector(-13258, 2725, 66), Active = false},
@@ -766,6 +767,7 @@ NPCS = NPCS or {
 			[5036] = {quantity = {1, 1}, prob = 3},
 			[5031] = {quantity = {1, 1}, prob = 7},
 			[5030] = {quantity = {1, 2}, prob = 9},
+			[5040] = {quantity = {1, 1}, prob = 5},
 		},
 		Positions = {
 			{Position = Vector(-7709, -13306, 40), Active = false},
@@ -963,8 +965,7 @@ NPCS = NPCS or {
 			[5046] = {quantity = {1, 8}, prob = 80},
 			[5043] = {quantity = {1, 5}, prob = 75},
 			[5040] = {quantity = {1, 1}, prob = 5}, //Plasma
-			[5039] = {quantity = {1, 1}, prob = 6}, //Crystal shard
-			[5032] = {quantity = {1, 1}, prob = 4}, //Crystal
+			[5032] = {quantity = {1, 1}, prob = 5}, //Crystal
 			[5041] = {quantity = {1, 2}, prob = 12}, //Claw
 		},
 		Positions = {
@@ -1019,7 +1020,7 @@ NPCS = NPCS or {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5034] = {quantity = {1, 1}, prob = 25}, //Sheet metal
 			[5014] = {quantity = {1, 4}, prob = 60}, //Scrap metal
-			[5032] = {quantity = {1, 2}, prob = 50}, //Crystal
+			[5039] = {quantity = {1, 1}, prob = 30}, //Crystal
 		},
 		Positions = {
 			{Position = Vector(9620, 3571, 60), Active = false},
@@ -1093,8 +1094,8 @@ NPCS = NPCS or {
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 90},
 			[5043] = {quantity = {1, 8}, prob = 90},
-			[5032] = {quantity = {1, 2}, prob = 50}, //Crystal
-			[5040] = {quantity = {1, 1}, prob = 25}, //Plasma
+			[5032] = {quantity = {1, 2}, prob = 5}, //Crystal
+			[5040] = {quantity = {1, 2}, prob = 25}, //Plasma
 		},
 		Positions = {
 			{Position = Vector(8772, 12064, 33), Active = false},
@@ -1148,7 +1149,7 @@ NPCS = NPCS or {
 			[4014] = {quantity = {1, 8}, prob = 90},
 			[5043] = {quantity = {1, 15}, prob = 90},
 			[5041] = {quantity = {1, 8}, prob = 90}, // Claw
-			[5032] = {quantity = {1, 1}, prob = 5}, //Crystal
+			[5032] = {quantity = {1, 2}, prob = 20}, //Crystal
 			[5040] = {quantity = {1, 1}, prob = 3}, //Plasma
 			[5036] = {quantity = {1, 1}, prob = 8}, //Holo disk
 			[5031] = {quantity = {1, 2}, prob = 12}, //Gold
@@ -1236,25 +1237,5 @@ NPCS = NPCS or {
 	},
 }
 
-NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack
 NPCS.regenChecker = 5 // How often an evaded show it tracked
-
-function getNpcExp(type)
-	return (NPCS[type] and NPCS[type]["Experience"]) or 100
-end
-
-function getNpcName(type)
-	return (NPCS[type] and NPCS[type]["Name"]) or "N/A"
-end
-
-function getNpcHealth(type)
-	return (NPCS[type] and NPCS[type]["Health"]) or 100
-end
-
-function getNpcLoot(type)
-	return NPCS[type]["Loot"]
-end
-
-function getNpcLevel(type)
-	return NPCS[type]["Level"]
-end
+NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack

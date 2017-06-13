@@ -25,12 +25,13 @@ function meta:hasMiscItem(classid)
 	return false
 end
 
-function addMisc(id, name, model, weight, value)
+function addMisc(id, name, model, weight, value, quest)
 	Misc[id] = {
 		name = name,
 		model = model,
 		weight = weight,
 		value = value,
+		quest = quest
 	}
 end
 
@@ -52,6 +53,9 @@ function getMiscWeight(id)
 end
 function getMiscValue(id)
 	return findMisc(id).value
+end
+function getMiscQuest(id)
+	return findMisc(id).quest
 end
 
 // Functions that have data which can change
@@ -127,3 +131,7 @@ addMisc(5043, "Leather", "models/Gibs/HGIBS_scapula.mdl", 0.25, 30 )
 addMisc(5044, "Cloth", "models/cloth/clothwind01.mdl", 0.5, 10)
 addMisc(5045, "Cotton", "models/weapons/w_snowball.mdl", 0.25, 5)
 addMisc(5046, "Sage", "models/props/cs_office/Snowman_arm.mdl", 0.25, 15)
+
+// Quest Items
+addMisc(5047, "Mr. Fuzzypants", "models/tsbb/animals/linsang.mdl", 0.5, 0, true)
+addMisc(5048, "Valuables", "models/props_c17/BriefCase001a.mdl", 0.5, 0, true)
