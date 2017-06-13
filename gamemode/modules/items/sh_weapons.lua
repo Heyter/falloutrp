@@ -89,6 +89,9 @@ function meta:getWeaponDurability(uniqueid, location)
 	return self[location].weapons[uniqueid]["durability"] or 0
 end
 
+// Temp
+addWeapon(1017, "Straight Razor", DMG_SLASH, "secondary", "weapon_straightrazor", "models/Halokiller38/fallout/weapons/Melee/straightrazor.mdl", 1120, 2.5, 525, 2, 15, 25, 2.75,  1.76, nil)
+
 // Level 1:
 addWeapon(1023, "Lead Pipe", DMG_CLUB, "secondary", "weapon_leadpipe", "models/Halokiller38/fallout/weapons/Melee/leadpipe.mdl", 1120, 2.5, 76, 1, 14, 18, 2, 1.76, nil)
 
