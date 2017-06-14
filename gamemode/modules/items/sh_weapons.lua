@@ -89,8 +89,7 @@ function meta:getWeaponDurability(uniqueid, location)
 	return self[location].weapons[uniqueid]["durability"] or 0
 end
 
-// Temp
-addWeapon(1017, "Straight Razor", DMG_SLASH, "secondary", "weapon_straightrazor", "models/Halokiller38/fallout/weapons/Melee/straightrazor.mdl", 1120, 2.5, 525, 2, 15, 25, 2.75,  1.76, nil)
+addWeapon(1017, "Straight Razor", DMG_SLASH, "secondary", "weapon_straightrazor", "models/Halokiller38/fallout/weapons/Melee/straightrazor.mdl", 1120, 2.5, 525, 9, 18, 23, 15,  1.76, nil)
 
 // Level 1:
 addWeapon(1023, "Lead Pipe", DMG_CLUB, "secondary", "weapon_leadpipe", "models/Halokiller38/fallout/weapons/Melee/leadpipe.mdl", 1120, 2.5, 76, 1, 14, 18, 2, 1.76, nil)
@@ -196,8 +195,7 @@ addWeapon(1008, "Chinese Officer Sword", DMG_SLASH, "secondary", "weapon_chinese
 //Level 24:
 addWeapon(1049, "12.7mm Pistol", DMG_BULLET, "secondary", "weapon_127mmpistolsil", "models/Halokiller38/fallout/weapons/Pistols/127mmpistolsilencer.mdl", 1120, 2.5, 2287, 24, 32, 36, 12, 1.76, 3011)
 
-addWeapon(1001, "Assault Carbine", DMG_BULLET, "primary", "weapon_assaultcarbinesil", "models/Halokiller38/fallout/weapons/AssaultRifles/assaultcarbinesilencer.mdl", 1120, 2.5, 2000, 24, 28, 12, 1.76, 3016)
-
+addWeapon(1001, "Assault Carbine", DMG_BULLET, "primary", "weapon_assaultcarbinesil", "models/Halokiller38/fallout/weapons/AssaultRifles/assaultcarbinesilencer.mdl", 1120, 2.5, 2000, 24, 28, 32, 12, 1.76, 3016)
 
 //Level 25:
 

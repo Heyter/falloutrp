@@ -31,7 +31,7 @@ function meta:addHealthOverTime(health, timeInterval, timeLength)
 
 	local healthInterval = health / (timeLength / timeInterval)
 
-	timer.Create("healthOverTime" ..self:EntIndex(), timeInterval, (timeLength / 2), function()
+	timer.Create("healthOverTime" ..self:EntIndex(), timeInterval, math.floor(timeLength / timerInterval), function()
 		if IsValid(self) then
 			self:addHealth(healthInterval)
 		end

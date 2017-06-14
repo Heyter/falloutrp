@@ -153,7 +153,7 @@ LOOT = {
 	{id = 3023, prob = 1, quantity = {1, 30}},
 	{id = 3026, prob = 1, quantity = {1, 30}},
 	{id = 4001, prob = 2, quantity = {1, 1}},
-	{id = 4002, prob = 1, quantity = {1, 1}},
+	{id = 4002, prob = 0.5, quantity = {1, 1}},
 	{id = 4003, prob = 1, quantity = {1, 1}},
 	{id = 4004, prob = 5, quantity = {1, 1}},
 	{id = 4005, prob = 3, quantity = {1, 1}},

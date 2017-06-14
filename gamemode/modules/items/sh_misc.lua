@@ -76,7 +76,7 @@ function meta:getMiscQuantity(uniqueid)
 end
 
 addMisc(5001, "Hammer", "models/clutter/hammer.mdl", .5, 20)
-addMisc(5002, "Iron", "models/clutter/iorn.mdl", 1 ,25)
+addMisc(5002, "Iron", "models/clutter/iorn.mdl", 1, 25)
 addMisc(5003, "Plate", "models/clutter/plate.mdl", .2, 5)
 addMisc(5004, "Ashtray", "models/clutter/ashtray.mdl", .1, 3)
 addMisc(5005, "Book", "models/clutter/book.mdl", .5, 40)
