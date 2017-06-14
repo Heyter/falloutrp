@@ -116,10 +116,6 @@ function teamSelection()
 			teamFrame:SetPos(paddingW, nextY)
 			teamFrame:SetSize(teamW, teamH)
 			teamFrame.Paint = function(self, w, h)
-				surface.SetDrawColor(COLOR_AMBER)
-				surface.DrawOutlinedRect(0, 0, w, h)
-				//draw.RoundedBox(2, 0, 0, w, h, COLOR_BROWN)
-
 				surface.SetMaterial(Material(v["Emblem"]))
 				surface.SetDrawColor(Color(255, 255, 255, 255))
 				surface.DrawTexturedRect(picPaddingW, picPaddingH + 5, picSize, picSize - 10)
@@ -188,11 +184,6 @@ function teamSelection()
 		local offsetY = 0
 		local values = {}
 
-		local specialDescription = vgui.Create("DLabel", frame)
-		specialDescription:SetFont("FalloutRP1")
-		specialDescription:SetText("")
-		specialDescription:SetPos(frame:GetWide()/2 - 25, 150)
-
 		for k,v in pairs(SPECIAL) do
 			local specialBox = vgui.Create("DPanel", frame)
 			specialBox:SetSize(frame:GetWide()/2 - 100, 30)
@@ -218,12 +209,17 @@ function teamSelection()
 			specialLabel:SizeToContents()
 			specialLabel:SetTextColor(COLOR_AMBER)
 
+			local specialDescription = vgui.Create("DLabel", frame)
+			specialDescription:SetFont("FalloutRP2")
+			specialDescription:SetText("")
+			specialDescription:SetPos(frame:GetWide()/2 - 25, 150)
+
 			specialBox.OnCursorEntered = function(self)
 				self.hovered = true
 
 				specialLabel:SetTextColor(COLOR_BLUE)
 
-				specialDescription:SetText(SPECIAL[k].Description)
+				specialDescription:SetText(util.textWrap(SPECIAL[k].Description, (frame:GetWide()*.8 - (frame:GetWide()/2 - 25)), "FalloutRP2"))
 				specialDescription:SizeToContents()
 			end
 			specialBox.OnCursorExited = function(self)
@@ -247,7 +243,7 @@ function teamSelection()
 
 				specialLabel:SetTextColor(COLOR_BLUE)
 
-				specialDescription:SetText(SPECIAL[k].Description)
+				specialDescription:SetText(util.textWrap(SPECIAL[k].Description, (frame:GetWide()*.8 - (frame:GetWide()/2 - 25)), "FalloutRP2"))
 				specialDescription:SizeToContents()
 			end
 			downButton.OnCursorExited = function(self)
@@ -275,7 +271,7 @@ function teamSelection()
 
 				specialLabel:SetTextColor(COLOR_BLUE)
 
-				specialDescription:SetText(SPECIAL[k].Description)
+				specialDescription:SetText(util.textWrap(SPECIAL[k].Description, (frame:GetWide()*.9 - (frame:GetWide()/2 - 25)), "FalloutRP2"))
 				specialDescription:SizeToContents()
 			end
 			upButton.OnCursorExited = function(self)
