@@ -81,14 +81,9 @@ LOOT = {
 	{id = 2004, prob = 1, quantity = {1, 1}},
 	{id = 2005, prob = 1, quantity = {1, 1}},
 	{id = 2006, prob = 1, quantity = {1, 1}},
-	{id = 2007, prob = 1, quantity = {1, 1}},
 	{id = 2008, prob = 1, quantity = {1, 1}},
 	{id = 2009, prob = 1, quantity = {1, 1}},
 	{id = 2010, prob = 1, quantity = {1, 1}},
-	{id = 2011, prob = 1, quantity = {1, 1}},
-	{id = 2012, prob = 1, quantity = {1, 1}},
-	{id = 2013, prob = 1, quantity = {1, 1}},
-	{id = 2014, prob = 1, quantity = {1, 1}},
 	{id = 2015, prob = 1, quantity = {1, 1}},
 	{id = 2016, prob = 1, quantity = {1, 1}},
 	{id = 2017, prob = 1, quantity = {1, 1}},
@@ -96,11 +91,9 @@ LOOT = {
 	{id = 2019, prob = 1, quantity = {1, 1}},
 	{id = 2020, prob = 1, quantity = {1, 1}},
 	{id = 2021, prob = 1, quantity = {1, 1}},
-	{id = 2022, prob = 1, quantity = {1, 1}},
 	{id = 2023, prob = 1, quantity = {1, 1}},
 	{id = 2024, prob = 1, quantity = {1, 1}},
 	{id = 2025, prob = 1, quantity = {1, 1}},
-	{id = 2026, prob = 1, quantity = {1, 1}},
 	{id = 2027, prob = 1, quantity = {1, 1}},
 	{id = 2028, prob = 1, quantity = {1, 1}},
 	{id = 2029, prob = 1, quantity = {1, 1}},
@@ -108,12 +101,9 @@ LOOT = {
 	{id = 2031, prob = 1, quantity = {1, 1}},
 	{id = 2032, prob = 1, quantity = {1, 1}},
 	{id = 2033, prob = 1, quantity = {1, 1}},
-	{id = 2034, prob = 1, quantity = {1, 1}},
 	{id = 2035, prob = 1, quantity = {1, 1}},
 	{id = 2036, prob = 1, quantity = {1, 1}},
 	{id = 2037, prob = 1, quantity = {1, 1}},
-	{id = 2038, prob = 1, quantity = {1, 1}},
-	{id = 2039, prob = 1, quantity = {1, 1}},
 	{id = 2040, prob = 1, quantity = {1, 1}},
 	{id = 2041, prob = 1, quantity = {1, 1}},
 	{id = 2042, prob = 1, quantity = {1, 1}},
@@ -226,57 +216,57 @@ LOOT = {
 
 LOOT_LEVELS = {
 	[15] = {
-	
+
 	},
 	[30] = {
-	
+
 	},
 	[50] = {
-	
+
 	}
 }
 
 LOOT_FACTORIES = {
 	[15] = {
 		["WEAPONS"] = {
-		
-		},		
+
+		},
 		["APPAREL"] = {
-		
-		},		
+
+		},
 		["AMMO"] = {
-		
-		},		
+
+		},
 		["MISC"] = {
-		
+
 		},
 	},
 	[30] = {
 		["WEAPONS"] = {
-		
-		},		
+
+		},
 		["APPAREL"] = {
-		
-		},		
+
+		},
 		["AMMO"] = {
-		
-		},		
+
+		},
 		["MISC"] = {
-		
+
 		},
 	},
 	[50] = {
 		["WEAPONS"] = {
-		
-		},		
+
+		},
 		["APPAREL"] = {
-		
-		},		
+
+		},
 		["AMMO"] = {
-		
-		},		
+
+		},
 		["MISC"] = {
-		
+
 		},
 	}
 }

@@ -212,7 +212,7 @@ addWeapon(1038, "Laser Rifle (Scope)", DMG_SONIC, "primary", "weapon_laserrifles
 addWeapon(1054, "Police Pistol", DMG_BULLET, "secondary", "weapon_policepistol", "models/Halokiller38/fallout/weapons/Pistols/policepistol.mdl", 1120, 2.5, 2824, 26, 34, 38, 12, 1.76, 3004)
 
 // Level 27:
-addWeapon(1019, "Straight Razor", DMG_SLASH, "secondary", "weapon_trenchknife", "models/Halokiller38/fallout/weapons/Melee/trenchknife.mdl", 1120, 2.5, 2886, 27, 32, 34, 35, 1.76, nil)
+addWeapon(1019, "Trench Knife", DMG_SLASH, "secondary", "weapon_trenchknife", "models/Halokiller38/fallout/weapons/Melee/trenchknife.mdl", 1120, 2.5, 2886, 27, 32, 34, 35, 1.76, nil)
 
 // Level 28:
 
