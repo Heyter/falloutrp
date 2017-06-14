@@ -229,9 +229,6 @@ end
 function VGUI:Paint(w, h)
 	surface.SetDrawColor(COLOR_BLACKFADE)
 	surface.DrawRect(0, 0, w, h)
-
-	surface.SetDrawColor(COLOR_GRAY)
-	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
 function VGUI:SetItem(item, craftingCreated, questCreated)

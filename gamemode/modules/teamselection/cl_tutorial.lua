@@ -59,9 +59,6 @@ function tutorialSlideShow(newPlayer)
 		surface.SetDrawColor(Color(255, 255, 255, 255))
 		surface.SetMaterial(Material(images[index]["image"]))
 		surface.DrawTexturedRect(0, 0, w, h)
-
-		surface.SetDrawColor(COLOR_AMBER)
-		surface.DrawOutlinedRect(0, 0, w, h)
 	end
 
 	local info = vgui.Create("DLabel", frame)

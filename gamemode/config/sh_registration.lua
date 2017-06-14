@@ -2,13 +2,13 @@
 REGISTRATION_POINTS = 21 // How many points you have to use for SPECIAL when you first register a character
 
 SPECIAL = {
-	{Name = "Strength", Description = "Strength increases your total amount of hitpoints\nand also increases the total amount your inventory can hold."},
-	{Name = "Perception", Description = "Perception reduces the amount of recoil form weapons\nand also increases critical hit damage."},
-	{Name = "Endurance", Description = "Endurance increases the amount of time you can sprint for\n and also increases your health regeneration."},
-	{Name = "Charisma", Description = "Charisma reduces the buying price from vendors\nand also increases the selling price to vendors."},
-	{Name = "Intelligence", Description = "Intelligence increases the healing effects of first aid\n and also increases the effects of food and drinks."},
-	{Name = "Agility", Description = "Agility increase the critical hit chance of weapons\n and also increases player's movement speed."},
-	{Name = "Luck", Description = "Luck gives the player good fortune and\n increases the chance to get better loot."}
+	{Name = "Strength", Description = "Strength increases your total amount of hitpoints and also increases the total amount your inventory can hold."},
+	{Name = "Perception", Description = "Perception reduces the amount of recoil form weapons and also increases critical hit damage."},
+	{Name = "Endurance", Description = "Endurance increases the amount of time you can sprint for and also increases your health regeneration."},
+	{Name = "Charisma", Description = "Charisma reduces the buying price from vendors and also increases the selling price to vendors."},
+	{Name = "Intelligence", Description = "Intelligence increases the healing effects of first aid and also increases the effects of food and drinks."},
+	{Name = "Agility", Description = "Agility increase the critical hit chance of weapons and also increases player's movement speed."},
+	{Name = "Luck", Description = "Luck gives the player good fortune and increases the chance to get better loot."}
 }
 
 NAME_MIN = 3 // Min characters that a name can be
