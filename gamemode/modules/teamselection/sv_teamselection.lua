@@ -49,7 +49,7 @@ local function createCharacter(ply, name, teamId, values)
 	ply.playerData = {
 		["steamid"] = steamid,
 		["name"] = name,
-		["bottlecaps"] = 0,
+		["bottlecaps"] = 100,
 		["faction"] = teamId,
 		["experience"] = 0,
 		["skillpoints"] = 0,
