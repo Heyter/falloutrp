@@ -618,7 +618,7 @@ function VGUI:Init()
 				}
 
 				if getAidHealthOverTime(v.classid) then
-					table.insert(statistics, {key = "HOT", val = getAidHealthOverTime(v.classid)})
+					table.insert(statistics, {key = "", val = getAidHealthOverTime(v.classid)})
 				elseif getAidHealthPercent(v.classid) then
 					table.insert(statistics, {key = "Health", val = getAidHealthPercent(v.classid) .."%"})
 				elseif getAidHealth(v.classid) then
