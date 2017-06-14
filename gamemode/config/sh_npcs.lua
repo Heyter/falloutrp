@@ -1,6 +1,8 @@
 
 // NPC Config
-NPCS = {
+NPCS = NPCS or {}
+
+NPCS.npcs = {
 	// Level 1-15 NPCs
 	["npc_giantrat"] = {
 		Name = "Giant Rat",

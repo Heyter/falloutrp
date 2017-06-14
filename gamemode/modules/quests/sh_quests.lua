@@ -131,7 +131,7 @@ addQuestGiver(
 "Governor Dave",
 Vector(-9450, 9965, 40),
 Angle(0, 27, 0),
-"models/humans/group01/male_04.mdl",
+"models/atp/fonv/securitron_clean.mdl",
 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 )
 
@@ -142,7 +142,7 @@ addQuest(
 "Escape the vault and venture out to find The Sanctuary. Once you find it, look for the man named Governor Dave",
 {npc = "npc_x"},
 {quests = {}, level = 1},
-{experience = 100, items = {[1001] = 5}},
+{experience = 100, caps = 81},
 nil,
 1,
 "Find the Sanctuary"
@@ -154,7 +154,7 @@ addQuest(
 "Welcome! I am x. This is The Sanctuary! Here you will find a variety of merchants and tool stations you will need on your adventures. Please go explore this town! Go talk to each merchant and then return to x.",
 {npc = "npc_x"},
 {quests = {1}, level = 1},
-{experience = 100, items = {[1001] = 1}, caps = 1000},
+{experience = 100, caps = 122},
 nil,
 1,
 "Talk to John",
