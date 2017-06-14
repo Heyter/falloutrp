@@ -24,6 +24,26 @@ net.Receive("returnQuestMaterials", function(len, ply)
     ply:returnQuestMaterials(questId)
 end)
 
+function QUESTS:getItemQuest(id)
+    return self.questItems[id].quest[1]
+end
+
+function QUESTS:getItemTask(id)
+    return self.questItems[id].quest[2]
+end
+
+function QUESTS:spawnQuestItems()
+    for k,v in pairs(self.questItems) do
+        local ent = ents.Create("quest_item")
+        ent:SetPos(v.position)
+        ent:SetAngles(v.angle)
+        ent:SetModel(v.model)
+        ent:SetID(k)
+        ent:Spawn()
+        ent:DropToFloor()
+    end
+end
+
 function QUESTS:spawnQuestGivers()
     for k,v in pairs(self.questGivers) do
         local giver = ents.Create("questgiver")
@@ -273,6 +293,7 @@ function meta:updateQuest(questId)
     net.Send(self)
 end
 
-hook.Add("InitPostEntity", "spawnQuestGivers", function()
+hook.Add("InitPostEntity", "questSetup", function()
     QUESTS:spawnQuestGivers()
+    QUESTS:spawnQuestItems()
 end)

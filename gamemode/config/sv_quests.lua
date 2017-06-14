@@ -15,25 +15,3 @@ QUESTS.questItems = {
         quest = {7, 1},
     },
 }
-
-function QUESTS:getItemQuest(id)
-    return self.questItems[id].quest[1]
-end
-
-function QUESTS:getItemTask(id)
-    return self.questItems[id].quest[2]
-end
-
-function QUESTS:spawnQuestItems()
-    for k,v in pairs(self.questItems) do
-        local ent = ents.Create("quest_item")
-        ent:SetPos(v.position)
-        ent:SetAngles(v.angle)
-        ent:SetModel(v.model)
-        ent:SetID(k)
-        ent:Spawn()
-        ent:DropToFloor()
-    end
-end
-
-hook.Add("InitPostEntity", "SpawnQuestItems", QUESTS:spawnQuestItems())

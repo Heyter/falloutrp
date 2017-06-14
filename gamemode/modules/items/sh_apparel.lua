@@ -105,10 +105,10 @@ end
 
 //Level 1
 // Cloth (Craftable)
-addApparel(2003, "Green Rag Hat", "helmet", "IDK", 1000, 0.5, 300, 1, 1, 1, 0, 0,1, 2)
-addApparel(2018, "Green Rags", "chest", "IDK", 1105, 2.5, 500, 1, 1, 3, 0, 0, 1, 3)
-addApparel(2030, "Raggedy Green Slacks", "pants", "IDK", 900, 2.3, 350, 1, 1, 2, 0, 0, 1, 1)
-addApparel(2073, "Ripped Green Sneakers ", "shoes", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)
+addApparel(2003, "Green Rag Hat", "IDK", 1000, 0.5, 300, 1, 1, 1, 0, 0,1, 2)
+addApparel(2018, "Green Rags",  "chest", "IDK", 1105, 2.5, 500, 1, 1, 3, 0, 0, 1, 3)
+addApparel(2030, " Raggedy Green Slacks",  "pants", "IDK", 900, 2.3, 350, 1, 1, 2, 0, 0, 1, 1)
+addApparel(2073, "Ripped Green Sneakers ",  "shoes", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)
 addApparel(2086, "Ragged Green Gloves",  "gloves", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)
 
 //Level 2:
@@ -152,11 +152,11 @@ addApparel(2084, "Construction Gloves",  "gloves", "IDK", 500, 1.0, 600, 10, 2, 
 
 //Level 13:
 // Security Clothing (Non Craftable)
-addApparel(2008, "Security Helmet",  "helmet", "IDK", 1550, 3.5, 800, 13, 3, 3, 0, 0, 2, 5)
-addApparel(2023, "Security Jacket",  "chest", "IDK", 1200, 3.0, 1000, 13, 4, 6, 0, 2, 4, 8)
-addApparel(2035, "Security Jeans",  "pants", "IDK", 1700, 2.7, 900, 13, 3, 5, 0, 1, 3, 7)
-addApparel(2078, "Black Security Boots",  "shoes", "IDK", 900, 1.7, 750, 13, 2, 3, 0, 0, 2, 4)
-addApparel(2091, "Black Security Gloves",  "gloves", "IDK", 900, 1.7, 750, 13, 2, 3, 0, 0, 2, 4)
+addApparel(2097, "Security Helmet",  "Helmet", "IDK", 1550, 3.5, 800, 13, 3, 3, 0, 0, 2, 5)
+addApparel(2098, "Security Jacket",  "chest", "IDK", 1200, 3.0, 1000, 13, 4, 6, 0, 2, 4, 8)
+addApparel(2099, "Security Jeans",  "pants", "IDK", 1700, 2.7, 900, 13, 3, 5, 0, 1, 3, 7)
+addApparel(2100, "Black Security Boots",  "shoes", "IDK", 900, 1.7, 750, 13, 2, 3, 0, 0, 2, 4)
+addApparel(2101, "Black Security Gloves",  "gloves", "IDK", 900, 1.7, 750, 13, 2, 3, 0, 0, 2, 4)
 
 //Level 14:
 
@@ -212,7 +212,7 @@ addApparel(2060, "Medium Shoes",  "shoes", "IDK", 1400, 2.2, 1200, 25, 3, 5, 0, 
 
 //Level 28:
 // Officer Suit (Non Craftable)
-addApparel(2010, "Officer Helmet",  "helmet", "IDK", 1600, 3.5, 1700, 28, 4, 6, 0, 0, 8, 10)
+addApparel(2010, "Officer Helmet",  "Helmet", "IDK", 1600, 3.5, 1700, 28, 4, 6, 0, 0, 8, 10)
 addApparel(2025, "Officer ACU",  "chest", "IDK", 2000, 3.0, 2000, 28, 7, 9, 5, 8, 12, 14)
 addApparel(2037, "Officer Slacks",  "pants", "IDK", 1900, 2.9, 1800, 28, 6, 8, 4, 6, 10, 13)
 addApparel(2080, "Officer Dress Boots",  "shoes", "IDK", 1600, 1.9, 1600, 28, 4, 6, 0, 0, 6, 8)
@@ -233,7 +233,7 @@ addApparel(2087, "Rusty Gloves",  "gloves", "IDK", 700, 1.3, 1800, 31, 4, 6, 3, 
 
 //Level 34:
 // Batting Armor (Non Craftable)
-addApparel(2006, "Batting Helmet",  "helmet", "IDK",1300, 2.5, 2200, 34, 6, 8 ,0 ,0, 11, 14)
+addApparel(2006, "Batting Helmet",  "Helmet", "IDK",1300, 2.5, 2200, 34, 6, 8 ,0 ,0, 11, 14)
 addApparel(2021, "Batting Jacket",  "chest", "IDK", 1200, 3.0, 2600, 34, 8, 10, 8, 9, 14, 17)
 addApparel(2033, "Batting Jeans",  "pants", "IDK", 1500, 2.5, 2300, 34, 7, 9, 6, 8, 12, 15)
 addApparel(2076, "Batting Converse",  "shoes", "IDK", 800, 1.5, 2100, 34, 6, 8, 0, 0, 7, 9)
@@ -244,12 +244,12 @@ addApparel(2089, "Batting gloves",  "gloves", "IDK", 800, 1.5, 2100, 34, 5, 6, 4
 //Level 36:
 
 //Level 37:
-// Security Armor (Craftable)
-addApparel(2008, "Security Helmet",  "helmet", "IDK", 1550, 3.5, 2500, 37, 7, 9, 0, 0, 12, 14)
-addApparel(2023, "Security Jacket",  "chest", "IDK", 1800, 3.0, 3000, 37, 9, 11, 9, 10, 15, 17)
-addApparel(2035, "Security Jeans",  "pants", "IDK", 1700, 2.7, 2600, 37, 7, 9, 7, 9, 13, 15)
-addApparel(2078, "Black Security Boots",  "shoes", "IDK", 900, 1.7, 2400, 37, 6, 8, 0, 0, 9, 12)
-addApparel(2091, "Black Security Gloves",  "gloves", "IDK", 900, 1.7, 2400, 37, 5, 7, 6, 8, 8, 10)
+// Advanced Security Armor (Craftable)
+addApparel(2008, "Advanced Security Helmet",  "Helmet", "IDK", 1550, 3.5, 2500, 37, 7, 9, 0, 0, 12, 14)
+addApparel(2023, "Advanced Security Jacket",  "chest", "IDK", 1800, 3.0, 3000, 37, 9, 11, 9, 10, 15, 17)
+addApparel(2035, "Advanced Security Jeans",  "pants", "IDK", 1700, 2.7, 2600, 37, 7, 9, 7, 9, 13, 15)
+addApparel(2078, "Black Advanced Security Boots",  "shoes", "IDK", 900, 1.7, 2400, 37, 6, 8, 0, 0, 9, 12)
+addApparel(2091, "Black Advanced Security Gloves",  "gloves", "IDK", 900, 1.7, 2400, 37, 5, 7, 6, 8, 8, 10)
 
 //Level 38:
 
@@ -257,7 +257,7 @@ addApparel(2091, "Black Security Gloves",  "gloves", "IDK", 900, 1.7, 2400, 37, 
 
 //Level 40:
 // Hazmat Set (Non Craftable)
-addApparel(2009, "Gas Mask",  "helmet", "IDK", 1600, 2.5, 2900, 40, 7, 9, 0, 0, 14, 15)
+addApparel(2009, "Gas Mask",  "Helmet", "IDK", 1600, 2.5, 2900, 40, 7, 9, 0, 0, 14, 15)
 addApparel(2024, "Secure Hazmat Jacket",  "chest", "IDK", 1000, 3.0, 3400, 40, 9, 11, 10, 11, 16, 19)
 addApparel(2036, "Secure Hazmat Bottoms",  "pants", "IDK", 900, 2.8, 3000, 40, 8, 10, 9, 9, 14, 16)
 addApparel(2079, "Secure Hazmat Boots",  "shoes", "IDK", 950, 1.8, 2700, 40, 7, 9, 0, 0, 10, 13)
@@ -269,7 +269,7 @@ addApparel(2092, "Secure Hazmat Gloves",  "gloves", "IDK", 950, 1.8, 2700, 40, 6
 
 //Level 43:
 // General Suit (Non Craftable)
-addApparel(2015, "General's Hat",  "helmet", "IDK", 1600, 3.0, 3200, 43, 8, 10, 0, 0, 15, 17)
+addApparel(2015, "General's Hat",  "Helmet", "IDK", 1600, 3.0, 3200, 43, 8, 10, 0, 0, 15, 17)
 addApparel(2027, "Generals Jacket",  "chest", "IDK", 2500, 3.0, 3800, 43, 10, 12, 11, 12, 16, 19)
 addApparel(2040, "Generals Slacks",  "pants", "IDK", 2200, 3.2, 3400, 43, 9, 11, 10, 11, 15, 18)
 addApparel(2083, "Generals Dress Shoes",  "shoes", "IDK", 1500, 2.0, 3000, 43, 7, 9, 0, 0, 11, 13)
