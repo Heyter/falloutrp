@@ -1,7 +1,7 @@
 
 hook.Add("OnNPCKilled", "restoreNpcPosition", function(npc, attacker, inflictor)
 	if npc.key then
-		NPCS[npc:GetClass()]["Positions"][npc.key]["Active"] = false
+		NPCS.npcs[npc:GetClass()]["Positions"][npc.key]["Active"] = false
 	end
 end)
 
@@ -49,7 +49,7 @@ function getActiveNpcs(type)
 	local active = 0
 	local inactive = {}
 
-	for k, v in pairs(NPCS[type]["Positions"]) do
+	for k, v in pairs(NPCS.npcs[type]["Positions"]) do
 		if v.Active then
 			active = active + 1
 		else
@@ -61,7 +61,7 @@ function getActiveNpcs(type)
 end
 
 local function getNpcLimit(type)
-	return NPCS[type]["Limit"]
+	return NPCS.npcs[type]["Limit"]
 end
 
 function npcOutOfRange(npc, ply)
@@ -100,10 +100,10 @@ end
 
 function spawnNpc(npc, inactiveNpcs)
 	local randomLocation = table.Random(inactiveNpcs)
-	local location = NPCS[npc]["Positions"][randomLocation]
+	local location = NPCS.npcs[npc]["Positions"][randomLocation]
 
 	print(npc, randomLocation)
-	NPCS[npc]["Positions"][randomLocation]["Active"] = true
+	NPCS.npcs[npc]["Positions"][randomLocation]["Active"] = true
 
 	local ent = ents.Create(npc)
 	ent:SetPos(location["Position"] + Vector(0, 0, 40))
@@ -123,7 +123,7 @@ function addNpc(npc)
 end
 
 function createNpcTimers()
-	for npc, info in pairs(NPCS) do
+	for npc, info in pairs(NPCS.npcs) do
 		timer.Create(npc .." spawner", info.SpawnRate, 0, function()
 			addNpc(npc)
 		end)
