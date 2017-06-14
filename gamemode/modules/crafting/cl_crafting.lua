@@ -136,8 +136,6 @@ function openCrafting()
 		recipeFrame:SetPos(buttonPadding, 125)
 		recipeFrame:SetSize(childW, childH)
 		recipeFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
-			surface.DrawOutlinedRect(0, 0, w, h)
 		end
 
 		local scroll = vgui.Create("DScrollPanel", recipeFrame)
@@ -221,7 +219,11 @@ function openCrafting()
 					itemLabel:SetText(getItemName(v.classid) .."\t (" ..v.quantity ..")")
 				end
 				itemLabel:SizeToContents()
-				itemLabel:SetTextColor(COLOR_AMBER)
+				if itemBox.selected then
+					itemLabel:SetTextColor(COLOR_BLUE)
+				else
+					itemLabel:SetTextColor(COLOR_AMBER)
+				end
 
 				itemBox.OnCursorEntered = function(self)
 					self.hovered = true
@@ -260,8 +262,6 @@ function openCrafting()
 		infoFrame:SetPos(buttonPadding + childW + (frameW - (childW*2 + buttonPadding*2)), 125)
 		infoFrame:SetSize(childW, childH)
 		infoFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
-			surface.DrawOutlinedRect(0, 0, w, h)
 		end
 
 		local icon = vgui.Create("SpawnIcon", infoFrame)
@@ -296,6 +296,7 @@ function openCrafting()
 
 		local craft = vgui.Create("FalloutRP_Button", infoFrame)
 		craft:SetPos(infoFrame:GetWide()/2 - craft:GetWide()/2, infoFrame:GetTall() - craft:GetTall() * 1.5)
+		craft:SetFont("FalloutRP1.5")
 		craft:SetText("Craft")
 		craft.DoClick = function(self)
 			if !self:GetDisabled() then
@@ -309,6 +310,7 @@ function openCrafting()
 
 			craftX = vgui.Create("FalloutRP_Button", infoFrame)
 			craftX:SetPos(infoFrame:GetWide()/2 + craftX:GetWide()/2, infoFrame:GetTall() - craft:GetTall() * 1.5)
+			craftX:SetFont("FalloutRP1.5")
 			craftX:SetText("Craft (x)")
 			craftX.DoClick = function(self)
 				if !self:GetDisabled() then
@@ -329,7 +331,7 @@ function openCrafting()
 
 		for id, amount in pairs(materials) do
 			local materialName = vgui.Create("DLabel", infoFrame)
-			materialName:SetFont("FalloutRP1")
+			materialName:SetFont("FalloutRP1.5")
 			materialName:SetTextColor(COLOR_AMBER)
 			materialName:SetText(getItemName(id))
 			materialName:SetPos(10, 185 + offsetY)
@@ -338,7 +340,7 @@ function openCrafting()
 			local owned, uniqueid = LocalPlayer():getInventoryCount(id)
 
 			local materialOwned = vgui.Create("DLabel", infoFrame)
-			materialOwned:SetFont("FalloutRP1")
+			materialOwned:SetFont("FalloutRP1.5")
 			materialOwned:SetTextColor(COLOR_RED)
 			materialOwned:SetText(owned .. " / " ..amount)
 			materialOwned:SetPos(materialName.x + materialName:GetWide() + 10, 185 + offsetY)
