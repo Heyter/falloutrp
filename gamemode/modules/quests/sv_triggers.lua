@@ -23,7 +23,7 @@ hook.Add("FactoryOpened", "FactoryQuest", function(ply, factory)
         ply:addQuestProgress(6, 1, 1)
     elseif factory == "Apparel Factory" then
         ply:addQuestProgress(6, 2, 1)
-    elseif factory == "Caps Factory" then
+    elseif factory == "Bottlecap Factory" then
         ply:addQuestProgress(6, 3, 1)
     elseif "Ammo Factory" then
         ply:addQuestProgress(6, 4, 1)

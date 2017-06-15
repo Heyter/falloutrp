@@ -227,7 +227,7 @@ addQuest(
 {npc = "Governor Dave"},
 {quests = {6}, level = 5},
 {experience = 1250, caps = 195},
-{[5048] = 1},
+{[5048] = {1, 1}},
 1,
 "Return valuables"
 )
