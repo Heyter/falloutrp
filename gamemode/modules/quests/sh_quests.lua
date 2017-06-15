@@ -151,7 +151,7 @@ nil,
 addQuest(
 2,
 "Exploring the Town",
-"Welcome! I am x. This is The Sanctuary! Here you will find a variety of merchants and tool stations you will need on your adventures. Please go explore this town! Go talk to each merchant and then return to x.",
+"Welcome! I am Governor Dave. This is The Sanctuary! Here you will find a variety of merchants and tool stations you will need on your adventures. Please go explore this town! Go talk to each merchant and then return back to me.",
 {npc = "npc_x"},
 {quests = {1}, level = 1},
 {experience = 100, caps = 122},
