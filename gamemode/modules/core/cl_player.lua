@@ -22,6 +22,12 @@ function meta:loadPlayerDataCount()
 	end
 end
 
+net.Receive("customCollision", function()
+	timer.Simple(1, function()
+		LocalPlayer():SetAvoidPlayers(true)
+	end)
+end)
+
 net.Receive("loadPlayerData", function()
 	local data = net.ReadTable()
 	local ply = net.ReadEntity()
