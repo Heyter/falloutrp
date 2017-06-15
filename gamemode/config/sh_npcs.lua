@@ -11,7 +11,7 @@ NPCS.npcs = {
 		Limit = 13, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
 		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 45,
+		Experience = 30,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5042] = {quantity = {1, 2}, prob = 80},
@@ -105,7 +105,7 @@ NPCS.npcs = {
 		Limit = 4, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 50,
+		Experience = 40,
 		Loot = {
 			[5046] = {quantity = {1, 3}, prob = 80},
 		},
@@ -144,7 +144,7 @@ NPCS.npcs = {
 		Limit = 6, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 60,
+		Experience = 45,
 		Loot = {
 			[5046] = {quantity = {1, 5}, prob = 80},
 		},
@@ -204,7 +204,7 @@ NPCS.npcs = {
 		Limit = 13, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
 		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 60,
+		Experience = 35,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[4006] = {quantity = {1, 1}, prob = 6}, // Water bottle
@@ -287,7 +287,7 @@ NPCS.npcs = {
 		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 60, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 80,
+		Experience = 60,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 8},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -305,7 +305,7 @@ NPCS.npcs = {
 			[5031] = {quantity = {1, 1}, prob = 5},
 			[5037] = {quantity = {1, 1}, prob = 3},
 			[5038] = {quantity = {1, 1}, prob = 3},
-[5040] = {quantity = {1, 2}, prob = 20},
+			[5040] = {quantity = {1, 2}, prob = 20},
 		},
 		Positions = {
 			{Position = Vector(-13258, 2725, 66), Active = false},
@@ -371,11 +371,11 @@ NPCS.npcs = {
 	["npc_mirelurk"] = {
 		Name = "Mirelurk",
 		Level = 15,
-		Health = 800,
+		Health = 850,
 		Limit = 4, // How many can be active on the map at once
 		SpawnRate = 180, // How often (seconds) we try to spawn a new one
 		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 120,
+		Experience = 80,
 		Loot = {
 			[5028] = {quantity = {1, 10}, prob = 70},
 			[5042] = {quantity = {1, 8}, prob = 80},
@@ -424,7 +424,7 @@ NPCS.npcs = {
 		Limit = 13, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
 		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 110,
+		Experience = 90,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5043] = {quantity = {1, 3}, prob = 80},
@@ -524,7 +524,7 @@ NPCS.npcs = {
 		Limit = 10, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 130,
+		Experience = 115,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 8},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -575,7 +575,7 @@ NPCS.npcs = {
 		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 140,
+		Experience = 120,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 8},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -622,7 +622,7 @@ NPCS.npcs = {
 		Limit = 17, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
 		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 130,
+		Experience = 120,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 4},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -750,7 +750,7 @@ NPCS.npcs = {
 		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 155,
+		Experience = 140,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 5},
 			[4002] = {quantity = {1, 1}, prob = 5},
@@ -805,7 +805,7 @@ NPCS.npcs = {
 		Limit = 18, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
 		StartAmount = 7, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 130,
+		Experience = 125,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 4},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -961,7 +961,7 @@ NPCS.npcs = {
 		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 180,
+		Experience = 150,
 		Loot = {
 			[4014] = {quantity = {1, 3}, prob = 80},
 			[5046] = {quantity = {1, 8}, prob = 80},
@@ -1017,7 +1017,7 @@ NPCS.npcs = {
 		Limit = 5, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 200,
+		Experience = 175,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5034] = {quantity = {1, 1}, prob = 25}, //Sheet metal
@@ -1059,7 +1059,7 @@ NPCS.npcs = {
 		Limit = 5, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 200,
+		Experience = 175,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5033] = {quantity = {1, 15}, prob = 40}, //Sticks
@@ -1092,7 +1092,7 @@ NPCS.npcs = {
 		Limit = 5, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 250,
+		Experience = 200,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 90},
 			[5043] = {quantity = {1, 8}, prob = 90},
@@ -1142,11 +1142,11 @@ NPCS.npcs = {
 	["npc_deathclaw"] = {
 		Name = "Deathclaw",
 		Level = 50,
-		Health = 2500,
+		Health = 3000,
 		Limit = 10, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 3, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 325,
+		Experience = 250,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 90},
 			[5043] = {quantity = {1, 15}, prob = 90},
@@ -1239,5 +1239,5 @@ NPCS.npcs = {
 	},
 }
 
-NPCS.regenChecker = 5 // How often an evaded show it tracked
-NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack
+NPCS.regenChecker = 4 // How often an evaded show it tracked
+NPCS.regenPercentage = .30 // How much of max health is regened every evaded attack
