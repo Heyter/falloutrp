@@ -1,7 +1,7 @@
 
 local frameW, frameH = 800, 600
 local nameFrameW, nameFrameH = 800, 600
-local wait = 2 // How many seconds a player should be on each image before being able to continue
+local wait = 4 // How many seconds a player should be on each image before being able to continue
 
 local images = {
 	{image = "falloutrp/tutorial/pipboy1.jpg", description = " The pipboy contains your player data, inventory, and settings.\n It can be accessed by hitting F4.\n In this tab you can equip, use, and drop items."},
