@@ -1,34 +1,8 @@
-// Tokens
-util.AddNetworkString("updateNameChanges")
-// Functional name change
+
 util.AddNetworkString("updateNameChange")
 util.AddNetworkString("validateNameChange")
 
 local meta = FindMetaTable("Player")
-
-function meta:addNameChange()
-	self.playerData.namechanges = self:getNameChanges() + 1
-	
-	local changes = self:getNameChanges()
-	
-	MySQLite.query("UPDATE playerdata SET namechanges = " ..changes .." WHERE steamid = '" ..self:SteamID() .."'")	
-		
-	net.Start("updateNameChanges")
-		net.WriteInt(changes, 8)
-	net.Send(self)
-end
-
-function meta:removeNameChange()
-	self.playerData.namechanges = self:getNameChanges() - 1
-	
-	local changes = self:getNameChanges()
-	
-	MySQLite.query("UPDATE playerdata SET namechanges = " ..changes .." WHERE steamid = '" ..self:SteamID() .."'")	
-	
-	net.Start("updateNameChanges")
-		net.WriteInt(changes, 8)
-	net.Send(self)
-end
 
 function meta:changeName(name)
 	// Update in lua, broadcast to all
@@ -37,7 +11,7 @@ function meta:changeName(name)
 		net.WriteEntity(self)
 		net.WriteString(name)
 	net.Broadcast()
-	
+
 	// Update in MySQL
 	MySQLite.query("UPDATE playerdata SET name = '" ..name .."' WHERE steamid = '" ..self:SteamID() .."'")
 end
@@ -58,7 +32,7 @@ local function validateNameChange(ply, name)
 				ply:notify("Player with that name already exists.", NOTIFY_ERROR, 3, true)
 			else
 				ply:changeName(name)
-				ply:removeNameChange() // Remove a name change token
+				ply:removeToken(getNameTokens()) // Remove a name change token
 			end
 		end)
 	end
@@ -66,6 +40,6 @@ end
 
 net.Receive("validateNameChange", function(len, ply)
 	local name = net.ReadString()
-	
+
 	validateNameChange(ply, name)
 end)

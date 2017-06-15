@@ -1,7 +1,4 @@
 
-// Token shop
-util.AddNetworkString("updateTitleCreations")
-// Functional
 util.AddNetworkString("updateTitle")
 util.AddNetworkString("updateTitles")
 util.AddNetworkString("createTitle")
@@ -19,9 +16,9 @@ function meta:loadTitles()
 		if results then
 			for k,v in pairs(results) do
 				local tbl = {title = v.title, equipped = v.equipped, prefix = v.prefix}
-				
+
 				table.insert(self.titles, tbl)
-				
+
 				// Remember whether or not the title is currently equipped
 				if tobool(v.equipped) then
 					self:equipTitle(tbl)
@@ -29,30 +26,6 @@ function meta:loadTitles()
 			end
 		end
 	end)
-end
-
-function meta:addTitleCreation()
-	self.playerData.titlecreations = self:getTitleCreations() + 1
-	
-	local creations = self:getTitleCreations()
-	
-	MySQLite.query("UPDATE playerdata SET titlecreations = " ..creations .." WHERE steamid = '" ..self:SteamID() .."'")
-	
-	net.Start("updateTitleCreations")
-		net.WriteInt(creations, 8)
-	net.Send(self)
-end
-
-function meta:removeTitleCreation()
-	self.playerData.titlecreations = self:getTitleCreations() - 1
-	
-	local creations = self:getTitleCreations()
-	
-	MySQLite.query("UPDATE playerdata SET titlecreations = " ..creations .." WHERE steamid = '" ..self:SteamID() .."'")
-	
-	net.Start("updateTitleCreations")
-		net.WriteInt(creations, 8)
-	net.Send(self)
 end
 
 function meta:equipTitle(title)
@@ -68,9 +41,9 @@ function meta:equipTitle(title)
 
 	title.equipped = 1
 	self.title = title
-	
+
 	MySQLite.query("UPDATE titles SET equipped = 1 WHERE steamid = '" ..self:SteamID() .."' and title = '" ..title.title .."'")
-	
+
 	self:updateTitle() // Broadcast update to all players
 	self:updateTitles() // Update equipped for just this player
 end
@@ -78,9 +51,9 @@ end
 function meta:unequipTitle(title)
 	title.equipped = 0
 	self.title = {}
-	
+
 	MySQLite.query("UPDATE titles SET equipped = 0 WHERE steamid = '" ..self:SteamID() .."' and title = '" ..title.title .."'")
-	
+
 	self:updateTitle() // Broadcast update to all players
 	self:updateTitles() // Update equipped for just this player
 end
@@ -91,13 +64,13 @@ local function isValid(title)
 	elseif #title > TITLE_MAX then
 		return false, "Title must be less than " ..TITLE_MAX .." character."
 	end
-	
+
 	for i = 1, #title do
 		if table.HasValue(TITLE_INVALID, title[i]) then
 			return false, "Title cannot have the character " ..title[i]
 		end
 	end
-	
+
 	return true
 end
 
@@ -108,22 +81,22 @@ function meta:createTitle(title, prefix)
 		self:notify(errorMessage, NOTIFY_ERROR)
 		return
 	end
-	
+
 	// Remove title creation token
-	self:removeTitleCreation()
-	
+	self:removeToken(getTitleTokens())
+
 	// Add title to player
 	local tbl = {
 		["title"] = title,
 		["equipped"] = false,
 		["prefix"] = prefix,
 	}
-	
+
 	table.insert(self.titles, tbl)
 	MySQLite.query("INSERT INTO titles (steamid, title, prefix) VALUES ('" ..self:SteamID() .."', '" ..title .."', " ..util.boolToNumber(prefix) ..")")
-	
+
 	self:updateTitles()
-	
+
 	// Notify player
 	self:notify("You have created the title: " ..title, NOTIFY_GENERIC, 5)
 	self:notify("You can find and equip it via your pipboy.", NOTIFY_GENERIC, 5)
@@ -145,13 +118,13 @@ end
 net.Receive("createTitle", function(len, ply)
 	local title = net.ReadString()
 	local prefix = net.ReadBool()
-	
+
 	ply:createTitle(title, prefix)
 end)
 
 net.Receive("equipTitle", function(len, ply)
 	local title = net.ReadString()
-	
+
 	for k,v in pairs(ply:getTitles()) do
 		if v.title == title then
 			ply:equipTitle(v)
@@ -162,7 +135,7 @@ end)
 
 net.Receive("unequipTitle", function(len, ply)
 	local title = net.ReadString()
-	
+
 	for k,v in pairs(ply:getTitles()) do
 		if v.title == title then
 			ply:unequipTitle(v)

@@ -8,19 +8,19 @@ local buttonW, buttonH = 80, 40
 
 local teams = {
 	[TEAM_BOS] = {
-		Name = "Brotherhood of Steel", 
+		Name = "Brotherhood of Steel",
 		Emblem = "falloutrp/factions/BrotherhoodOfSteelEmblem.png",
 		Reputation = "falloutrp/factions/BrotherhoodOfSteelReputation.png",
 		Description = "Increased damage with energy weapon.\nMaximum armour increase."
 	},
 	[TEAM_NCR] = {
-		Name = "New California Republic", 
+		Name = "New California Republic",
 		Emblem = "falloutrp/factions/NewCaliforniaRepublicEmblem.png",
 		Reputation = "falloutrp/factions/NewCaliforniaRepublicReputation.png",
 		Description = "Increased damage with guns.\nMaximum health increase."
-	},	
+	},
 	[TEAM_LEGION] = {
-		Name = "Legion", 
+		Name = "Legion",
 		Emblem = "falloutrp/factions/LegionEmblem.png",
 		Reputation = "falloutrp/factions/LegionReputation.png",
 		Description = "Increased damage with melee weapons\nand explosives.\nIncreased critical\nchance and critical damage."
@@ -34,7 +34,7 @@ function openFactionChange()
 	frame:SetFontTitle("FalloutRP3", "Faction Registration")
 	frame:AddCloseButton()
 	frame:MakePopup()
-		
+
 	local nextY = paddingH
 	for id, v in pairs(teams) do
 		if LocalPlayer():Team() != id then
@@ -46,55 +46,49 @@ function openFactionChange()
 				surface.SetDrawColor(COLOR_AMBER)
 				surface.DrawOutlinedRect(0, 0, w, h)
 				//draw.RoundedBox(2, 0, 0, w, h, COLOR_BROWN)
-				
+
 				surface.SetMaterial(Material(v["Emblem"]))
 				surface.SetDrawColor(Color(255, 255, 255, 255))
 				surface.DrawTexturedRect(picPaddingW, picPaddingH + 5, picSize, picSize - 10)
-								
+
 				surface.SetMaterial(Material(v["Reputation"]))
 				surface.SetDrawColor(Color(255, 255, 255, 255))
-				surface.DrawTexturedRect(picPaddingW * 2 + picSize, picPaddingH + 5, picSize, picSize - 10) 
+				surface.DrawTexturedRect(picPaddingW * 2 + picSize, picPaddingH + 5, picSize, picSize - 10)
 			end
-				
+
 			local name = vgui.Create("DLabel", teamFrame)
 			name:SetText(v["Name"])
 			name:SetTextColor(COLOR_AMBER)
 			name:SetFont("FalloutRP3")
 			name:SizeToContents()
 			name:SetPos(picPaddingW * 3 + picSize * 2, picPaddingH)
-				
+
 			local nameX, nameY = name:GetSize()
-				
+
 			local description = vgui.Create("DLabel", teamFrame)
 			description:SetText(v["Description"])
 			description:SetTextColor(COLOR_AMBER)
 			description:SetFont("FalloutRP2")
 			description:SizeToContents()
 			description:SetPos(picPaddingW * 3 + picSize * 2, picPaddingH * 2 + nameY)
-			
+
 			local button = vgui.Create("FalloutRP_Button", teamFrame)
 			button:SetSize(buttonW, buttonH)
 			button:SetPos(teamW - paddingW - buttonW, teamH/2 - buttonH/2)
 			button.DoClick = function(self)
 				surface.PlaySound("garrysmod/ui_click.wav")
-					
+
 				// Change team
 				net.Start("factionChange")
 					net.WriteInt(id, 8)
 				net.SendToServer()
-				
+
 				frame:Remove()
 			end
 			button:SetText("Select")
 			button:SetFont("FalloutRP1")
-				
+
 			nextY = nextY + teamH + paddingH
 		end
 	end
 end
-
-net.Receive("updateFactionChanges", function()
-	local changes = net.ReadInt(8)
-
-	LocalPlayer().playerData.factionchanges = changes
-end)
