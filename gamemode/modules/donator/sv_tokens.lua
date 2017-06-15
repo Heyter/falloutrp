@@ -22,7 +22,7 @@ function meta:removeToken(amount)
 
 	MySQLite.query("UPDATE playerdata SET tokens = " ..tokens .." WHERE steamid = '" ..self:SteamID() .."'")
 
-	self:notify("You have " ..tokens .." faction changes remaining.", NOTIFY_GENERIC)
+	self:notify("You have " ..tokens .." tokens remaining.", NOTIFY_GENERIC)
 
     net.Start("updateTokens")
         net.WriteInt(tokens, 8)
