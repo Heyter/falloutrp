@@ -35,7 +35,7 @@ hook.Add("OnNPCKilled", "NPCQuest", function(npc, attacker, inflictor)
         local class = npc:GetClass()
 
         if class == "npc_ghoulferal" or class == "npc_ghoulferal_swamp" or class == "npc_ghoulferal_reaver" or class == "npc_ghoulferal_roamer" then
-            ply:addQuestProgress(8, 1, 1)
+            attacker:addQuestProgress(8, 1, 1)
         end
     end
 end)
