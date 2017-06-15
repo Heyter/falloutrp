@@ -38,7 +38,6 @@ function openFactionChange()
 	local nextY = paddingH
 	for id, v in pairs(teams) do
 		if LocalPlayer():Team() != id then
-			print(LocalPlayer():Team(), id)
 			local teamFrame = vgui.Create("DPanel", frame)
 			teamFrame:SetPos(paddingW, nextY)
 			teamFrame:SetSize(teamW, teamH)

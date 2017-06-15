@@ -1,9 +1,12 @@
 
+util.AddNetworkString("customCollision")
+
 hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local inflictor = dmgInfo:GetInflictor()
 	local attacker = dmgInfo:GetAttacker()
 	local damageType = dmgInfo:GetDamageType()
 	local damage = dmgInfo:GetDamage()
+
 	if IsValid(attacker) and IsValid(target) then
 		if attacker:IsPlayer() then
 			if attacker.spawnProtected then
@@ -113,6 +116,9 @@ end)
 
 hook.Add("PlayerSpawn", "CustomCollision", function(ply)
 	ply:SetAvoidPlayers(true)
+
+	net.Start("customCollision")
+	net.Send(ply)
 end)
 
 local spawns = {
