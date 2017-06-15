@@ -76,7 +76,7 @@ function npcOutOfRange(npc, ply)
 
 	local trace = {
 		start = util.getFeetPosition(npc),
-		endpos = ply:GetShootPos() - Vector(0, 0, 10),
+		endpos = ply:GetShootPos() - Vector(0, 0, 50),
 		filter = npc
 	}
 
