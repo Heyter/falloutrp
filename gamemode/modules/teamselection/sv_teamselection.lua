@@ -78,7 +78,7 @@ local function createCharacter(ply, name, teamId, values)
 		["speech"] = 1,
 		["survival"] = 1,
 		["unarmed"] = 1,
-		["tokens"] = 0
+		["tokens"] = 1
 	}
 	ply.inventory = {
 		weapons = {},
