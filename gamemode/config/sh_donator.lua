@@ -5,9 +5,9 @@ TOKEN_SHOP = {
 	Model = "models/breen.mdl",
 
 	TokensNeeded = {
-		FactionChange = 5,
-		NameChange = 5,
-		Title = 10,
+		FactionChange = 1,
+		NameChange = 1,
+		Title = 2,
 	}
 }
 
