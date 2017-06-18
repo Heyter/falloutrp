@@ -38,6 +38,22 @@ surface.CreateFont("FalloutRP4", {
 	font = "monofonto"
 })
 
+surface.CreateFont("FalloutRP6", {
+	size = 50,
+	weight = 600,
+	antialias = true,
+	shadow = true,
+	font = "monofonto"
+})
+
+surface.CreateFont("FalloutRP7", {
+	size = 75,
+	weight = 600,
+	antialias = true,
+	shadow = true,
+	font = "monofonto"
+})
+
 surface.CreateFont("FalloutRPHUD1", {
 	font      = "Impact",
 	size      = 20,
