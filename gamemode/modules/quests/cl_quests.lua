@@ -385,10 +385,11 @@ end
 
 hook.Add("HUDPaint", "questTracker", function()
     if LocalPlayer().quests then
+        local offset = 0
         for k,v in pairs(LocalPlayer().quests) do
             if !v.completed and v.track then
                 local color = util.getPepboyColor()
-                local offset = 15
+                offset = offset + 15
 
                 // Quest Name
                 for i = 1, 2 do
@@ -403,6 +404,7 @@ hook.Add("HUDPaint", "questTracker", function()
                     draw.SimpleText(v.key .." " ..v.val, "FalloutRPQuest2", ScrW() - 230, offset, COLOR_WHITE, false, 0)
                 end
 
+                offset = offset + 10
             end
         end
    end
