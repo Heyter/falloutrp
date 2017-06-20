@@ -129,8 +129,8 @@ end
 // Add Questgivers below Here
 addQuestGiver(
 "Governor Dave",
-Vector(-9450, 9965, 40),
-Angle(0, 27, 0),
+Vector(-10205, 1304, 127),
+Angle(0, 70, 0),
 "models/atp/fonv/securitron_clean.mdl",
 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 )
