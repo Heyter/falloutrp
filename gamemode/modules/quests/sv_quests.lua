@@ -81,8 +81,8 @@ local meta = FindMetaTable("Player")
 function meta:lootQuestItem(classid, quantity)
     quest, task = QUESTS:getItemQuest(classid), QUESTS:getItemTask(classid)
 
-    if !self:hasQuest(quest) then return end
-    if self:isQuestTaskComplete(quest, task) then return end
+    if !self:hasQuest(quest) then return false end
+    if self:isQuestTaskComplete(quest, task) then return false end
 
     local quantity = quantity or 1
     local needed = QUESTS:getTaskProgressNeeded(quest, task) - self:getTaskProgress(quest, task)

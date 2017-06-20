@@ -58,6 +58,8 @@ function meta:lootItem(ent, itemId, quantity)
 				local looted = self:lootQuestItem(item.classid, quantity)
 				if looted then
 					ent:removeItem(itemId, looted, self)
+				elseif looted == false then
+					self:notify("You have no use for this now.", NOTIFY_ERROR)
 				end
 
 				return
