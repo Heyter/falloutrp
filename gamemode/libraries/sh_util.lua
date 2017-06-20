@@ -95,6 +95,15 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	return winner
 end
 
+if SERVER then
+	function util.facePlayer(npc, ply)
+		local vec1 = npc:GetPos()
+		local vec2 = ply:GetShootPos()
+
+		npc:SetAngles((vec1 - vec2):Angle() - Angle(0, 180, 0))
+	end
+end
+
 if CLIENT then
 	function util.saveMousePos()
 		local mouseX, mouseY = input.GetCursorPos()
