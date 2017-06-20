@@ -78,18 +78,21 @@ end
 
 local meta = FindMetaTable("Player")
 
-function meta:lootQuestItem(classid)
+function meta:lootQuestItem(classid, quantity)
     quest, task = QUESTS:getItemQuest(classid), QUESTS:getItemTask(classid)
 
     if !self:hasQuest(quest) then return end
     if self:isQuestTaskComplete(quest, task) then return end
 
+    local quantity = quantity or 1
     local needed = QUESTS:getTaskProgressNeeded(quest, task) - self:getTaskProgress(quest, task)
 
     // Check if player has too max of the item in bank or inventory
     local type = classidToStringType(classid)
     local invItem = self:hasInventoryItem(type, classid)
+    invItem = self:getInventoryItem(invItem, classid)
     local bankItem = self:hasBankItem(type, classid)
+
     local totalQuantity = 0
 
     if invItem then
@@ -107,6 +110,8 @@ function meta:lootQuestItem(classid)
         end
     end
 
+    totalQuantity = totalQuantity + quantity
+
     if totalQuantity > needed then
         self:notify("You can not take any more of this item", NOTIFY_ERROR, 5)
         return
@@ -114,6 +119,8 @@ function meta:lootQuestItem(classid)
 
     self:pickUpItem(createItem(classid, 1), 1)
     self:notify("Quest item found.", NOTIFY_GENERIC, 5)
+
+    return quantity
 end
 
 function meta:addQuestProgress(questId, taskId, progress)

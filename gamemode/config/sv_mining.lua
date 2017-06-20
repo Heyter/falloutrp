@@ -1,9 +1,9 @@
 
-// Shared 
+// Shared
 VEINS = {
-	Normal = { 
+	Normal = {
 		Sizes = {
-			small = {Props = {"models/props_nature/rock_worn001.mdl", "models/props_nature/rock_worn_cluster001.mdl", "models/props_nature/rock_worn_cluster002.mdl"}, Amount = {1, 3}}, 
+			small = {Props = {"models/props_nature/rock_worn001.mdl", "models/props_nature/rock_worn_cluster001.mdl", "models/props_nature/rock_worn_cluster002.mdl"}, Amount = {1, 3}},
 			medium = {Props = {"models/props_mining/rock003.mdl"}, Amount = {3, 7}},
 			large = {Props = {"models/props_mining/rock001.mdl"}, Amount = {5, 10}}
 		},
@@ -99,7 +99,7 @@ VEINS = {
 			{Position = Vector(-13654, 5317, 4), Active = false},
 			{Position = Vector(-9899, 7183, 2), Active = false},
 			{Position = Vector(14576, 8957, 53), Active = false},
-			{Position = Vector(13857, 4067, 343), Active = false}, 
+			{Position = Vector(13857, 4067, 343), Active = false},
 			{Position = Vector(13969, 3550, 57), Active = false},
 			{Position = Vector(-13450, 1164, 2), Active = false},
 			{Position = Vector(-13035, 1612, 2), Active = false},
@@ -109,7 +109,7 @@ VEINS = {
 		Default = 5030, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5031] = 30, [5032] = 10} // Rock = Probability %
 	}
-} 
+}
 
 function spawnrocks()
 	for k,v in pairs(VEINS) do
