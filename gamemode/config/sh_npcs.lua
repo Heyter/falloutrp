@@ -212,7 +212,7 @@ NPCS.npcs = {
 			[4001] = {quantity = {1, 1}, prob = 4},
 			[5045] = {quantity = {1, 4}, prob = 80},
 			[5028] = {quantity = {1, 2}, prob = 10},
-			[5041] = {quantity = {1, 1}, prob = 5},
+			[5041] = {quantity = {1, 1}, prob = 5}
 		},
 		Positions = {
 			{Position = Vector(-9241, 6978, 25), Active = false},
