@@ -225,7 +225,7 @@ addQuest(
 "Bank Robber",
 "Good you're here! I need help! I was on my way to the bank when a man came from behind me and robber me of everything I had! Please chase after him! I saw him going towards the vault. It should be on your map. Please go find my valuables! If you get my stuff back I will give you a great reward for my gratitude.",
 {npc = "Governor Dave"},
-{quests = {4}, level = 5},
+{quests = {6}, level = 5},
 {experience = 1250, caps = 195},
 {[5048] = {1, 1}},
 1,
