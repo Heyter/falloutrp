@@ -121,6 +121,7 @@ hook.Add("PlayerSpawn", "CustomCollision", function(ply)
 	net.Send(ply)
 end)
 
+/*
 local spawns = {
 	Vector(-9699.635742, 10491.600586, 0),
 	Vector(-9714.706055, 10872.917969, 0),
@@ -140,11 +141,12 @@ local spawns = {
 	Vector(-7657.836426, 10354.350586, 0),
 	Vector(-7832.329590, 10004.724609, 0),
 }
-hook.Add("PlayerSpawn", "SpawnPoints", function(ply)
+hook.Remove("PlayerSpawn", "SpawnPoints", function(ply)
 	timer.Simple(0.5, function()
 		ply:SetPos(table.Random(spawns) + Vector(0, 0, 30))
 	end)
 end)
+*/
 
 // Loadout
 hook.Add("PlayerLoadout", "playerLoadout", function(ply)
