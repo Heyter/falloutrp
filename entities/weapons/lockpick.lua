@@ -10,7 +10,7 @@ if SERVER then
 	for _, v in pairs( files ) do
 		resource.AddFile("materials/vgui/skyrim/"..v)
 	end
-	
+
 	local files = file.Find("sound/lockpicking/*.wav", "GAME")
 	for _, v in pairs( files ) do
 		resource.AddFile("sound/lockpicking/"..v)
@@ -26,7 +26,7 @@ if CLIENT then
 end
 
 SWEP.Author = "Exho"
-SWEP.Instructions = "Left or right click to pick a lock" 
+SWEP.Instructions = "Left or right click to pick a lock"
 SWEP.Contact = ""
 SWEP.Purpose = ""
 
@@ -44,7 +44,7 @@ SWEP.Category = "DarkRP (Utility)"
 
 SWEP.Sound = Sound("lockpicking/pickmovement_1.wav") -- Not sure what this does...
 
-SWEP.Primary.ClipSize = -1 
+SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = 0
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
@@ -78,16 +78,16 @@ if SERVER then
 	util.AddNetworkString("lockpick_unlock")
 	util.AddNetworkString("lockpick_check")
 	util.AddNetworkString("lockpick_end")
-	
+
 	--// When a player breaks a lockpick
 	net.Receive("lockpick_break", function( len, ply )
 		if ply:HasWeapon("lockpick") then
 			local wep = ply:GetActiveWeapon()
-			
+
 			if wep:GetClass() == "lockpick" then
 				wep:Fail()
 				wep:SetNextPrimaryFire(CurTime() + 2)
-				
+
 				local chance = math.random(1, 25)
 				if chance == 1 then // You're lockpick broke
 					ply:notify("You failed to lockpick that and broke your lockpick.", NOTIFY_ERROR, 5)
@@ -98,14 +98,14 @@ if SERVER then
 			end
 		end
 	end)
-	
+
 	--// When a player successfully unlocks a door
 	net.Receive("lockpick_unlock", function( len, ply )
 		if ply:HasWeapon("lockpick") then
 			local wep = ply:GetActiveWeapon()
-			
+
 			if wep:GetClass() == "lockpick" then
-				if wep:GetNWBool("lockpick_canTurn", false) then	
+				if wep:GetNWBool("lockpick_canTurn", false) then
 					wep:Succeed()
 					ServerLog(ply:Nick().." has unlocked a door!\n")
 				else
@@ -114,27 +114,27 @@ if SERVER then
 			end
 		end
 	end)
-	
+
 	--// When a player backs or some other strange circumstance
 	net.Receive("lockpick_end", function( len, ply )
 		if ply:HasWeapon("lockpick") then
 			local wep = ply:GetActiveWeapon()
-			
+
 			if wep:GetClass() == "lockpick" then
 				wep:Fail( true )
 				ply:PrintMessage( HUD_PRINTCONSOLE, "Cancelled lockpicking" )
 			end
 		end
 	end)
-	
+
 	net.Receive("lockpick_check", function( len, ply )
 		local angle = net.ReadInt( 8 )
-		
+
 		if ply:HasWeapon("lockpick") then
 			local wep = ply:GetActiveWeapon()
 			print(angle)
 			print(wep.unlockAngle)
-			if angle - 10 < wep.unlockAngle and angle + 10 > wep.unlockAngle then 
+			if angle - 10 < wep.unlockAngle and angle + 10 > wep.unlockAngle then
 				-- Lockpick has the correct angle to open, tell the client
 				wep:SetNWBool("lockpick_canTurn", true)
 			else
@@ -143,18 +143,18 @@ if SERVER then
 		end
 	end)
 end
-	
+
 if CLIENT then
 	function surface.DrawTexturedRectRotatedPoint( x, y, w, h, rot, x0, y0 )
 		local c = math.cos( math.rad( rot ) )
 		local s = math.sin( math.rad( rot ) )
 		local newx = y0 * s - x0 * c
 		local newy = y0 * c + x0 * s
-		
+
 		surface.DrawTexturedRectRotated( x + newx, y + newy, w, h, rot )
 	end
 end
-	
+
 --// Plays sounds when the cylinder turns
 local nextSound = 0
 local function playTurningSounds()
@@ -200,7 +200,7 @@ function SWEP:PrimaryAttack()
 	if not IsValid(ent) then return end
 	if not ent:GetClass() == "chest" then return end
 	if not ent:GetLocked() then return end
-	
+
 	if self:GetOwner():getSkill("lockpick") < ent:GetLevel() then
 		self:GetOwner():notify("You do not have the lockpicking level to do this.", NOTIFY_ERROR)
 		return
@@ -217,7 +217,7 @@ function SWEP:PrimaryAttack()
 
 	self:SetIsLockpicking(true)
 	self:SetLockpickEnt(ent)
-	
+
 	local totalLockpicks = self:GetTotalLockpicks()
 
 	if CLIENT then
@@ -225,26 +225,26 @@ function SWEP:PrimaryAttack()
 		local baseW = baseH
 		local insideH = baseH * 0.29
 		local insideW = insideH
-		
+
 		local lockRotation = 0
 		local newRotation = 0
 		local pickRotation = 0
 		local oldPickRotation = 0
-		
+
 		local rotatingLock = false
 		local canRotate = true
 		local unlocked = false
-		
+
 		local holdTime = 0
 		local nextCheck = 0
-		
+
 		-- Play starting lockpick sound
 		surface.PlaySound("lockpicking/enter.wav")
-		
+
 		if IsValid(self.frame) then
 			self.frame:Remove()
 		end
-		
+
 		self.frame = vgui.Create("DFrame")
 		local frame = self.frame
 		frame:SetSize( ScrW() / 2, ScrH() )
@@ -252,41 +252,41 @@ function SWEP:PrimaryAttack()
 		frame:ShowCloseButton( false )
 		frame:SetTitle("")
 		frame:MakePopup()
-		frame.Paint = function( pnl )	
+		frame.Paint = function( pnl )
 			local x = frame:GetWide()/2 - baseW/2
 			local y = frame:GetWide() - (baseH * 1)
-			
+
 			draw.DrawText( "Press 'Q' to stop picking", "TargetID", x + baseW/2, y + baseH + 30, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
 			draw.DrawText( "Hold 'A' to turn the lock", "TargetID", x + baseW/2, y + baseH + 50, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
-			
+
 			-- Black background behind the inside lock just to make sure no transparency peeks through
 			surface.SetDrawColor( color_black )
 			surface.DrawRect( x + baseW/4, y + baseH/4, baseW/2, baseH/2 )
-			
+
 			-- The outside lock
 			surface.SetDrawColor( 200, 200, 200, 255 )
 			surface.SetMaterial( matLock )
 			surface.DrawTexturedRect( x, y, baseW, baseH )
-			
+
 			-- The inside lock
 			lockRotation = Lerp( 10 * FrameTime(), lockRotation, newRotation)
 			newRotation = math.Clamp( newRotation, -90, 0 )
-			
+
 			local x, y = x + baseW/2 , y + baseH/2 + (insideH / 6)
-			
+
 			surface.SetDrawColor( 200, 200, 200, 255 )
 			surface.SetMaterial( matLockinside )
 			surface.DrawTexturedRectRotated( x, y, insideW, insideH, lockRotation )
-			
-			if rotatingLock then 
+
+			if rotatingLock then
 				playTurningSounds()
-				
+
 				-- The lock has been turned half way
-				if math.abs( lockRotation ) > 45 then 
+				if math.abs( lockRotation ) > 45 then
 					if self:GetNWBool("lockpick_canTurn", false) then -- We've got the correct angle
 						if math.abs( lockRotation ) > 80 then -- Turned the key far enough
 							-- Time to unlock the door
-							pnl.Think = function() end 
+							pnl.Think = function() end
 							timer.Simple(0.5, function()
 								if IsValid(frame) then
 									frame:Close()
@@ -295,30 +295,30 @@ function SWEP:PrimaryAttack()
 								end
 							end)
 						end
-					else	
+					else
 						-- Invalid angle
 						canRotate = false
 					end
 				end
 
-				if math.abs( lockRotation ) > 15 then 
+				if math.abs( lockRotation ) > 15 then
 					holdTime = holdTime + FrameTime()
-					
+
 					if CurTime() > nextCheck then
 						net.Start("lockpick_check")
 							net.WriteInt( math.abs(pickRotation), 8 )
 						net.SendToServer()
-							
+
 						nextCheck = CurTime() + 0.5
 					end
-					
+
 					-- Holding an incorrect angle for too long, break the lockpick
 					if holdTime > 0.1 and not self:GetNWBool("lockpick_canTurn", false) then
 						holdTime = 0
 						frame:Close()
 						surface.PlaySound("lockpicking/pickbreak_"..math.random(3)..".wav")
 						self:GetOwner():ConCommand("-duck")
-						
+
 						net.Start("lockpick_break")
 							net.WriteEntity( self )
 						net.SendToServer()
@@ -329,18 +329,18 @@ function SWEP:PrimaryAttack()
 					net.Start("lockpick_check")
 						net.WriteInt( math.abs(pickRotation), 8 )
 					net.SendToServer()
-						
+
 					nextCheck = CurTime() + 0.5
 				end
-				
+
 				holdTime = 0
-				
+
 				-- Get the angle from the mouse position to the lock position
 				local mX, mY = pnl:ScreenToLocal( gui.MouseX(), gui.MouseY() )
 				pickRotation = math.deg(math.atan2((mY - y), (mX - x)))
-				
+
 				pickRotation = math.Clamp( pickRotation, -180, 0 )
-				
+
 				-- Rotation has changed, play sounds
 				if oldPickRotation != pickRotation then
 					playPickSounds()
@@ -351,35 +351,35 @@ function SWEP:PrimaryAttack()
 					end
 				end
 			end
-			
+
 			-- Draw the lockpick
 			surface.SetDrawColor( 200, 200, 200, 255 )
 			surface.SetMaterial( matLockpick )
 			surface.DrawTexturedRectRotatedPoint( x, y, baseW, 30, 180 - pickRotation, baseW / 2, 0 )
 		end
-		
+
 		local hasJiggled = false
 		frame.Think = function( pnl )
 			-- Exit the lockpicking screen
 			if input.IsKeyDown( KEY_Q ) then
 				net.Start("lockpick_end")
 				net.SendToServer()
-				
+
 				pnl:Close()
 			end
-			
+
 			if input.IsKeyDown( KEY_A ) and canRotate then
 				rotatingLock = true
 				newRotation = newRotation - 5
 			else
-				-- Rotate back to the starting position 
+				-- Rotate back to the starting position
 				rotatingLock = false
 				newRotation = newRotation + ( 200 * FrameTime() )
 				if newRotation > -5 then
 					canRotate = true
 				end
 			end
-			
+
 			if self:GetNWBool("lockpick_canTurn", false) then
 				if not hasJiggled then
 					lockRotation = lockRotation - 10
@@ -388,15 +388,15 @@ function SWEP:PrimaryAttack()
 			else
 				hasJiggled = false
 			end
-			
+
 			if !LocalPlayer():Alive() then
 				net.Start("lockpick_end")
 				net.SendToServer()
-				
+
 				pnl:Close()
-			end	
+			end
 		end
-		
+
 		return
 	end
 
@@ -420,8 +420,12 @@ function SWEP:Succeed()
 
 	local override = hook.Call("onLockpickCompleted", nil, self:GetOwner(), true, ent)
 
-	ent:SetLocked(false)
-	
+	if !ent.isFake then
+		ent:SetLocked(false)
+	else
+		self:addQuestProgress(13, 1, 1)
+	end
+
 	ent:EmitSound("lockpicking/unlock_"..math.random(3)..".wav")
 end
 
@@ -431,7 +435,7 @@ function SWEP:Fail( bSilent )
 
 	hook.Call("onLockpickCompleted", nil, self:GetOwner(), false, self:GetLockpickEnt())
 	self:SetLockpickEnt(nil)
-	
+
 	if not bSilent then
 		self.Owner:EmitSound("lockpicking/pickbreak_"..math.random(3)..".wav")
 	end
@@ -443,7 +447,7 @@ function SWEP:Think()
 	local trace = self:GetOwner():GetEyeTrace()
 	if not IsValid(trace.Entity) or trace.Entity ~= self:GetLockpickEnt() or trace.HitPos:Distance(self:GetOwner():GetShootPos()) > 100 then
 		self:Fail()
-		
+
 		-- Close the lockpicking screen
 		if IsValid( self.frame ) then
 			self.frame:Close()
@@ -454,5 +458,3 @@ end
 function SWEP:SecondaryAttack()
 	self:PrimaryAttack()
 end
-
-

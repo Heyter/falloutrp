@@ -137,25 +137,25 @@ Angle(0, 70, 0),
 
 addQuestGiver(
 "Brutus, Master of Crafting",
-Vector(-10205, 1304, 127),
-Angle(0, 70, 0),
-"models/atp/fonv/securitron_clean.mdl",
+Vector(-10574, 1595, 127),
+Angle(0, 20, 0),
+"models/ncr/ncr_06.mdl",
 {9, 10, 11, 12}
 )
 
 addQuestGiver(
 "Kenneth",
-Vector(-10205, 1304, 127),
-Angle(0, 70, 0),
-"models/atp/fonv/securitron_clean.mdl",
+Vector(-9535, 1351, 127),
+Angle(0, 87, 0),
+"models/ncr/ncr_03.mdl",
 {13, 14, 15, 16}
 )
 
 addQuestGiver(
 "Lily",
-Vector(-10205, 1304, 127),
-Angle(0, 70, 0),
-"models/atp/fonv/securitron_clean.mdl",
+Vector(-8579, 11726, 100),
+Angle(0, -113, 0),
+"models/player/korka007/clementine.mdl",
 {17}
 )
 
@@ -304,7 +304,7 @@ nil,
 1,
 "Craft Ripped Green Sneakers",
 1,
-"Craft Green Gloves"
+"Craft Ragged Green Gloves"
 )
 
 addQuest(

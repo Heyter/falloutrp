@@ -2,7 +2,7 @@
 WORKBENCH_MODEL = "models/mosi/fallout4/furniture/workstations/weaponworkbench01.mdl"
 
 WORKBENCH_POSITIONS = {
-	{Vector(-9253, 10809, 4), Angle(0, 270, 0)}
+	{Vector(-10667, 1816, 127), Angle(0, 60, 0)}
 }
 
 if SERVER then

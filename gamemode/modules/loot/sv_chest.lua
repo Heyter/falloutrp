@@ -67,6 +67,16 @@ function spawnChest(inactiveChests)
 	chest:addItem(createItem(4001, 1))
 end
 
+function spawnDummyChest()
+	local chest = ents.Create("chest")
+	chest:SetPos(Vector(-9376, 1363, 139))
+	chest:SetAngles(Angle(0, 90, 0))
+	chest:lock(1)
+	chest.isFake = true
+
+	chest:Spawn()
+end
+
 function getActiveChests()
 	local active = 0
 	local inactive = {}
@@ -100,6 +110,7 @@ end
 hook.Add("InitPostEntity", "startChestTimer", function()
 	timer.Simple(1, function()
 		beginChestTimer()
+		spawnDummyChest()
 	end)
 end)
 
