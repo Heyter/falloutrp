@@ -106,8 +106,8 @@ function meta:getAidQuantity(uniqueid)
 	return quantity or 1
 end
 
-addAid(4001, "Stimpack", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 150, 25)
-addAid(4002, "Super Stimpack", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 300, 50)
+addAid(4001, "Stimpak", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 150, 25)
+addAid(4002, "Super Stimpak", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 300, 50)
 addAid(4003, "Lay of Hands", "models/mosi/fallout4/props/aid/syringeammo.mdl", 0.2, 1500, 100)
 addAid(4004, "Blood Bag", "models/mosi/fallout4/props/aid/bloodbag.mdl", 5, 300, nil, 100)
 addAid(4005, "Blood Serum", "models/mosi/fallout4/props/aid/mysteriousserum.mdl", 5, 600, nil, 200, 2, 10)
