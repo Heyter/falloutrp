@@ -4,7 +4,7 @@ local count = 0
 function GM:PlayerSpawnedProp(ply, model, ent)
 	local obj = ent:GetPhysicsObject()
 	obj:EnableMotion(false)
-
+	ent._id = 15
 	//count = count + 1
 	//ply:notify("Count: " ..count, NOTIFY_GENERIC)
 end
