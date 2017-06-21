@@ -88,10 +88,11 @@ hook.Add("PlayerShouldTakeDamage", "SpawnTeamKill", function(victim, attacker)
 	end
 end)
 hook.Add("InitPostEntity", "SpawnZoneChecker", function()
-	local safeStart, safeEnd = SAFEZONE_START, SAFEZONE_END
+	local sanctuaryStart, sanctuaryEnd = SANCTUARYZONE_START, SANCTUARYZONE_END
+	local safeStart, safeEnd = SPAWNZONE_START, SPAWNZONE_END
 
-	timer.Create("spawnZone", 0.5, 0, function()
-		for k,v in pairs(ents.FindInBox(SAFEZONE_START, SAFEZONE_END)) do
+	timer.Create("safeZone", 0.5, 0, function()
+		for k,v in pairs(ents.FindInBox(sanctuaryStart, sanctuaryEnd)) do
 			if IsValid(v) and v:IsPlayer() then
 				v:addQuestProgress(1, 1, 1)
 
@@ -102,7 +103,26 @@ hook.Add("InitPostEntity", "SpawnZoneChecker", function()
 
 					timer.Simple(10, function()
 						if IsValid(v) then
-							if !table.HasValue(ents.FindInBox(SAFEZONE_START, SAFEZONE_END), v) then
+							if !table.HasValue(ents.FindInBox(sanctuaryStart, sanctuaryEnd), v) then
+								v.spawnProtected = false
+							end
+							v.onSpawnTimer = false
+						end
+					end)
+				end
+			end
+		end
+
+		for k,v in pairs(ents.FindInBox(safeStart, safeEnd)) do
+			if IsValid(v) and v:IsPlayer() then
+				v.spawnProtected = true
+
+				if !v.onSpawnTimer then
+					v.onSpawnTimer = true
+
+					timer.Simple(10, function()
+						if IsValid(v) then
+							if !table.HasValue(ents.FindInBox(safeStart, safeEnd), v) then
 								v.spawnProtected = false
 							end
 							v.onSpawnTimer = false
