@@ -28,9 +28,6 @@ end
 // Spawn in cave, accept first quest
 function meta:newPlayerSpawn()
 	timer.Simple(1, function()
-		self:SetPos(Vector(-8441, 14589, -310))
-		self:SetEyeAngles(Angle(2, -90, 0))
-
 		self.newPlayer = false
 		self:acceptQuest(1)
 
