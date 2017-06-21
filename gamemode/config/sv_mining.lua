@@ -1,71 +1,76 @@
 
 // Shared
 VEINS = {
-	Normal = {
+	Common = {
 		Sizes = {
 			small = {Props = {"models/props_nature/rock_worn001.mdl", "models/props_nature/rock_worn_cluster001.mdl", "models/props_nature/rock_worn_cluster002.mdl"}, Amount = {1, 3}},
 			medium = {Props = {"models/props_mining/rock003.mdl"}, Amount = {3, 7}},
 			large = {Props = {"models/props_mining/rock001.mdl"}, Amount = {5, 10}}
 		},
 		Positions = {
-			{Position = Vector(-9019, 3395, 1), Active = false},
-			{Position = Vector(-9788, 5942, 0), Active = false},
-			{Position = Vector(-8354, 4890, 18), Active = false},
-			{Position = Vector(-5277, 3886, 3), Active = false},
-			{Position = Vector(-5774, 2585, 1), Active = false},
-			{Position = Vector(-3456, 3006, 19), Active = false},
-			{Position = Vector(-2317, 3482, 6), Active = false},
-			{Position = Vector(609, 4815, 0), Active = false},
-			{Position = Vector(3209, 6212, 42), Active = false},
-			{Position = Vector(5392, 4738, -12), Active = false},
-			{Position = Vector(4335, 5309, 54), Active = false},
-			{Position = Vector(9352, 5226, 1), Active = false},
-			{Position = Vector(8090, 1155, 0), Active = false},
-			{Position = Vector(6508, 1082, 176), Active = false},
-			{Position = Vector(8427, -2191, 0), Active = false},
-			{Position = Vector(10885, -2611, 2), Active = false},
-			{Position = Vector(11802, -3180, 10), Active = false},
-			{Position = Vector(12877, -3114, 4), Active = false},
-			{Position = Vector(14292, -3114, 3), Active = false},
-			{Position = Vector(13737, -6365, 46), Active = false},
-			{Position = Vector(13691, -9339, 36), Active = false},
-			{Position = Vector(13923, -10543, 13), Active = false},
-			{Position = Vector(12828, -11097, 11), Active = false},
-			{Position = Vector(9690, -7761, 95), Active = false},
-			{Position = Vector(6507, -7052, 21), Active = false},
-			{Position = Vector(7679, -5884, -6), Active = false},
-			{Position = Vector(6301, -13566, 34), Active = false},
-			{Position = Vector(1065, -11805, 29), Active = false},
-			{Position = Vector(1024, -12624, 13), Active = false},
-			{Position = Vector(-2862, -12256, 43), Active = false},
-			{Position = Vector(-2907, -11510, 14), Active = false},
-			{Position = Vector(-3145, -10430, 0), Active = false},
-			{Position = Vector(-4312, -10098, 0), Active = false},
-			{Position = Vector(-4474, -11848, 0), Active = false},
-			{Position = Vector(-7353, -13843, 10), Active = false},
-			{Position = Vector(-6953, -13779, 46), Active = false},
-			{Position = Vector(-7259, -8784, 41), Active = false},
-			{Position = Vector(-7574, -5518, 33), Active = false},
-			{Position = Vector(-6216, -2517, -273), Active = false},
-			{Position = Vector(-6519, 559, -310), Active = false},
-			{Position = Vector(-7549, 6652, 89), Active = false},
-			{Position = Vector(-13392, 491, 0), Active = false},
-			{Position = Vector(-12136, -1868, 58), Active = false},
-			{Position = Vector(-10918, -3687, 111), Active = false},
-			{Position = Vector(-13615, -9222, 34), Active = false},
-			{Position = Vector(-12355, -9080, 182), Active = false},
-			{Position = Vector(-11662, -7979, 48), Active = false},
-			{Position = Vector(-9601, -9661, 11), Active = false},
-			{Position = Vector(1486, -3335, 12), Active = false},
-			{Position = Vector(4583, -1504, 0), Active = false},
-			{Position = Vector(2182, 223, 45), Active = false},
-			{Position = Vector(-2409, 1478, 0), Active = false},
-			{Position = Vector(1168, -8615, 33), Active = false},
-			{Position = Vector(2918, -13801, 52), Active = false}
+			{Position = Vector(-6726, 8002, 10)},
+			{Position = Vector(-4521, 8582, 127)},
+			{Position = Vector(-3090, 8690, 243)},
+			{Position = Vector(-1345, 8911, 221)},
+			{Position = Vector(77, 7161, 129)},
+			{Position = Vector(2382, 7313, 85)},
+			{Position = Vector(-6694, 6136, 22)},
+			{Position = Vector(-3681, 5501, 10)},
+			{Position = Vector(-864, 5491, 4)},
+			{Position = Vector(-936, 6893, 21)},
+			{Position = Vector(-149, 9830, 124)},
+			{Position = Vector(-2724, 7680, 213)},
+			{Position = Vector(-8740, 7690, 162)},
+			{Position = Vector(-6651, 10731, 39)},
+			{Position = Vector(-5400, 11778, 243)},
+			{Position = Vector(-3560, 10707, 29)},
+			{Position = Vector(1497, 9774, 56)},
+			{Position = Vector(4776, 7356, 3)},
+			{Position = Vector(-4526, 13822, 12)},
+			{Position = Vector(-2316, 11116, 96)},
+			{Position = Vector(801, 4142, 60)},
+			{Position = Vector(3351, 4181, 1)},
+			{Position = Vector(5147, 4921, 7)},
+			{Position = Vector(187, -625, 2)},
+			{Position = Vector(-4831, 3441, 49)},
+			{Position = Vector(-10576, 8839, 16)},
 		},
-		Limit = 35, // How many normal veins can be on map at a time
+		Limit = 12, // How many normal veins can be on map at a time
 		Default = 5028, // The default rock that is mined if the extra isn't rolled
-		Extras = {[5029] = 30} // Rock = Probability %
+		Extras = {[5029] = 35} // Rock = Probability %
+	},
+	Uncommon = {
+		Sizes = {
+			small = {Props = {"models/props_wasteland/rockgranite02c.mdl", "models/props_wasteland/rockgranite03c.mdl"}, Amount = {1, 3}},
+			medium = {Props = {"models/props_wasteland/rockcliff01b.mdl", "models/props_wasteland/rockgranite01a.mdl"}, Amount = {3, 7}},
+			large = {Props = {"models/props_wasteland/rockcliff_cluster03a.mdl", "models/props_wasteland/rockcliff01f.mdl"}, Amount = {5, 10}}
+		},
+		Positions = {
+			{Position = Vector(3294, 7242, 25)},
+			{Position = Vector(1531, 7031, 141)},
+			{Position = Vector(-221, 6418, 50)},
+			{Position = Vector(-885, 8647, 140)},
+			{Position = Vector(-2570, 9274, 289)},
+			{Position = Vector(-3549, 7550, 196)},
+			{Position = Vector(-2233, 5723, 4)},
+			{Position = Vector(-5710, 6769, 97)},
+			{Position = Vector(-8325, 5490, 56)},
+			{Position = Vector(-8922, 8933, 5)},
+			{Position = Vector(-5984, 9193, 36)},
+			{Position = Vector(-3975, 9103, 173)},
+			{Position = Vector(-3066, 10432, 194)},
+			{Position = Vector(2022, 9489, 91)},
+			{Position = Vector(5970, 7440, 2)},
+			{Position = Vector(5886, 4062, 8)},
+			{Position = Vector(7302, -1059, 13)},
+			{Position = Vector(3635, -743, 35)},
+			{Position = Vector(1626, 2521, 6)},
+			{Position = Vector(-415, 3248, 42)},
+			{Position = Vector(-6306, 13789, 74)},
+		},
+		Limit = 10, // How many rare veins can be on map at a time
+		Default = 5030, // The default rock that is mined if the extra isn't rolled
+		Extras = {[5031] = 40} // Rock = Probability %
 	},
 	Rare = {
 		Sizes = {
@@ -73,41 +78,32 @@ VEINS = {
 			large = {Props = {"models/rarerocks/crystal2.mdl"}, Amount = {2, 4}}
 		},
 		Positions = {
-			{Position = Vector(-7325, -10460, 2), Active = false},
-			{Position = Vector(-6255, -13472, 219), Active = false},
-			{Position = Vector(-3711, -11483, 2), Active = false},
-			{Position = Vector(-3687, -12076, 11), Active = false},
-			{Position = Vector(-1957, -5395, 2), Active = false},
-			{Position = Vector(-1785, -5718, 2), Active = false},
-			{Position = Vector(-3458, -3681, 2), Active = false},
-			{Position = Vector(-5953, -504, -260), Active = false},
-			{Position = Vector(-6616, -599, -248), Active = false},
-			{Position = Vector(-6436, 8560, 18), Active = false},
-			{Position = Vector(-6653, 9364, 2), Active = false},
-			{Position = Vector(-4041, 10483, 284), Active = false},
-			{Position = Vector(-5974, 14118, 2), Active = false},
-			{Position = Vector(13039, 3005, 145), Active = false},
-			{Position = Vector(13056, 156, 58), Active = false},
-			{Position = Vector(11419, 268, 38), Active = false},
-			{Position = Vector(13584, -900, 22), Active = false},
-			{Position = Vector(-11477, -12078, 2), Active = false},
-			{Position = Vector(-13049, -6667, 6), Active = false},
-			{Position = Vector(-11709, 874, 43), Active = false},
-			{Position = Vector(-13483, 2612, 88), Active = false},
-			{Position = Vector(-13350, 3067, 29), Active = false},
-			{Position = Vector(-13601, 6472, 2), Active = false},
-			{Position = Vector(-13654, 5317, 4), Active = false},
-			{Position = Vector(-9899, 7183, 2), Active = false},
-			{Position = Vector(14576, 8957, 53), Active = false},
-			{Position = Vector(13857, 4067, 343), Active = false},
-			{Position = Vector(13969, 3550, 57), Active = false},
-			{Position = Vector(-13450, 1164, 2), Active = false},
-			{Position = Vector(-13035, 1612, 2), Active = false},
-			{Position = Vector(2070, -3744, 220), Active = false}
+			{Position = Vector(3686, 5599, 851)},
+			{Position = Vector(1224, 5420, 687)},
+			{Position = Vector(7658, 7418, 26)},
+			{Position = Vector(8069, 8098, 84)},
+			{Position = Vector(7871, 13673, 24)},
+			{Position = Vector(3935, 13902, 36)},
+			{Position = Vector(523, 13826, 713)},
+			{Position = Vector(-858, 14042, 574)},
+			{Position = Vector(-1890, 13954, 121)},
+			{Position = Vector(-1652, 12866, 180)},
+			{Position = Vector(-11829, 13949, 63)},
+			{Position = Vector(-8450, 11046, 30)},
+			{Position = Vector(-5157, 9819, 9)},
+			{Position = Vector(-4073, 9909, 21)},
+			{Position = Vector(-2292, 13079, -9)},
+			{Position = Vector(-2557, 12308, -58)},
+			{Position = Vector(-2150, 12118, 10)},
+			{Position = Vector(2380, 6822, 66)},
+			{Position = Vector(7663, 5653, 15)},
+			{Position = Vector(-1203, 1289, 361)},
+			{Position = Vector(-894, -497, 170)},
+			{Position = Vector(-308, -1190, 62)},
 		},
-		Limit = 15, // How many rare veins can be on map at a time
-		Default = 5030, // The default rock that is mined if the extra isn't rolled
-		Extras = {[5031] = 30, [5032] = 10} // Rock = Probability %
+		Limit = 8, // How many rare veins can be on map at a time
+		Default = 5039, // The default rock that is mined if the extra isn't rolled
+		Extras = {[5032] = 35, [5040] = 20} // Rock = Probability %
 	}
 }
 
@@ -122,13 +118,16 @@ function spawnrocks()
 	end
 end
 
-VEIN_RARE_CHANCE = 10 // % chance that a rare vein is spawned
-VEIN_TIMER = 300 // How often we try to spawn a new vein (seconds)
+VEIN_TIMER = 180 // How often we try to spawn a new vein (seconds)
 VEIN_SOUND = "pickaxe/deploy.wav" // Sound made when a vein is mined successfully
 
 function printRockPositions()
-	for k,v in pairs(ents.FindByModel("models/props_c17/oildrum001_explosive.mdl")) do
-		local p = v:GetPos()
-		print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Active = false},")
+	for k,v in pairs(ents.FindByClass("prop_physics")) do
+		if v:GetModel() == "models/props/cs_militia/footlocker01_closed.mdl" then
+			local p = v:GetPos()
+			local a = v:GetAngles()
+			print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Angles = Angle(" ..math.floor(a[1]) ..", " ..math.floor(a[2]) ..", " ..math.floor(a[3]) ..")},")
+			//{Position = Vector(8349, 4075, 17), Angles = Angle(0, -79, 2), Active = false},
+		end
 	end
 end
