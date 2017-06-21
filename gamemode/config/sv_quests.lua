@@ -2,17 +2,12 @@
 QUESTS = QUESTS or {}
 
 QUESTS.questItems = {
-    [5047] = {
-        position = Vector(-13485, 3086, 63),
-        angle = Angle(0, 0, 0),
-        model = "models/tsbb/animals/linsang.mdl",
-        quest = {4, 1}, // QuestID, TaskID
-    },
+    // Quest 14
     [5048] = {
-        position = Vector(11793, -1259, 15),
-        angle = Angle(0, 135, 0),
+        position = Vector(1564, 9265, 78),
+        angle = Angle(0, -45, 0),
         model = "models/props_c17/BriefCase001a.mdl",
-        quest = {7, 1},
+        quest = {14, 1},
     },
     // Quest 3
     [5063] = {
