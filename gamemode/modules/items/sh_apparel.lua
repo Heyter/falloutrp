@@ -105,9 +105,9 @@ end
 
 //Level 1
 // Cloth (Craftable)
-addApparel(2003, "Green Rag Hat", "helmet", "IDK", 1000, 0.5, 300, 1, 1, 1, 0, 0, 1, 2)
+addApparel(2003, "Green Rag Hat", "helmet", "IDK", 800, 0.5, 400, 1, 1, 1, 0, 0, 1, 2)
 addApparel(2018, "Green Rags", "chest", "IDK", 1105, 2.5, 500, 1, 1, 3, 0, 0, 1, 3)
-addApparel(2030, " Raggedy Green Slacks",  "pants", "IDK", 900, 2.3, 350, 1, 1, 2, 0, 0, 1, 1)
+addApparel(2030, "Raggedy Green Slacks",  "pants", "IDK", 900, 2.3, 350, 1, 1, 2, 0, 0, 1, 1)
 addApparel(2073, "Ripped Green Sneakers ",  "shoes", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)
 addApparel(2086, "Ragged Green Gloves",  "gloves", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)
 
