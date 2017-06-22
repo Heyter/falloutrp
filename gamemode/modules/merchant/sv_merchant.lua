@@ -13,7 +13,7 @@ function meta:buyItem(npc, type, id, index, uniqueid, quantity)
 	local item = table.Copy(MERCHANTS[npc]["Sale"][id]["Items"][index])
 
 	if item and (item.uniqueid == uniqueid) then
-		if self:canAfford(item.price) then
+		if self:canAfford(item.price * (quantity or 1)) then
 			// Remove player caps
 			self:addCaps(-item.price * (quantity or 1))
 

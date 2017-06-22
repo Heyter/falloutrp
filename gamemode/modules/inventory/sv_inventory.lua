@@ -65,6 +65,9 @@ function meta:dropAllInventory()
 		end
 	end
 
+	// Give the player back a starting item
+	self:pickUpItem(createItem(1023, 1))
+
 	// If the player had any items in the inventory then create the loot
 	if loot and #loot > 0 then
 		createLoot(self:GetPos(), loot)

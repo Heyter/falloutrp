@@ -4,14 +4,15 @@ NPCS = NPCS or {}
 
 NPCS.npcs = {
 	// Level 1-15 NPCs
-	["npc_giantrat"] = {
+	["nz_giantrat"] = {
 		Name = "Giant Rat",
 		Level = 15,
-		Health = 300,
-		Limit = 13, // How many can be active on the map at once
+		Health = 175,
+		Limit = 7, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
-		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 30,
+		Damage = 7,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5042] = {quantity = {1, 2}, prob = 80},
@@ -49,14 +50,15 @@ NPCS.npcs = {
 			{Position = Vector(-8109, 6431, 89)},
 		},
 	},
-	["npc_mantis_nymph"] = {
+	["nz_mantis_nymph"] = {
 		Name = "Mantis Nymph",
 		Level = 15,
-		Health = 275,
-		Limit = 4, // How many can be active on the map at once
+		Health = 200,
+		Limit = 3, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 40,
+		Damage = 12,
 		Loot = {
 			[5046] = {quantity = {1, 3}, prob = 80},
 		},
@@ -83,14 +85,15 @@ NPCS.npcs = {
 			{Position = Vector(4824, 5961, 86)},
 		},
 	},
-	["npc_mantis"] = {
+	["nz_mantis"] = {
 		Name = "Mantis",
 		Level = 15,
-		Health = 400,
-		Limit = 6, // How many can be active on the map at once
+		Health = 270,
+		Limit = 3, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 45,
+		Damage = 17,
 		Loot = {
 			[5046] = {quantity = {1, 5}, prob = 80},
 		},
@@ -117,14 +120,15 @@ NPCS.npcs = {
 			{Position = Vector(222, 9836, 160)},
 		},
 	},
-	["npc_gecko"] = {
+	["nz_gecko"] = {
 		Name = "Gecko",
 		Level = 15,
-		Health = 500,
-		Limit = 13, // How many can be active on the map at once
+		Health = 300,
+		Limit = 7, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
-		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 3, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 35,
+		Damage = 19,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[4006] = {quantity = {1, 1}, prob = 6}, // Water bottle
@@ -171,14 +175,15 @@ NPCS.npcs = {
 			{Position = Vector(-7078, 6735, 104)},
 		},
 	},
-	["npc_streettrog"] = {
+	["nz_streettrog"] = {
 		Name = "Trog",
 		Level = 15,
-		Health = 550,
-		Limit = 8, // How many can be active on the map at once
+		Health = 375,
+		Limit = 4, // How many can be active on the map at once
 		SpawnRate = 60, // How often (seconds) we try to spawn a new one
-		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 60,
+		Damage = 23,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 8},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -219,14 +224,15 @@ NPCS.npcs = {
 			{Position = Vector(-1096, 11413, 87)},
 		},
 	},
-	["npc_mirelurk"] = {
+	["nz_mirelurk"] = {
 		Name = "Mirelurk",
 		Level = 15,
-		Health = 850,
-		Limit = 4, // How many can be active on the map at once
+		Health = 500,
+		Limit = 2, // How many can be active on the map at once
 		SpawnRate = 180, // How often (seconds) we try to spawn a new one
-		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 80,
+		Damage = 25,
 		Loot = {
 			[5028] = {quantity = {1, 10}, prob = 70},
 			[5042] = {quantity = {1, 8}, prob = 80},
@@ -244,14 +250,15 @@ NPCS.npcs = {
 
 	// Level 15-30 NPCs
 
-	["npc_cazador"] = {
+	["nz_cazador"] = {
 		Name = "Cazador",
 		Level = 30,
-		Health = 575,
-		Limit = 13, // How many can be active on the map at once
+		Health = 400,
+		Limit = 7, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
-		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 3, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 90,
+		Damage = 25,
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5043] = {quantity = {1, 3}, prob = 80},
@@ -278,14 +285,15 @@ NPCS.npcs = {
 			{Position = Vector(-52, 11014, 364)},
 		},
 	},
-	["npc_sporecarrier"] = {
+	["nz_sporecarrier"] = {
 		Name = "Spore Carrier",
 		Level = 30,
-		Health = 725,
-		Limit = 10, // How many can be active on the map at once
+		Health = 520,
+		Limit = 5, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
-		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 115,
+		Damage = 28,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 8},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -307,14 +315,15 @@ NPCS.npcs = {
 			{Position = Vector(-8888, 12636, -135)},
 		},
 	},
-	["npc_ghoulferal_swamp"] = {
+	["nz_ghoulferal_swamp"] = {
 		Name = "Swamp Ghoul",
-		Level = 30,
-		Health = 675,
+		Level = 15,
+		Health = 310,
 		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
-		Experience = 120,
+		Experience = 95,
+		Damage = 20,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 8},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -351,14 +360,15 @@ NPCS.npcs = {
 			{Position = Vector(-7089, 10186, 42)},
 		},
 	},
-	["npc_ghoulferal"] = {
+	["nz_ghoulferal"] = {
 		Name = "Ghoul",
 		Level = 30,
-		Health = 675,
-		Limit = 17, // How many can be active on the map at once
+		Health = 450,
+		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
-		StartAmount = 5, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 120,
+		Damage = 26,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 4},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -477,14 +487,15 @@ NPCS.npcs = {
 		},
 	},
 	*/
-	["npc_ghoulferal_roamer"] = {
+	["nz_ghoulferal_roamer"] = {
 		Name = "Ghoul Roamer",
 		Level = 30,
-		Health = 725,
-		Limit = 18, // How many can be active on the map at once
+		Health = 475,
+		Limit = 9, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
-		StartAmount = 7, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 3, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 125,
+		Damage = 30,
 		Loot = {
 			[4001] = {quantity = {1, 2}, prob = 4},
 			[4002] = {quantity = {1, 1}, prob = 4},
@@ -534,14 +545,15 @@ NPCS.npcs = {
 			{Position = Vector(3952, 3995, 45)},
 		},
 	},
-	["npc_gecko_green"] = {
+	["nz_gecko_green"] = {
 		Name = "Green Gecko",
 		Level = 30,
-		Health = 1000,
-		Limit = 8, // How many can be active on the map at once
+		Health = 750,
+		Limit = 4, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
-		StartAmount = 4, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 150,
+		Damage = 25,
 		Loot = {
 			[4014] = {quantity = {1, 3}, prob = 80},
 			[5046] = {quantity = {1, 8}, prob = 80},
@@ -567,14 +579,15 @@ NPCS.npcs = {
 			{Position = Vector(-2503, 13905, 54)},
 		},
 	},
-	["npc_nukalurk"] = {
+	["nz_nukalurk"] = {
 		Name = "Nukalurk",
 		Level = 30,
-		Health = 1250,
-		Limit = 5, // How many can be active on the map at once
+		Health = 900,
+		Limit = 2, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
-		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 175,
+		Damage = 40,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5034] = {quantity = {1, 1}, prob = 25}, //Sheet metal
@@ -594,14 +607,15 @@ NPCS.npcs = {
 			{Position = Vector(-915, 138, 56)},
 		},
 	},
-	["npc_swamplurk"] = {
+	["nz_swamplurk"] = {
 		Name = "Swamplurk",
 		Level = 30,
-		Health = 1250,
-		Limit = 5, // How many can be active on the map at once
+		Health = 850,
+		Limit = 3, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
-		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 175,
+		Damage = 25,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5033] = {quantity = {1, 15}, prob = 40}, //Sticks
@@ -630,14 +644,15 @@ NPCS.npcs = {
 
 	// Level 30-50 NPCs
 
-	["npc_gecko_fire"] = {
+	["nz_gecko_fire"] = {
 		Name = "Fire Gecko",
 		Level = 50,
-		Health = 1750,
-		Limit = 5, // How many can be active on the map at once
+		Health = 1200,
+		Limit = 3, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 200,
+		Damage = 30,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 90},
 			[5043] = {quantity = {1, 8}, prob = 90},
@@ -673,14 +688,15 @@ NPCS.npcs = {
 		},
 	},
 	*/
-	["npc_deathclaw"] = {
+	["nz_deathclaw"] = {
 		Name = "Deathclaw",
 		Level = 50,
-		Health = 3000,
-		Limit = 10, // How many can be active on the map at once
+		Health = 2500,
+		Limit = 4, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
-		StartAmount = 3, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
+		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 250,
+		Damage = 45,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 90},
 			[5043] = {quantity = {1, 15}, prob = 90},
@@ -747,5 +763,5 @@ NPCS.npcs = {
 	*/
 }
 
-NPCS.regenChecker = 4 // How often an evaded show it tracked
-NPCS.regenPercentage = .30 // How much of max health is regened every evaded attack
+NPCS.regenChecker = 5 // How often an evaded show it tracked
+NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack

@@ -44,7 +44,6 @@ function meta:craftItem(itemInfo, quantity)
 	itemInfo.quantity = itemInfo.quantity or 1
 	itemInfo.quantity = itemInfo.quantity * quantity
 
-	print(itemInfo.quantity, quantity)
 
 	if self:hasCraftingLevel(itemInfo.level) then
 		if self:hasCraftingMaterials(itemInfo.materials, quantity) then

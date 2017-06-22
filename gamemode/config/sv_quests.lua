@@ -17,9 +17,9 @@ QUESTS.questItems = {
         quest = {3, 1},
     },
     [5051] = {
-        position = Vector(-1398, 6179, 47),
+        position = Vector(-1398, 6179, 55),
         angle = Angle(85, 0, -92),
-        model = "models/props_junk/gascan001a.mdl",
+        model = "models/props_c17/trappropeller_engine.mdl",
         quest = {3, 2},
     },
     // Quest 4
@@ -31,13 +31,13 @@ QUESTS.questItems = {
     },
     // Quest 5
     [5060] = {
-        position = Vector(-11295, 9062, 488),
+        position = Vector(1510, -285, 39),
         angle = Angle(0, -178, 0),
         model = "models/props_junk/plasticbucket001a.mdl",
         quest = {5, 1},
     },
     [5061] = {
-        position = Vector(1510, -285, 39),
+        position = Vector(-11295, 9062, 488),
         angle = Angle(0, -95, 0),
         model = "models/weapons/w_models/w_toolbox.mdl",
         quest = {5, 2},
