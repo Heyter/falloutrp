@@ -8,7 +8,7 @@ NPCS.npcs = {
 		Name = "Giant Rat",
 		Level = 15,
 		Health = 175,
-		Limit = 7, // How many can be active on the map at once
+		Limit = 8, // How many can be active on the map at once
 		SpawnRate = 45, // How often (seconds) we try to spawn a new one
 		StartAmount = 2, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 30,
@@ -226,8 +226,8 @@ NPCS.npcs = {
 	},
 	["nz_mirelurk"] = {
 		Name = "Mirelurk",
-		Level = 15,
-		Health = 500,
+		Level = 30,
+		Health = 1200,
 		Limit = 2, // How many can be active on the map at once
 		SpawnRate = 180, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
@@ -386,6 +386,7 @@ NPCS.npcs = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
+			[5055] = {quantity = {1, 1}, prob = 5},
 		},
 		Positions = {
 			{Position = Vector(62, 3802, 42)},
@@ -514,6 +515,7 @@ NPCS.npcs = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
+			[5055] = {quantity = {1, 1}, prob = 5},
 		},
 		Positions = {
 			{Position = Vector(2909, 7622, 105)},
@@ -581,8 +583,8 @@ NPCS.npcs = {
 	},
 	["nz_nukalurk"] = {
 		Name = "Nukalurk",
-		Level = 30,
-		Health = 900,
+		Level = 50,
+		Health = 1300,
 		Limit = 2, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
@@ -609,13 +611,13 @@ NPCS.npcs = {
 	},
 	["nz_swamplurk"] = {
 		Name = "Swamplurk",
-		Level = 30,
+		Level = 15,
 		Health = 850,
 		Limit = 3, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 175,
-		Damage = 25,
+		Damage = 15,
 		Loot = {
 			[4014] = {quantity = {1, 8}, prob = 80},
 			[5033] = {quantity = {1, 15}, prob = 40}, //Sticks

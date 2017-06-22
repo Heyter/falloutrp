@@ -49,4 +49,18 @@ QUESTS.questItems = {
         model = "models/tsbb/animals/linsang.mdl",
         quest = {17, 1},
     },
+    // Quest 6
+    [5058] = {
+        position = Vector(-11830, 9049, 15),
+        angle = Angle(0, -180, 0),
+        model = "models/props/cs_assault/box_stack1.mdl",
+        quest = {6, 1},
+    },
+    [5059] = {
+        position = Vector(-3368, 13381, 57),
+        angle = Angle(0, 90, 0),
+        model = "models/props/cs_assault/dryer_box.mdl",
+        quest = {6, 2},
+    },
+
 }
