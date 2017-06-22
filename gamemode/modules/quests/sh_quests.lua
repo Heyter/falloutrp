@@ -154,8 +154,8 @@ Angle(0, 100, 0),
 
 addQuestGiver(
 "Lily",
-Vector(-8579, 11726, 100),
-Angle(0, -113, 0),
+Vector(4588, 10060, 224),
+Angle(0, -90, 0),
 "models/player/korka007/clementine.mdl",
 {17}
 )
@@ -194,7 +194,7 @@ nil,
 addQuest(
 3,
 "Fixing the old generator",
-"Hello once again! As a member of my Sanctuary I have a few things that you could help me with in order to keep this bucket of bolts working in top notch status. You see, this Sanctuary runs off of that generator over yonder. It’s running low on fuel and the damn old engine is starting to fall apart. I need some replacement parts. If you could head over to the nearby gas station and the broken down train station, you should be able to find the parts I am looking for.",
+"Hello once again! As a member of my Sanctuary I have a few things that you could help me with in order to keep this bucket of bolts working in top notch status. You see, this Sanctuary runs off of that generator over yonder. It’s running low on fuel and the damn old engine is starting to fall apart. I need some replacement parts. If you could head over to the nearby gas station and the broken down train, you should be able to find the parts I am looking for.",
 {npc = "Governor Dave"},
 {quests = {2}, level = 2},
 {experience = 373, caps = 470},
@@ -236,7 +236,7 @@ addQuest(
 "Running low on rations",
 "Hey There! Thank you for the patch up supplies, your help is really appreciated. Now we have a big issue. This town is running very low on food and water rations. Usually I do a good job on spreading them out but recently we have gotten a lot of new members to the town. Go over to the Mill near the swamp to find some food rations. Then, head over to the small water tower and see if any crates of water supplies are left.",
 {npc = "Governor Dave"},
-{quests = {5}, level = 10},
+{quests = {5}, level = 11},
 {experience = 12300, caps = 1250},
 {[5058] = {1, 1}, [5059] = {2, 1}},
 1,
@@ -327,7 +327,7 @@ addQuest(
 "Armor, Armor, and more Armor",
 "Woah!!! What’s that stinch??? Oh Wanderer, you need a change of cloths, need to start thinking about changing your clothes every so often. Good news, I just got my hands on some new clothes! But these are mine, I don’t like to share, but I think I figured out how to create them, I will share that with you. I call it the Construction Set! It offers some great protection and might get the lady's attention if you know what I mean. Now scram! Go get the supplies you are going to be using.",
 {npc = "npc_x"},
-{quests = {11}, level = 11},
+{quests = {11}, level = 13},
 {experience = 6150, caps = 1100},
 nil,
 1,
@@ -357,7 +357,7 @@ nil,
 addQuest(
 14,
 "Becoming a Thief",
-"Hey kid, I need a favor.. What kind of favor you ask? Well, it involves stealing. I can’t get around like I used to, otherwise I would do it. That’s why I am asking you. What do you need to steal? Well that’s simple, when I was kicked out of Town. I left some valuables behind. I need you to go get them for me. No, I can not live without them. What you need to do, is sneak into the town and find my old house. There you will find an old crate. This crate contains my most valuable possessions and I need them ASAP!",
+"Hey kid, I need a favor.. What kind of favor you ask? Well, it involves stealing. I can’t get around like I used to, otherwise I would do it. That’s why I am asking you. What do you need to steal? Well that’s simple, when I was kicked out of Town. I left some valuables behind. I need you to go get them for me. No, I can not live without them. What you need to do, is sneak into the town and find my old house. If you take the Train or follow the railroad you will be able to reach Ghoul Town, my house is just before you enter town, it run down by now. There you will find an old crate. It will be right next to it on the floor and I need them ASAP!",
 {npc = "Governor Dave"},
 {quests = {13}, level = 6},
 {experience = 2290, caps = 1100},
@@ -366,15 +366,14 @@ addQuest(
 "Steal the valuables"
 )
 
-
 addQuest(
 15,
 "The Treasure of Ghoul Town",
-"Hey kid, how's it goin? Thanks for stealing that stuff for me last time.. Oh I mean uh thanks for retrieving my stuff.. Okay fine that was not my stuff, I’ll admit it. You know what Kid, I need another favor. There was this house in Ghoul Town that was guarded by some Ghoul. Word around town is that it is full of valuables, but the problem is that I can’t steal like I used to. I need you to kill the Ghoul and steal the valuables for me.. Wait I mean us, not me. Once you steal the valuables, I will be taking a small fee. Be careful kid. What? No, I don’t care about you. I just want my money!",
+"Hey kid, how's it goin? Thanks for stealing that stuff for me last time.. Oh I mean uh thanks for retrieving my stuff.. Okay fine that was not my stuff, I’ll admit it. You know what Kid, I need another favor. There was this house in Ghoul Town that was guarded by some Ghoul. Word around town is that it is full of valuables, but the problem is that I can’t steal like I used to. I need you to kill some Ghoul around town and steal the valuables for me.. Wait I mean us, not me. Once you steal the valuables, I will be taking a small fee. Be careful kid. What? No, I don’t care about you. I just want my money!",
 {npc = "Governor Dave"},
 {quests = {14}, level = 11},
 {experience = 3075, caps = 2250},
-{[5055] = {2, 1}},
+{[5055] = {1, 1}},
 1,
 "Return the ghoul’s valuables"
 )
@@ -385,7 +384,7 @@ addQuest(
 "Saving an old friend",
 "Wow, you again? I thought you died after that last quest. Oh well, I’m glad you are here. I need you help. The other day I was attacked by a blasted ghoul, and it almost killed me. While I was knocked out from the attack, thieves stole my Medical Supplies! I need you to break into the nearest Hospital and bring me back some blood bags, some Painkillers and Morphine. If you don’t..then I don’t know how much longer I am going to last.",
 {npc = "Governor Dave"},
-{quests = {15}, level = 11},
+{quests = {15}, level = 13},
 {experience = 6150, caps = 4000},
 {[5052] = {1, 1}, [5053] = {2, 1}, [5054] = {3, 1}},
 1,
