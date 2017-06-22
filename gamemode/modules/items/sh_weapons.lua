@@ -92,7 +92,7 @@ end
 addWeapon(1017, "Straight Razor", DMG_SLASH, "secondary", "weapon_straightrazor", "models/Halokiller38/fallout/weapons/Melee/straightrazor.mdl", 1120, 2.5, 525, 9, 18, 23, 15,  1.76, nil)
 
 // Level 1:
-addWeapon(1023, "Lead Pipe", DMG_CLUB, "secondary", "weapon_leadpipe", "models/Halokiller38/fallout/weapons/Melee/leadpipe.mdl", 1120, 2.5, 76, 1, 14, 18, 2, 1.76, nil)
+addWeapon(1023, "Lead Pipe", DMG_CLUB, "secondary", "weapon_leadpipe", "models/Halokiller38/fallout/weapons/Melee/leadpipe.mdl", 1120, 2.5, 0, 1, 14, 18, 2, 1.76, nil)
 
 addWeapon(1075, "Pickaxe", DMG_SLASH, "primary", "eoti_tool_miningpick", "models/pickaxe/pickaxe_w.mdl", 1120, 2.5, 55, 1, 0, 0, 2.75, 1.76, nil)
 

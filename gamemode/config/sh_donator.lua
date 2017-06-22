@@ -1,7 +1,7 @@
 
 TOKEN_SHOP = {
-	Position = Vector(-8716, 9698, 0),
-	Angles = Angle(0, 90, 0),
+	Position = Vector(-9333, 2866, 127),
+	Angles = Angle(0, -180, 0),
 	Model = "models/breen.mdl",
 
 	TokensNeeded = {

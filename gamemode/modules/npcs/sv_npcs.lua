@@ -110,6 +110,7 @@ function spawnNpc(npc, inactiveNpcs)
 	ent:Spawn()
 	ent:DropToFloor()
 	ent:SetHealth(getNpcHealth(npc))
+	ent.Damage = NPCS.npcs[npc]["Damage"]
 	ent.key = randomLocation // So we know which position to restore to inactive when the npc dies
 end
 
