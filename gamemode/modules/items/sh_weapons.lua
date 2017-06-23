@@ -115,10 +115,10 @@ addWeapon(1044, "Maria", DMG_BULLET, "secondary", "weapon_9mmpistolmaria", "mode
 
 //Level 7:
 
-addWeapon(1006, "Bumper Sword", DMG_SLASH, "secondary", "weapon_bumpersword", "models/Halokiller38/fallout/weapons/Melee/bumpersword.mdl", 1120, 2.5, 278, 7, 26, 32, 10, 1.76, nil)
+addWeapon(1006, "Bumper Sword", DMG_SLASH, "secondary", "weapon_bumpersword", "models/Halokiller38/fallout/weapons/Melee/bumpersword.mdl", 1120, 2.5, 278, 7, 30, 36, 10, 1.76, nil)
 
 //Level 8:
-addWeapon(1052, "Chinese Pistol", DMG_BULLET, "secondary", "weapon_chinesepistol", "models/Halokiller38/fallout/weapons/Pistols/chinesepistol.mdl", 1120, 2.5, 500, 8, 16, 22, 4, 1.76, 3009)
+addWeapon(1052, "Chinese Pistol", DMG_BULLET, "secondary", "weapon_chinesepistol", "models/Halokiller38/fallout/weapons/Pistols/chinesepistol.mdl", 1120, 2.5, 500, 8, 16, 20, 4, 1.76, 3009)
 
 //Level 9:
 
@@ -127,7 +127,7 @@ addWeapon(1032, "Tire Iron", DMG_CLUB, "secondary", "weapon_tireiron", "models/H
 //Level 10:
 addWeapon(1035, "Laser Pistol", DMG_SONIC, "secondary", "weapon_laserpistol", "models/Halokiller38/fallout/weapons/Energy Weapons/laserpistol.mdl", 1120, 2.5, 1242, 10, 23, 28, 12, 1.76, 3021)
 
-addWeapon(1048, "10mm Pistol", DMG_BULLET, "secondary", "weapon_10mmpistol", "models/Halokiller38/fallout/weapons/pistols/10mmpistol.mdl", 1120, 2.5, 311, 10, 10, 20, 8, 1.76, 3009)
+addWeapon(1048, "10mm Pistol", DMG_BULLET, "secondary", "weapon_10mmpistol", "models/Halokiller38/fallout/weapons/pistols/10mmpistol.mdl", 1120, 2.5, 311, 10, 18, 22, 8, 1.76, 3009)
 
 addWeapon(1070, "9mm Sub-Machine Gun", DMG_BULLET, "primary", "weapon_9mmsmgdrum", "models/Halokiller38/fallout/weapons/SMGs/9mmsmgdrum.mdl", 1120, 2.5, 311, 10, 9, 12, 6, 1.76, 3017)
 
@@ -136,7 +136,7 @@ addWeapon(1070, "9mm Sub-Machine Gun", DMG_BULLET, "primary", "weapon_9mmsmgdrum
 addWeapon(1015, "Machete", DMG_SLASH, "secondary", "weapon_machete", "models/Halokiller38/fallout/weapons/Melee/machete.mdl", 1120, 2.5, 659, 11, 30, 36, 15, 1.76,nil)
 
 //Level 12:
-addWeapon(1051, "Light in Darkness", DMG_BULLET, "secondary", "weapon_45autopistolu", "models/Halokiller38/fallout/weapons/Pistols/45autopistolunique.mdl", 1120, 2.5, 444, 12, 20, 26, 8, 1.76, 3006)
+addWeapon(1051, "Light in Darkness", DMG_BULLET, "secondary", "weapon_45autopistolu", "models/Halokiller38/fallout/weapons/Pistols/45autopistolunique.mdl", 1120, 2.5, 444, 12, 22, 26, 8, 1.76, 3006)
 
 //Level 13:
 
