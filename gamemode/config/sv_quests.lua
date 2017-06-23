@@ -26,7 +26,7 @@ QUESTS.questItems = {
     [5062] = {
         position = Vector(-9855, 12918, -66),
         angle = Angle(0, -172, 0),
-        model = "models/props_junk/gascan001a.mdl",
+        model = "models/items/car_battery01.mdl",
         quest = {4, 1},
     },
     // Quest 5
