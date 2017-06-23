@@ -10,12 +10,12 @@ local meta = FindMetaTable("Player")
 function meta:withdrawItem(uniqueid, classid, quantity)
 	local quantity = quantity
 	local itemType = classidToStringType(classid)
-	
+
 	local bankItem = table.Copy(self.bank[itemType][uniqueid])
 	local sameItem = self:hasInventoryItem(itemType, classid)
-	
+
 	local canFit = self:canInventoryFit(bankItem, quantity)
-	
+
 	if util.positive(canFit) then
 		quantity = canFit
 	end
@@ -25,20 +25,20 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 		if !util.positive(bankItem.quantity) or (quantity == bankItem.quantity) then
 			// Remove item from bank and add item to inventory
 			self.bank[itemType][uniqueid] = nil
-			
+
 			if sameItem then
 				// Add the quantity to the current inventory item
 				self.inventory[itemType][sameItem].quantity = self.inventory[itemType][sameItem].quantity + quantity
-				
+
 				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
 				MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 			else
 				self.inventory[itemType][uniqueid] = bankItem
-				
+
 				// Switch the banked column to NULL
 				MySQLite.query("UPDATE " ..itemType .." SET banked = NULL WHERE uniqueid = " ..uniqueid)
 			end
-			
+
 			// Update the client
 			net.Start("withdrawItem")
 				net.WriteString(itemType)
@@ -46,15 +46,15 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 				net.WriteTable(self.bank[itemType])
 			net.Send(self)
 		else
-			
+
 			self.bank[itemType][uniqueid]["quantity"] = self.bank[itemType][uniqueid]["quantity"] - quantity
 			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
-			
+
 			if sameItem then
 				// Add quantity to the current item already in the inventory
 				self.inventory[itemType][sameItem]["quantity"] = self.inventory[itemType][sameItem]["quantity"] + quantity
 				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
-				
+
 				// Update the client
 				net.Start("withdrawItem")
 					net.WriteString(itemType)
@@ -69,11 +69,11 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 						if results and results[1] then
 							itemId = results[1]["uniqueid"]
 						end
-						
+
 						bankItem.uniqueid = itemId
 						bankItem.quantity = quantity
 						self.inventory[itemType][itemId] = bankItem
-						
+
 						// Update the client
 						net.Start("withdrawItem")
 							net.WriteString(itemType)
@@ -93,42 +93,42 @@ net.Receive("withdrawItem", function(len, ply)
 	local uniqueid = net.ReadInt(32)
 	local classid = net.ReadInt(16)
 	local quantity = net.ReadInt(16)
-	
+
 	ply:withdrawItem(uniqueid, classid, quantity)
 end)
 
 function meta:depositItem(uniqueid, classid, quantity)
 	local quantity = quantity
 	local itemType = classidToStringType(classid)
-	
+
 	local canFit = self:canBankFit(classid, quantity)
-	
+
 	if util.positive(canFit) then
 		quantity = canFit
 	end
-	
+
 	if canFit then
 		local invItem = table.Copy(self.inventory[itemType][uniqueid])
 		local sameItem = self:hasBankItem(itemType, classid)
-		
+
 		// Remove from inventory
 		if !util.positive(invItem.quantity) or (quantity == invItem.quantity) then
 			// Remove item from inventory and add item to bank
 			self.inventory[itemType][uniqueid] = nil
-			
+
 			if sameItem then
 				// Add the quantity to the current banked item
 				self.bank[itemType][sameItem].quantity = self.bank[itemType][sameItem].quantity + quantity
-				
+
 				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
 				MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 			else
 				self.bank[itemType][uniqueid] = invItem
-			
+
 				// Switch the banked column to true
 				MySQLite.query("UPDATE " ..itemType .." SET banked = 1 WHERE uniqueid = " ..uniqueid)
 			end
-			
+
 			// Update the client
 			net.Start("depositItem")
 				net.WriteString(itemType)
@@ -138,18 +138,18 @@ function meta:depositItem(uniqueid, classid, quantity)
 		else
 			self.inventory[itemType][uniqueid]["quantity"] = self.inventory[itemType][uniqueid]["quantity"] - quantity
 			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
-			
+
 			if sameItem then
 				// Add quantity to the current item already in the bank
 				self.bank[itemType][sameItem]["quantity"] = self.bank[itemType][sameItem]["quantity"] + quantity
 				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
-				
+
 				// Update the client
 				net.Start("depositItem")
 					net.WriteString(itemType)
 					net.WriteTable(self.inventory[itemType])
 					net.WriteTable(self.bank[itemType])
-				net.Send(self)				
+				net.Send(self)
 			else
 				// Create a duplicate item, but mark it as banked
 				MySQLite.query("INSERT INTO " ..itemType .." (steamid, classid, quantity, banked) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..", 1)", function()
@@ -158,11 +158,11 @@ function meta:depositItem(uniqueid, classid, quantity)
 						if results and results[1] then
 							itemId = results[1]["uniqueid"]
 						end
-						
+
 						invItem.uniqueid = itemId
 						invItem.quantity = quantity
 						self.bank[itemType][itemId] = invItem
-						
+
 						// Update the client
 						net.Start("depositItem")
 							net.WriteString(itemType)
@@ -182,15 +182,15 @@ net.Receive("depositItem", function(len, ply)
 	local uniqueid = net.ReadInt(32)
 	local classid = net.ReadInt(16)
 	local quantity = net.ReadInt(16)
-	
+
 	ply:depositItem(uniqueid, classid, quantity)
 end)
 
 function meta:openBank()
 	self:SetMoveType(MOVETYPE_NONE)
-	
+
 	net.Start("openBank")
-	
+
 	net.Send(self)
 end
 
@@ -201,7 +201,7 @@ end)
 
 function meta:loadBankCount()
 	self.loadBankedCount = self.loadBankedCount + 1
-	
+
 	if self.loadBankedCount == 5 then // weapons, apparel, aid, misc, and ammo were all loaded
 		self:sendBank()
 	end
@@ -210,7 +210,7 @@ end
 // Get data from all item tables for specific player
 function meta:loadBank()
 	self.loadBankedCount = 0
-	
+
 	self.bank = {
 		weapons = {},
 		apparel = {},
@@ -218,7 +218,7 @@ function meta:loadBank()
 		misc = {},
 		ammo = {}
 	}
-	
+
 	self:loadBankWeapons()
 	self:loadBankApparel()
 	self:loadBankAid()
@@ -245,9 +245,9 @@ function meta:loadBankWeapons()
 				}
 			end
 		end
-		
+
 		self:loadBankCount()
-	end)	
+	end)
 end
 
 function meta:loadBankApparel()
@@ -265,9 +265,9 @@ function meta:loadBankApparel()
 				}
 			end
 		end
-	
+
 		self:loadBankCount()
-	end)	
+	end)
 end
 
 function meta:loadBankAid()
@@ -282,9 +282,9 @@ function meta:loadBankAid()
 				}
 			end
 		end
-		
+
 		self:loadBankCount()
-	end)	
+	end)
 end
 
 function meta:loadBankAmmo()
@@ -299,9 +299,9 @@ function meta:loadBankAmmo()
 				}
 			end
 		end
-		
+
 		self:loadBankCount()
-	end)	
+	end)
 end
 
 function meta:loadBankMisc()
@@ -316,7 +316,7 @@ function meta:loadBankMisc()
 				}
 			end
 		end
-		
+
 		self:loadBankCount()
-	end)	
+	end)
 end

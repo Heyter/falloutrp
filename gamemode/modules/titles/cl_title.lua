@@ -11,14 +11,14 @@ function openTitleCreation()
 	frame:SetFontTitle("FalloutRP3", "Title Creation")
 	frame:AddCloseButton()
 	frame:MakePopup()
-	
+
 	local instructions = vgui.Create("DLabel", frame)
 	instructions:SetFont("FalloutRP3")
 	instructions:SetTextColor(COLOR_AMBER)
 	instructions:SetText("Enter Title")
 	instructions:SizeToContents()
 	instructions:SetPos(frameW/2 - instructions:GetWide()/2, 100)
-	
+
 	local entry = vgui.Create("DTextEntry", frame)
 	entry:SetSize(350, 80)
 	entry:SetPos(frameW/2 - entry:GetWide()/2, 100 + instructions:GetTall() + padding)
@@ -39,7 +39,7 @@ function openTitleCreation()
 			return true
 		end
 	end
-	
+
 	local prefix = vgui.Create("DCheckBoxLabel", frame)
 	prefix:SetSize(50, 50)
 	prefix:SetPos(frameW/2 - prefix:GetWide()/2, 100 + instructions:GetTall() + padding + entry:GetTall() + padding)
@@ -51,7 +51,7 @@ function openTitleCreation()
 		// Update preview
 		preview:updateText()
 	end
-	
+
 	preview = vgui.Create("DLabel", frame)
 	preview:SetFont("FalloutRP4")
 	preview:SetTextColor(COLOR_AMBER)
@@ -61,18 +61,18 @@ function openTitleCreation()
 	function preview:updateText()
 		local title = entry:GetValue()
 		local checked = prefix:GetChecked()
-		
+
 		if checked then
 			preview:SetText(title ..LocalPlayer():getName())
 		else
 			preview:SetText(LocalPlayer():getName() ..title)
 		end
-		
+
 		// Resize/reposition
 		preview:SizeToContents()
 		preview:SetPos(frameW/2 - preview:GetWide()/2, 100 + instructions:GetTall() + padding + entry:GetTall() + padding + prefix:GetTall() + padding)
 	end
-	
+
 	local submit = vgui.Create("FalloutRP_Button", frame)
 	submit:SetSize(80, 50)
 	submit:SetFont("FalloutRP3")
@@ -83,7 +83,7 @@ function openTitleCreation()
 			net.WriteString(entry:GetValue())
 			net.WriteBool(prefix:GetChecked())
 		net.SendToServer()
-		
+
 		frame:Remove()
 	end
 end
@@ -103,18 +103,12 @@ end
 net.Receive("updateTitle", function()
 	local ply = net.ReadEntity()
 	local title = net.ReadTable()
-	
+
 	ply.title = title
 end)
 
 net.Receive("updateTitles", function()
 	local titles = net.ReadTable()
-	
+
 	LocalPlayer().titles = titles
-end)
-
-net.Receive("updateTitleCreations", function()
-	local creations = net.ReadInt(8)
-
-	LocalPlayer().playerData.titlecreations = creations
 end)

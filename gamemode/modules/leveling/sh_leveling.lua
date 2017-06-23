@@ -19,7 +19,7 @@ end
 
 function meta:getCurrentLevelExp()
 	return LEVELS[self:getLevel()]
-end	
+end
 
 function meta:getNextLevelExp()
 	local currentLevel = self:getLevel()
@@ -31,13 +31,21 @@ function meta:getNextLevelExp()
 	end
 end
 
+function printExpEachLevel()
+	for k,v in ipairs(LEVELS) do
+		if k != 50 then
+			print(k + 1, LEVELS[k+1] - LEVELS[k])
+		end
+	end
+end
+
 function meta:getCraftingUnlockables(level)
 	local output = "RECIPES\n"
 	local defaultLength = #output
-	
+
 	local extra = ""
 	local line = 0
-	
+
 	for type, recipe in pairs(RECIPES) do
 		for k, info in pairs(recipe) do
 			if info.level == level then
@@ -51,7 +59,7 @@ function meta:getCraftingUnlockables(level)
 			end
 		end
 	end
-	
+
 	extra = string.Trim(extra, ",")
 	output = output ..extra
 	// Dont return the recipes header if there weren't any recipes unlocked at this level
@@ -68,7 +76,7 @@ function meta:getWeaponUnlockables(level)
 
 	local extra = ""
 	local line = 0
-	
+
 	for id, weapon in pairs(getWeapons()) do
 		if weapon.level == level then
 			if line > 2 then
@@ -80,7 +88,7 @@ function meta:getWeaponUnlockables(level)
 			line = line + 1
 		end
 	end
-	
+
 	extra = string.Trim(extra, ",")
 	output = output ..extra
 	// Dont return the weapons header if there weren't any weapons unlocked at this level
@@ -97,7 +105,7 @@ function meta:getApparelUnlockables(level)
 
 	local extra = ""
 	local line = 0
-	
+
 	for id, apparel in pairs(getApparel()) do
 		if apparel.level == level then
 			if line > 2 then
@@ -109,7 +117,7 @@ function meta:getApparelUnlockables(level)
 			line = line + 1
 		end
 	end
-	
+
 	extra = string.Trim(extra, ",")
 	output = output ..extra
 	// Dont return the apparel header if there weren't any apparel unlocked at this level
@@ -122,11 +130,11 @@ end
 
 function meta:getUnlockables(level)
 	local output = "" ..self:getWeaponUnlockables(level) ..self:getApparelUnlockables(level) ..self:getCraftingUnlockables(level)
-	
+
 	if #output > 0 then
 		output = "UNLOCKED\n\n" ..output
 	end
-	
+
 	return output
 end
 
@@ -136,7 +144,7 @@ local points = 0
 local output = 0
 for i = 1, MAX_LEVEL do
 	points = ((25 * (3 * i + 2) * (i - 1)) + (LEVELS[i-1] or 0))
-	
+
 	LEVELS[i] = points
 end
 
@@ -150,7 +158,6 @@ function expToLevel(exp)
 			return highestLevel
 		end
 	end
-	
+
 	return highestLevel //Return here incase you are max level
 end
-

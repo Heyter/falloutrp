@@ -8,6 +8,23 @@ function util.boolToNumber(bool)
 	end
 end
 
+// Get the position of an entity's 'foot'
+function util.getFeetPosition(ent)
+	local trace = util.traceDown(ent)
+
+	return trace and trace.HitPos
+end
+
+// Run a trace from the player directly down, to see what they're standing on
+function util.traceDown(ent)
+	local data = {
+		start = ent:GetPos(),
+		endpos = ent:GetPos() - Vector(0, 0, 150)
+	}
+
+	return util.TraceLine(data)
+end
+
 // Checks if a string has invalid characters
 function util.hasInvalidChars(name)
 	if name then
@@ -24,12 +41,12 @@ end
 function util.fadeRemove(ent)
 	local increment = 25
 	ent:SetColor(Color(255, 255, 255, 255 - increment))
-	
+
 	//Fade all the way to nothing
 	for i = 1, 10 do
 		timer.Simple(0.1 * i, function()
 			local color = ent:GetColor()
-			
+
 			ent:SetRenderMode(RENDERMODE_TRANSALPHA)
 			ent:SetColor(Color(color.r, color.g, color.b, color.a - increment))
 
@@ -64,7 +81,7 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	local winner = nil
 
 	for k, v in pairs( tab ) do
-		if ( v > highest ) then 
+		if ( v > highest ) then
 			winner = k
 			highest = v
 		end
@@ -74,22 +91,87 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	if currentValue == highest then
 		return currentKey
 	end
-	
+
 	return winner
 end
 
-if CLIENT then
-function util.saveMousePos()
-	local mouseX, mouseY = input.GetCursorPos()
-	LocalPlayer().savedMouseX = mouseX
-	LocalPlayer().savedMouseY = mouseY
-end
+if SERVER then
+	function util.facePlayer(npc, ply)
+		local vec1 = npc:GetPos()
+		local vec2 = ply:GetShootPos()
 
-function util.restoreMousePos()
-	local mouseX, mouseY = LocalPlayer().savedMouseX, LocalPlayer().savedMouseY
-	
-	if mouseX and mouseY then
-		input.SetCursorPos(mouseX, mouseY)
+		npc:SetAngles((vec1 - vec2):Angle() - Angle(0, 180, 0))
 	end
 end
+
+if CLIENT then
+	function util.saveMousePos()
+		local mouseX, mouseY = input.GetCursorPos()
+		LocalPlayer().savedMouseX = mouseX
+		LocalPlayer().savedMouseY = mouseY
+	end
+
+	function util.restoreMousePos()
+		local mouseX, mouseY = LocalPlayer().savedMouseX, LocalPlayer().savedMouseY
+
+		if mouseX and mouseY then
+			input.SetCursorPos(mouseX, mouseY)
+		end
+	end
+
+	// Return PEPBOY_COLOR with 255 alpha
+	function util.getPepboyColor()
+		return Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 255)
+	end
+
+	function util.textWrap(text, size, font)
+	  surface.SetFont(font)
+
+	  local splitText = string.Split(text, " ")
+	  local wrappedText = ""
+
+	  local newLine = ""
+	  for i = 1, #splitText do
+	    local temp = "" ..newLine ..splitText[i]
+
+	    if surface.GetTextSize(temp) > size then
+	      wrappedText = wrappedText ..newLine .."\n"
+	      newLine = "" ..splitText[i]
+	    else
+	      newLine = newLine .." " ..splitText[i]
+	    end
+	  end
+
+	  wrappedText = string.Trim(wrappedText ..newLine, " ")
+
+	  return wrappedText
+	end
+end
+
+if SERVER then
+	function util.spawnItAll()
+		for k,v in pairs(CHEST_LOCATIONS) do
+			local ent = ents.Create("chest")
+			ent:SetPos(v.Position)
+			ent:SetAngles(v.Angles)
+			ent:Spawn()
+		end
+
+		for k,v in pairs(VEINS) do
+			for a,b in pairs(v.Positions) do
+				local ent = ents.Create("vein")
+				ent:SetModel("models/props_mining/rock002.mdl")
+				ent:SetPos(b.Position)
+				ent:Spawn()
+			end
+		end
+		for k,v in pairs(NPCS.npcs) do
+			for a, b in pairs(v.Positions) do
+				local ent = ents.Create("vein")
+				ent:SetPos(b.Position)
+				ent:Spawn()
+				ent:SetModel("models/props_borealis/bluebarrel001.mdl")
+			end
+		end
+	end
 end

@@ -1,7 +1,7 @@
 
 TUTORIAL = {
-	Position = Vector(-8425, 9704, 0),
-	Angles = Angle(0, 90, 0),
+	Position = Vector(-9343, 3545, 127),
+	Angles = Angle(0, -180, 0),
 	Model = "models/barney.mdl",
 }
 

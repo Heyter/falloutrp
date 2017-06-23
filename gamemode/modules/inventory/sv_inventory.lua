@@ -8,12 +8,12 @@ util.AddNetworkString("dropAllInventory")
 util.AddNetworkString("depleteInventoryItem")
 
 local meta = FindMetaTable("Player")
- 
+
 function meta:depleteInventoryItem(type, uniqueid, quantity)
 	if self.inventory[type][uniqueid].equipped then
 		self:depleteEquipped(self.inventory[type][uniqueid])
 	end
-	
+
 	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity then
 		// Delete the whole item from inventory
 		self.inventory[type][uniqueid] = nil
@@ -23,7 +23,7 @@ function meta:depleteInventoryItem(type, uniqueid, quantity)
 		self.inventory[type][uniqueid]["quantity"] = self.inventory[type][uniqueid]["quantity"] - quantity
 		MySQLite.query("UPDATE " ..type .." SET quantity = " ..self.inventory[type][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 	end
-	
+
 	net.Start("depleteInventoryItem")
 		net.WriteString(type)
 		net.WriteInt(uniqueid, 32)
@@ -38,7 +38,7 @@ end
 
 function meta:loadInventoryCount()
 	self.loadInvCount = self.loadInvCount + 1
-	
+
 	if self.loadInvCount == 5 then // weapons, apparel, aid, misc, and ammo were all loaded
 		self:sendInventory()
 	end
@@ -46,32 +46,37 @@ end
 
 function meta:dropAllInventory()
 	local loot = {}
-	
+
 	// Remove all items the player had equipped
 	for type, items in pairs(self.equipped) do
-		for k, item in pairs(items) do		
+		for k, item in pairs(items) do
 			self.equipped[type][k] = nil
 		end
 	end
-	
+
 	// Insert all player's items into the loot and remove the item
 	for type, items in pairs(self.inventory) do
 		for uniqueid, item in pairs(items) do
 			MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
-			table.insert(loot, item)
+			if !isQuestItem(item.classid) then
+				table.insert(loot, item)
+			end
 			self.inventory[type][uniqueid] = nil
 		end
 	end
-	
+
+	// Give the player back a starting item
+	self:pickUpItem(createItem(1023, 1))
+
 	// If the player had any items in the inventory then create the loot
 	if loot and #loot > 0 then
 		createLoot(self:GetPos(), loot)
 	end
-	
+
 	net.Start("loadInventory")
 		net.WriteTable(self.inventory)
 	net.Send(self)
-	
+
 	net.Start("clearEquipped")
 		net.WriteEntity(self)
 	net.Broadcast()
@@ -80,7 +85,7 @@ end
 // Get data from all item tables for specific player
 function meta:loadInventory()
 	self.loadInvCount = 0
-	
+
 	self.inventory = {
 		weapons = {},
 		apparel = {},
@@ -88,12 +93,12 @@ function meta:loadInventory()
 		misc = {},
 		ammo = {}
 	}
-	
+
 	self.equipped = {
 		weapons = {},
 		apparel = {}
 	}
-	
+
 	self:loadInvWeapons()
 	self:loadInvApparel()
 	self:loadInvAid()
@@ -106,7 +111,7 @@ function meta:sendInventory()
 	net.Start("loadInventory")
 		net.WriteTable(self.inventory)
 	net.Send(self)
-	
+
 	net.Start("loadEquipped")
 		net.WriteEntity(self)
 		net.WriteTable(self.equipped)
@@ -132,9 +137,14 @@ end
 function meta:dropItem(uniqueid, classid, quantity)
 	local itemType = classidToStringType(classid)
 
+	if isQuestItem(classid) then
+		self:notify("You cannot drop a quest item", NOTIFY_ERROR)
+		return
+	end
+
 	// Store the item temp so we can drop it
 	local item = table.Copy(self.inventory[itemType][uniqueid])
-		
+
 	if util.positive(quantity) and (item.quantity >= quantity) then
 		if quantity == item.quantity then
 			// Delete from lua
@@ -144,7 +154,7 @@ function meta:dropItem(uniqueid, classid, quantity)
 		else
 			self.inventory[itemType][uniqueid].quantity = self.inventory[itemType][uniqueid].quantity - quantity
 			item.quantity = quantity
-			
+
 			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid].quantity .." WHERE uniqueid = " ..uniqueid)
 		end
 	else
@@ -153,7 +163,7 @@ function meta:dropItem(uniqueid, classid, quantity)
 		// Delete from MySQL
 		MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 	end
-		
+
 	// Update the client
 	net.Start("dropItem")
 		net.WriteString(itemType)
@@ -164,7 +174,7 @@ function meta:dropItem(uniqueid, classid, quantity)
 			net.WriteInt(0, 16)
 		end
 	net.Send(self)
-		
+
 	// Drop the item on the ground, directly in front of the player
 	createLoot(self:GetPos() + (self:GetForward() * 25), {item})
 end
@@ -173,7 +183,6 @@ net.Receive("dropItem", function(len, ply)
 	local itemId = net.ReadInt(32)
 	local classid = net.ReadInt(16)
 	local quantity = net.ReadInt(16)
-	
+
 	ply:dropItem(itemId, classid, quantity)
 end)
-	

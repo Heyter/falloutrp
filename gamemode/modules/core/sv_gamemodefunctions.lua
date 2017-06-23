@@ -4,10 +4,10 @@ local count = 0
 function GM:PlayerSpawnedProp(ply, model, ent)
 	local obj = ent:GetPhysicsObject()
 	obj:EnableMotion(false)
-
-	//count = count + 1 
+	ent._id = 15
+	//count = count + 1
 	//ply:notify("Count: " ..count, NOTIFY_GENERIC)
-end 
+end
 
 // Disable prop spawn
 function GM:PlayerSpawnProp(ply)

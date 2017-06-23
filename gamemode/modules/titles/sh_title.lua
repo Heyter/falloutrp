@@ -1,10 +1,6 @@
 
 local meta = FindMetaTable("Player")
 
-function meta:getTitleCreations()
-	return self.playerData.titlecreations or 0
-end
-
 function meta:getTitles()
 	return self.titles
 end

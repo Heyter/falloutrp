@@ -9,10 +9,10 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetUseType(SIMPLE_USE)
-	
+
 	self.loot = {}
 	self.iteration = 1
-	
+
 	self:SetController(4)
 end
 
@@ -24,6 +24,8 @@ end
 function ENT:Use(activator)
 	if activator:IsPlayer() then
 		activator:loot(self)
+
+		hook.Call("FactoryOpened", GAMEMODE, activator, self:GetPlace())
 	end
 end
 
@@ -39,12 +41,6 @@ function ENT:SetCooldown()
 	self.cooldown = CurTime() + FACTORY.Cooldown
 end
 
-function ENT:Use(activator)
-	if activator:IsPlayer() then
-		activator:loot(self)
-	end
-end
-
 function ENT:getOwners()
 	local owners = {}
 
@@ -52,8 +48,8 @@ function ENT:getOwners()
 		if self:GetController() == v:Team() then
 			table.insert(owners, v)
 		end
-	end	
-	
+	end
+
 	return owners
 end
 
@@ -72,7 +68,7 @@ function ENT:findExistingItem(classid, ply)
 			return k // Return the index to add quantity on to
 		end
 	end
-	
+
 	return false
 end
 
@@ -81,25 +77,25 @@ function ENT:addItem(item, ply)
 	if !self.loot[ply] then
 		self.loot[ply] = {}
 	end
-	
+
 	local existingItem
 	if item.quantity then
 		existingItem = self:findExistingItem(item.classid)
 	end
-	
+
 	if existingItem then
 		self.loot[ply][self.iteration].quantity = self.loot[ply][self.iteration].quantity + item.quantity
 	else
 		self.loot[ply][self.iteration] = item
 	end
-	
+
 	// Increate the iteration for the slot of the next item
 	self.iteration = self.iteration + 1
 end
 
 local function getLootLevel(ply)
 	local lvl = ply:getLevel()
-	
+
 	if lvl <= 15 then
 		return 15
 	elseif lvl <= 30 then
@@ -113,34 +109,34 @@ function ENT:addRandomItem(ply)
 	local lvl = getLootLevel(ply)
 	local type = self:getInfo().Type
 	local itemTable = LOOT_FACTORIES[lvl][type]
-	
+
 	local place = self:GetPlace()
 	local chosen
 	local quantity = 1
-	
+
 	/*
 	if place == "Ammunition Factory" or place == "Materials Factory" then
 		quantity = math.random(1, 10)
 	end
 	*/
-	
+
 	for k, item in pairs(itemTable) do
 		if !chosen then
 			local roll = util.roll((item.prob + (item.prob * ply:getLuckModifier())) * 5, 100)
-			
+
 			if roll then
 				quantity = math.random(item.quantity[1], item.quantity[2])
 				chosen = createItem(item.id, quantity)
 			end
 		end
 	end
-	
+
 	if !chosen then
 		chosen = createItem(self:getInfo().Default, quantity)
 	end
-	
+
 	self:addItem(chosen, ply)
-	
+
 	ply:notify("An item has been added for you at the " ..place ..", use the factory to loot it!", NOTIFY_HINT, 10)
 end
 
@@ -151,7 +147,7 @@ function ENT:hasLoot(ply)
 			return true
 		end
 	end
-	
+
 	return false
 end
 
@@ -165,10 +161,10 @@ function ENT:hasItem(id, amount, ply)
 				return false
 			end
 		end
-		
+
 		return true
 	end
-	
+
 	return false
 end
 
