@@ -36,6 +36,7 @@ VEINS = {
 			{Position = Vector(-10576, 8839, 16)},
 		},
 		Limit = 12, // How many normal veins can be on map at a time
+		Experience = 10,
 		Default = 5028, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5029] = 35} // Rock = Probability %
 	},
@@ -69,6 +70,7 @@ VEINS = {
 			{Position = Vector(-6306, 13789, 74)},
 		},
 		Limit = 10, // How many rare veins can be on map at a time
+		Experience = 20,
 		Default = 5030, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5031] = 40} // Rock = Probability %
 	},
@@ -102,6 +104,7 @@ VEINS = {
 			{Position = Vector(-308, -1190, 62)},
 		},
 		Limit = 8, // How many rare veins can be on map at a time
+		Experience = 30,
 		Default = 5039, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5032] = 35, [5040] = 20} // Rock = Probability %
 	}

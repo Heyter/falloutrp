@@ -37,8 +37,8 @@ QUESTS.questItems = {
         quest = {5, 1},
     },
     [5061] = {
-        position = Vector(-11295, 9062, 488),
-        angle = Angle(0, -95, 0),
+        position = Vector(-10025, 5036, 100),
+        angle = Angle(0, 160, 0),
         model = "models/weapons/w_models/w_toolbox.mdl",
         quest = {5, 2},
     },
@@ -62,5 +62,48 @@ QUESTS.questItems = {
         model = "models/props/cs_assault/dryer_box.mdl",
         quest = {6, 2},
     },
+    // Quest 7
+    [5057] = {
+        position = Vector(2517, 9939, 150),
+        angle = Angle(0, 70, 0),
+        model = "models/mosi/fallout4/props/aid/radx.mdl",
+        quest = {7, 1},
+    },
+    // Quest 7
+    [5056] = {
+        position = Vector(-2206, 10198, 191),
+        angle = Angle(0, 90, 0),
+        model = "models/Items/combine_rifle_ammo01.mdl",
+        quest = {8, 1},
+    },
+    // Quest 16
+    [5052] = {
+        position = Vector(2501, 10216, 139),
+        angle = Angle(-83, -89, -140),
+        model = "models/mosi/fallout4/props/aid/bloodbag.mdl",
+        quest = {16, 1},
+    },
+    [5053] = {
+        position = Vector(2327, 9485, 162),
+        angle = Angle(0, 90, 0),
+        model = "models/mosi/fallout4/props/aid/daytripper.mdl",
+        quest = {16, 2},
+    },
+    [5054] = {
+        position = Vector(2397, 9937, 137),
+        angle = Angle(-28, -84, -91),
+        model = "models/mosi/fallout4/props/aid/medx.mdl",
+        quest = {16, 3},
+    },
 
+
+    // ----
+    //    LOOTABLE ITEMS ONLY
+    //----
+
+    // Quest 15
+    [5055] = {
+        noSpawn = true,
+        quest = {15, 1}
+    },
 }

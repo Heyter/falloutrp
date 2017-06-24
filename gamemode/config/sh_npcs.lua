@@ -386,7 +386,7 @@ NPCS.npcs = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
-			[5055] = {quantity = {1, 1}, prob = 5},
+			[5055] = {quantity = {1, 1}, prob = 90},
 		},
 		Positions = {
 			{Position = Vector(62, 3802, 42)},
@@ -650,7 +650,7 @@ NPCS.npcs = {
 		Name = "Fire Gecko",
 		Level = 50,
 		Health = 1200,
-		Limit = 3, // How many can be active on the map at once
+		Limit = 1, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 200,
@@ -667,7 +667,6 @@ NPCS.npcs = {
 			{Position = Vector(807, -677, 33)},
 			{Position = Vector(-48, -117, 38)},
 			{Position = Vector(407, 741, 41)},
-			{Position = Vector(1400, 1282, 73)},
 			{Position = Vector(3301, 3764, 31)},
 			{Position = Vector(7409, 2878, 37)},
 			{Position = Vector(5197, 9106, 120)},
@@ -765,5 +764,5 @@ NPCS.npcs = {
 	*/
 }
 
-NPCS.regenChecker = 5 // How often an evaded show it tracked
-NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack
+NPCS.regenChecker = 4 // How often an evaded show it tracked
+NPCS.regenPercentage = .30 // How much of max health is regened every evaded attack

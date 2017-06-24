@@ -75,14 +75,16 @@ function npcOutOfRange(npc, ply)
 	npc.lastRangeTest = CurTime()
 
 	local trace = {
-		start = util.getFeetPosition(npc),
-		endpos = ply:GetShootPos() - Vector(0, 0, 50),
+		start = util.getFeetPosition(npc) + Vector(0, 0, 10),
+		endpos = ply:GetShootPos() - Vector(0, 0, 20),
 		filter = npc
 	}
 
 	local result = util.TraceLine(trace)
 
-	if result.Entity != ply then
+	local heightDistance = ply:GetPos().z - npc:GetPos().z
+
+	if result.Entity != ply or (heightDistance > 225) then
 		local maxHealth = getNpcHealth(npc:GetClass())
 
 		// If it's a fallout configured npc

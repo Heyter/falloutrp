@@ -19,10 +19,12 @@ function ENT:Use(activator)
 		self:EmitSound(SCAVENGE_SOUND)
 		local loot = self:generateLoot()
 		local hitPos = activator:GetEyeTrace().HitPos
-			
+
 		createLoot(hitPos, loot)
 		self:reduceCount(#loot)
-			
+
+		activator:addExp(5)
+
 		activator:notify("Scavenged object.", NOTIFY_GENERIC)
 	end
 end
@@ -30,12 +32,12 @@ end
 
 function ENT:generateLoot()
 	local loot = {}
-	
+
 	// Add the default item and subtract item amount
 	table.insert(loot, createItem(SCAVENGE[self:getType()]["Default"], 1))
 
 	local extras = SCAVENGE[self:getType()]["Extras"]
-	
+
 	for item, chance in pairs(extras) do
 		if (self:getCount() - #loot > 0) then
 			if util.roll(chance) then
@@ -43,7 +45,7 @@ function ENT:generateLoot()
 			end
 		end
 	end
-	
+
 	return loot
 end
 
@@ -51,7 +53,7 @@ end
 
 function ENT:reduceCount(amount)
 	self.count = self.count - amount
-	
+
 	if self.count == 0 then
 		SCAVENGE[self:getType()]["Positions"][self.key]["Active"] = false
 		util.fadeRemove(self)

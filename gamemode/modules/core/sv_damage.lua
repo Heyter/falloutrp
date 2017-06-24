@@ -22,7 +22,7 @@ end
 
 function meta:bleed()
     if IsValid(self) and self:Health() > 0 then
-        self:TakeDamage(self.bleedDamage, self.bleedAttacker)
+        self:TakeDamage(self.bleedDamage)
         self:EmitSound("player/pl_pain7.wav")
 
         self.bleedTime = self.bleedTime - 1

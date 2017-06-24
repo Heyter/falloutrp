@@ -34,13 +34,15 @@ end
 
 function QUESTS:spawnQuestItems()
     for k,v in pairs(self.questItems) do
-        local ent = ents.Create("quest_item")
-        ent:SetPos(v.position)
-        ent:SetAngles(v.angle)
-        ent:SetModel(v.model)
-        ent:SetID(k)
-        ent:Spawn()
-        ent:DropToFloor()
+        if !v.noSpawn then
+            local ent = ents.Create("quest_item")
+            ent:SetPos(v.position)
+            ent:SetAngles(v.angle)
+            ent:SetModel(v.model)
+            ent:SetID(k)
+            ent:Spawn()
+            ent:DropToFloor()
+        end
     end
 end
 

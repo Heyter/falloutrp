@@ -3011,7 +3011,7 @@ function VGUI:Init()
 	self.catM:addTop("DT", function() return localplayer():getDamageThreshold() .."%" end, 0.8)
 	self.catM:addTop("CAPS", function() return localplayer():getCaps() end, 2.2)
 	self.catM:SetTitle("BANK", 2.5)
-	self.catM:SetSubTitle("WG " ..localplayer():getBankWeight() .."/" ..BANK_WEIGHT)
+	self.catM:SetSubTitle("WG " ..localplayer():getBankWeight() .."/" ..LocalPlayer():getMaxBank())
 
 	local weapons_panel = function()
 		setItemsPanel(TYPE_WEAPON) // Navigate back to the weapons panel after running a function
