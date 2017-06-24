@@ -386,7 +386,7 @@ NPCS.npcs = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
-			[5055] = {quantity = {1, 1}, prob = 90},
+			[5055] = {quantity = {1, 1}, prob = 5},
 		},
 		Positions = {
 			{Position = Vector(62, 3802, 42)},
@@ -515,7 +515,7 @@ NPCS.npcs = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
-			[5055] = {quantity = {1, 1}, prob = 5},
+			[5055] = {quantity = {1, 1}, prob = 7},
 		},
 		Positions = {
 			{Position = Vector(2909, 7622, 105)},
