@@ -69,9 +69,9 @@ QUESTS.questItems = {
         model = "models/mosi/fallout4/props/aid/radx.mdl",
         quest = {7, 1},
     },
-    // Quest 7
+    // Quest 8
     [5056] = {
-        position = Vector(-2206, 10198, 191),
+        position = Vector(-2206, 10198, 200),
         angle = Angle(0, 90, 0),
         model = "models/Items/combine_rifle_ammo01.mdl",
         quest = {8, 1},
@@ -98,7 +98,7 @@ QUESTS.questItems = {
 
 
     // ----
-    //    LOOTABLE ITEMS ONLY
+    //    NON SPAWNABLE
     //----
 
     // Quest 15
@@ -106,4 +106,8 @@ QUESTS.questItems = {
         noSpawn = true,
         quest = {15, 1}
     },
+    [5065] = {
+        noSpawn = true,
+        quest = {8, 1}
+    }
 }

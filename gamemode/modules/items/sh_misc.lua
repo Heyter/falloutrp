@@ -138,7 +138,7 @@ addMisc(5052, "Blood Bag", "models/mosi/fallout4/props/aid/bloodbag.mdl", 2, 0, 
 addMisc(5053, "Painkillers", "models/mosi/fallout4/props/aid/daytripper.mdl", .1, 0, true)
 addMisc(5054, "Morphine", "models/mosi/fallout4/props/aid/medx.mdl", .1, 0, true)
 addMisc(5055, "Ghoul Valuables", "models/props_c17/BriefCase001a.mdl", 2, 0, true)
-addMisc(5056, "Helicopter Part", "models/Items/combine_rifle_ammo01.mdl", 5, 0, true)
+addMisc(5056, "Helicopter Weapon", "models/Items/combine_rifle_ammo01.mdl", 5, 0, true)
 addMisc(5057, "Radaway", "models/mosi/fallout4/props/aid/radx.mdl", .5, 0, true)
 addMisc(5058, "Food Rations", "models/props/cs_assault/box_stack1.mdl", .5, 0, true)
 addMisc(5059, "Water Rations", "models/props/cs_assault/dryer_box.mdl", .5, 0, true)
@@ -147,3 +147,4 @@ addMisc(5061, "Retrieval Tool", "models/weapons/w_models/w_toolbox.mdl", .5, 0, 
 addMisc(5062, "Batteries", "models/items/car_battery01.mdl", .5, 0, true)
 addMisc(5063, "Fuel Can", "models/props_junk/gascan001a.mdl", 1, 0, true)
 addMisc(5064, "Mr.Whiskers", "models/tsbb/animals/linsang.mdl", 0.5, 0, true)
+addMisc(5065, "Mysterious Electronic", "models/mosi/fallout4/electrical/generators/generator01.mdl", 25, 0, true)

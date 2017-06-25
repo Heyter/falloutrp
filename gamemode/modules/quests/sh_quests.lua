@@ -261,13 +261,13 @@ addQuest(
 addQuest(
 8,
 "New tech from the helicopter crash",
-"Thank you so much for getting that medicine. You have been a great help around this town and I would like to thank you once again. However, your help is still in need here. You see, we don’t have much technology here especially no high tech weapons or armor. Any of that stuff you see was salvaged from nearby. However, there is one place that no one has salvaged because of its mysterious appearance. A long time ago a high tech helicopter crashed nearby. No one knows if there were any survivors but were all afraid to go near it incase anybody is trying to ambush us. Please go search it and bring back anything you can find but be careful doing it.",
+"Thank you so much for getting that medicine. You have been a great help around this town and I would like to thank you once again. However, your help is still in need here. You see, we don’t have much technology here especially no high tech weapons or armor. Any of that stuff you see was salvaged from nearby. However, there is one place that no one has salvaged because of its mysterious appearance. A long time ago a high tech helicopter crashed nearby. No one knows if there were any survivors but were all afraid to go near it incase anybody is trying to ambush us. Please go search it and bring back anything you can find but be careful doing it. I don't know what condition the tech is still in, so you might have to rebuild it with other materials.",
 {npc = "Governor Dave"},
 {quests = {7}, level = 16},
 {experience = 23754, caps = 2500},
-{[5056] = {1, 1}},
+{[5065] = {1, 1}},
 1,
-"Find and return something of use from the crash sight"
+"Return new tech from crash site."
 )
 
 addQuest(
