@@ -252,7 +252,7 @@ addQuest(
 "HELP! We need some medication QUICK! One of those food rations you got us had some old radiated gunk on it. One of the town members ate it and is extremely sick. We don’t want her turning into a ghoul  so we gotta get her some rad pills. This is asking a lot but I need you to head over to the main city. You gotta be careful son, there are bandits roaming that city. You neva know when they may come over and try to cause some trouble. Just head over to the hospital and find some radaway quick or else that town fellow may not survive this.",
 {npc = "Governor Dave"},
 {quests = {6}, level = 16},
-{experience = 20785, caps = 2000},
+{experience = 18763, caps = 1500},
 {[5057] = {1, 1}},
 1,
 "Bring back some Radaway"
