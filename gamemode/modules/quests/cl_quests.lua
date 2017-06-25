@@ -2,6 +2,144 @@
 local menuW, menuH = 900, 600
 local showMenu, acceptMenu
 
+// Sounds
+sound.Add({
+	name = "quest1",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest1.mp3"
+})
+sound.Add({
+	name = "quest2",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest2.mp3"
+})
+sound.Add({
+	name = "quest3",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest3.mp3"
+})
+sound.Add({
+	name = "quest4",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest4.mp3"
+})
+sound.Add({
+	name = "quest5",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest5.mp3"
+})
+sound.Add({
+	name = "quest6",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest6.mp3"
+})
+sound.Add({
+	name = "quest7",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest7.mp3"
+})
+sound.Add({
+	name = "quest8",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 85,
+	sound = "falloutrp/quests/quest8.mp3"
+})
+sound.Add({
+	name = "quest9",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 90,
+	sound = "falloutrp/quests/quest9.mp3"
+})
+sound.Add({
+	name = "quest10",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 90,
+	sound = "falloutrp/quests/quest10.mp3"
+})
+sound.Add({
+	name = "quest11",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 90,
+	sound = "falloutrp/quests/quest11.mp3"
+})
+sound.Add({
+	name = "quest12",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 90,
+	sound = "falloutrp/quests/quest12.mp3"
+})
+sound.Add({
+	name = "quest13",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 80,
+	sound = "falloutrp/quests/quest13.mp3"
+})
+sound.Add({
+	name = "quest14",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 80,
+	sound = "falloutrp/quests/quest14.mp3"
+})
+sound.Add({
+	name = "quest15",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 80,
+	sound = "falloutrp/quests/quest15.mp3"
+})
+sound.Add({
+	name = "quest16",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 150,
+    pitch = 80,
+	sound = "falloutrp/quests/quest16.mp3"
+})
+sound.Add({
+	name = "quest17",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 500,
+    pitch = 120,
+	sound = "falloutrp/quests/quest17.mp3"
+})
+
 net.Receive("loadQuests", function()
     local quests = net.ReadTable()
 
@@ -214,6 +352,10 @@ function acceptQuestMenu(questGiver, questId, finish)
         objectives = objectives ..v.taskDescription .."\n"
     end
 
+    if !finish then
+        LocalPlayer():EmitSound("quest" ..questId)
+    end
+
     acceptMenu = vgui.Create("FalloutRP_Menu")
     acceptMenu:SetSize(menuW, menuH)
     acceptMenu:SetPos(ScrW()/2 - acceptMenu:GetWide()/2, ScrH()/2 - acceptMenu:GetTall()/2)
@@ -221,6 +363,7 @@ function acceptQuestMenu(questGiver, questId, finish)
     acceptMenu:AddCloseButton()
     acceptMenu.onClose = function()
         acceptMenu = nil
+        LocalPlayer():StopSound("quest" ..questId)
     end
     acceptMenu:MakePopup()
 
@@ -331,6 +474,8 @@ function acceptQuestMenu(questGiver, questId, finish)
         decline:SetText("Decline")
         decline.DoClick = function()
             close(acceptMenu)
+
+            LocalPlayer():StopSound("quest" ..questId)
         end
 
         local accept = vgui.Create("FalloutRP_Button", acceptMenu)
@@ -341,6 +486,8 @@ function acceptQuestMenu(questGiver, questId, finish)
         accept.DoClick = function()
             close(acceptMenu)
             LocalPlayer():acceptQuest(questId)
+
+            LocalPlayer():StopSound("quest" ..questId)
         end
     else
         if removals then
