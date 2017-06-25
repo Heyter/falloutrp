@@ -98,7 +98,6 @@ VEINS = {
 			{Position = Vector(-2557, 12308, -58)},
 			{Position = Vector(-2150, 12118, 10)},
 			{Position = Vector(2380, 6822, 66)},
-			{Position = Vector(7663, 5653, 15)},
 			{Position = Vector(-1203, 1289, 361)},
 			{Position = Vector(-894, -497, 170)},
 			{Position = Vector(-308, -1190, 62)},
