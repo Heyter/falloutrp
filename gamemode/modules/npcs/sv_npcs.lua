@@ -65,12 +65,12 @@ local function getNpcLimit(type)
 end
 
 function npcOutOfRange(npc, ply)
-	if !IsValid(npc) or !IsValid(ply) then return end
+	if !IsValid(npc) or !IsValid(ply) then return false end
 
 	local recheck = NPCS.regenChecker
 
-	if npc.lastHit and npc.lastHit + recheck > CurTime() then return end
-	if npc.lastRangeTest and npc.lastRangeTest + recheck > CurTime() then return end
+	if npc.lastHit and npc.lastHit + recheck > CurTime() then return false end
+	if npc.lastRangeTest and npc.lastRangeTest + recheck > CurTime() then return false end
 
 	npc.lastRangeTest = CurTime()
 
@@ -97,7 +97,11 @@ function npcOutOfRange(npc, ply)
 				npc:SetHealth(npc:Health() + regen)
 			end
 		end
+
+		return true
 	end
+
+	return false
 end
 
 function spawnNpc(npc, inactiveNpcs)

@@ -1,3 +1,5 @@
+util.AddNetworkString("damagePopup")
+
 local meta = FindMetaTable("Player")
 
 function meta:headBob()
@@ -35,4 +37,43 @@ function meta:bleed()
             self.bleedTime = nil
         end
     end
+end
+
+function meta:sendDmg(ent, dmg, dmgType, dmgInfo, crit)
+    local pos = nil
+    if dmgInfo:IsBulletDamage() then
+        pos = dmgInfo:GetDamagePosition()
+    elseif (dmgType == DMG_CLUB or dmgType == DMG_SLASH) then
+        pos = util.TraceHull({
+            start  = self:GetShootPos(),
+            endpos = self:GetShootPos() + (self:GetAimVector() * 100),
+            filter = self,
+            mins   = Vector(-10,-10,-10),
+            maxs   = Vector( 10, 10, 10),
+            mask   = MASK_SHOT_HULL,
+        }).HitPos
+    end
+
+    if pos == nil then
+        pos = ent:LocalToWorld(ent:OBBCenter())
+    end
+
+    local force = nil
+    if dmgInfo:IsExplosionDamage() then
+        force = dmgInfo:GetDamageForce() / 4000
+    else
+        force = -dmgInfo:GetDamageForce() / 1000
+    end
+    force.x = math.Clamp(force.x, -1, 1)
+    force.y = math.Clamp(force.y, -1, 1)
+    force.z = math.Clamp(force.z, -1, 1)
+
+
+    net.Start("damagePopup")
+        net.WriteEntity(ent)
+        net.WriteInt(dmg, 16)
+        net.WriteVector(pos)
+        net.WriteVector(force)
+        net.WriteBool(crit)
+    net.Send(self)
 end

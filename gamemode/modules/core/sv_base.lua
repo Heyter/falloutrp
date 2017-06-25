@@ -7,6 +7,8 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 	local damageType = dmgInfo:GetDamageType()
 	local damage = dmgInfo:GetDamage()
 
+	local crit, drawMarker = false, false
+
 	if IsValid(attacker) and IsValid(target) then
 		if attacker:IsPlayer() then
 			if attacker.spawnProtected then
@@ -33,6 +35,8 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 					damage = attacker:getWeaponDamage(uniqueid)
 
 					if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
+						crit = true
+
 						damage = (damage * CRITICAL_MULTIPLIER)
 						damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
 					end
@@ -69,11 +73,22 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 				if damageType == DMG_SLASH then
 					attacker:bleedAttack(target, damage)
 				end
+
+				drawMarker = true
 			elseif target:IsNPC() then
-				npcOutOfRange(target, attacker)
+				if npcOutOfRange(target, attacker) then
+					attacker:sendDmg(target, -99, damageType, dmgInfo)
+					damage = 0
+				end
+
+				drawMarker = true
 			end
 		elseif attacker:IsNPC() then
 			attacker.lastHit = CurTime()
+		end
+
+		if attacker:IsPlayer() and !attacker.spawnProtected and drawMarker then
+			attacker:sendDmg(target, damage, damageType, dmgInfo, crit)
 		end
 
 		dmgInfo:SetDamage(damage)
