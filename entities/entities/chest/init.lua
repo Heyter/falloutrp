@@ -8,10 +8,10 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetUseType(SIMPLE_USE)
-	
+
 	local phys = self:GetPhysicsObject()
 	phys:Wake()
-	
+
 	self.iteration = 1
 	self.loot = {}
 end
@@ -28,6 +28,16 @@ function ENT:Use(activator)
 		else
 			// Chest is not locked
 			activator:loot(self)
+
+			if !self.deleteSoon then
+				self.deleteSoon = true
+
+				timer.Simple(CHEST_DELETE_TIMER, function()
+					if IsValid(self) then
+						util.fadeRemove(self)
+					end
+				end)
+			end
 		end
 	end
 end
@@ -57,7 +67,7 @@ end
 
 function ENT:addItem(item)
 	self.loot[self.iteration] = item
-	
+
 	// Increate the iteration for the slot of the next item
 	self.iteration = self.iteration + 1
 end
@@ -69,7 +79,7 @@ function ENT:hasLoot()
 			return true
 		end
 	end
-	
+
 	return false
 end
 
@@ -83,10 +93,10 @@ function ENT:hasItem(id, amount)
 				return false
 			end
 		end
-		
+
 		return true
 	end
-	
+
 	return false
 end
 
@@ -105,14 +115,14 @@ function ENT:removeItem(id, quantity)
 		// If the item has 0 quantity then remove it from the loot
 		if self.loot[id].quantity <= 0 then
 			self.loot[id] = nil
-		
-			if !self:hasLoot() then	
+
+			if !self:hasLoot() then
 				self:remove()
 			end
 		end
 	else
 		self.loot[id] = nil
-		
+
 		if !self:hasLoot() then
 			self:remove()
 		end

@@ -61,4 +61,5 @@ CHEST_RARE_MODEL = "models/props/cs_militia/footlocker01_closed.mdl"
 CHEST_UNLOCK_SOUND = "doors/latchunlocked1.wav"
 
 CHEST_TIMER = 300 // How often we try to add another chest on the map
+CHEST_DELETE_TIMER = 600 // How often we delete a chest after a player loots it
 CHEST_LIMIT = 25 // How many chests can be on the map at once
