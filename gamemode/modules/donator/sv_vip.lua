@@ -12,6 +12,8 @@ function meta:addVip()
 		net.Start("updateVip")
 			net.WriteInt(1, 8)
 		net.Send(self)
+
+		self:addToken(1)
 	end)
 end
 
