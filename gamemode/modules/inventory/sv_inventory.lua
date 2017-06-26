@@ -14,7 +14,7 @@ function meta:depleteInventoryItem(type, uniqueid, quantity)
 		self:depleteEquipped(self.inventory[type][uniqueid])
 	end
 
-	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity then
+	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity or !isStackable(self.inventory[type][uniqueid].classid) then
 		// Delete the whole item from inventory
 		self.inventory[type][uniqueid] = nil
 		MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
