@@ -73,7 +73,7 @@ local function getNpcLimit(type)
 end
 
 function npcOutOfRange(npc, ply)
-	if !IsValid(npc) or !IsValid(ply) then return false end
+	if !IsValid(npc) or !IsValid(ply) or (npc:Health() <= 0) then return false end
 
 	local recheck = NPCS.regenChecker
 
@@ -107,7 +107,14 @@ function npcOutOfRange(npc, ply)
 		end
 
 		return true
+	else
+		// Check if they havent moved since last chest
+		if npc.lastPositionCheck and (npc.lastPositionCheck:Distance(npc:GetPos()) < 4) then
+			npc.attackerBehindDoor = true
+		end
 	end
+
+	npc.lastPositionCheck = npc:GetPos()
 
 	return false
 end
