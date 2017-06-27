@@ -157,7 +157,7 @@ addWeapon(1071, "Brass Knuckles", DMG_CLUB, "primary", "weapon_brassknuckles", "
 addWeapon(1016, "Machete Gladius", DMG_SLASH, "secondary", "weapon_machetegladius", "models/Halokiller38/fallout/weapons/Melee/machetegladius.mdl", 1120, 2.5, 1193, 15, 32, 38, 20, 1.76, nil)
 
 //Level 16:
-addWeapon(1057, "Battle Rifle", DMG_BULLET, "primary", "weapon_battlerifle", "models/Halokiller38/fallout/weapons/Rifles/thismachine.mdl", 1120, 2.5, 907, 16, 26, 30, 22, 1.76, 3002)
+addWeapon(1057, "Battle Rifle", DMG_BULLET, "primary", "weapon_battlerifle", "models/Halokiller38/fallout/weapons/Rifles/thismachine.mdl", 1120, 2.5, 907, 16, 22, 26, 12, 1.76, 3002)
 
 //Level 17:
 
@@ -166,7 +166,7 @@ addWeapon(1029, "Shovel", DMG_CLUB, "secondary", "weapon_shovel", "models/Haloki
 //Level 18:
 addWeapon(1067, ".45 Sub-Machine Gun", DMG_BULLET, "primary", "weapon_45smg", "models/Halokiller38/fallout/weapons/SMGs/45smg.mdl", 1120, 2.5, 2941, 18, 16, 20, 18, 1.76, 3006)
 
-addWeapon(1033, "Automatic Plasma Defender", DMG_PLASMA, "primary", "weapon_plasmadefender", "models/Halokiller38/fallout/weapons/Plasma Weapons/plasmadefender.mdl", 1120, 2.5, 4464, 18, 38, 43, 20, 1.76, 3023)
+addWeapon(1033, "Automatic Plasma Defender", DMG_PLASMA, "primary", "weapon_plasmadefender", "models/Halokiller38/fallout/weapons/Plasma Weapons/plasmadefender.mdl", 1120, 2.5, 4464, 18, 58, 63, 20, 1.76, 3023)
 
 //Level 19:
 
