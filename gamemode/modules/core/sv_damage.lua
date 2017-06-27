@@ -9,7 +9,7 @@ function meta:headBob()
 end
 
 function meta:bleedAttack(ent, damage)
-    if util.roll(1, 3) and !ent.bleedTime then
+    if util.roll(1, 3) and !ent.bleedTime and !ent.pvpProtected then
         ent.bleedTime = 5
         ent.bleedDamage = math.floor(damage / 5)
         ent.bleedAttacker = self

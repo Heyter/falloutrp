@@ -65,16 +65,18 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 					attacker:TakeDamage(damageReflect, target, Entity(0))
 				end
 
-				// Head bob
-				if damageType == DMG_CLUB then
-					target:headBob()
-				end
+				if attacker:IsPlayer() then
+					// Head bob
+					if damageType == DMG_CLUB then
+						target:headBob()
+					end
 
-				if damageType == DMG_SLASH then
-					attacker:bleedAttack(target, damage)
-				end
+					if damageType == DMG_SLASH then
+						attacker:bleedAttack(target, damage)
+					end
 
-				drawMarker = true
+					drawMarker = true
+				end
 			elseif target:IsNPC() then
 				if npcOutOfRange(target, attacker) then
 					attacker:sendDmg(target, -99, damageType, dmgInfo)
