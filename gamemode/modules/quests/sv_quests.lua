@@ -103,14 +103,14 @@ function meta:lootQuestItem(classid, quantity)
         if invItem.quantity then
             totalQuantity = totalQuantity + invItem.quantity
         else
-            totalQuantity = totalQuantity + 1
+            totalQuantity = totalQuantity + quantity
         end
     end
     if bankItem then
         if bankItem.quantity then
             totalQuantity = totalQuantity + bankItem.quantity
         else
-            totalQuantity = totalQuantity + 1
+            totalQuantity = totalQuantity + quantity
         end
     end
 
@@ -121,7 +121,7 @@ function meta:lootQuestItem(classid, quantity)
         return
     end
 
-    self:pickUpItem(createItem(classid, 1), 1)
+    self:pickUpItem(createItem(classid, quantity), quantity)
     self:notify("Quest item found.", NOTIFY_GENERIC, 5)
 
     return quantity
