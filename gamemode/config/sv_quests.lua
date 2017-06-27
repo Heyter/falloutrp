@@ -109,5 +109,29 @@ QUESTS.questItems = {
     [5065] = {
         noSpawn = true,
         quest = {8, 1}
-    }
+    },
+    [5066] = {
+        noSpawn = true,
+        quest = {18, 1}
+    },
+    [5067] = {
+        noSpawn = true,
+        quest = {19, 1}
+    },
+    [5068] = {
+        noSpawn = true,
+        quest = {19, 2}
+    },
+    [5069] = {
+        noSpawn = true,
+        quest = {20, 1}
+    },
+    [5070] = {
+        noSpawn = true,
+        quest = {21, 1}
+    },
+    [5071] = {
+        noSpawn = true,
+        quest = {21, 2}
+    },
 }

@@ -17,6 +17,7 @@ NPCS.npcs = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5042] = {quantity = {1, 2}, prob = 80},
 			[5045] = {quantity = {1, 1}, prob = 40},
+			[5066] = {quantity = {1, 1}, prob = 100},
 		},
 		Positions = {
 			{Position = Vector(-6886, 1203, 113)},
@@ -61,6 +62,8 @@ NPCS.npcs = {
 		Damage = 12,
 		Loot = {
 			[5046] = {quantity = {1, 3}, prob = 80},
+			[5046] = {quantity = {1, 3}, prob = 80},
+			[5068] = {quantity = {1, 1}, prob = 50},
 		},
 		Positions = {
 			{Position = Vector(-11393, 6969, 113)},
@@ -96,6 +99,7 @@ NPCS.npcs = {
 		Damage = 17,
 		Loot = {
 			[5046] = {quantity = {1, 5}, prob = 80},
+			[5067] = {quantity = {1, 1}, prob = 50},
 		},
 		Positions = {
 			{Position = Vector(3770, 6886, 79)},
@@ -262,6 +266,8 @@ NPCS.npcs = {
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5043] = {quantity = {1, 3}, prob = 80},
+			[5070] = {quantity = {1, 1}, prob = 30},
+			[5071] = {quantity = {1, 2}, prob = 80},
 		},
 		Positions = {
 			{Position = Vector(2318, 7619, 115)},
@@ -333,6 +339,7 @@ NPCS.npcs = {
 			[4004] = {quantity = {1, 2}, prob = 6},
 			[5046] = {quantity = {1, 5}, prob = 50},
 			[5044] = {quantity = {1, 2}, prob = 25},
+			[5069] = {quantity = {1, 2}, prob = 100},
 		},
 		Positions = {
 			{Position = Vector(-6177, 12890, 175)},

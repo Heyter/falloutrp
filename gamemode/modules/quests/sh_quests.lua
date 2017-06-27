@@ -160,6 +160,14 @@ Angle(0, -90, 0),
 {17}
 )
 
+addQuestGiver(
+"Wasteland Biologist",
+Vector(-8539, 11707, 54),
+Angle(0, -130, 0),
+"models/kleiner.mdl",
+{18, 19, 20, 21}
+)
+
 // Add Quests Below Here
 addQuest(
 1,
@@ -405,4 +413,56 @@ addQuest(
 {[5064] = {1, 1}},
 1,
 "Retrieve Mr. Whiskers"
+)
+
+addQuest(
+18,
+"Rat Tails",
+"Hey there! Nice to meet you! I am the Wasteland Biologist. However I have an issue with my job. I am not a fan of killing these creatures not only because I am scared of them, but because I hate seeing blood! Do me a favor and kill some rats for me and bring me back some tails that I can use to research their anatomy.",
+{npc = "npc_x"},
+{quests = {}, level = 2},
+{experience = 250, caps = 100},
+{[5066] = {1, 5}},
+5,
+"Retrieve 5 rat tails"
+)
+
+addQuest(
+19,
+"Mantis and their Nymphs",
+"Hey there! I need you again! You see there are several Mantis and Nymphs out there and I would love to see their change in age! Please go kill some and grab me some of their spines. I can't use any damaged ones, they must be intact!",
+{npc = "npc_x"},
+{quests = {18}, level = 4},
+{experience = 900, caps = 400},
+{[5067] = {1, 2}, [5068] = {2, 2}},
+2,
+"Retrieve 2 Adult Mantis spines",
+2,
+"Retrieve 2 Mantis Nymph spines"
+)
+
+addQuest(
+20,
+"Swampy Ghouls",
+"Hello Again! I have another creature that I would love to research. You see, there are many types of ghouls but the Swamp ghouls are fascinating. They walk barefoot in the swamp with ease! Go kill some and retrieve me their feet!.",
+{npc = "npc_x"},
+{quests = {19}, level = 8},
+{experience = 3000, caps = 1000},
+{[5069] = {1, 8}},
+8,
+"Retrieve 8 Swamp Ghoul Feet"
+)
+
+addQuest(
+21,
+"Cazador Stingers",
+"Hello once again! I have a new creature I would love to research. I find the cazadors stingers interesting since they poison the target and can continuously sting people without any self injury. They also have very weak wings for some reason…  Go kill some and retrieve some of their stingers and wings.",
+{npc = "npc_x"},
+{quests = {20}, level =12 },
+{experience = 7500, caps = 2000},
+{[5070] = {1, 5}, [5071] = {2, 12}},
+5,
+"Retrieve 5 Cazador Stingers",
+12,
+"Retrieve 12 Cazador Wings"
 )
