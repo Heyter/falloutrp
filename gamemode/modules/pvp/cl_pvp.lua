@@ -17,14 +17,14 @@ function pvpProtectionMenu()
 	frame:SetSize(frameW, frameH)
 	frame:SetFontTitle("FalloutRP3", "PVP PROTECTION")
 	frame:AddCloseButton()
-	
+
 	local intro = vgui.Create("DLabel", frame)
-	intro:SetFont("FalloutRP2")
+	intro:SetFont("FalloutRP2.5")
 	intro:SetTextColor(COLOR_WHITE)
 	intro:SetText(description)
 	intro:SetPos(50, 100)
 	intro:SizeToContents()
-	
+
 	local yes = vgui.Create("FalloutRP_Button", frame)
 	yes:SetSize(buttonW, buttonH)
 	yes:SetFont("FalloutRP2")
@@ -33,16 +33,16 @@ function pvpProtectionMenu()
 	yes:SetPos(frameW/2 - yes:GetWide()*1.5, 500)
 	yes.DoClick = function()
 		surface.PlaySound("garrysmod/ui_click.wav")
-		
+
 		// Toggle pvp protection
 		net.Start("togglePvp")
 			net.WriteBool(true)
 		net.SendToServer()
-				
+
 		frame:Remove()
 		gui.EnableScreenClicker(false)
 	end
-	
+
 	local no = vgui.Create("FalloutRP_Button", frame)
 	no:SetSize(buttonW, buttonH)
 	no:SetFont("FalloutRP2")
@@ -51,11 +51,11 @@ function pvpProtectionMenu()
 	no:SetPos(frameW/2 + no:GetWide(), 500)
 	no.DoClick = function()
 		surface.PlaySound("garrysmod/ui_click.wav")
-			
+
 		net.Start("togglePvp")
 			net.WriteBool(false)
 		net.SendToServer()
-				
+
 		frame:Remove()
 		gui.EnableScreenClicker(false)
 	end
