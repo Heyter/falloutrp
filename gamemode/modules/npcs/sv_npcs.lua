@@ -17,6 +17,14 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	local actualLoot = {}
 
 	for k,v in pairs(npcLoot) do
+		// Don't drop quest items for players that don't have the quest
+		if IsValid(attacker) and attacker:IsPlayer() and isQuestItem(k) then
+			local quest = QUESTS:getItemQuest(k)
+			if !attacker:hasQuest(quest) or attacker:isQuestComplete(quest) then
+				continue
+			end
+		end
+
 		local quantity = v.quantity
 		quantity = math.random(quantity[1], quantity[2])
 
