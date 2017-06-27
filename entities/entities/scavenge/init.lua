@@ -14,6 +14,10 @@ function ENT:OnTakeDamage(dmg)
 
 end
 
+function ENT:Think()
+	
+end
+
 function ENT:Use(activator)
 	if IsValid(activator) and activator:IsPlayer() and (self.count > 0) then
 		self:EmitSound(SCAVENGE_SOUND)
