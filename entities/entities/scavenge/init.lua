@@ -15,10 +15,16 @@ function ENT:OnTakeDamage(dmg)
 end
 
 function ENT:Think()
-	
+
 end
 
 function ENT:Use(activator)
+	if IsValid(activator) and activator:IsPlayer() and (self.count > 0) then
+		USE:begin(self, activator, 3)
+	end
+end
+
+function ENT:OnUseFinish(activator)
 	if IsValid(activator) and activator:IsPlayer() and (self.count > 0) then
 		self:EmitSound(SCAVENGE_SOUND)
 		local loot = self:generateLoot()
@@ -30,22 +36,49 @@ function ENT:Use(activator)
 		activator:addExp(5)
 
 		activator:notify("Scavenged object.", NOTIFY_GENERIC)
+
+		USE:begin(self, activator, 5)
 	end
 end
 
+function ENT:hasStackableItem(loot, classid)
+	for k,v in pairs(loot) do
+		if v.classid == classid and isStackable(classid) then
+			return k
+		end
+	end
+
+	return false
+end
 
 function ENT:generateLoot()
 	local loot = {}
 
 	// Add the default item and subtract item amount
-	table.insert(loot, createItem(SCAVENGE[self:getType()]["Default"], 1))
+	for i = 1, self.count do
+		local item = createItem(SCAVENGE[self:getType()]["Default"], 1)
 
-	local extras = SCAVENGE[self:getType()]["Extras"]
+		local exists = self:hasStackableItem(loot, item.classid)
+		if exists then
+			loot[exists].quantity = loot[exists].quantity + item.quantity
+		else
+			table.insert(loot, item)
+		end
 
-	for item, chance in pairs(extras) do
-		if (self:getCount() - #loot > 0) then
-			if util.roll(chance) then
-				table.insert(loot, createItem(item, 1))
+		local extras = SCAVENGE[self:getType()]["Extras"]
+
+		for item, chance in pairs(extras) do
+			if (self:getCount() - #loot > 0) then
+				if util.roll(chance) then
+					local extraItem = createItem(item, 1)
+
+					local exists = self:hasStackableItem(loot, extraItem.classid)
+					if exists then
+						loot[exists].quantity = loot[exists].quantity + item.quantity
+					else
+						table.insert(loot, extraItem)
+					end
+				end
 			end
 		end
 	end
