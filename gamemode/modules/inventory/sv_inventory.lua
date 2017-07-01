@@ -67,6 +67,11 @@ function meta:dropAllInventory()
 
 	// Give the player back a starting item
 	self:pickUpItem(createItem(1023, 1))
+	timer.Simple(1, function()
+		self:pickUpItem(createItem(1056, 1))
+		self:GiveAmmo(60, "22LR")
+	end)
+
 
 	// If the player had any items in the inventory then create the loot
 	if loot and #loot > 0 then

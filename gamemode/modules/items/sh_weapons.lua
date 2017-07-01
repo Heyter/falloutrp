@@ -97,7 +97,7 @@ addWeapon(1023, "Lead Pipe", DMG_CLUB, "secondary", "weapon_leadpipe", "models/H
 addWeapon(1075, "Pickaxe", DMG_SLASH, "primary", "eoti_tool_miningpick", "models/pickaxe/pickaxe_w.mdl", 1120, 2.5, 55, 1, 0, 0, 2.75, 1.76, nil)
 
 //Level 2:
-addWeapon(1056, "Silence .22", DMG_BULLET, "secondary", "weapon_22mmpistolsil", "models/Halokiller38/fallout/weapons/Pistols/silenced22pistol.mdl", 1120, 2.5, 74, 2, 8, 12, 4, 1.76, 3007)
+addWeapon(1056, "Silence .22", DMG_BULLET, "secondary", "weapon_22mmpistolsil", "models/Halokiller38/fallout/weapons/Pistols/silenced22pistol.mdl", 1120, 2.5, 0, 2, 8, 12, 4, 1.76, 3001)
 
 addWeapon(1074, "Lockpick", DMG_SLASH, "primary", "lockpick", "models/weapons/w_crowbar.mdl", 1120, 2.5, 130, 2, 0, 0, 2.75, 1.76, nil)
 

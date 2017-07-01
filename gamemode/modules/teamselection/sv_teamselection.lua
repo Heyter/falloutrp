@@ -39,6 +39,10 @@ local function giveStartingWeapons(ply)
 	timer.Simple(8, function()
 		ply:pickUpItem(createItem(4001, 2, true), 2) // Stimpack
 	end)
+	timer.Simple(9, function()
+		ply:pickUpItem(createItem(1056, 1)) // Silence .22
+		ply:GiveAmmo(60, "22LR")
+	end)
 end
 
 local function createCharacter(ply, name, teamId, values)
