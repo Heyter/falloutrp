@@ -74,7 +74,7 @@ function ENT:generateLoot()
 
 					local exists = self:hasStackableItem(loot, extraItem.classid)
 					if exists then
-						loot[exists].quantity = loot[exists].quantity + item.quantity
+						loot[exists].quantity = loot[exists].quantity + extraItem.quantity
 					else
 						table.insert(loot, extraItem)
 					end
@@ -89,12 +89,10 @@ end
 
 
 function ENT:reduceCount(amount)
-	self.count = self.count - amount
+	self.count = 0
 
-	if self.count == 0 then
-		SCAVENGE[self:getType()]["Positions"][self.key]["Active"] = false
-		util.fadeRemove(self)
-	end
+	SCAVENGE[self:getType()]["Positions"][self.key]["Active"] = false
+	util.fadeRemove(self)
 end
 
 
