@@ -9,6 +9,7 @@ end
 function spawnVein(inactiveVeins, type)
 	local randomLocation = table.Random(inactiveVeins)
 	local location = VEINS[type]["Positions"][randomLocation]
+	local color = VEINS[type]["Color"]
 
 	local sizeInfo, size = getRandomSize(type)
 	local prop = table.Random(sizeInfo.Props)
@@ -19,6 +20,10 @@ function spawnVein(inactiveVeins, type)
 	vein:SetPos(location["Position"])
 	vein:setType(type)
 	vein:setOres(oreCount)
+
+	if color then
+		vein:SetColor(color)
+	end
 
 	VEINS[type]["Positions"][randomLocation]["Active"] = true // Set the location to active
 	vein.key = randomLocation // So we know which location to set inactive when the vein is gone
