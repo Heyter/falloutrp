@@ -1,7 +1,7 @@
-include( "shared.lua" );
+include("shared.lua")
 
-local LabelBackgroundColor 	= ENT.Label_BG;
-local LabelTextColor 		= ENT.Label_TextColor;
+local LabelBackgroundColor 	= ENT.Label_BG
+local LabelTextColor 		= ENT.Label_TextColor
 
 function ENT:Initialize()
 end
