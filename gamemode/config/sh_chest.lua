@@ -55,7 +55,7 @@ function spawnchests()
 	end
 end
 
-CHEST_MODEL = "models/props/cs_militia/footlocker01_closed.mdl"
+CHEST_MODEL = "models/treasurechest/treasurechest.mdl"
 CHEST_RARE_MODEL = "models/props/cs_militia/footlocker01_closed.mdl"
 
 CHEST_UNLOCK_SOUND = "doors/latchunlocked1.wav"
