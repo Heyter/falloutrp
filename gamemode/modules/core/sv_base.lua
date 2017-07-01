@@ -78,6 +78,9 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 					drawMarker = true
 				end
 			elseif target:IsNPC() then
+				// Increase damage against NPCs by 25%
+				damage = damage * 1.25
+
 				if npcOutOfRange(target, attacker) then
 					attacker:sendDmg(target, -99, damageType, dmgInfo)
 					damage = 0
