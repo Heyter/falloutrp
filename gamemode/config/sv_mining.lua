@@ -126,11 +126,11 @@ VEIN_SOUND = "pickaxe/deploy.wav" // Sound made when a vein is mined successfull
 
 function printRockPositions()
 	for k,v in pairs(ents.FindByClass("prop_physics")) do
-		if v:GetModel() == "models/props_borealis/bluebarrel001.mdl" and v._id == 15 then
+		if v:GetModel() == "models/props_c17/trappropeller_blade.mdl" and !v.key then
 			local p = v:GetPos()
-			print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) ..")},")
-			//print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Angles = Angle(" ..math.floor(a[1]) ..", " ..math.floor(a[2]) ..", " ..math.floor(a[3]) ..")},")
-			//{Position = Vector(8349, 4075, 17), Angles = Angle(0, -79, 2), Active = false},
+			local a = v:GetAngles()
+			//print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) ..")},")
+			print("{position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), angle = Angle(" ..math.floor(a[1]) ..", " ..math.floor(a[2]) ..", " ..math.floor(a[3]) ..")},")
 		end
 	end
 end

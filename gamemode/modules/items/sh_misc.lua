@@ -156,3 +156,5 @@ addMisc(5070, "Cazador Stinger", "models/halokiller38/fallout/weapons/melee/chan
 addMisc(5071, "Cazador Wings", "models/gibs/gunship_gibs_wing.mdl", 0.5, 0, true)
 addMisc(5072, "Old Computer Chip", "models/mosi/fallout4/electrical/conduits/conduit_vaultwall.mdl", 0.5, 0, true)
 addMisc(5073, "Advanced V2 Computer Chip", "models/Items/combine_rifle_cartridge01.mdl", 0.5, 0, true)
+addMisc(5074, "Propellor", "models/props_c17/TrapPropeller_Blade.mdl", 15, 0, true)
+addMisc(5075, "Airboat Seat", "models/nova/airboat_seat.mdl", 5, 0, true)
