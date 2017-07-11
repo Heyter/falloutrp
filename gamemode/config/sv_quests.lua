@@ -96,10 +96,32 @@ QUESTS.questItems = {
         quest = {16, 3},
     },
 
+    // ----
+    // RESPAWNABLE
+    // ----
+
+    // Quest 22
+    [5074] = {
+        respawn = true,
+        locations = {
+            {position = Vector(-11360, 11244, 19), angle = Angle(0, -54, 0)},
+            {position = Vector(-11360, 11244, 19), angle = Angle(-43, -127, 20)},
+            {position = Vector(-9918, 12384, 48), angle = Angle(-18, -112, 7)},
+            {position = Vector(-8389, 11707, 61), angle = Angle(-52, -1, 14)},
+            {position = Vector(-5075, 9759, 14), angle = Angle(0, 149, 0)},
+            {position = Vector(-3766, 10650, 33), angle = Angle(0, -34, 0)},
+            {position = Vector(-5892, 8711, 100), angle = Angle(0, 5, -1)},
+        },
+        spawnRate = 60, // How often one tries to respawn
+        limit = 2, // How many can be on the map at once
+        quest = {22, 1},
+        model = "models/props_c17/TrapPropeller_Blade.mdl",
+    },
+
 
     // ----
     //    NON SPAWNABLE
-    //----
+    // ----
 
     // Quest 15
     [5055] = {
@@ -133,5 +155,9 @@ QUESTS.questItems = {
     [5071] = {
         noSpawn = true,
         quest = {21, 2}
+    },
+    [5075] = {
+        noSpawn = true,
+        quest = {22, 1}
     },
 }

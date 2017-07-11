@@ -163,8 +163,49 @@ net.Receive("openQuestMenu", function()
 
     local questGiver = net.ReadString()
 
-    LocalPlayer():openQuestMenu(questGiver)
+	local alternateMenu = QUESTS:alternateGiverMenu(questGiver)
+
+	if alternateMenu then
+		QUESTS:multipleChoiceMenu(QUESTS.menus[alternateMenu], questGiver)
+	else
+		LocalPlayer():openQuestMenu(questGiver)
+	end
 end)
+
+local function openVehicleMenu()
+	VEHICLES.openMenu()
+end
+
+QUESTS.menus = {
+	[1] = {
+		func = openVehicleMenu,
+		desc = "I'd like to see my vehicles"
+	}
+}
+
+function QUESTS:multipleChoiceMenu(alternate, questGiver)
+	local frame = vgui.Create("FalloutRP_Multiple_Choice")
+	local frameX, frameY = frame:GetPos()
+	frame:SetPos(frameX, ScrH() - frame:GetTall() - 100)
+	frame:SetFontTitle("FalloutRP3", "Token Shop")
+	frame:AddCloseButton()
+	frame:HideSideBars()
+	frame:MakePopup()
+
+	frame:AddIntro("Hey there, what can I do for ya?")
+	frame:AddButton(alternate.desc, function()
+		alternate.func()
+		frame:Remove()
+	end)
+	frame:AddButton("I'm looking for some work", function()
+		LocalPlayer():openQuestMenu(questGiver)
+		frame:Remove()
+	end)
+end
+
+function QUESTS:alternateGiverMenu(questGiver)
+	return self.questGivers[questGiver].alternateMenu
+end
 
 local meta = FindMetaTable("Player")
 
@@ -428,6 +469,16 @@ function acceptQuestMenu(questGiver, questId, finish)
         lastX, lastY = rewardsExperience:GetPos()
         lastTall = rewardsExperience:GetTall()
     end
+	if rewards.description then
+		local rewardsDescription = vgui.Create("DLabel", acceptMenu)
+		rewardsDescription:SetFont("FalloutRP2")
+		rewardsDescription:SetPos(50, lastY + lastTall + 5)
+		rewardsDescription:SetTextColor(COLOR_AMBER)
+		rewardsDescription:SetText(rewards.description)
+		rewardsDescription:SizeToContents()
+		lastX, lastY = rewardsDescription:GetPos()
+		lastTall = rewardsDescription:GetTall()
+	end
     if rewards.items then
         local itemOffset = 0
 

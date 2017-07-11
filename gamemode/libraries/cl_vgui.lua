@@ -149,6 +149,38 @@ end
 
 vgui.Register("FalloutRP_Menu", VGUI, "DFrame")
 
+// Multiple choice menu
+local VGUI = {}
+
+function VGUI:Init()
+	self:SetSize(500, 300)
+	self.nextY = 50
+end
+
+function VGUI:AddIntro(text)
+	local intro = vgui.Create("DLabel", self)
+	intro:SetFont("FalloutRP2.5")
+	intro:SetText(util.textWrap(text, 450, "FalloutRP2.5"))
+	intro:SetTextColor(COLOR_WHITE)
+	intro:SetPos(25, self.nextY)
+	intro:SizeToContents()
+
+	self.nextY = self.nextY + intro:GetTall() + 10
+end
+
+function VGUI:AddButton(text, func)
+	local button = vgui.Create("FalloutRP_Button", self)
+	button:SetText(text)
+	button:SetFont("FalloutRP2")
+	button:SetSize(self:GetWide() - 50, 40)
+	button:SetPos(25, self.nextY)
+	button.DoClick = func
+
+	self.nextY = self.nextY + button:GetTall() + 10
+end
+
+vgui.Register("FalloutRP_Multiple_Choice", VGUI, "FalloutRP_Menu")
+
 // Scroll List Menu
 local VGUI = {}
 

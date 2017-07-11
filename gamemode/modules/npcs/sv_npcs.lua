@@ -123,7 +123,6 @@ function spawnNpc(npc, inactiveNpcs)
 	local randomLocation = table.Random(inactiveNpcs)
 	local location = NPCS.npcs[npc]["Positions"][randomLocation]
 
-	print(npc, randomLocation)
 	NPCS.npcs[npc]["Positions"][randomLocation]["Active"] = true
 
 	local ent = ents.Create(npc)

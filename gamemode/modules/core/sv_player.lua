@@ -105,34 +105,31 @@ function meta:load()
 
 	self:Team(TEAM_FACTIONLESS) //Temporarily set their team while they're still loading
 
-	//Load Player
+	// Load Player
 	self:loadPlayer()
 
-	//Load Inventory and Equipped
+	// Load Inventory and Equipped
 	self:loadInventory()
 
-	//Load Bank
+	// Load Bank
 	self:loadBank()
 
-	//Load Quests
+	// Load Quests
 	self:loadQuests()
 
-	//Load Titles
+	// Load Vehicles
+	self:loadVehicles()
+
+	// Load Titles
 	self:loadTitles()
 
-	//Load existing players data to clientside
+	// Load existing players data to clientside
 	self:loadAllClientside()
 end
 
 // Make all of the data nil that is related to the player who disconnected
 function meta:unload()
-	//Unload Player
 
-	//Unload Inventory
-
-	//Unload Equipped
-
-	//Unload Bank
 end
 
 net.Receive("loadPlayerDataFinish", function(len, ply)
