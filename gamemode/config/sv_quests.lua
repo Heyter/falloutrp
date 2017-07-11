@@ -156,4 +156,8 @@ QUESTS.questItems = {
         noSpawn = true,
         quest = {21, 2}
     },
+    [5075] = {
+        noSpawn = true,
+        quest = {22, 1}
+    },
 }

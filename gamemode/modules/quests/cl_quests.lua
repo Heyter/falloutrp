@@ -172,9 +172,13 @@ net.Receive("openQuestMenu", function()
 	end
 end)
 
+local function openVehicleMenu()
+	VEHICLES.openMenu()
+end
+
 QUESTS.menus = {
 	[1] = {
-		func = VEHICLES.openMenu,
+		func = openVehicleMenu,
 		desc = "I'd like to see my vehicles"
 	}
 }

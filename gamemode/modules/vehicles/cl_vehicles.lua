@@ -32,7 +32,7 @@ function VEHICLES:openMenu()
         local scrollerW = frame.scroller:GetWide()
 
         for k,v in pairs(LocalPlayer().vehicles) do
-            if !v.owned then
+            if v.owned then
                 local itemBox = vgui.Create("DButton")
                 itemBox:SetSize(layout:GetWide() - scrollerW, 30)
                 itemBox.Paint = function(self, w, h)
@@ -50,7 +50,7 @@ function VEHICLES:openMenu()
                 itemBox.DoClick = function()
                     surface.PlaySound("pepboy/click1.wav")
 
-                    VEHICLES:spawnVehicle(k) 
+                    VEHICLES:spawnVehicle(k)
 
                     close(frame)
                 end
