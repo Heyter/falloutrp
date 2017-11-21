@@ -48,15 +48,27 @@ function meta:craftItem(itemInfo, quantity)
 	if self:hasCraftingLevel(itemInfo.level) then
 		if self:hasCraftingMaterials(itemInfo.materials, quantity) then
 			if self:canInventoryFit(itemInfo) then
-				self:removeCraftingMaterials(itemInfo.materials, quantity)
+				if isQuestItem(itemInfo.classid) then
+					if !self:lootQuestItem(itemInfo.classid, quantity) then
+						self:notify("You have no use for this item anymore.", NOTIFY_ERROR, 5)
+					else
+						self:removeCraftingMaterials(itemInfo.materials, quantity)
+						hook.Call("CraftedItem", GAMEMODE, self, itemInfo, itemInfo.quantity)
 
-				// Give the item to the player
-				self:pickUpItem(createItem(itemInfo.classid, 1, true), itemInfo.quantity)
+						net.Start("craftItem")
+						net.Send(self)
+					end
+				else
+					self:removeCraftingMaterials(itemInfo.materials, quantity)
 
-				hook.Call("CraftedItem", GAMEMODE, self, itemInfo, itemInfo.quantity)
+					// Give the item to the player
+					self:pickUpItem(createItem(itemInfo.classid, 1, true), itemInfo.quantity)
 
-				net.Start("craftItem")
-				net.Send(self)
+					hook.Call("CraftedItem", GAMEMODE, self, itemInfo, itemInfo.quantity)
+
+					net.Start("craftItem")
+					net.Send(self)
+				end
 			else
 				self:notify("Insufficient inventory space", NOTIFY_ERROR, 5)
 			end

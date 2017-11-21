@@ -34,14 +34,79 @@ end
 
 function QUESTS:spawnQuestItems()
     for k,v in pairs(self.questItems) do
+        if !v.noSpawn and !v.respawn then
+            local ent = ents.Create("quest_item")
+            ent:SetPos(v.position)
+            ent:SetAngles(v.angle)
+            ent:SetModel(v.model)
+            ent:SetID(k)
+            ent:Spawn()
+            ent:DropToFloor()
+        end
+    end
+end
+
+function QUESTS:getActiveQuestItems(item)
+	local active = 0
+	local inactive = {}
+
+	for k, v in pairs(self.questItems[item].locations) do
+		if v.Active then
+			active = active + 1
+		else
+			table.insert(inactive, k)
+		end
+	end
+
+	return active, inactive
+end
+
+// Test function only, to make sure quest items are spawned in right place
+function spawnAllQuestItems()
+    for k,v in pairs(QUESTS.questItems) do
+        if v.respawn then
+            for w,y in pairs(v.locations) do
+                local a = ents.Create("quest_item")
+                a:SetPos(y.position + Vector(0, 0, 1))
+                a:SetAngles(y.angle)
+                a:SetModel(v.model)
+                a:DropToFloor()
+            end
+        end
+    end
+end
+
+function QUESTS:respawnQuestItem(item)
+    local numActive, inactiveItems = self:getActiveQuestItems(item)
+    local limit = self.questItems[item].limit
+
+    if numActive < limit then
+        local randomLocation = table.Random(inactiveItems)
+        local location = self.questItems[item]["locations"][randomLocation]
+
+        self.questItems[item]["locations"][randomLocation]["Active"] = true
+
         local ent = ents.Create("quest_item")
-        ent:SetPos(v.position)
-        ent:SetAngles(v.angle)
-        ent:SetModel(v.model)
-        ent:SetID(k)
+        ent:SetPos(location["position"] + Vector(0, 0, 1))
+        ent:SetAngles(location["angle"])
+        ent:SetModel(self.questItems[item]["model"])
         ent:Spawn()
         ent:DropToFloor()
+        ent:SetID(item)
+        ent.respawnable = true
+        ent.key = randomLocation // So we know which position to restore to inactive when the item is picked up
     end
+end
+
+function QUESTS:createQuestItemsTimer()
+    for k,v in pairs(self.questItems) do
+        if v.respawn then
+            timer.Create(k .." quest_item spawner", v.spawnRate, 0, function()
+                self:respawnQuestItem(k)
+            end)
+        end
+    end
+
 end
 
 function QUESTS:spawnQuestGivers()
@@ -80,7 +145,7 @@ end
 
 local meta = FindMetaTable("Player")
 
-function meta:lootQuestItem(classid, quantity)
+function meta:lootQuestItem(classid, quantity, ent)
     quest, task = QUESTS:getItemQuest(classid), QUESTS:getItemTask(classid)
 
     if !self:hasQuest(quest) then return false end
@@ -101,14 +166,14 @@ function meta:lootQuestItem(classid, quantity)
         if invItem.quantity then
             totalQuantity = totalQuantity + invItem.quantity
         else
-            totalQuantity = totalQuantity + 1
+            totalQuantity = totalQuantity + quantity
         end
     end
     if bankItem then
         if bankItem.quantity then
             totalQuantity = totalQuantity + bankItem.quantity
         else
-            totalQuantity = totalQuantity + 1
+            totalQuantity = totalQuantity + quantity
         end
     end
 
@@ -119,7 +184,12 @@ function meta:lootQuestItem(classid, quantity)
         return
     end
 
-    self:pickUpItem(createItem(classid, 1), 1)
+    if ent and ent.respawnable then
+        util.fadeRemove(ent)
+        QUESTS.questItems[classid]["locations"][ent.key]["Active"] = false
+    end
+
+    self:pickUpItem(createItem(classid, quantity), quantity)
     self:notify("Quest item found.", NOTIFY_GENERIC, 5)
 
     return quantity
@@ -203,6 +273,8 @@ function meta:acceptQuest(questId)
     self:updateQuest(questId)
 
     self:notify("You have accepted " ..QUESTS:getName(questId), NOTIFY_GENERIC, 10)
+
+    hook.Call("QuestAccepted", GAMEMODE, self, questId)
 end
 
 function meta:completeQuest(questId)
@@ -305,4 +377,5 @@ end
 hook.Add("InitPostEntity", "questSetup", function()
     QUESTS:spawnQuestGivers()
     QUESTS:spawnQuestItems()
+    QUESTS:createQuestItemsTimer()
 end)

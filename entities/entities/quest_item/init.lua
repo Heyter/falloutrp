@@ -22,7 +22,7 @@ function ENT:GetID()
 end
 
 function ENT:Use(activator)
-	if activator:IsPlayer() then
-		activator:lootQuestItem(self:GetID())
+	if activator:IsPlayer() and !self.beingRemoved then
+		activator:lootQuestItem(self:GetID(), nil, self)
 	end
 end

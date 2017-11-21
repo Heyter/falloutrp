@@ -17,6 +17,7 @@ NPCS.npcs = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5042] = {quantity = {1, 2}, prob = 80},
 			[5045] = {quantity = {1, 1}, prob = 40},
+			[5066] = {quantity = {1, 1}, prob = 100},
 		},
 		Positions = {
 			{Position = Vector(-6886, 1203, 113)},
@@ -61,6 +62,8 @@ NPCS.npcs = {
 		Damage = 12,
 		Loot = {
 			[5046] = {quantity = {1, 3}, prob = 80},
+			[5046] = {quantity = {1, 3}, prob = 80},
+			[5068] = {quantity = {1, 1}, prob = 50},
 		},
 		Positions = {
 			{Position = Vector(-11393, 6969, 113)},
@@ -96,6 +99,7 @@ NPCS.npcs = {
 		Damage = 17,
 		Loot = {
 			[5046] = {quantity = {1, 5}, prob = 80},
+			[5067] = {quantity = {1, 1}, prob = 50},
 		},
 		Positions = {
 			{Position = Vector(3770, 6886, 79)},
@@ -262,6 +266,8 @@ NPCS.npcs = {
 		Loot = {
 			[4014] = {quantity = {1, 2}, prob = 80},
 			[5043] = {quantity = {1, 3}, prob = 80},
+			[5070] = {quantity = {1, 1}, prob = 30},
+			[5071] = {quantity = {1, 2}, prob = 80},
 		},
 		Positions = {
 			{Position = Vector(2318, 7619, 115)},
@@ -333,6 +339,7 @@ NPCS.npcs = {
 			[4004] = {quantity = {1, 2}, prob = 6},
 			[5046] = {quantity = {1, 5}, prob = 50},
 			[5044] = {quantity = {1, 2}, prob = 25},
+			[5069] = {quantity = {1, 2}, prob = 100},
 		},
 		Positions = {
 			{Position = Vector(-6177, 12890, 175)},
@@ -515,7 +522,7 @@ NPCS.npcs = {
 			[5036] = {quantity = {1, 1}, prob = 2},
 			[5031] = {quantity = {1, 1}, prob = 6},
 			[5030] = {quantity = {1, 2}, prob = 8},
-			[5055] = {quantity = {1, 1}, prob = 5},
+			[5055] = {quantity = {1, 1}, prob = 7},
 		},
 		Positions = {
 			{Position = Vector(2909, 7622, 105)},
@@ -650,7 +657,7 @@ NPCS.npcs = {
 		Name = "Fire Gecko",
 		Level = 50,
 		Health = 1200,
-		Limit = 3, // How many can be active on the map at once
+		Limit = 1, // How many can be active on the map at once
 		SpawnRate = 120, // How often (seconds) we try to spawn a new one
 		StartAmount = 1, // How many of these npcs start in the server (so the server isn't bare on restart/startup)
 		Experience = 200,
@@ -667,7 +674,6 @@ NPCS.npcs = {
 			{Position = Vector(807, -677, 33)},
 			{Position = Vector(-48, -117, 38)},
 			{Position = Vector(407, 741, 41)},
-			{Position = Vector(1400, 1282, 73)},
 			{Position = Vector(3301, 3764, 31)},
 			{Position = Vector(7409, 2878, 37)},
 			{Position = Vector(5197, 9106, 120)},
@@ -765,5 +771,5 @@ NPCS.npcs = {
 	*/
 }
 
-NPCS.regenChecker = 5 // How often an evaded show it tracked
-NPCS.regenPercentage = .25 // How much of max health is regened every evaded attack
+NPCS.regenChecker = 4 // How often an evaded show it tracked
+NPCS.regenPercentage = .30 // How much of max health is regened every evaded attack

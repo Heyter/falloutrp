@@ -22,6 +22,8 @@ function meta:addExp(exp)
 		exp = exp * 1.10 // 10% boost
 	end
 
+	exp = math.floor(exp)
+
 	self.playerData.experience = self:getExp() + exp
 
 	// Update in SQL

@@ -41,7 +41,8 @@ function spawnChest(inactiveChests)
 
 	local chest = ents.Create("chest")
 	chest:SetPos(location["Position"])
-	chest:SetAngles(location["Angles"])
+	// Offset for new chest model, need to later go back and chest chest angles
+	chest:SetAngles(location["Angles"] + Angle(0, 90, 0))
 
 	CHEST_LOCATIONS[randomLocation]["Active"] = true // Set the location to active
 	chest.key = randomLocation // So we know which location to set inactive when the chest is gone
@@ -70,7 +71,8 @@ end
 function spawnDummyChest()
 	local chest = ents.Create("chest")
 	chest:SetPos(Vector(-9376, 1363, 139))
-	chest:SetAngles(Angle(0, 90, 0))
+	// Offset for new chest model, need to later go back and chest chest angles
+	chest:SetAngles(Angle(0, 90, 0) + Angle(0, 90, 0))
 	chest:lock(1)
 	chest.isFake = true
 

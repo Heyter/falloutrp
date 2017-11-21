@@ -17,11 +17,11 @@ function ENT:hit(attacker, hitPos)
 			attacker:ViewPunch(Angle(7, 0, 0))
 			self:EmitSound(VEIN_SOUND)
 			local loot = self:generateLoot()
-			
+
 			createLoot(hitPos, loot)
 			self:reduceOres(#loot)
-			
-			attacker:addExp(10)
+
+			attacker:addExp(VEINS[self:getType()]["Experience"])
 			attacker:notify("Mined chunk.", NOTIFY_GENERIC)
 		end
 	end
@@ -33,12 +33,12 @@ end
 
 function ENT:generateLoot()
 	local loot = {}
-	
+
 	// Add the default item and subtract ore amount
 	table.insert(loot, createItem(VEINS[self:getType()]["Default"], 1))
-	
+
 	local extras = VEINS[self:getType()]["Extras"]
-	
+
 	for ore, chance in pairs(extras) do
 		if (self:getOres() - #loot > 0) then
 			if util.roll(chance) then
@@ -46,13 +46,13 @@ function ENT:generateLoot()
 			end
 		end
 	end
-	
+
 	return loot
 end
 
 function ENT:reduceOres(amount)
 	self.ores = self.ores - amount
-	
+
 	if self.ores == 0 then
 		VEINS[self:getType()]["Positions"][self.key]["Active"] = false
 		util.fadeRemove(self)

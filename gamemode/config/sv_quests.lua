@@ -26,7 +26,7 @@ QUESTS.questItems = {
     [5062] = {
         position = Vector(-9855, 12918, -66),
         angle = Angle(0, -172, 0),
-        model = "models/props_junk/gascan001a.mdl",
+        model = "models/items/car_battery01.mdl",
         quest = {4, 1},
     },
     // Quest 5
@@ -37,8 +37,8 @@ QUESTS.questItems = {
         quest = {5, 1},
     },
     [5061] = {
-        position = Vector(-11295, 9062, 488),
-        angle = Angle(0, -95, 0),
+        position = Vector(-10025, 5036, 100),
+        angle = Angle(0, 160, 0),
         model = "models/weapons/w_models/w_toolbox.mdl",
         quest = {5, 2},
     },
@@ -62,5 +62,102 @@ QUESTS.questItems = {
         model = "models/props/cs_assault/dryer_box.mdl",
         quest = {6, 2},
     },
+    // Quest 7
+    [5057] = {
+        position = Vector(2517, 9939, 150),
+        angle = Angle(0, 70, 0),
+        model = "models/mosi/fallout4/props/aid/radx.mdl",
+        quest = {7, 1},
+    },
+    // Quest 8
+    [5056] = {
+        position = Vector(-2206, 10198, 200),
+        angle = Angle(0, 90, 0),
+        model = "models/Items/combine_rifle_ammo01.mdl",
+        quest = {8, 1},
+    },
+    // Quest 16
+    [5052] = {
+        position = Vector(2501, 10216, 139),
+        angle = Angle(-83, -89, -140),
+        model = "models/mosi/fallout4/props/aid/bloodbag.mdl",
+        quest = {16, 1},
+    },
+    [5053] = {
+        position = Vector(2327, 9485, 162),
+        angle = Angle(0, 90, 0),
+        model = "models/mosi/fallout4/props/aid/daytripper.mdl",
+        quest = {16, 2},
+    },
+    [5054] = {
+        position = Vector(2397, 9937, 137),
+        angle = Angle(-28, -84, -91),
+        model = "models/mosi/fallout4/props/aid/medx.mdl",
+        quest = {16, 3},
+    },
 
+    // ----
+    // RESPAWNABLE
+    // ----
+
+    // Quest 22
+    [5074] = {
+        respawn = true,
+        locations = {
+            {position = Vector(-11360, 11244, 19), angle = Angle(0, -54, 0)},
+            {position = Vector(-11360, 11244, 19), angle = Angle(-43, -127, 20)},
+            {position = Vector(-9918, 12384, 48), angle = Angle(-18, -112, 7)},
+            {position = Vector(-8389, 11707, 61), angle = Angle(-52, -1, 14)},
+            {position = Vector(-5075, 9759, 14), angle = Angle(0, 149, 0)},
+            {position = Vector(-3766, 10650, 33), angle = Angle(0, -34, 0)},
+            {position = Vector(-5892, 8711, 100), angle = Angle(0, 5, -1)},
+        },
+        spawnRate = 60, // How often one tries to respawn
+        limit = 2, // How many can be on the map at once
+        quest = {22, 1},
+        model = "models/props_c17/TrapPropeller_Blade.mdl",
+    },
+
+
+    // ----
+    //    NON SPAWNABLE
+    // ----
+
+    // Quest 15
+    [5055] = {
+        noSpawn = true,
+        quest = {15, 1}
+    },
+    [5065] = {
+        noSpawn = true,
+        quest = {8, 1}
+    },
+    [5066] = {
+        noSpawn = true,
+        quest = {18, 1}
+    },
+    [5067] = {
+        noSpawn = true,
+        quest = {19, 1}
+    },
+    [5068] = {
+        noSpawn = true,
+        quest = {19, 2}
+    },
+    [5069] = {
+        noSpawn = true,
+        quest = {20, 1}
+    },
+    [5070] = {
+        noSpawn = true,
+        quest = {21, 1}
+    },
+    [5071] = {
+        noSpawn = true,
+        quest = {21, 2}
+    },
+    [5075] = {
+        noSpawn = true,
+        quest = {22, 1}
+    },
 }

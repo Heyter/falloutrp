@@ -39,6 +39,8 @@ end
 
 // Removes an entity by fading it's transparency (TAKES 1 second to remove entities)
 function util.fadeRemove(ent)
+	ent.beingRemoved = true // Don't allow players to use the item while it still exists
+
 	local increment = 25
 	ent:SetColor(Color(255, 255, 255, 255 - increment))
 

@@ -14,7 +14,7 @@ hook.Add("CraftedItem", "CraftedQuestItem", function(ply, item, quantity)
     elseif classid == 1075 then
         ply:addQuestProgress(9, 4, 1)
     elseif classid == 4001 then
-        ply:addQuestProgress(9, 5, 1)
+        ply:addQuestProgress(9, 5, quantity)
 
     // Quest 10
     elseif classid == 2018 then

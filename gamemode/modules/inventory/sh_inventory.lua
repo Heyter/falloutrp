@@ -5,7 +5,7 @@ local meta = FindMetaTable("Player")
 
 // Get the max space the player can hold in inventory
 function meta:getMaxInventory()
-	return INVENTORY_WEIGHT + self:getStrengthInventory()
+	return INVENTORY_WEIGHT + self:getStrengthInventory() + self:getVipInventoryIncrease()
 end
 
 function meta:hasInventoryItem(type, classid)

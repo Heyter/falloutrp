@@ -17,6 +17,14 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	local actualLoot = {}
 
 	for k,v in pairs(npcLoot) do
+		// Don't drop quest items for players that don't have the quest
+		if IsValid(attacker) and attacker:IsPlayer() and isQuestItem(k) then
+			local quest = QUESTS:getItemQuest(k)
+			if !attacker:hasQuest(quest) or attacker:isQuestComplete(quest) then
+				continue
+			end
+		end
+
 		local quantity = v.quantity
 		quantity = math.random(quantity[1], quantity[2])
 
@@ -65,24 +73,26 @@ local function getNpcLimit(type)
 end
 
 function npcOutOfRange(npc, ply)
-	if !IsValid(npc) or !IsValid(ply) then return end
+	if !IsValid(npc) or !IsValid(ply) or (npc:Health() <= 0) then return false end
 
 	local recheck = NPCS.regenChecker
 
-	if npc.lastHit and npc.lastHit + recheck > CurTime() then return end
-	if npc.lastRangeTest and npc.lastRangeTest + recheck > CurTime() then return end
+	if npc.lastHit and npc.lastHit + recheck > CurTime() then return false end
+	if npc.lastRangeTest and npc.lastRangeTest + recheck > CurTime() then return false end
 
 	npc.lastRangeTest = CurTime()
 
 	local trace = {
-		start = util.getFeetPosition(npc),
-		endpos = ply:GetShootPos() - Vector(0, 0, 50),
+		start = util.getFeetPosition(npc) + Vector(0, 0, 10),
+		endpos = ply:GetShootPos() - Vector(0, 0, 20),
 		filter = npc
 	}
 
 	local result = util.TraceLine(trace)
 
-	if result.Entity != ply then
+	local heightDistance = ply:GetPos().z - npc:GetPos().z
+
+	if result.Entity != ply or (heightDistance > 225) then
 		local maxHealth = getNpcHealth(npc:GetClass())
 
 		// If it's a fallout configured npc
@@ -95,14 +105,24 @@ function npcOutOfRange(npc, ply)
 				npc:SetHealth(npc:Health() + regen)
 			end
 		end
+
+		return true
+	else
+		// Check if they havent moved since last chest
+		if npc.lastPositionCheck and (npc.lastPositionCheck:Distance(npc:GetPos()) < 4) then
+			npc.attackerBehindDoor = true
+		end
 	end
+
+	npc.lastPositionCheck = npc:GetPos()
+
+	return false
 end
 
 function spawnNpc(npc, inactiveNpcs)
 	local randomLocation = table.Random(inactiveNpcs)
 	local location = NPCS.npcs[npc]["Positions"][randomLocation]
 
-	print(npc, randomLocation)
 	NPCS.npcs[npc]["Positions"][randomLocation]["Active"] = true
 
 	local ent = ents.Create(npc)

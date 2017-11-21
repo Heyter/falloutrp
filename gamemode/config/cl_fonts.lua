@@ -22,6 +22,14 @@ surface.CreateFont("FalloutRP2", {
 	font = "monofonto"
 })
 
+surface.CreateFont("FalloutRP2.5", {
+	size = 20,
+	weight = 600,
+	antialias = true,
+	shadow = true,
+	font = "monofonto"
+})
+
 surface.CreateFont("FalloutRP3", {
 	size = 24,
 	weight = 600,

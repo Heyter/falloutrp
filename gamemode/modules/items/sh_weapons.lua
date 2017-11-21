@@ -97,7 +97,7 @@ addWeapon(1023, "Lead Pipe", DMG_CLUB, "secondary", "weapon_leadpipe", "models/H
 addWeapon(1075, "Pickaxe", DMG_SLASH, "primary", "eoti_tool_miningpick", "models/pickaxe/pickaxe_w.mdl", 1120, 2.5, 55, 1, 0, 0, 2.75, 1.76, nil)
 
 //Level 2:
-addWeapon(1056, "Silence .22", DMG_BULLET, "secondary", "weapon_22mmpistolsil", "models/Halokiller38/fallout/weapons/Pistols/silenced22pistol.mdl", 1120, 2.5, 74, 2, 8, 12, 4, 1.76, 3007)
+addWeapon(1056, "Silence .22", DMG_BULLET, "secondary", "weapon_22mmpistolsil", "models/Halokiller38/fallout/weapons/Pistols/silenced22pistol.mdl", 1120, 2.5, 0, 2, 8, 12, 4, 1.76, 3001)
 
 addWeapon(1074, "Lockpick", DMG_SLASH, "primary", "lockpick", "models/weapons/w_crowbar.mdl", 1120, 2.5, 130, 2, 0, 0, 2.75, 1.76, nil)
 
@@ -115,10 +115,10 @@ addWeapon(1044, "Maria", DMG_BULLET, "secondary", "weapon_9mmpistolmaria", "mode
 
 //Level 7:
 
-addWeapon(1006, "Bumper Sword", DMG_SLASH, "secondary", "weapon_bumpersword", "models/Halokiller38/fallout/weapons/Melee/bumpersword.mdl", 1120, 2.5, 278, 7, 26, 32, 10, 1.76, nil)
+addWeapon(1006, "Bumper Sword", DMG_SLASH, "secondary", "weapon_bumpersword", "models/Halokiller38/fallout/weapons/Melee/bumpersword.mdl", 1120, 2.5, 278, 7, 30, 36, 10, 1.76, nil)
 
 //Level 8:
-addWeapon(1052, "Chinese Pistol", DMG_BULLET, "secondary", "weapon_chinesepistol", "models/Halokiller38/fallout/weapons/Pistols/chinesepistol.mdl", 1120, 2.5, 500, 8, 16, 22, 4, 1.76, 3009)
+addWeapon(1052, "Chinese Pistol", DMG_BULLET, "secondary", "weapon_chinesepistol", "models/Halokiller38/fallout/weapons/Pistols/chinesepistol.mdl", 1120, 2.5, 500, 8, 16, 20, 4, 1.76, 3009)
 
 //Level 9:
 
@@ -127,7 +127,7 @@ addWeapon(1032, "Tire Iron", DMG_CLUB, "secondary", "weapon_tireiron", "models/H
 //Level 10:
 addWeapon(1035, "Laser Pistol", DMG_SONIC, "secondary", "weapon_laserpistol", "models/Halokiller38/fallout/weapons/Energy Weapons/laserpistol.mdl", 1120, 2.5, 1242, 10, 23, 28, 12, 1.76, 3021)
 
-addWeapon(1048, "10mm Pistol", DMG_BULLET, "secondary", "weapon_10mmpistol", "models/Halokiller38/fallout/weapons/pistols/10mmpistol.mdl", 1120, 2.5, 311, 10, 10, 20, 8, 1.76, 3009)
+addWeapon(1048, "10mm Pistol", DMG_BULLET, "secondary", "weapon_10mmpistol", "models/Halokiller38/fallout/weapons/pistols/10mmpistol.mdl", 1120, 2.5, 311, 10, 18, 22, 8, 1.76, 3009)
 
 addWeapon(1070, "9mm Sub-Machine Gun", DMG_BULLET, "primary", "weapon_9mmsmgdrum", "models/Halokiller38/fallout/weapons/SMGs/9mmsmgdrum.mdl", 1120, 2.5, 311, 10, 9, 12, 6, 1.76, 3017)
 
@@ -136,7 +136,7 @@ addWeapon(1070, "9mm Sub-Machine Gun", DMG_BULLET, "primary", "weapon_9mmsmgdrum
 addWeapon(1015, "Machete", DMG_SLASH, "secondary", "weapon_machete", "models/Halokiller38/fallout/weapons/Melee/machete.mdl", 1120, 2.5, 659, 11, 30, 36, 15, 1.76,nil)
 
 //Level 12:
-addWeapon(1051, "Light in Darkness", DMG_BULLET, "secondary", "weapon_45autopistolu", "models/Halokiller38/fallout/weapons/Pistols/45autopistolunique.mdl", 1120, 2.5, 444, 12, 20, 26, 8, 1.76, 3006)
+addWeapon(1051, "Light in Darkness", DMG_BULLET, "secondary", "weapon_45autopistolu", "models/Halokiller38/fallout/weapons/Pistols/45autopistolunique.mdl", 1120, 2.5, 444, 12, 22, 26, 8, 1.76, 3006)
 
 //Level 13:
 
@@ -157,7 +157,7 @@ addWeapon(1071, "Brass Knuckles", DMG_CLUB, "primary", "weapon_brassknuckles", "
 addWeapon(1016, "Machete Gladius", DMG_SLASH, "secondary", "weapon_machetegladius", "models/Halokiller38/fallout/weapons/Melee/machetegladius.mdl", 1120, 2.5, 1193, 15, 32, 38, 20, 1.76, nil)
 
 //Level 16:
-addWeapon(1057, "Battle Rifle", DMG_BULLET, "primary", "weapon_battlerifle", "models/Halokiller38/fallout/weapons/Rifles/thismachine.mdl", 1120, 2.5, 907, 16, 26, 30, 22, 1.76, 3002)
+addWeapon(1057, "Battle Rifle", DMG_BULLET, "primary", "weapon_battlerifle", "models/Halokiller38/fallout/weapons/Rifles/thismachine.mdl", 1120, 2.5, 907, 16, 22, 26, 12, 1.76, 3002)
 
 //Level 17:
 
@@ -166,7 +166,7 @@ addWeapon(1029, "Shovel", DMG_CLUB, "secondary", "weapon_shovel", "models/Haloki
 //Level 18:
 addWeapon(1067, ".45 Sub-Machine Gun", DMG_BULLET, "primary", "weapon_45smg", "models/Halokiller38/fallout/weapons/SMGs/45smg.mdl", 1120, 2.5, 2941, 18, 16, 20, 18, 1.76, 3006)
 
-addWeapon(1033, "Automatic Plasma Defender", DMG_PLASMA, "primary", "weapon_plasmadefender", "models/Halokiller38/fallout/weapons/Plasma Weapons/plasmadefender.mdl", 1120, 2.5, 4464, 18, 38, 43, 20, 1.76, 3023)
+addWeapon(1033, "Automatic Plasma Defender", DMG_PLASMA, "primary", "weapon_plasmadefender", "models/Halokiller38/fallout/weapons/Plasma Weapons/plasmadefender.mdl", 1120, 2.5, 4464, 18, 58, 63, 20, 1.76, 3023)
 
 //Level 19:
 

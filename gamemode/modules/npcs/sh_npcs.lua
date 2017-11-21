@@ -1,6 +1,8 @@
 local meta = FindMetaTable("Entity")
 
 function meta:IsNPC()
+	if !IsValid(self) then return false end
+
 	local class = self:GetClass()
 
 	if string.sub(class, 1, 3) == "nz_" then

@@ -3,9 +3,9 @@
 VEINS = {
 	Common = {
 		Sizes = {
-			small = {Props = {"models/props_nature/rock_worn001.mdl", "models/props_nature/rock_worn_cluster001.mdl", "models/props_nature/rock_worn_cluster002.mdl"}, Amount = {1, 3}},
-			medium = {Props = {"models/props_mining/rock003.mdl"}, Amount = {3, 7}},
-			large = {Props = {"models/props_mining/rock001.mdl"}, Amount = {5, 10}}
+			small = {Props = {"models/props_wasteland/rockgranite02c.mdl", "models/props_wasteland/rockgranite03c.mdl"}, Amount = {1, 3}},
+			medium = {Props = {"models/props_wasteland/rockcliff01b.mdl", "models/props_wasteland/rockgranite01a.mdl"}, Amount = {3, 7}},
+			large = {Props = {"models/props_wasteland/rockcliff_cluster03a.mdl", "models/props_wasteland/rockcliff01f.mdl"}, Amount = {5, 10}}
 		},
 		Positions = {
 			{Position = Vector(-6726, 8002, 10)},
@@ -35,7 +35,9 @@ VEINS = {
 			{Position = Vector(-4831, 3441, 49)},
 			{Position = Vector(-10576, 8839, 16)},
 		},
+		Color = Color(255, 223, 127, 225),
 		Limit = 12, // How many normal veins can be on map at a time
+		Experience = 10,
 		Default = 5028, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5029] = 35} // Rock = Probability %
 	},
@@ -69,6 +71,7 @@ VEINS = {
 			{Position = Vector(-6306, 13789, 74)},
 		},
 		Limit = 10, // How many rare veins can be on map at a time
+		Experience = 20,
 		Default = 5030, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5031] = 40} // Rock = Probability %
 	},
@@ -96,12 +99,12 @@ VEINS = {
 			{Position = Vector(-2557, 12308, -58)},
 			{Position = Vector(-2150, 12118, 10)},
 			{Position = Vector(2380, 6822, 66)},
-			{Position = Vector(7663, 5653, 15)},
 			{Position = Vector(-1203, 1289, 361)},
 			{Position = Vector(-894, -497, 170)},
 			{Position = Vector(-308, -1190, 62)},
 		},
 		Limit = 8, // How many rare veins can be on map at a time
+		Experience = 30,
 		Default = 5039, // The default rock that is mined if the extra isn't rolled
 		Extras = {[5032] = 35, [5040] = 20} // Rock = Probability %
 	}
@@ -123,11 +126,11 @@ VEIN_SOUND = "pickaxe/deploy.wav" // Sound made when a vein is mined successfull
 
 function printRockPositions()
 	for k,v in pairs(ents.FindByClass("prop_physics")) do
-		if v:GetModel() == "models/props_borealis/bluebarrel001.mdl" and v._id == 15 then
+		if v:GetModel() == "models/props_c17/trappropeller_blade.mdl" and !v.key then
 			local p = v:GetPos()
-			print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) ..")},")
-			//print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), Angles = Angle(" ..math.floor(a[1]) ..", " ..math.floor(a[2]) ..", " ..math.floor(a[3]) ..")},")
-			//{Position = Vector(8349, 4075, 17), Angles = Angle(0, -79, 2), Active = false},
+			local a = v:GetAngles()
+			//print("{Position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) ..")},")
+			print("{position = Vector(" ..math.floor(p[1]) ..", " ..math.floor(p[2]) ..", " ..math.floor(p[3]) .."), angle = Angle(" ..math.floor(a[1]) ..", " ..math.floor(a[2]) ..", " ..math.floor(a[3]) ..")},")
 		end
 	end
 end

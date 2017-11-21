@@ -14,7 +14,7 @@ function meta:depleteInventoryItem(type, uniqueid, quantity)
 		self:depleteEquipped(self.inventory[type][uniqueid])
 	end
 
-	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity then
+	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity or !isStackable(self.inventory[type][uniqueid].classid) then
 		// Delete the whole item from inventory
 		self.inventory[type][uniqueid] = nil
 		MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
@@ -67,6 +67,11 @@ function meta:dropAllInventory()
 
 	// Give the player back a starting item
 	self:pickUpItem(createItem(1023, 1))
+	timer.Simple(1, function()
+		self:pickUpItem(createItem(1056, 1))
+		self:GiveAmmo(60, "22LR")
+	end)
+
 
 	// If the player had any items in the inventory then create the loot
 	if loot and #loot > 0 then
