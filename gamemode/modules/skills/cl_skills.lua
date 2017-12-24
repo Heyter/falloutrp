@@ -42,6 +42,8 @@ net.Receive("validateSkills", function(len, ply)
 end)
 
 function skillSelection(level, skillpoints)
+	if frame then frame:Remove() frame = nil gui.EnableScreenClicker(false) return end
+	
 	local beginningTotal = 0
 	local beginningValues = {}
 	local values = {}

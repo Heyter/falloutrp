@@ -38,13 +38,12 @@ end
 
 // Get data from 'playerdata' for specific player, send them to team selection if they aren't in the table
 function meta:loadPlayer()
-	MySQLite.query("SELECT * FROM playerdata WHERE steamid = '" ..self:SteamID() .."'", function(results)
-		// The player is not in the 'playerdata' table. They haven't selected a faction yet
-		if !results then
+	DB:RunQuery("SELECT * FROM playerdata WHERE steamid = '" ..self:SteamID() .."'", function(query, status, data)
+		if data and !data[1] then
 			self:selectTeam()
 		else
 			// The player is in the playerdata table
-			self.playerData = results[1] // Load their playerData
+			self.playerData = data[1] // Load their playerData
 			self:initializeRank() // Load their rank
 
 			net.Start("loadPlayerData")

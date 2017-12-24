@@ -41,7 +41,7 @@ function meta:unequipWeapon(uniqueid, classid)
 	self.inventory.weapons[uniqueid]["equipped"] = false
 			
 	// Remove from MySQL
-	MySQLite.query("UPDATE weapons SET equipped = 0 WHERE uniqueid = " ..uniqueid)
+	DB:RunQuery("UPDATE weapons SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 	
 	self:updateClientEquipment()
 	
@@ -74,7 +74,7 @@ function meta:equipWeapon(uniqueid, classid)
 		self:updateClientEquipment()
 		
 		//Update MySQL
-		MySQLite.query("UPDATE weapons SET equipped = 1 WHERE uniqueid = " ..uniqueid)	
+		DB:RunQuery("UPDATE weapons SET equipped = 1 WHERE uniqueid = " ..uniqueid)	
 		
 		net.Start("equipWeapon")
 			net.WriteInt(uniqueid, 32)

@@ -53,9 +53,9 @@ end
 function meta:loadVehicles(questId)
     self.vehicles = {}
 
-    MySQLite.query("SELECT airboat, jeep FROM vehicles WHERE steamid = '" ..self:SteamID() .."'", function(results)
-        if results then
-            for k,v in pairs(results) do
+    DB:RunQuery("SELECT airboat, jeep FROM vehicles WHERE steamid = '" ..self:SteamID() .."'", function(query, status, data)
+        if data and data[1] then
+            for k,v in pairs(data) do
                 self.vehicles.airboat = {
                     owned = tobool(v.airboat)
                 }
@@ -64,7 +64,7 @@ function meta:loadVehicles(questId)
                 }
             end
         else
-            MySQLite.query("INSERT INTO vehicles (steamid, airboat, jeep) VALUES ('" ..self:SteamID() .."', 0, 0)")
+            DB:RunQuery("INSERT INTO vehicles (steamid, airboat, jeep) VALUES ('" ..self:SteamID() .."', 0, 0)")
         end
 
         self:updateVehiclesClient()
@@ -74,7 +74,7 @@ end
 function meta:unlockVehicle(name)
     self.vehicles[name].owned = true
 
-    MySQLite.query("UPDATE vehicles SET " ..name .." = 1 WHERE steamid = '" ..self:SteamID() .."'")
+    DB:RunQuery("UPDATE vehicles SET " ..name .." = 1 WHERE steamid = '" ..self:SteamID() .."'")
 
     self:updateVehiclesClient()
 end

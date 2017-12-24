@@ -30,7 +30,7 @@ function meta:unequipApparel(uniqueid, classid)
 	self.inventory.apparel[uniqueid]["equipped"] = false
 			
 	// Remove from MySQL
-	MySQLite.query("UPDATE apparel SET equipped = 0 WHERE uniqueid = " ..uniqueid)
+	DB:RunQuery("UPDATE apparel SET equipped = 0 WHERE uniqueid = " ..uniqueid)
 	
 	net.Start("unequipApparel")
 		net.WriteInt(uniqueid, 32)
@@ -58,7 +58,7 @@ function meta:equipApparel(uniqueid, classid)
 		self:updateClientEquipment()
 			
 		//Update MySQL
-		MySQLite.query("UPDATE apparel SET equipped = 1 WHERE uniqueid = " ..uniqueid)
+		DB:RunQuery("UPDATE apparel SET equipped = 1 WHERE uniqueid = " ..uniqueid)
 		
 		net.Start("equipApparel")
 			net.WriteInt(uniqueid, 32)

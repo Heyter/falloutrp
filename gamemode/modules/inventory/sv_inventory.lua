@@ -17,11 +17,11 @@ function meta:depleteInventoryItem(type, uniqueid, quantity)
 	if !self.inventory[type][uniqueid]["quantity"] or self.inventory[type][uniqueid]["quantity"] == quantity or !isStackable(self.inventory[type][uniqueid].classid) then
 		// Delete the whole item from inventory
 		self.inventory[type][uniqueid] = nil
-		MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
+		DB:RunQuery("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
 	else
 		// Just reduce the quantity count
 		self.inventory[type][uniqueid]["quantity"] = self.inventory[type][uniqueid]["quantity"] - quantity
-		MySQLite.query("UPDATE " ..type .." SET quantity = " ..self.inventory[type][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
+		DB:RunQuery("UPDATE " ..type .." SET quantity = " ..self.inventory[type][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 	end
 
 	net.Start("depleteInventoryItem")
@@ -57,7 +57,7 @@ function meta:dropAllInventory()
 	// Insert all player's items into the loot and remove the item
 	for type, items in pairs(self.inventory) do
 		for uniqueid, item in pairs(items) do
-			MySQLite.query("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
+			DB:RunQuery("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
 			if !isQuestItem(item.classid) then
 				table.insert(loot, item)
 			end
@@ -155,18 +155,18 @@ function meta:dropItem(uniqueid, classid, quantity)
 			// Delete from lua
 			self.inventory[itemType][uniqueid] = nil
 			// Delete from MySQL
-			MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+			DB:RunQuery("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 		else
 			self.inventory[itemType][uniqueid].quantity = self.inventory[itemType][uniqueid].quantity - quantity
 			item.quantity = quantity
 
-			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid].quantity .." WHERE uniqueid = " ..uniqueid)
+			DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid].quantity .." WHERE uniqueid = " ..uniqueid)
 		end
 	else
 		// Delete from lua
 		self.inventory[itemType][uniqueid] = nil
 		// Delete from MySQL
-		MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+		DB:RunQuery("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 	end
 
 	// Update the client

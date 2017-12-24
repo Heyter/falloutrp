@@ -391,8 +391,6 @@ function VGUI:Init()
 	self.catL = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catL:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
 	self.catL:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 0.9 )
-	//self.catL:addTop( "SAL", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) end, 1.3 )
-	//self.catL:addTop( "CASH", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) end, 2.2 )
 	self.catL:SetTitle( "GENERAL", 2.5 )
 
 
@@ -438,35 +436,39 @@ function VGUI:Init()
 				element:addItemListEntry({
 					label = v.Name .."\t" ..localplayer().playerData[skill],
 					desc = string.Replace(v.Description, "\n", "")
-					//itemModel = getWeaponModel(v.classid),
 				})
 			end
 		end
 
 		return element
 	end
-
-
-	local factory_panel = function()
-
+	
+	local quests_panel = function()
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
-		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
-		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
+		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
+		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
 
-		if FACTORY.clientInfo then
-			for factory, v in pairs(FACTORY.clientInfo) do
-				local description = FACTORY.Setup[game.GetMap()][factory]["Description"]
+		if LocalPlayer().quests then
+			for k,v in pairs(LocalPlayer().quests) do
+				if !v.completed then
+					element:addItemListEntry({
+						label = QUESTS:getName(k),
+						desc = QUESTS:getDescription(k),
+						statsLarge = LocalPlayer():getQuestStats(k),
+						rightClickFunc = function()
+							local menu = vgui.Create("pepboy_rightclickbox", element)
+							menu:StoreItem(v)
 
-				local name = team.GetName(v["Controller"])
+							if v.track then
+								menu:AddOptions({"Stop tracking quest"})
+							else
+								menu:AddOptions({"Track quest"})
+							end
 
-				element:addItemListEntry({
-					label = factory,
-					stats = {
-						{key = "", val = name}
-					},
-					desc = description,
-					itemIcon = team.getEmblem(v["Controller"]),
-				})
+							menu:Open()
+						end
+					})
+				end
 			end
 		end
 
@@ -475,9 +477,8 @@ function VGUI:Init()
 
 	self.catL:addBottom("Status", status_panel, true)
 	self.catL:addBottom("S.P.E.C.I.A.L", special_panel)
-	//self.catL:addBottom( "Rules", rules_panel)
 	self.catL:addBottom("Skills", skills_panel)
-	self.catL:addBottom("Factory", factory_panel)
+	self.catL:addBottom("Quests", quests_panel)
 
 	self.catL:makeLayout()
 
@@ -703,8 +704,6 @@ function VGUI:Init()
 	self.catR = vgui.Create( "pepboy_wrapper", self.screen )
 	self.catR:SetSize( PEPBOY_SIZE_X, PEPBOY_SIZE_Y )
 	self.catR:addTop( "HP", function() return localplayer():Health() ..":" ..localplayer():getMaxHealth() end, 0.9 )
-	//self.catR:addTop( "SAL", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "salary" )) end, 1.3 )
-	//self.catR:addTop( "CASH", function() return DarkRP.formatMoney(localplayer():getDarkRPVar( "money" )) end, 2.2 )
 	self.catR:SetTitle( "EXTRAS", 2.5 )
 
 
@@ -740,6 +739,31 @@ function VGUI:Init()
 						end
 						menu:Open()
 					end
+				})
+			end
+		end
+
+		return element
+	end
+	
+	local factory_panel = function()
+		local element = vgui.Create( "pepboy_itemlist", self.catR )
+		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
+		element:SetPos(0, PEPBOY_WRAPPER_SIZE_TOP + 10)
+
+		if FACTORY.clientInfo then
+			for factory, v in pairs(FACTORY.clientInfo) do
+				local description = FACTORY.Setup[game.GetMap()][factory]["Description"]
+
+				local name = team.GetName(v["Controller"])
+
+				element:addItemListEntry({
+					label = factory,
+					stats = {
+						{key = "", val = name}
+					},
+					desc = description,
+					itemIcon = team.getEmblem(v["Controller"]),
 				})
 			end
 		end
@@ -823,42 +847,9 @@ function VGUI:Init()
 		return element
 	end
 
-	local quests_panel = function()
-		local element = vgui.Create( "pepboy_itemlist", self.catR )
-		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
-		element:SetPos( 0, PEPBOY_WRAPPER_SIZE_TOP + 10 )
-
-		if LocalPlayer().quests then
-			for k,v in pairs(LocalPlayer().quests) do
-				if !v.completed then
-					element:addItemListEntry({
-						label = QUESTS:getName(k),
-						desc = QUESTS:getDescription(k),
-						statsLarge = LocalPlayer():getQuestStats(k),
-						rightClickFunc = function()
-							local menu = vgui.Create("pepboy_rightclickbox", element)
-							menu:StoreItem(v)
-
-							if v.track then
-								menu:AddOptions({"Stop tracking quest"})
-							else
-								menu:AddOptions({"Track quest"})
-							end
-
-							menu:Open()
-						end
-					})
-				end
-			end
-		end
-
-		return element
-	end
-
 	self.catR:addBottom("Titles", titles_panel)
-	self.catR:addBottom("Map", map_panel)
+	self.catR:addBottom("Factory", factory_panel)
 	self.catR:addBottom("Party", party_panel)
-	self.catR:addBottom("Quests", quests_panel)
 	self.catR:addBottom("Settings", settings_panel)
 
 	self.catR:makeLayout()

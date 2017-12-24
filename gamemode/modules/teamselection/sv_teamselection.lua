@@ -48,7 +48,7 @@ end
 local function createCharacter(ply, name, teamId, values)
 
 	// Insert the new player into SQL
-	MySQLite.query("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, endurance, charisma, intelligence, agility, luck, tokens) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, " ..0 ..", " ..values[1] ..", " ..values[2] ..", " ..values[3] ..", " ..values[4] ..", " ..values[5] ..", " ..values[6] ..", " ..values[7] ..", 1)")
+	DB:RunQuery("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, endurance, charisma, intelligence, agility, luck, tokens) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, " ..0 ..", " ..values[1] ..", " ..values[2] ..", " ..values[3] ..", " ..values[4] ..", " ..values[5] ..", " ..values[6] ..", " ..values[7] ..", 1)")
 
 	ply.playerData = {
 		["steamid"] = steamid,
@@ -136,8 +136,8 @@ local function validateRegistration(ply, name, teamId, values)
 	elseif !usedAllPoints(values) then
 		errorId = 4
 	else
-		MySQLite.query("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(results)
-			if results then // There already exists a player with this name
+		DB:RunQuery("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(query, status, data)
+			if data and data[1] then // There already exists a player with this name
 				errorId = 5
 				net.Start("registrationValidation")
 					net.WriteInt(errorId, 8)

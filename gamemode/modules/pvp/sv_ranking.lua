@@ -9,7 +9,7 @@ function meta:addKill()
 	
 	local kills = self:getKills()
 	
-	MySQLite.query("UPDATE playerdata SET playerkills = " ..kills .." WHERE steamid = '" ..self:SteamID() .."'")
+	DB:RunQuery("UPDATE playerdata SET playerkills = " ..kills .." WHERE steamid = '" ..self:SteamID() .."'")
 	
 	net.Start("updateKills")
 		net.WriteEntity(self)

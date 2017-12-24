@@ -30,13 +30,13 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 				// Add the quantity to the current inventory item
 				self.inventory[itemType][sameItem].quantity = self.inventory[itemType][sameItem].quantity + quantity
 
-				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
-				MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+				DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
+				DB:RunQuery("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 			else
 				self.inventory[itemType][uniqueid] = bankItem
 
 				// Switch the banked column to NULL
-				MySQLite.query("UPDATE " ..itemType .." SET banked = NULL WHERE uniqueid = " ..uniqueid)
+				DB:RunQuery("UPDATE " ..itemType .." SET banked = NULL WHERE uniqueid = " ..uniqueid)
 			end
 
 			// Update the client
@@ -48,12 +48,12 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 		else
 
 			self.bank[itemType][uniqueid]["quantity"] = self.bank[itemType][uniqueid]["quantity"] - quantity
-			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
+			DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 
 			if sameItem then
 				// Add quantity to the current item already in the inventory
 				self.inventory[itemType][sameItem]["quantity"] = self.inventory[itemType][sameItem]["quantity"] + quantity
-				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
+				DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
 
 				// Update the client
 				net.Start("withdrawItem")
@@ -63,24 +63,18 @@ function meta:withdrawItem(uniqueid, classid, quantity)
 				net.Send(self)
 			else
 				// Create a duplicate item, but mark it as not banked
-				MySQLite.query("INSERT INTO " ..itemType .." (steamid, classid, quantity) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..")", function()
-					MySQLite.query("SELECT uniqueid FROM " ..itemType .." WHERE banked IS NULL ORDER BY uniqueid DESC LIMIT 1", function(results)
-						local itemId = 0
-						if results and results[1] then
-							itemId = results[1]["uniqueid"]
-						end
+				DB:RunQuery("INSERT INTO " ..itemType .." (steamid, classid, quantity) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity .."); SELECT LAST_INSERT_ID();", function(query, status, data)
+					local uniqueid = query:getNextResults()[1]["LAST_INSERT_ID()"]
+					bankItem.uniqueid = uniqueid
+					bankItem.quantity = quantity
+					self.inventory[itemType][uniqueid] = bankItem
 
-						bankItem.uniqueid = itemId
-						bankItem.quantity = quantity
-						self.inventory[itemType][itemId] = bankItem
-
-						// Update the client
-						net.Start("withdrawItem")
-							net.WriteString(itemType)
-							net.WriteTable(self.inventory[itemType])
-							net.WriteTable(self.bank[itemType])
-						net.Send(self)
-					end)
+					// Update the client
+					net.Start("withdrawItem")
+						net.WriteString(itemType)
+						net.WriteTable(self.inventory[itemType])
+						net.WriteTable(self.bank[itemType])
+					net.Send(self)
 				end)
 			end
 		end
@@ -120,13 +114,13 @@ function meta:depositItem(uniqueid, classid, quantity)
 				// Add the quantity to the current banked item
 				self.bank[itemType][sameItem].quantity = self.bank[itemType][sameItem].quantity + quantity
 
-				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
-				MySQLite.query("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
+				DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem].quantity .." WHERE uniqueid = " ..sameItem)
+				DB:RunQuery("DELETE FROM " ..itemType .." WHERE uniqueid = " ..uniqueid)
 			else
 				self.bank[itemType][uniqueid] = invItem
 
 				// Switch the banked column to true
-				MySQLite.query("UPDATE " ..itemType .." SET banked = 1 WHERE uniqueid = " ..uniqueid)
+				DB:RunQuery("UPDATE " ..itemType .." SET banked = 1 WHERE uniqueid = " ..uniqueid)
 			end
 
 			// Update the client
@@ -137,12 +131,12 @@ function meta:depositItem(uniqueid, classid, quantity)
 			net.Send(self)
 		else
 			self.inventory[itemType][uniqueid]["quantity"] = self.inventory[itemType][uniqueid]["quantity"] - quantity
-			MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
+			DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.inventory[itemType][uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 
 			if sameItem then
 				// Add quantity to the current item already in the bank
 				self.bank[itemType][sameItem]["quantity"] = self.bank[itemType][sameItem]["quantity"] + quantity
-				MySQLite.query("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
+				DB:RunQuery("UPDATE " ..itemType .." SET quantity = " ..self.bank[itemType][sameItem]["quantity"] .." WHERE uniqueid = " ..sameItem)
 
 				// Update the client
 				net.Start("depositItem")
@@ -152,24 +146,18 @@ function meta:depositItem(uniqueid, classid, quantity)
 				net.Send(self)
 			else
 				// Create a duplicate item, but mark it as banked
-				MySQLite.query("INSERT INTO " ..itemType .." (steamid, classid, quantity, banked) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..", 1)", function()
-					MySQLite.query("SELECT uniqueid FROM " ..itemType .." WHERE banked = 1 ORDER BY uniqueid DESC LIMIT 1", function(results)
-						local itemId = 0
-						if results and results[1] then
-							itemId = results[1]["uniqueid"]
-						end
+				DB:RunQuery("INSERT INTO " ..itemType .." (steamid, classid, quantity, banked) VALUES ('" ..self:SteamID() .."', " ..classid ..", " ..quantity ..", 1); SELECT LAST_INSERT_ID();", function(query, status, data)
+					local uniqueid = query:getNextResults()[1]["LAST_INSERT_ID()"]
+					invItem.uniqueid = uniqueid
+					invItem.quantity = quantity
+					self.bank[itemType][uniqueid] = invItem
 
-						invItem.uniqueid = itemId
-						invItem.quantity = quantity
-						self.bank[itemType][itemId] = invItem
-
-						// Update the client
-						net.Start("depositItem")
-							net.WriteString(itemType)
-							net.WriteTable(self.inventory[itemType])
-							net.WriteTable(self.bank[itemType])
-						net.Send(self)
-					end)
+					// Update the client
+					net.Start("depositItem")
+						net.WriteString(itemType)
+						net.WriteTable(self.inventory[itemType])
+						net.WriteTable(self.bank[itemType])
+					net.Send(self)
 				end)
 			end
 		end
@@ -234,9 +222,9 @@ function meta:sendBank()
 end
 
 function meta:loadBankWeapons()
-	MySQLite.query("SELECT * FROM weapons WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(results)
-		if results then
-			for k, v in pairs(results) do
+	DB:RunQuery("SELECT * FROM weapons WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(query, status, data)
+		if data and data[1] then
+			for k, v in pairs(data) do
 				self.bank["weapons"][v.uniqueid] = {
 					classid = v.classid,
 					damage = v.damage,
@@ -251,9 +239,9 @@ function meta:loadBankWeapons()
 end
 
 function meta:loadBankApparel()
-	MySQLite.query("SELECT * FROM apparel WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(results)
-		if results then
-			for k, v in pairs(results) do
+	DB:RunQuery("SELECT * FROM apparel WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(query, status, data)
+		if data and data[1] then
+			for k, v in pairs(data) do
 				self.bank["apparel"][v.uniqueid] = {
 					classid = v.classid,
 					damageThreshold = v.damageThreshold,
@@ -272,9 +260,9 @@ end
 
 function meta:loadBankAid()
 	// Get aid
-	MySQLite.query("SELECT * FROM aid WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(results)
-		if results then
-			for k,v in pairs(results) do
+	DB:RunQuery("SELECT * FROM aid WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(query, status, data)
+		if data and data[1] then
+			for k,v in pairs(data) do
 				self.inventory["aid"][v.uniqueid] = {
 					classid = v.classid,
 					uniqueid = v.uniqueid,
@@ -289,9 +277,9 @@ end
 
 function meta:loadBankAmmo()
 	// Get ammo
-	MySQLite.query("SELECT * FROM ammo WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(results)
-		if results then
-			for k,v in pairs(results) do
+	DB:RunQuery("SELECT * FROM ammo WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(query, status, data)
+		if data and data[1] then
+			for k,v in pairs(data) do
 				self.bank["ammo"][v.uniqueid] = {
 					classid = v.classid,
 					uniqueid = v.uniqueid,
@@ -306,9 +294,9 @@ end
 
 function meta:loadBankMisc()
 	// Get misc
-	MySQLite.query("SELECT * FROM misc WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(results)
-		if results then
-			for k,v in pairs(results) do
+	DB:RunQuery("SELECT * FROM misc WHERE steamid = '" ..self:SteamID() .."' AND banked = 1", function(query, status, data)
+		if data and data[1] then
+			for k,v in pairs(data) do
 				self.bank["misc"][v.uniqueid] = {
 					classid = v.classid,
 					uniqueid = v.uniqueid,

@@ -10,7 +10,7 @@ function meta:addCaps(amount)
 		net.WriteInt(self:getCaps(), 32)
 	net.Send(self)
 	
-	MySQLite.query("UPDATE playerdata SET bottlecaps = " ..self:getCaps() .." WHERE steamid = '" ..self:SteamID() .."'")
+	DB:RunQuery("UPDATE playerdata SET bottlecaps = " ..self:getCaps() .." WHERE steamid = '" ..self:SteamID() .."'")
 end
 
 function dropCaps(ply, text)

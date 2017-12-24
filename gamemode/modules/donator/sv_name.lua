@@ -13,7 +13,7 @@ function meta:changeName(name)
 	net.Broadcast()
 
 	// Update in MySQL
-	MySQLite.query("UPDATE playerdata SET name = '" ..name .."' WHERE steamid = '" ..self:SteamID() .."'")
+	DB:RunQuery("UPDATE playerdata SET name = '" ..name .."' WHERE steamid = '" ..self:SteamID() .."'")
 end
 
 local function validateNameChange(ply, name)
@@ -27,8 +27,8 @@ local function validateNameChange(ply, name)
 		// Error with bad character
 		ply:notify("Name must not contain the following: " ..badChar, NOTIFY_ERROR, 3, true)
 	else
-		MySQLite.query("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(results)
-			if results then // There already exists a player with this name
+		DB:RunQuery("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(query, status, data)
+			if data and data[1] then // There already exists a player with this name
 				ply:notify("Player with that name already exists.", NOTIFY_ERROR, 3, true)
 			else
 				ply:changeName(name)
