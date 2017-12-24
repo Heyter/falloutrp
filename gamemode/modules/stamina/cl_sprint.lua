@@ -12,7 +12,7 @@ function staminaDraw()
 		local maxStamina = LocalPlayer():getMaxSprintLength()
 
 		if stamina < maxStamina then
-			surface.SetDrawColor(COLOR_BLACKFADE)
+			surface.SetDrawColor(COLOR_SLEEK_BLACK_FADE)
 			surface.DrawRect(ScrW()/2 - w/2, ScrH() - h, w, h + 1)
 
 			surface.SetDrawColor(Color(color.r, color.g, color.b, 150))

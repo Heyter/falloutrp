@@ -70,23 +70,23 @@ function openCrafting()
 		itemType:SetPos(buttonPadding + offsetX, 50)
 		itemType:SetFont("FalloutRP3")
 		itemType:SetText(idTypes[i])
-		itemType:SetTextColor(COLOR_AMBER)
+		itemType:SetTextColor(COLOR_SLEEK_GREEN)
 		itemType.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
 
 			// The button is highlighted
 			if self.hovered then
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 
 			// The button is selected
 			if self.selected and (currentSelectedButton == self) then
-				surface.SetDrawColor(COLOR_AMBERFADE)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -106,7 +106,7 @@ function openCrafting()
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
-				currentSelectedButton:SetTextColor(COLOR_AMBER)
+				currentSelectedButton:SetTextColor(COLOR_SLEEK_GREEN)
 			end
 
 			currentSelectedButton = self
@@ -160,7 +160,7 @@ function openCrafting()
 			surface.DrawRect(0, 0, w, h)
 		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_SLEEK_GREEN)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -182,16 +182,16 @@ function openCrafting()
 
 
 					if self.selected and (currentItem == self) then
-						surface.SetDrawColor(COLOR_AMBERFADE)
+						surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-						surface.SetDrawColor(COLOR_AMBER)
+						surface.SetDrawColor(COLOR_SLEEK_GREEN)
 						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 					elseif self.hovered then
-						surface.SetDrawColor(Color(255, 182, 66, 30))
+						surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-						surface.SetDrawColor(COLOR_AMBER)
+						surface.SetDrawColor(COLOR_SLEEK_GREEN)
 						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 					end
 				end
@@ -222,7 +222,7 @@ function openCrafting()
 				if itemBox.selected then
 					itemLabel:SetTextColor(COLOR_BLUE)
 				else
-					itemLabel:SetTextColor(COLOR_AMBER)
+					itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 				end
 
 				itemBox.OnCursorEntered = function(self)
@@ -233,7 +233,7 @@ function openCrafting()
 				itemBox.OnCursorExited = function(self)
 					self.hovered = false
 
-					itemLabel:SetTextColor(COLOR_AMBER)
+					itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 				end
 
 				layout:Add(itemBox)
@@ -287,7 +287,7 @@ function openCrafting()
 
 		local required = vgui.Create("DLabel", infoFrame)
 		required:SetFont("FalloutRP2")
-		required:SetTextColor(COLOR_AMBER)
+		required:SetTextColor(COLOR_SLEEK_GREEN)
 		required:SetText("Requires:")
 		required:SetPos(10, 155)
 		required:SizeToContents()
@@ -332,7 +332,7 @@ function openCrafting()
 		for id, amount in pairs(materials) do
 			local materialName = vgui.Create("DLabel", infoFrame)
 			materialName:SetFont("FalloutRP1.5")
-			materialName:SetTextColor(COLOR_AMBER)
+			materialName:SetTextColor(COLOR_SLEEK_GREEN)
 			materialName:SetText(getItemName(id))
 			materialName:SetPos(10, 185 + offsetY)
 			materialName:SizeToContents()

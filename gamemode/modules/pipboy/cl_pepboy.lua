@@ -1463,10 +1463,10 @@ function VGUI:Init()
 						surface.DrawRect(0, 0, w, h)
 
 						if self.hovered then
-							surface.SetDrawColor(Color(255, 182, 66, 30))
+							surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 							surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-							surface.SetDrawColor(COLOR_AMBER)
+							surface.SetDrawColor(COLOR_SLEEK_GREEN)
 							surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 						end
 					end
@@ -1485,7 +1485,7 @@ function VGUI:Init()
 					playerLabel:SetFont("FalloutRP2")
 					playerLabel:SetText(v:getName())
 					playerLabel:SizeToContents()
-					playerLabel:SetTextColor(COLOR_AMBER)
+					playerLabel:SetTextColor(COLOR_SLEEK_GREEN)
 
 					playerBox.OnCursorEntered = function(self)
 						self.hovered = true
@@ -1496,7 +1496,7 @@ function VGUI:Init()
 					playerBox.OnCursorExited = function(self)
 						self.hovered = false
 
-						playerLabel:SetTextColor(COLOR_AMBER)
+						playerLabel:SetTextColor(COLOR_SLEEK_GREEN)
 					end
 
 					layout:Add(playerBox)
@@ -1528,7 +1528,7 @@ function VGUI:Init()
 				xpShare:SetSize(50, 50)
 				xpShare:SetPos(50, offset)
 				xpShare:SetFont("FalloutRP3")
-				xpShare:SetTextColor(COLOR_AMBER)
+				xpShare:SetTextColor(COLOR_SLEEK_GREEN)
 				xpShare:SetText("Exp Sharing")
 				xpShare:SetValue(settings.xpShare)
 
@@ -1539,7 +1539,7 @@ function VGUI:Init()
 			playerHud:SetSize(50, 50)
 			playerHud:SetPos(50, offset)
 			playerHud:SetFont("FalloutRP3")
-			playerHud:SetTextColor(COLOR_AMBER)
+			playerHud:SetTextColor(COLOR_SLEEK_GREEN)
 			playerHud:SetText("Hide Party HUD")
 			playerHud:SetValue(tobool(LocalPlayer().partyHidePlayers))
 

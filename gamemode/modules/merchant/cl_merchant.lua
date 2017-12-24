@@ -74,23 +74,23 @@ function openMerchant(name, items)
 		itemType:SetPos(buttonPadding + offsetX, 50)
 		itemType:SetFont("FalloutRP3")
 		itemType:SetText(info["Type"])
-		itemType:SetTextColor(COLOR_AMBER)
+		itemType:SetTextColor(COLOR_SLEEK_GREEN)
 		itemType.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
 			
 			// The button is highlighted
 			if self.hovered then
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 			
 			// The button is selected
 			if self.selected and (currentSelectedButton == self) then
-				surface.SetDrawColor(COLOR_AMBERFADE)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 				surface.DrawRect(0, 0, w, h)
 			
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -118,7 +118,7 @@ function openMerchant(name, items)
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
-				currentSelectedButton:SetTextColor(COLOR_AMBER)
+				currentSelectedButton:SetTextColor(COLOR_SLEEK_GREEN)
 			end
 			
 			currentSelectedButton = self
@@ -148,20 +148,20 @@ function openMerchant(name, items)
 		plyFrame:SetPos(buttonPadding, 125)
 		plyFrame:SetSize(childW, childH)
 		plyFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_SLEEK_GREEN)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
 		
 		local caps = vgui.Create("DLabel", frame)
 		caps:SetFont("FalloutRP2")
-		caps:SetTextColor(COLOR_AMBER)
+		caps:SetTextColor(COLOR_SLEEK_GREEN)
 		caps:SetText("Caps: " ..LocalPlayer():getCaps())
 		caps:SizeToContents()
 		caps:SetPos(buttonPadding + plyFrame:GetWide()/2 - caps:GetWide()/2, 100)
 		
 		local stockLabel = vgui.Create("DLabel", frame)
 		stockLabel:SetFont("FalloutRP2")
-		stockLabel:SetTextColor(COLOR_AMBER)
+		stockLabel:SetTextColor(COLOR_SLEEK_GREEN)
 		stockLabel:SetText(LocalPlayer():getName() .."'s Stock")
 		stockLabel:SizeToContents()
 		stockLabel:SetPos(buttonPadding + plyFrame:GetWide()/2 - stockLabel:GetWide()/2, plyFrame:GetTall() + 140)
@@ -188,7 +188,7 @@ function openMerchant(name, items)
 			surface.DrawRect(0, 0, w, h)
 		end	
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_SLEEK_GREEN)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -216,10 +216,10 @@ function openMerchant(name, items)
 				
 			
 				if self.hovered then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 			
-					surface.SetDrawColor(COLOR_AMBER)
+					surface.SetDrawColor(COLOR_SLEEK_GREEN)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end
 			end
@@ -262,11 +262,11 @@ function openMerchant(name, items)
 			itemLabel:SetFont("FalloutRP2")
 			itemLabel:SetText(itemName)
 			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_AMBER)
+			itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 			
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
-			valueLabel:SetTextColor(COLOR_AMBER)	
+			valueLabel:SetTextColor(COLOR_SLEEK_GREEN)	
 			valueLabel:SetText("Caps: " ..itemValue)
 			valueLabel:SizeToContents()
 			valueLabel:SetPos(itemBox:GetWide() - valueLabel:GetWide() - scrollerW - textPadding, textPadding/2)
@@ -287,7 +287,7 @@ function openMerchant(name, items)
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
 				
-				itemLabel:SetTextColor(COLOR_AMBER)
+				itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 				
 				// Remove item details
 				removeInspect()
@@ -306,13 +306,13 @@ function openMerchant(name, items)
 		npcFrame:SetPos(buttonPadding + childW + (frameW - (childW*2 + buttonPadding*2)), 125)
 		npcFrame:SetSize(childW, childH)
 		npcFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_SLEEK_GREEN)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
 		
 		local stockLabel = vgui.Create("DLabel", frame)
 		stockLabel:SetFont("FalloutRP2")
-		stockLabel:SetTextColor(COLOR_AMBER)
+		stockLabel:SetTextColor(COLOR_SLEEK_GREEN)
 		stockLabel:SetText(name .."'s Stock")
 		stockLabel:SizeToContents()
 		stockLabel:SetPos(frame:GetWide() - buttonPadding - npcFrame:GetWide()/2 - stockLabel:GetWide()/2, npcFrame:GetTall() + 140)
@@ -339,7 +339,7 @@ function openMerchant(name, items)
 			surface.DrawRect(0, 0, w, h)
 		end	
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_SLEEK_GREEN)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -367,10 +367,10 @@ function openMerchant(name, items)
 				
 			
 				if self.hovered then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 			
-					surface.SetDrawColor(COLOR_AMBER)
+					surface.SetDrawColor(COLOR_SLEEK_GREEN)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end
 			end
@@ -413,11 +413,11 @@ function openMerchant(name, items)
 			itemLabel:SetFont("FalloutRP2")
 			itemLabel:SetText(itemName)
 			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_AMBER)
+			itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 			
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
-			valueLabel:SetTextColor(COLOR_AMBER)	
+			valueLabel:SetTextColor(COLOR_SLEEK_GREEN)	
 			valueLabel:SetText("Caps: " ..itemValue)
 			valueLabel:SizeToContents()
 			valueLabel:SetPos(itemBox:GetWide() - valueLabel:GetWide() - scrollerW - textPadding, textPadding/2)
@@ -438,7 +438,7 @@ function openMerchant(name, items)
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
 				
-				itemLabel:SetTextColor(COLOR_AMBER)
+				itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 				
 				// Remove item details
 				removeInspect()

@@ -58,14 +58,14 @@ function skillSelection(level, skillpoints)
 	local unlockables = vgui.Create("DLabel", frame)
 	unlockables:SetFont("FalloutRP2")
 	unlockables:SetText(LocalPlayer():getUnlockables(level))
-	unlockables:SetTextColor(COLOR_AMBER)
+	unlockables:SetTextColor(COLOR_SLEEK_GREEN)
 	unlockables:SizeToContents()
 	unlockables:SetPos(frame:GetWide()/2 + frame:GetWide()/4 - unlockables:GetWide()/2 - 40, frame:GetTall()/2 - 150)
 	
 	local points = vgui.Create("DLabel", frame)
 	points:SetFont("FalloutRP3")
 	points:SetText("ASSIGN " ..pointsRemaining .." SKILL POINTS")
-	points:SetTextColor(COLOR_AMBER)
+	points:SetTextColor(COLOR_SLEEK_GREEN)
 	points:SizeToContents()
 	points:SetPos(frame:GetWide()/2 + frame:GetWide()/4 - points:GetWide()/2 - 40, 530)
 	points.UpdatePoints = function()
@@ -75,7 +75,7 @@ function skillSelection(level, skillpoints)
 	local skillsDescription = vgui.Create("DLabel", frame)
 	skillsDescription:SetFont("FalloutRP2")
 	skillsDescription:SetText("")			
-	skillsDescription:SetTextColor(COLOR_AMBER)
+	skillsDescription:SetTextColor(COLOR_SLEEK_GREEN)
 	skillsDescription:SetPos(frame:GetWide()/2, 50)
 			
 	local offsetY = 0
@@ -89,10 +89,10 @@ function skillSelection(level, skillpoints)
 			surface.DrawRect(0, 0, w, h)
 				
 			if self.hovered then
-				surface.SetDrawColor(Color(255, 182, 66, 30))
+				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 				surface.DrawRect(0, 0, w, h)
 			 
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -108,7 +108,7 @@ function skillSelection(level, skillpoints)
 		skillsLabel:SetFont("FalloutRP2")
 		skillsLabel:SetText(v.Name)
 		skillsLabel:SizeToContents()
-		skillsLabel:SetTextColor(COLOR_AMBER)
+		skillsLabel:SetTextColor(COLOR_SLEEK_GREEN)
 		
 		skillsBox.OnCursorEntered = function(self)
 			self.hovered = true
@@ -121,7 +121,7 @@ function skillSelection(level, skillpoints)
 		skillsBox.OnCursorExited = function(self)
 			self.hovered = false
 			
-			skillsLabel:SetTextColor(COLOR_AMBER)
+			skillsLabel:SetTextColor(COLOR_SLEEK_GREEN)
 			skillsDescription:SetText("")
 		end
 			
@@ -145,7 +145,7 @@ function skillSelection(level, skillpoints)
 		downButton.OnCursorExited = function(self)
 			self:GetParent().hovered = false
 			
-			skillsLabel:SetTextColor(COLOR_AMBER)
+			skillsLabel:SetTextColor(COLOR_SLEEK_GREEN)
 			skillsDescription:SetText("")
 		end
 		downButton.DoClick = function()
@@ -176,7 +176,7 @@ function skillSelection(level, skillpoints)
 		upButton.OnCursorExited = function(self)
 			self:GetParent().hovered = false
 		
-			skillsLabel:SetTextColor(COLOR_AMBER)
+			skillsLabel:SetTextColor(COLOR_SLEEK_GREEN)
 			skillsDescription:SetText("")
 		end
 		upButton.DoClick = function()
@@ -210,6 +210,13 @@ function skillSelection(level, skillpoints)
 				net.WriteTable(values)
 			net.SendToServer()
 		end
+	end
+	continueButton.Paint = function(self, w, h)
+		surface.SetDrawColor(COLOR_HIDDEN)
+		surface.DrawRect(0, 0, w, h)
+		
+		surface.SetDrawColor(COLOR_SLEEK_GREEN)
+		surface.DrawOutlinedRect(0, 0, w, h)
 	end
 	continueButton:SetText("Submit")
 	continueButton:SetFont("FalloutRP1")	

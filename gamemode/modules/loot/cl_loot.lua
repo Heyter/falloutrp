@@ -70,10 +70,10 @@ function openLoot(ent, loot)
 			surface.DrawRect(0, 0, w, h)
 
 			if self.hovered then
-				surface.SetDrawColor(Color(255, 182, 66, 30))
+				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_SLEEK_GREEN)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -122,7 +122,7 @@ function openLoot(ent, loot)
 		itemLabel:SetFont("FalloutRP2")
 		itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
 		itemLabel:SizeToContents()
-		itemLabel:SetTextColor(COLOR_AMBER)
+		itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 
 		itemBox.OnCursorEntered = function(self)
 			removeInspect()
@@ -147,7 +147,7 @@ function openLoot(ent, loot)
 
 			self.hovered = false
 
-			itemLabel:SetTextColor(COLOR_AMBER)
+			itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 		end
 
 		layout:Add(itemBox)

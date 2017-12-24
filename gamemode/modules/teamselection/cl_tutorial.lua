@@ -66,7 +66,7 @@ function tutorialSlideShow(newPlayer)
 	local info = vgui.Create("DLabel", frame)
 	info:SetFont("FalloutRP2")
 	info:SetPos(50, 460)
-	info:SetTextColor(COLOR_AMBER)
+	info:SetTextColor(COLOR_SLEEK_GREEN)
 	info:SetText(images[index]["description"])
 	info:SizeToContents()
 
