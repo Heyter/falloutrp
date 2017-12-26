@@ -7,4 +7,10 @@ TYPE_AMMO = 3
 TYPE_AID = 4
 TYPE_MISC = 5
 
+RARITY_WHITE = 0
+RARITY_GREEN = 1
+RARITY_BLUE = 2
+RARITY_PURPLE = 3
+RARITY_ORANGE = 4
+
 CRITICAL_MULTIPLIER = 1.5 // How much critical hits are multiplied by
