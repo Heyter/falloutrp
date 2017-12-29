@@ -269,12 +269,6 @@ function meta:getQuestStats(questId)
     return stats
 end
 
-local function close(menu)
-    if menu then
-        menu:Remove()
-    end
-end
-
 // Quest Pick Menu
 function showQuests(giver, active, available)
     local showMenu = vgui.Create("FalloutRP_Scroll_List")
@@ -308,7 +302,7 @@ function showQuests(giver, active, available)
         questBox.DoClick = function()
             surface.PlaySound("pepboy/click1.wav")
             // Open complete quest menu
-            close(showMenu)
+            util.cleanupFrame(showMenu)
             acceptQuestMenu(giver, v, true)
         end
         questBox:SetText("")
@@ -354,7 +348,7 @@ function showQuests(giver, active, available)
         questBox.DoClick = function()
             surface.PlaySound("pepboy/click1.wav")
             // Open accept quest menu
-            close(showMenu)
+            util.cleanupFrame(showMenu)
             acceptQuestMenu(giver, v)
         end
         questBox:SetText("")
@@ -403,7 +397,6 @@ function acceptQuestMenu(questGiver, questId, finish)
     acceptMenu:SetFontTitle("FalloutRP3", questGiver)
     acceptMenu:AddCloseButton()
     acceptMenu.onClose = function()
-        acceptMenu = nil
         LocalPlayer():StopSound("quest" ..questId)
     end
     acceptMenu:MakePopup()
@@ -492,16 +485,12 @@ function acceptQuestMenu(questGiver, questId, finish)
             end
             icon.OnCursorEntered = function(self)
                 local frameX, frameY = acceptMenu:GetPos()
-                inspect = vgui.Create("FalloutRP_Item")
-                inspect:SetPos(frameX + acceptMenu:GetWide(), frameY)
-                inspect:SetItem({classid = k, quantity = v}, false, true)
-                acceptMenu.inspect = inspect
+                acceptMenu.inspect = vgui.Create("FalloutRP_Item")
+                acceptMenu.inspect:SetPos(frameX + acceptMenu:GetWide(), frameY)
+                acceptMenu.inspect:SetItem({classid = k, quantity = v}, false, true)
             end
             icon.OnCursorExited = function(self)
-                if inspect then
-                    inspect:Remove()
-                    inspect = nil
-                end
+				util.cleanupFrame(acceptMenu.inspect)
             end
 
             if util.positive(v) then
@@ -524,8 +513,7 @@ function acceptQuestMenu(questGiver, questId, finish)
         decline:SetFont("FalloutRP2")
         decline:SetText("Decline")
         decline.DoClick = function()
-            close(acceptMenu)
-
+			acceptMenu:RemoveOverride()
             LocalPlayer():StopSound("quest" ..questId)
         end
 
@@ -535,10 +523,8 @@ function acceptQuestMenu(questGiver, questId, finish)
         accept:SetFont("FalloutRP2")
         accept:SetText("Accept")
         accept.DoClick = function()
-            close(acceptMenu)
+            acceptMenu:RemoveOverride()
             LocalPlayer():acceptQuest(questId)
-
-            LocalPlayer():StopSound("quest" ..questId)
         end
     else
         if removals then
@@ -548,7 +534,7 @@ function acceptQuestMenu(questGiver, questId, finish)
             returnMaterials:SetFont("FalloutRP2")
             returnMaterials:SetText("Return Materials")
             returnMaterials.DoClick = function()
-                close(acceptMenu)
+                acceptMenu:RemoveOverride()
                 LocalPlayer():returnQuestMaterials(questId)
             end
 
@@ -558,7 +544,7 @@ function acceptQuestMenu(questGiver, questId, finish)
             complete:SetFont("FalloutRP2")
             complete:SetText("Complete")
             complete.DoClick = function()
-                close(acceptMenu)
+                acceptMenu:RemoveOverride()
                 LocalPlayer():completeQuest(questId)
             end
             if !LocalPlayer():finishedQuestTasks(questId) then
@@ -571,7 +557,7 @@ function acceptQuestMenu(questGiver, questId, finish)
             complete:SetFont("FalloutRP2")
             complete:SetText("Complete")
             complete.DoClick = function()
-                close(acceptMenu)
+                acceptMenu:RemoveOverride()
                 LocalPlayer():completeQuest(questId)
             end
             if !LocalPlayer():finishedQuestTasks(questId) then

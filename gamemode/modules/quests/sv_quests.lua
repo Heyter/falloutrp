@@ -118,8 +118,6 @@ function QUESTS:spawnQuestGivers()
         giver:SetModel(v.model)
         giver:SetNickname(v.name)
         giver:DropToFloor()
-
-        print(giver, v)
     end
 end
 

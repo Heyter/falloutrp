@@ -65,8 +65,6 @@ end
 
 // Send newly loaded player to all the players on their clientside
 function meta:sendClientside()
-	print("Sending to clients")
-
 	// Send the new player to all client's on the server
 	local data = self.playerData
 	net.Start("sendClientside")
@@ -102,7 +100,8 @@ end
 function meta:load()
 	print("Loading player")
 
-	self:Team(TEAM_FACTIONLESS) //Temporarily set their team while they're still loading
+	//Temporarily set their team while they're still loading
+	self:Team(TEAM_FACTIONLESS)
 
 	// Load Player
 	self:loadPlayer()

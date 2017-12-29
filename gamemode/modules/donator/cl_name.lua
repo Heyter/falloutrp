@@ -50,8 +50,6 @@ function openNameChange()
 			net.Start("validateNameChange")
 				net.WriteString(name)
 			net.SendToServer()
-		else
-			print("On VGUI delay")
 		end
 	end
 	continueButton:SetText("Continue")

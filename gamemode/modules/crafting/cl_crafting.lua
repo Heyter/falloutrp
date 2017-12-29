@@ -7,7 +7,6 @@ local buttonPadding = (frameW - (buttonW * 5)) / 6
 local matLineDashed = Material("models/pepboy/line_y")
 local textPadding = 10
 local lastButton = 1
-local inspect // Draws the items information on a side panel
 
 // Make it easier to relate the id to the name
 local idTypes = {"WEAPONS", "APPAREL", "AMMO", "AID", "MISC"}
@@ -17,15 +16,7 @@ net.Receive("openCrafting", function()
 end)
 
 net.Receive("craftItem", function()
-	if frame then
-		frame:Remove()
-		frame = nil
-		gui.EnableScreenClicker(false)
-	end
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
+	util.cleanupFrame(frame)
 
 	openCrafting()
 end)
@@ -61,6 +52,9 @@ function openCrafting()
 	frame:SetFontTitle("FalloutRP3", "CRAFTING")
 	frame:AddCloseButton()
 	frame:MakePopup()
+	frame.onClose = function()
+		gui.EnableScreenClicker(false)
+	end
 
 	// Draw the buttons at the top for all the item types
 	local offsetX = 0
@@ -273,16 +267,12 @@ function openCrafting()
 		end
 		icon.OnCursorEntered = function(self)
 			local frameX, frameY = frame:GetPos()
-			inspect = vgui.Create("FalloutRP_Item")
-			inspect:SetPos(frameX + frame:GetWide(), frameY)
-			inspect:SetItem(itemInfo, true)
-			frame.inspect = inspect
+			frame.inspect = vgui.Create("FalloutRP_Item")
+			frame.inspect:SetPos(frameX + frame:GetWide(), frameY)
+			frame.inspect:SetItem(itemInfo, true)
 		end
 		icon.OnCursorExited = function(self)
-			if inspect then
-				inspect:Remove()
-				inspect = nil
-			end
+			util.cleanupFrame(frame.inspect)
 		end
 
 		local required = vgui.Create("DLabel", infoFrame)

@@ -442,7 +442,7 @@ function VGUI:Init()
 
 		return element
 	end
-	
+
 	local quests_panel = function()
 		local element = vgui.Create( "pepboy_itemlist", self.catL )
 		element:SetSize( PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20 )
@@ -745,7 +745,7 @@ function VGUI:Init()
 
 		return element
 	end
-	
+
 	local factory_panel = function()
 		local element = vgui.Create( "pepboy_itemlist", self.catR )
 		element:SetSize(PEPBOY_CONTENT_SIZE_X, PEPBOY_CONTENT_SIZE_Y - 20)
@@ -1363,8 +1363,7 @@ function VGUI:Init()
 		["Drop (x)"] = function()
 			local frame = self:GetParent():GetParent()
 			local item = self.item
-			print(item)
-			PrintTable(item)
+
 			local slider = vgui.Create("FalloutRP_NumberWang", frame)
 			slider:SetPos(frame:GetWide()/2 - slider:GetWide()/2, frame:GetTall()/2 - slider:GetTall()/2)
 			slider:SetMinimum(1)
@@ -1417,8 +1416,6 @@ function VGUI:Init()
 			slider:SetText("Deposit")
 			slider:GetButton().DoClick = function()
 				if slider:ValidInput() then
-					print("Deposited this much:")
-					print(slider:GetAmount())
 					localplayer():depositItem(item.uniqueid, item.classid, slider:GetAmount())
 				end
 			end

@@ -107,6 +107,17 @@ if SERVER then
 end
 
 if CLIENT then
+	function util.cleanupFrame(frame)
+		if frame then
+			if frame.RemoveOverride then
+				frame:RemoveOverride()
+			else
+				frame:Remove()
+				frame = nil
+			end
+		end
+	end
+
 	function util.saveMousePos()
 		local mouseX, mouseY = input.GetCursorPos()
 		LocalPlayer().savedMouseX = mouseX

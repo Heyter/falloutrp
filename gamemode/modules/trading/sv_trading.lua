@@ -210,7 +210,7 @@ function TRADING:completeTrade(id)
         local currentWeight = ply:getInventoryWeight()
         local outgoingWeight = v.weight
         local incomingWeight = transfer[otherIndex].weight
-        print(ply, outgoingWeight, incomingWeight)
+
         currentWeight = currentWeight - outgoingWeight + incomingWeight
         if currentWeight > maxWeight then
             TRADING:failTrade(ply, "You do not have enough inventory space.", ply:Nick() .." does not have enough inventory space.")
@@ -359,6 +359,8 @@ function meta:unofferCaps(caps)
 end
 
 function meta:closeTrade()
+    if !self.trade then return end
+
     local other = TRADING:getOtherTrader(self)
 
     TRADING.trades[self.trade] = nil

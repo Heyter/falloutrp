@@ -116,6 +116,21 @@ function VGUI:onClose()
 
 end
 
+// Add additional functionality to the default remove
+function VGUI:RemoveOverride()
+	if self.onClose then
+		self:onClose()
+	end
+
+	if self.inspect then
+		self.inspect:Remove()
+		self.inspect = nil
+	end
+
+	self:Remove()
+	self = nil
+end
+
 function VGUI:AddCloseButton()
 	local close = vgui.Create("DButton", self)
 	close:SetSize(30, 30)
@@ -128,16 +143,7 @@ function VGUI:AddCloseButton()
 		surface.DrawRect(0, 0, w, h)
 	end
 	close.DoClick = function()
-		// Close the item inspect screen if a player closes via X button
-		if self.inspect then
-			self.inspect:Remove()
-			self.inspect = nil
-		end
-
-		gui.EnableScreenClicker(false)
-		self:onClose()
-		self:Remove()
-		self = nil
+		self:RemoveOverride(true)
 	end
 	close.OnCursorEntered = function(self)
 		self:SetTextColor(COLOR_BLUE)

@@ -7,8 +7,6 @@ local frameW, frameH = 900, 700
 local coinsAdd = Material("icon16/coins_add.png")
 local coinsDelete = Material("icon16/coins_delete.png")
 
-local removeInspect
-
 net.Receive("beginTrade", function()
     local tradeInfo = net.ReadTable()
     LocalPlayer().trade = tradeInfo
@@ -28,12 +26,7 @@ end)
 net.Receive("closeTrade", function()
     LocalPlayer().trade = nil
 
-    if tradeWindow then
-        removeInspect()
-
-        tradeWindow:Remove()
-        tradeWindow = nil
-    end
+    util.cleanupFrame(tradeWindow)
 end)
 
 local function getOtherTrader()
@@ -45,13 +38,6 @@ local function getOtherTrader()
 end
 
 local inventoryTypes = {"WEAPONS", "APPAREL", "AMMO", "AID", "MISC"}
-
-removeInspect = function()
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
-end
 
 local function getYouStatus()
     // 1 = Player can lock in
@@ -81,7 +67,7 @@ local function getThemStatus()
 end
 
 local function offerItem(classid, uniqueid, quantity)
-    removeInspect()
+    util.cleanupFrame(inspect)
 
     local quantity = quantity or 0
 
@@ -93,7 +79,7 @@ local function offerItem(classid, uniqueid, quantity)
 end
 
 local function unofferItem(uniqueid, quantity)
-    removeInspect()
+    util.cleanupFrame(inspect)
 
     local quantity = quantity or 0
 
@@ -334,7 +320,7 @@ function openTrade()
 
                     flyout:Open()
 
-                    removeInspect()
+                    util.cleanupFrame(inspect)
                 end
             end
             itemBox:SetText("")
@@ -347,7 +333,7 @@ function openTrade()
             itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 
             itemBox.OnCursorEntered = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = true
                 surface.PlaySound("pepboy/click2.wav")
@@ -360,15 +346,12 @@ function openTrade()
                     inspect:SetPos(frameX + tradeWindow:GetWide(), frameY)
                     inspect:SetItem(v)
 
-                    // Allow inspect to be closed via X button
                     tradeWindow.inspect = inspect
                 end
             end
             itemBox.OnCursorExited = function(self)
-                removeInspect()
-
+                util.cleanupFrame(inspect)
                 self.hovered = false
-
                 itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
             end
 
@@ -501,7 +484,7 @@ function openTrade()
             itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 
             itemBox.OnCursorEntered = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = true
                 surface.PlaySound("pepboy/click2.wav")
@@ -514,12 +497,11 @@ function openTrade()
                     inspect:SetPos(frameX - inspect:GetWide(), frameY)
                     inspect:SetItem(v)
 
-                    // Allow inspect to be closed via X button
                     tradeWindow.inspect = inspect
                 end
             end
             itemBox.OnCursorExited = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = false
 
@@ -649,7 +631,7 @@ function openTrade()
             itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
 
             itemBox.OnCursorEntered = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = true
                 surface.PlaySound("pepboy/click2.wav")
@@ -662,15 +644,12 @@ function openTrade()
                     inspect:SetPos(frameX - inspect:GetWide(), frameY)
                     inspect:SetItem(v)
 
-                    // Allow inspect to be closed via X button
                     tradeWindow.inspect = inspect
                 end
             end
             itemBox.OnCursorExited = function(self)
-                removeInspect()
-
+                util.cleanupFrame(inspect)
                 self.hovered = false
-
                 itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
             end
 

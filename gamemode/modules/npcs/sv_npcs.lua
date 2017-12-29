@@ -165,7 +165,6 @@ function spawnAllNpcs()
 		for a, b in pairs(v.Positions) do
 			if count < 175 then
 				timer.Simple(0.25 * count, function()
-					print(k, a)
 					local ent = ents.Create(k)
 					ent:SetPos(b.Position + Vector(0, 0, 40))
 					ent:Spawn()
