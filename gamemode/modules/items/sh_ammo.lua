@@ -25,9 +25,10 @@ function meta:hasAmmoItem(classid)
 	return false
 end
 
-function addAmmo(id, name, type, entity, model, weight, value)
+function addAmmo(id, name, rarity, type, entity, model, weight, value)
 	Ammo[id] = {
 		name = name,
+		rarity = rarity,
 		type = type,
 		entity = entity,
 		model = model,
@@ -47,6 +48,9 @@ function getAmmoName(id)
 	if tonumber(id) then
 		return (findAmmo(id) and findAmmo(id).name) or "N/A"
 	end
+end
+function getAmmoRarity(id)
+	return findAmmo(id).rarity
 end
 function getAmmoType(id)
 	return findAmmo(id).type
@@ -81,7 +85,7 @@ function meta:getAmmoQuantity(uniqueid)
 	return quantity or 1
 end
 
-addAmmo(3001, "Bullets", "Bullets", "5mmammo", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3002, "Plasma", "Plasma", "alienpowercells", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3003, "Energy", "Energy", "energycells", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3004, "Grenade", "Grenade", "halo_ammo_40mm", "models/items/boxsrounds.mdl", 0.10, 0.25)
+addAmmo(3001, "Bullets", RARITY_WHITE, "Bullets", "5mmammo", "models/items/boxsrounds.mdl", 0.10, 0.25)
+addAmmo(3002, "Plasma", RARITY_WHITE, "Plasma", "alienpowercells", "models/items/boxsrounds.mdl", 0.10, 0.25)
+addAmmo(3003, "Energy", RARITY_WHITE, "Energy", "energycells", "models/items/boxsrounds.mdl", 0.10, 0.25)
+addAmmo(3004, "Grenade", RARITY_WHITE, "Grenade", "halo_ammo_40mm", "models/items/boxsrounds.mdl", 0.10, 0.25)

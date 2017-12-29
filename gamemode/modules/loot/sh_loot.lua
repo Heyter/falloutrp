@@ -135,23 +135,9 @@ LOOT = {
 	{id = 2068, prob = 0.1, quantity = {1, 1}},
 	{id = 2069, prob = 0.1, quantity = {1, 1}},
 	{id = 2070, prob = 0.1, quantity = {1, 1}},
+	{id = 3001, prob = 1, quantity = {1, 30}},
 	{id = 3002, prob = 1, quantity = {1, 30}},
-	{id = 3004, prob = 1, quantity = {1, 30}},
-	{id = 3005, prob = 1, quantity = {1, 30}},
-	{id = 3006, prob = 1, quantity = {1, 30}},
-	{id = 3007, prob = 1, quantity = {1, 30}},
-	{id = 3008, prob = 1, quantity = {1, 30}},
-	{id = 3009, prob = 1, quantity = {1, 30}},
-	{id = 3010, prob = 1, quantity = {1, 30}},
-	{id = 3011, prob = 1, quantity = {1, 30}},
-	{id = 3012, prob = 1, quantity = {1, 30}},
-	{id = 3015, prob = 1, quantity = {1, 30}},
-	{id = 3016, prob = 1, quantity = {1, 30}},
-	{id = 3017, prob = 1, quantity = {1, 30}},
-	{id = 3020, prob = 1, quantity = {1, 30}},
-	{id = 3021, prob = 1, quantity = {1, 30}},
-	{id = 3023, prob = 1, quantity = {1, 30}},
-	{id = 3026, prob = 1, quantity = {1, 30}},
+	{id = 3003, prob = 1, quantity = {1, 30}},
 	{id = 4001, prob = 2, quantity = {1, 1}},
 	{id = 4002, prob = 0.5, quantity = {1, 1}},
 	{id = 4003, prob = 1, quantity = {1, 1}},
@@ -215,59 +201,29 @@ LOOT = {
 }
 
 LOOT_LEVELS = {
-	[15] = {
-
-	},
-	[30] = {
-
-	},
-	[50] = {
-
-	}
+	[15] = {},
+	[30] = {},
+	[50] = {}
 }
 
 LOOT_FACTORIES = {
 	[15] = {
-		["WEAPONS"] = {
-
-		},
-		["APPAREL"] = {
-
-		},
-		["AMMO"] = {
-
-		},
-		["MISC"] = {
-
-		},
+		["WEAPONS"] = {},
+		["APPAREL"] = {},
+		["AMMO"] = {},
+		["MISC"] = {},
 	},
 	[30] = {
-		["WEAPONS"] = {
-
-		},
-		["APPAREL"] = {
-
-		},
-		["AMMO"] = {
-
-		},
-		["MISC"] = {
-
-		},
+		["WEAPONS"] = {},
+		["APPAREL"] = {},
+		["AMMO"] = {},
+		["MISC"] = {},
 	},
 	[50] = {
-		["WEAPONS"] = {
-
-		},
-		["APPAREL"] = {
-
-		},
-		["AMMO"] = {
-
-		},
-		["MISC"] = {
-
-		},
+		["WEAPONS"] = {},
+		["APPAREL"] = {},
+		["AMMO"] = {},
+		["MISC"] = {},
 	}
 }
 

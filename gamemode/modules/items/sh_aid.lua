@@ -25,9 +25,10 @@ function meta:hasAidItem(classid)
 	return false
 end
 
-function addAid(id, name, model, weight, value, healthPercent, health, timeInterval, timeLength, hunger, thirst)
+function addAid(id, name, rarity, model, weight, value, healthPercent, health, timeInterval, timeLength, hunger, thirst)
 	Aid[id] = {
 		name = name,
+		rarity = rarity,
 		model = model,
 		weight = weight,
 		value = value,
@@ -50,8 +51,8 @@ end
 function getAidName(id)
 	return findAid(id).name
 end
-function getAidEntity(id)
-	return findAid(id).entity
+function getAidRarity(id)
+	return findAid(id).rarity
 end
 function getAidModel(id)
 	return findAid(id).model
@@ -106,17 +107,17 @@ function meta:getAidQuantity(uniqueid)
 	return quantity or 1
 end
 
-addAid(4001, "Stimpak", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 150, 25)
-addAid(4002, "Super Stimpak", "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 300, 50)
-addAid(4003, "Lay of Hands", "models/mosi/fallout4/props/aid/syringeammo.mdl", 0.2, 1500, 100)
-addAid(4004, "Blood Bag", "models/mosi/fallout4/props/aid/bloodbag.mdl", 5, 300, nil, 100)
-addAid(4005, "Blood Serum", "models/mosi/fallout4/props/aid/mysteriousserum.mdl", 5, 600, nil, 200, 2, 10)
-addAid(4006, "Water Bottle", "models/props/cs_office/Water_bottle.mdl", 4, 50, nil, nil, nil, nil, nil, 45)
-addAid(4007, "Milk", "models/props_junk/garbage_milkcarton002a.mdl", 4, 20, nil, nil, nil, nil, nil, 20)
-addAid(4008, "Watermelon", "models/props_junk/watermelon01.mdl", 4, 75, nil, nil, nil, nil, 50, 20)
-addAid(4009, "Chinese Takeout", "models/props_junk/garbage_takeoutcarton001a.mdl", 4, 50, nil, nil, nil, nil, 45)
-addAid(4010, "Can of Beans", "models/props_junk/garbage_metalcan001a.mdl", 4, 30, nil, nil, nil, nil, 25)
-addAid(4011, "Soda", "models/props_junk/PopCan01a.mdl", 4, 15, nil, nil, nil, nil, nil, 20)
-addAid(4012, "Malt Liquor", "models/props_junk/garbage_glassbottle001a.mdl", 4, 10, nil, nil, nil, nil, nil, 15)
-addAid(4013, "Cactus", "models/props_lab/cactus.mdl", 4, 40, nil, -5, nil, nil, 35)
-addAid(4014, "Chunk of Meat", "models/Gibs/Antlion_gib_Large_2.mdl", 4, 40, nil, -5, nil, nil, 30)
+addAid(4001, "Stimpak", RARITY_WHITE, "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 150, 25)
+addAid(4002, "Super Stimpak", RARITY_WHITE, "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 300, 50)
+addAid(4003, "Lay of Hands", RARITY_WHITE, "models/mosi/fallout4/props/aid/syringeammo.mdl", 0.2, 1500, 100)
+addAid(4004, "Blood Bag", RARITY_WHITE, "models/mosi/fallout4/props/aid/bloodbag.mdl", 5, 300, nil, 100)
+addAid(4005, "Blood Serum", RARITY_WHITE, "models/mosi/fallout4/props/aid/mysteriousserum.mdl", 5, 600, nil, 200, 2, 10)
+addAid(4006, "Water Bottle", RARITY_WHITE, "models/props/cs_office/Water_bottle.mdl", 4, 50, nil, nil, nil, nil, nil, 45)
+addAid(4007, "Milk", RARITY_WHITE, "models/props_junk/garbage_milkcarton002a.mdl", 4, 20, nil, nil, nil, nil, nil, 20)
+addAid(4008, "Watermelon", RARITY_WHITE, "models/props_junk/watermelon01.mdl", 4, 75, nil, nil, nil, nil, 50, 20)
+addAid(4009, "Chinese Takeout", RARITY_WHITE, "models/props_junk/garbage_takeoutcarton001a.mdl", 4, 50, nil, nil, nil, nil, 45)
+addAid(4010, "Can of Beans", RARITY_WHITE, "models/props_junk/garbage_metalcan001a.mdl", 4, 30, nil, nil, nil, nil, 25)
+addAid(4011, "Soda", RARITY_WHITE, "models/props_junk/PopCan01a.mdl", 4, 15, nil, nil, nil, nil, nil, 20)
+addAid(4012, "Malt Liquor", RARITY_WHITE, "models/props_junk/garbage_glassbottle001a.mdl", 4, 10, nil, nil, nil, nil, nil, 15)
+addAid(4013, "Cactus", RARITY_WHITE, "models/props_lab/cactus.mdl", 4, 40, nil, -5, nil, nil, 35)
+addAid(4014, "Chunk of Meat", RARITY_WHITE, "models/Gibs/Antlion_gib_Large_2.mdl", 4, 40, nil, -5, nil, nil, 30)
