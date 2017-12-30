@@ -124,9 +124,9 @@ addWeapon(1032, "Tire Iron", DMG_CLUB, "seconary", RARITY_WHITE, "weapon_tireiro
 addWeapon(1017, "Straight Razor", DMG_SLASH, "seconary", RARITY_WHITE, "weapon_straightrazor", "models/Halokiller38/fallout/weapons/Melee/straightrazor.mdl", 1120, 2.5, 525, 9, 18, 23, 15,  1.76, nil)
 
 //Level 10:
-addWeapon(1035, "Laser Pistol", DMG_SONIC, "seconary", RARITY_WHITE, "weapon_laserpistol", "models/Halokiller38/fallout/weapons/Energy Weapons/laserpistol.mdl", 1120, 2.5, 1242, 10, 23, 28, 12, 1.76, 3003)
+addWeapon(1035, "Laser Pistol", DMG_SONIC, "seconary", RARITY_PURPLE, "weapon_laserpistol", "models/Halokiller38/fallout/weapons/Energy Weapons/laserpistol.mdl", 1120, 2.5, 1242, 10, 23, 28, 12, 1.76, 3003)
 addWeapon(1048, "10mm Pistol", DMG_BULLET, "seconary", RARITY_WHITE, "weapon_10mmpistol", "models/Halokiller38/fallout/weapons/pistols/10mmpistol.mdl", 1120, 2.5, 311, 10, 18, 22, 8, 1.76, 3001)
-addWeapon(1070, "9mm Sub-Machine Gun", DMG_BULLET, "primary", RARITY_WHITE, "weapon_9mmsmgdrum", "models/Halokiller38/fallout/weapons/SMGs/9mmsmgdrum.mdl", 1120, 2.5, 311, 10, 9, 12, 6, 1.76, 3001)
+addWeapon(1070, "9mm Sub-Machine Gun", DMG_BULLET, "primary", RARITY_BLUE, "weapon_9mmsmgdrum", "models/Halokiller38/fallout/weapons/SMGs/9mmsmgdrum.mdl", 1120, 2.5, 311, 10, 9, 12, 6, 1.76, 3001)
 
 //Level 11:
 addWeapon(1015, "Machete", DMG_SLASH, "seconary", RARITY_WHITE, "weapon_machete", "models/Halokiller38/fallout/weapons/Melee/machete.mdl", 1120, 2.5, 659, 11, 30, 36, 15, 1.76, nil)

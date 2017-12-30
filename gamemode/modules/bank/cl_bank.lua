@@ -85,11 +85,22 @@ function openBank()
 	menu:SetSize(ScrW(), ScrH())
 	menu:SetPos(0, 0)
 
+	LocalPlayer().bankFrame = frame
+	LocalPlayer().bankMenu = menu
+
 	return menu
 end
 
+function openBankLeft()
+	closeBank()
+
+	local pepboy = openBank()
+	pepboy.buttonL.DoClick()
+	pepboy.catL:makeLayout()
+end
+
 net.Receive("openBank", function()
-	if frame or menu then
+	if (frame and frame:IsValid()) or (menu and menu:IsValid()) then
 		closeBank(true)
 	else
 		openBank()

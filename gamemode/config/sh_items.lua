@@ -13,4 +13,16 @@ RARITY_BLUE = 2
 RARITY_PURPLE = 3
 RARITY_ORANGE = 4
 
+local rarityColors = {
+    [RARITY_WHITE] = COLOR_WHITE,
+    [RARITY_GREEN] = COLOR_GREEN,
+    [RARITY_BLUE] = COLOR_BLUE,
+    [RARITY_PURPLE] = COLOR_PURPLE,
+    [RARITY_ORANGE] = COLOR_ORANGE
+}
+
+function getRarityColor(rarity)
+    return rarityColors[rarity]
+end
+
 CRITICAL_MULTIPLIER = 1.5 // How much critical hits are multiplied by

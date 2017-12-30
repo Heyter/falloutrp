@@ -1,5 +1,3 @@
-
-
 local offsetX, offsetY = 25, 20
 local barHeight = 3
 local lengthDivisor = 10
@@ -7,7 +5,6 @@ local textPadding = 10
 
 local matLineDashed = Material("models/pepboy/line_y")
 
-//Client
 net.Receive("loot", function()
 	local ent = net.ReadEntity()
 	local loot = net.ReadTable()

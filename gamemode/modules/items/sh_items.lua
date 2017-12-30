@@ -8,6 +8,10 @@ TYPE_AMMO = 3
 TYPE_AID = 4
 TYPE_MISC = 5
 
+/* TODO:
+	This code is bad, these items should utilize metatables and only have one
+	getName() method, etc
+*/
 function getItemName(classid)
 	if isWeapon(classid) then
 		return getWeaponName(classid)

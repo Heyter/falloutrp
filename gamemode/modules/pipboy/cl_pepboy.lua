@@ -202,7 +202,7 @@ surface.CreateFont( "pepboy_50", {
 } )
 
 local function open()
-	//Close it first incase it was already open
+	// Close it first incase it was already open
 	if localplayer().pepboy_frame and localplayer().pepboy_vgui then
 		close()
 	end
@@ -225,22 +225,12 @@ function openPepboyMiddle()
 	pepboy.catM.layoutBot[getItemsPanel()].DoClick()
 end
 
-function openBankLeft()
-	closeBank()
-
-	local pepboy = openBank()
-	pepboy.buttonL.DoClick()
-	pepboy.catL:makeLayout()
-end
-
-function openBankRight()
-
-end
-
-
 net.Receive( "pepboy_open", function()
-
 	local bit = net.ReadBit()
+
+	// Close bank if it's open
+	util.cleanupFrame(localplayer().bankFrame)
+	util.cleanupFrame(localplayer().bankMenu)
 
 	if localplayer().pepboy_vgui or localplayer().pepboy_frame then
 		close()
@@ -415,7 +405,6 @@ function VGUI:Init()
 				element:addItemListEntry({
 					label = v.Name .."\t" ..localplayer().playerData[string.lower(v.Name)],
 					desc = string.Replace(v.Description, "\n", "")
-					//itemModel = getWeaponModel(v.classid),
 				})
 			end
 		end
@@ -501,6 +490,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.weapons) do
 				element:addItemListEntry({
 					label = getWeaponName(v.classid),
+					labelColor = getRarityColor(getWeaponRarity(v.classid)),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k)},
 						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
@@ -541,6 +531,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.apparel) do
 				element:addItemListEntry({
 					label = getApparelName(v.classid),
+					labelColor = getRarityColor(getApparelRarity(v.classid)),
 					stats = {
 						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
 						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
@@ -581,6 +572,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.ammo) do
 				element:addItemListEntry({
 					label = getAmmoNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getAmmoRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getAmmoWeight(v.classid)},
 						{key = "Value", val = getAmmoValue(v.classid)},
@@ -635,6 +627,7 @@ function VGUI:Init()
 
 				element:addItemListEntry({
 					label = getAidNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getAidRarity(v.classid)),
 					stats = statistics,
 					itemModel = getAidModel(v.classid),
 
@@ -667,6 +660,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.misc) do
 				element:addItemListEntry({
 					label = getMiscNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getMiscRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getMiscWeight(v.classid)},
 						{key = "Value", val = getMiscValue(v.classid)},
@@ -1618,6 +1612,7 @@ end
 function VGUI:addItemListEntry( entry )
 
 	local label = entry.label or ""
+	local labelColor = entry.labelColor or Color(0, 0, 0, 255)
 	local desc = entry.desc or ""
 	local enabledFunc = entry.enabledFunc or function() return true end
 	local clickFunc = entry.clickFunc or function() end
@@ -1649,6 +1644,7 @@ function VGUI:addItemListEntry( entry )
 	panel:SetPos( 10, 0 + #self.entry * 50 )
 	panel:SetSize( PEPBOY_CONTENT_SIZE_X/2 - 20, 50 )
 	panel:setContent( label )
+	panel.labelColor = labelColor
 	panel.inUse = inUse
 	panel:setEnabledFunc( enabledFunc )
 	panel:setInfoPanel( infoPanel )
@@ -1676,32 +1672,27 @@ vgui.Register( "pepboy_itemlist", VGUI, "Panel" )
 
 local VGUI = {}
 function VGUI:Init()
-
 	self.entry = {}
 	self.offset = 0
-
 end
 
 function VGUI:Paint( w, h )
 
 	if self.enabled then
 		if self.inUse then
-			draw.SimpleText( self.content, "pepboy_27", 18, h/2, Color(0, 0, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText(self.content .." (Equipped)", "pepboy_27", 18, h/2, self.labelColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		else
-			draw.SimpleText( self.content, "pepboy_27", 18, h/2, PEPBOY_COLOR, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText(self.content, "pepboy_27", 18, h/2, self.labelColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		end
-
 	else
-
-		draw.SimpleText( self.content, "pepboy_27", 18, h/2, PEPBOY_COLOR_DISABLED, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-
+		draw.SimpleText(self.content, "pepboy_27", 18, h/2, PEPBOY_COLOR_DISABLED, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 	end
 
 	if self.active or self.hovered then
 
 		if !self.enabled then
 
-			surface.SetDrawColor( PEPBOY_COLOR_DISABLED )
+			surface.SetDrawColor(PEPBOY_COLOR_DISABLED)
 
 		else
 
@@ -2819,6 +2810,7 @@ function VGUI:Init()
 				if !v.equipped then
 					element:addItemListEntry({
 						label = getWeaponName(v.classid),
+						labelColor = getRarityColor(getWeaponRarity(v.classid)),
 						stats = {
 							{key = "Damage", val = localplayer():getWeaponDamage(k)},
 							{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
@@ -2856,6 +2848,7 @@ function VGUI:Init()
 				if !v.equipped then
 					element:addItemListEntry({
 						label = getApparelName(v.classid),
+						labelColor = getRarityColor(getApparelRarity(v.classid)),
 						stats = {
 							{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
 							{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
@@ -2892,6 +2885,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.ammo) do
 				element:addItemListEntry({
 					label = getAmmoNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getAmmoRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getAmmoWeight(v.classid)},
 						{key = "Value", val = getAmmoValue(v.classid)},
@@ -2926,6 +2920,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.aid) do
 				element:addItemListEntry({
 					label = getAidNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getAidRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getAidWeight(v.classid)},
 						{key = "Value", val = getAidValue(v.classid)},
@@ -2960,6 +2955,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().inventory.misc) do
 				element:addItemListEntry({
 					label = getMiscNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getMiscRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getMiscWeight(v.classid)},
 						{key = "Value", val = getMiscValue(v.classid)},
@@ -3012,6 +3008,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().bank.weapons) do
 				element:addItemListEntry({
 					label = getWeaponName(v.classid),
+					labelColor = getRarityColor(getWeaponRarity(v.classid)),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k, "bank")},
 						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
@@ -3047,6 +3044,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().bank.apparel) do
 				element:addItemListEntry({
 					label = getApparelName(v.classid),
+					labelColor = getRarityColor(getApparelRarity(v.classid)),
 					stats = {
 						{key = "DT", val = localplayer():getApparelDamageThreshold(k, "bank") .."%"},
 						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k, "bank") .."%"},
@@ -3082,6 +3080,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().bank.ammo) do
 				element:addItemListEntry({
 					label = getAmmoNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getAmmoRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getAmmoWeight(v.classid)},
 						{key = "Value", val = getAmmoValue(v.classid)},
@@ -3116,6 +3115,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().bank.aid) do
 				element:addItemListEntry({
 					label = getAidNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getAidRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getAidWeight(v.classid)},
 						{key = "Value", val = getAidValue(v.classid)},
@@ -3150,6 +3150,7 @@ function VGUI:Init()
 			for k, v in pairs(localplayer().bank.misc) do
 				element:addItemListEntry({
 					label = getMiscNameQuantity(v.classid, v.quantity),
+					labelColor = getRarityColor(getMiscRarity(v.classid)),
 					stats = {
 						{key = "Weight", val = getMiscWeight(v.classid)},
 						{key = "Value", val = getMiscValue(v.classid)},
