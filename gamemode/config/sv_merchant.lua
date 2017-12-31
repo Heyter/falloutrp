@@ -1,5 +1,5 @@
 
-MERCHANTS = {
+MERCHANTS = MERCHANTS or {
 	["Billy"] = {
 		Position = Vector(-10721, 3450, 128),
 		Angles = Angle(0, 320, 0),

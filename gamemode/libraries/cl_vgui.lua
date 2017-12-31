@@ -271,12 +271,14 @@ end
 
 function VGUI:SetItem(item, craftingCreated, questCreated)
 	local classid = item.classid
+	local itemMeta = findItem(classid)
 
-	local name = getItemName(classid)
-	local model = getItemModel(classid)
+	local name = itemMeta:getName()
+	local model = itemMeta:getModel()
 
 	// Name
 	self.name:SetText(name)
+	self.name:SetTextColor(getRarityColor(itemMeta:getRarity()))
 	self.name:SizeToContents()
 	self.name:SetPos(self:GetWide()/2 - self.name:GetWide()/2, 10)
 
@@ -293,9 +295,9 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		// Draw different values depending if the item is created already or not
 		local dmg
 		if craftingCreated then
-			dmg = "Damage: (" ..getWeaponMinDamage(classid) .."-" ..getWeaponMedianDamage(classid) ..")"
+			dmg = "Damage: (" ..itemMeta:getMinDamage() .."-" ..itemMeta:getMedianDamage() ..")"
 		elseif questCreated then
-			dmg = "Damage: (" ..getWeaponMedianDamage(classid) .."-" ..getWeaponMaxDamage(classid) ..")"
+			dmg = "Damage: (" ..itemMeta:getMedianDamage() .."-" ..itemMeta:getMaxDamage() ..")"
 		else
 			dmg = "Damage: " ..item.damage
 		end
@@ -314,7 +316,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		crit:SetPos(10, startY)
 		crit:SetFont("FalloutRP2")
 		crit:SetTextColor(COLOR_SLEEK_GREEN)
-		crit:SetText("Crit Chance: " ..getWeaponCriticalChance(classid) .."%")
+		crit:SetText("Crit Chance: " ..itemMeta:getCriticalChance() .."%")
 		crit:SizeToContents()
 		startY = startY + 20
 	end
@@ -323,13 +325,13 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		// Draw different values depending if the item is created already or not
 		local dt, dr, hp
 		if craftingCreated then
-			dt = "Dmg Threshold: (" ..getApparelMinDamageThreshold(classid) .."-" ..getApparelMedianDamageThreshold(classid) .."%)"
-			dr = "Dmg Reflect: (" ..getApparelMinDamageReflection(classid) .."-" ..getApparelMedianDamageReflection(classid) .."%)"
-			hp = "Bonus HP: (" ..getApparelMinBonusHp(classid) .."-" ..getApparelMedianBonusHp(classid) .."%)"
+			dt = "Dmg Threshold: (" ..itemMeta:getMinDamageThreshold() .."-" ..itemMeta:getMedianDamageThreshold() .."%)"
+			dr = "Dmg Reflect: (" ..itemMeta:getMinDamageReflection() .."-" ..itemMeta:getMedianDamageReflection() .."%)"
+			hp = "Bonus HP: (" ..itemMeta:getMinBonusHp() .."-" ..itemMeta:getMedianBonusHp() .."%)"
 		elseif questCreated then
-			dt = "Dmg Threshold: (" ..getApparelMedianDamageThreshold(classid) .."-" ..getApparelMaxDamageThreshold(classid) .."%)"
-			dr = "Dmg Reflect: (" ..getApparelMedianDamageReflection(classid) .."-" ..getApparelMaxDamageReflection(classid) .."%)"
-			hp = "Bonus HP: (" ..getApparelMedianBonusHp(classid) .."-" ..getApparelMaxBonusHp(classid) .."%)"
+			dt = "Dmg Threshold: (" ..itemMeta:getMedianDamageThreshold() .."-" ..itemMeta:getMaxDamageThreshold() .."%)"
+			dr = "Dmg Reflect: (" ..itemMeta:getMedianDamageReflection() .."-" ..itemMeta:getMaxDamageReflection() .."%)"
+			hp = "Bonus HP: (" ..itemMeta:getMedianBonusHp() .."-" ..itemMeta:getMaxBonusHp() .."%)"
 		else
 			dt = "Dmg Threshold: " ..item.damageThreshold .."%"
 			dr = "Dmg Reflect: " ..item.damageReflection .."%"
@@ -366,68 +368,68 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 
 	if isAid(classid) then
 		// Health Percent
-		if getAidHealthPercent(classid) then
+		if itemMeta:getHealthPercent() then
 			local healthPercent = vgui.Create("DLabel", self)
 			healthPercent:SetPos(10, startY)
 			healthPercent:SetFont("FalloutRP2")
 			healthPercent:SetTextColor(COLOR_SLEEK_GREEN)
-			healthPercent:SetText("Restores " ..getAidHealthPercent(classid) .."% HP")
+			healthPercent:SetText("Restores " ..itemMeta:getHealthPercent() .."% HP")
 			healthPercent:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Health
-		if getAidHealth(classid) then
+		if itemMeta:getHealth() then
 			local health = vgui.Create("DLabel", self)
 			health:SetPos(10, startY)
 			health:SetFont("FalloutRP2")
 			health:SetTextColor(COLOR_SLEEK_GREEN)
-			health:SetText("Restores " ..getAidHealth(classid) .." HP")
+			health:SetText("Restores " ..itemMeta:getHealth() .." HP")
 			health:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Health Over Time
-		if getAidHealthOverTime(classid) then
+		if itemMeta:getHealthOverTime() then
 			local hot = vgui.Create("DLabel", self)
 			hot:SetPos(10, startY)
 			hot:SetFont("FalloutRP2")
 			hot:SetTextColor(COLOR_SLEEK_GREEN)
-			hot:SetText("Restores " ..getAidHealthOverTime(classid))
+			hot:SetText("Restores " ..itemMeta:getHealthOverTime())
 			hot:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Hunger
-		if getAidHunger(classid) then
+		if itemMeta:getHunger() then
 			local hunger = vgui.Create("DLabel", self)
 			hunger:SetPos(10, startY)
 			hunger:SetFont("FalloutRP2")
 			hunger:SetTextColor(COLOR_SLEEK_GREEN)
-			hunger:SetText("Restores " ..getAidHunger(classid) .." Hunger")
+			hunger:SetText("Restores " ..itemMeta:getHunger() .." Hunger")
 			hunger:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Thirst
-		if getAidThirst(classid) then
+		if itemMeta:getThirst() then
 			local thirst = vgui.Create("DLabel", self)
 			thirst:SetPos(10, startY)
 			thirst:SetFont("FalloutRP2")
 			thirst:SetTextColor(COLOR_SLEEK_GREEN)
-			thirst:SetText("Restores " ..getAidThirst(classid) .." Thirst")
+			thirst:SetText("Restores " ..itemMeta:getThirst() .." Thirst")
 			thirst:SizeToContents()
 			startY = startY + 20
 		end
 	end
 
 	// Level
-	if getItemLevel(classid) then
+	if itemMeta:getLevel() then
 		local level = vgui.Create("DLabel", self)
 		level:SetPos(10, startY)
 		level:SetFont("FalloutRP2")
 		level:SetTextColor(COLOR_SLEEK_GREEN)
-		level:SetText("Level: " ..getItemLevel(classid))
+		level:SetText("Level: " ..itemMeta:getLevel())
 		level:SizeToContents()
 		startY = startY + 20
 	end
@@ -448,7 +450,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 	weight:SetPos(10, startY)
 	weight:SetFont("FalloutRP2")
 	weight:SetTextColor(COLOR_SLEEK_GREEN)
-	weight:SetText("Weight: " ..getItemWeight(classid))
+	weight:SetText("Weight: " ..itemMeta:getWeight())
 	weight:SizeToContents()
 	startY = startY + 20
 
@@ -457,7 +459,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 	value:SetPos(10, startY)
 	value:SetFont("FalloutRP2")
 	value:SetTextColor(COLOR_SLEEK_GREEN)
-	value:SetText("Value: " ..getItemValue(classid))
+	value:SetText("Value: " ..itemMeta:getValue())
 	value:SizeToContents()
 	startY = startY + 20
 end

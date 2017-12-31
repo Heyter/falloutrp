@@ -196,12 +196,14 @@ function openMerchant(name, items)
 		local currentItem
 
 		for uniqueid, item in pairs(LocalPlayer().inventory[type]) do
-			local itemName = getItemName(item.classid)
+			local itemMeta = findItem(item.classid)
+
+			local itemName = itemMeta:getName()
 			if util.greaterThanOne(item.quantity) then
 				itemName = itemName .." (" ..item.quantity ..")"
 			end
 
-			local itemValue = getItemValue(item.classid)
+			local itemValue = itemMeta:getValue()
 
 			local itemBox = vgui.Create("DButton")
 			itemBox:SetSize(layout:GetWide() - scrollerW, 30)
@@ -257,7 +259,7 @@ function openMerchant(name, items)
 			itemLabel:SetFont("FalloutRP2")
 			itemLabel:SetText(itemName)
 			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+			itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
@@ -283,7 +285,7 @@ function openMerchant(name, items)
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
 
-				itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+				itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
 				// Remove item details
 				util.cleanupFrame(frame.inspect)
@@ -346,7 +348,9 @@ function openMerchant(name, items)
 		local currentItem
 
 		for index, item in pairs(items[id]["Items"]) do
-			local itemName = getItemName(item.classid)
+			local itemMeta = findItem(item.classid)
+
+			local itemName = itemMeta:getName()
 			if util.greaterThanOne(item.quantity) then
 				itemName = itemName .." (" ..item.quantity ..")"
 			end
@@ -407,7 +411,7 @@ function openMerchant(name, items)
 			itemLabel:SetFont("FalloutRP2")
 			itemLabel:SetText(itemName)
 			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+			itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
@@ -432,7 +436,7 @@ function openMerchant(name, items)
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
 
-				itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+				itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
 				// Remove item details
 				util.cleanupFrame(frame.inspect)

@@ -7,6 +7,8 @@ function meta:loadInvWeapons()
 	DB:RunQuery("SELECT * FROM weapons WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(query, status, data)
 		if data and data[1] then
 			for k, v in pairs(data) do
+				local weapon = findWeapon(v.classid)
+
 				self.inventory["weapons"][v.uniqueid] = {
 					classid = v.classid,
 					damage = v.damage,
@@ -16,7 +18,7 @@ function meta:loadInvWeapons()
 				}
 
 				if tobool(v.equipped) then
-					self.equipped["weapons"][getWeaponSlot(v.classid)] = {
+					self.equipped["weapons"][weapon:getSlot()] = {
 						classid = v.classid,
 						damage = v.damage,
 						durability = v.durability,

@@ -17,8 +17,10 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	local actualLoot = {}
 
 	for k,v in pairs(npcLoot) do
+		local itemMeta = findItem(k)
+
 		// Don't drop quest items for players that don't have the quest
-		if IsValid(attacker) and attacker:IsPlayer() and isQuestItem(k) then
+		if IsValid(attacker) and attacker:IsPlayer() and itemMeta:getQuest() then
 			local quest = QUESTS:getItemQuest(k)
 			if !attacker:hasQuest(quest) or attacker:isQuestComplete(quest) then
 				continue

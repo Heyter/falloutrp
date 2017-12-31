@@ -1,111 +1,65 @@
+ITEM = {}
 
-//Shared
+function ITEM:getName()
+	return self.name
+end
+function ITEM:getRarity()
+	return self.rarity
+end
+function ITEM:getEntity()
+	return self.entity
+end
+function ITEM:getType()
+	return self.type
+end
+function ITEM:getWeight()
+	return self.weight or 0
+end
+function ITEM:getValue()
+	return self.value or 0
+end
+function ITEM:getLevel()
+	return self.level or 0
+end
+function ITEM:getModel()
+	return self.model
+end
+function ITEM:getSlot()
+	return self.slot
+end
+function ITEM:getMaxDurability()
+	return self.durability
+end
+function ITEM:getNameQuantity(quantity)
+	local name = self:getName()
 
-TYPE_CAP = 0
-TYPE_WEAPON = 1
-TYPE_APPAREL = 2
-TYPE_AMMO = 3
-TYPE_AID = 4
-TYPE_MISC = 5
-
-/* TODO:
-	This code is bad, these items should utilize metatables and only have one
-	getName() method, etc
-*/
-function getItemName(classid)
-	if isWeapon(classid) then
-		return getWeaponName(classid)
-	elseif isApparel(classid) then
-		return getApparelName(classid)
-	elseif isAmmo(classid) then
-		return getAmmoName(classid)
-	elseif isAid(classid) then
-		return getAidName(classid)
-	elseif isMisc(classid) then
-		return getMiscName(classid)
-	end
-end
-function getItemWeight(classid)
-	if isWeapon(classid) then
-		return getWeaponWeight(classid)
-	elseif isApparel(classid) then
-		return getApparelWeight(classid)
-	elseif isAmmo(classid) then
-		return getAmmoWeight(classid)
-	elseif isAid(classid) then
-		return getAidWeight(classid)
-	elseif isMisc(classid) then
-		return getMiscWeight(classid)
-	end
-end
-function getItemValue(classid)
-	if isWeapon(classid) then
-		return getWeaponValue(classid)
-	elseif isApparel(classid) then
-		return getApparelValue(classid)
-	elseif isAmmo(classid) then
-		return getAmmoValue(classid)
-	elseif isAid(classid) then
-		return getAidValue(classid)
-	elseif isMisc(classid) then
-		return getMiscValue(classid)
-	end
-end
-function getItemModel(classid)
-	if isWeapon(classid) then
-		return getWeaponModel(classid)
-	elseif isApparel(classid) then
-		return getApparelModel(classid)
-	elseif isAmmo(classid) then
-		return getAmmoModel(classid)
-	elseif isAid(classid) then
-		return getAidModel(classid)
-	elseif isMisc(classid) then
-		return getMiscModel(classid)
-	end
-end
-function getItemLevel(classid)
-	if isWeapon(classid) then
-		return getWeaponLevel(classid)
-	elseif isApparel(classid) then
-		return getApparelLevel(classid)
-	end
-end
-
-function getItemSlot(classid)
-	if isWeapon(classid) then
-		return getWeaponSlot(classid)
-	elseif isApparel(classid) then
-		return getApparelSlot(classid)
-	end
-end
-
-function getItemNameQuantity(classid, quantity)
 	if util.positive(quantity) then
-		if isCap(classid) then
-			return "Caps (" ..quantity ..")"
-		elseif isWeapon(classid) then // Weapons purchased have quantity
-			return getWeaponName(classid)
-		elseif isApparel(classid) then // Apparel purchased have quantity
-			return getApparelName(classid)
-		elseif isAmmo(classid) then
-			return getAmmoNameQuantity(classid, quantity)
-		elseif isAid(classid) then
-			return getAidNameQuantity(classid, quantity)
-		elseif isMisc(classid) then
-			return getMiscNameQuantity(classid, quantity)
-		end
-	else
-		return getItemName(classid)
+		return name .." (" ..quantity ..")"
 	end
+
+	return name
+end
+function ITEM:getQuest()
+	return self.quest
 end
 
-function isQuestItem(classid)
-    if isMisc(classid) then
-        return getMiscQuest(classid)
-    end
+local caps = {name = "Caps"}
+setmetatable(caps, {__index = ITEM})
 
-    return false
+function findItem(classid)
+	if isCap(classid) then
+		return caps
+	elseif isWeapon(classid) then
+		return findWeapon(classid)
+	elseif isApparel(classid) then
+		return findApparel(classid)
+	elseif isAmmo(classid) then
+		return findAmmo(classid)
+	elseif isAid(classid) then
+		return findAid(classid)
+	elseif isMisc(classid) then
+		return findMisc(classid)
+	end
 end
 
 function classidToType(classid)

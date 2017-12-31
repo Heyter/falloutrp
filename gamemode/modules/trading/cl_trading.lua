@@ -258,6 +258,7 @@ function openTrade()
         local textPadding = 10
 
         for k,v in pairs(items) do
+            local itemMeta = findItem(v.classid)
             local existingItem = LocalPlayer().trade[LocalPlayer()].offer.items[v.uniqueid]
 
             if existingItem then
@@ -328,9 +329,9 @@ function openTrade()
             local itemLabel = vgui.Create("DLabel", itemBox)
             itemLabel:SetPos(textPadding, textPadding/2)
             itemLabel:SetFont("FalloutRP1")
-            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
             itemLabel:SizeToContents()
-            itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+            itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
             itemBox.OnCursorEntered = function(self)
                 util.cleanupFrame(inspect)
@@ -352,7 +353,7 @@ function openTrade()
             itemBox.OnCursorExited = function(self)
                 util.cleanupFrame(inspect)
                 self.hovered = false
-                itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+                itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
             end
 
             layout:Add(itemBox)
@@ -427,6 +428,8 @@ function openTrade()
         local textPadding = 10
 
         for k,v in pairs(LocalPlayer().trade[LocalPlayer()].offer.items) do
+            local itemMeta = findItem(v.classid)
+
             local itemBox = vgui.Create("DButton")
             itemBox:SetSize(layout:GetWide() - scrollerW, 30)
             itemBox.Paint = function(self, w, h)
@@ -479,9 +482,9 @@ function openTrade()
             local itemLabel = vgui.Create("DLabel", itemBox)
             itemLabel:SetPos(textPadding, textPadding/2)
             itemLabel:SetFont("FalloutRP1")
-            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
             itemLabel:SizeToContents()
-            itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+            itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
             itemBox.OnCursorEntered = function(self)
                 util.cleanupFrame(inspect)
@@ -502,10 +505,8 @@ function openTrade()
             end
             itemBox.OnCursorExited = function(self)
                 util.cleanupFrame(inspect)
-
                 self.hovered = false
-
-                itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+                itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
             end
 
             layout:Add(itemBox)
@@ -607,6 +608,8 @@ function openTrade()
         local textPadding = 10
 
         for k,v in pairs(LocalPlayer().trade[otherTrader].offer.items) do
+            local itemMeta = findItem(v.classid)
+
             local itemBox = vgui.Create("DButton")
             itemBox:SetSize(layout:GetWide() - scrollerW, 30)
             itemBox.Paint = function(self, w, h)
@@ -626,9 +629,9 @@ function openTrade()
             local itemLabel = vgui.Create("DLabel", itemBox)
             itemLabel:SetPos(textPadding, textPadding/2)
             itemLabel:SetFont("FalloutRP1")
-            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
             itemLabel:SizeToContents()
-            itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+            itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
             itemBox.OnCursorEntered = function(self)
                 util.cleanupFrame(inspect)
@@ -650,7 +653,7 @@ function openTrade()
             itemBox.OnCursorExited = function(self)
                 util.cleanupFrame(inspect)
                 self.hovered = false
-                itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+                itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
             end
 
             layout:Add(itemBox)

@@ -1,23 +1,24 @@
 
 //Server
 function createApparel(item, quantity, useLower, useHigher)
+	local apparel = findApparel(item.classid)
 	local damageThreshold
 	local damageReflection
 	local bonusHp
-	local durability = getApparelMaxDurability(item.classid)
+	local durability = apparel:getMaxDurability()
 
 	if useLower then
-		damageThreshold = math.random(getApparelMinDamageThreshold(item.classid), getApparelMedianDamageThreshold(item.classid))
-		damageReflection = math.random(getApparelMinDamageReflection(item.classid), getApparelMedianDamageReflection(item.classid))
-		bonusHp = math.random(getApparelMinBonusHp(item.classid), getApparelMedianBonusHp(item.classid))
+		damageThreshold = math.random(apparel:getMinDamageThreshold(), apparel:getMedianDamageThreshold())
+		damageReflection = math.random(apparel:getMinDamageReflection(), apparel:getMedianDamageReflection())
+		bonusHp = math.random(apparel:getMinBonusHp(), apparel:getMedianBonusHp())
 	elseif useHigher then
-		damageThreshold = math.random(getApparelMedianDamageThreshold(item.classid), getApparelMaxDamageThreshold(item.classid))
-		damageReflection = math.random(getApparelMedianDamageReflection(item.classid), getApparelMaxDamageReflection(item.classid))
-		bonusHp = math.random(getApparelMedianBonusHp(item.classid), getApparelMaxBonusHp(item.classid))
+		damageThreshold = math.random(apparel:getMedianDamageThreshold(), apparel:getMaxDamageThreshold())
+		damageReflection = math.random(apparel:getMedianDamageReflection(), apparel:getMaxDamageReflection())
+		bonusHp = math.random(apparel:getMedianBonusHp(), apparel:getMaxBonusHp())
 	else
-		damageThreshold = math.random(getApparelMinDamageThreshold(item.classid), getApparelMaxDamageThreshold(item.classid))
-		damageReflection = math.random(getApparelMinDamageReflection(item.classid), getApparelMaxDamageReflection(item.classid))
-		bonusHp = math.random(getApparelMinBonusHp(item.classid), getApparelMaxBonusHp(item.classid))
+		damageThreshold = math.random(apparel:getMinDamageThreshold(), apparel:getMaxDamageThreshold())
+		damageReflection = math.random(apparel:getMinDamageReflection(), apparel:getMaxDamageReflection())
+		bonusHp = math.random(apparel:getMinBonusHp(), apparel:getMaxBonusHp())
 	end
 
 	item.damageThreshold = damageThreshold

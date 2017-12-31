@@ -7,6 +7,8 @@ function meta:loadInvApparel()
 	DB:RunQuery("SELECT * FROM apparel WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(query, status, data)
 		if data and data[1] then
 			for k, v in pairs(data) do
+				local apparel = findApparel(v.classid)
+
 				self.inventory["apparel"][v.uniqueid] = {
 					classid = v.classid,
 					damageThreshold = v.damageThreshold,
@@ -18,7 +20,7 @@ function meta:loadInvApparel()
 				}
 
 				if tobool(v.equipped) then
-					self.equipped["apparel"][getApparelSlot(v.classid)] = {
+					self.equipped["apparel"][apparel:getSlot()] = {
 						classid = v.classid,
 						damageThreshold = v.damageThreshold,
 						damageReflection = v.damageReflection,

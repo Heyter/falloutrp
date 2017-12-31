@@ -48,12 +48,14 @@ function meta:getCraftingUnlockables(level)
 
 	for type, recipe in pairs(RECIPES) do
 		for k, info in pairs(recipe) do
+			local itemMeta = findItem(info.classid)
+
 			if info.level == level then
 				if line > 2 then
-					extra = extra .."\n" ..getItemName(info.classid)
+					extra = extra .."\n" ..itemMeta:getName()
 					line = 0
 				else
-					extra = extra ..", " ..getItemName(info.classid)
+					extra = extra ..", " ..itemMeta:getName()
 				end
 				line = line + 1
 			end

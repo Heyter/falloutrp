@@ -52,9 +52,10 @@ function meta:lootItem(ent, itemId, quantity)
 	if self:Alive() and self:inLootRange(ent) then
 		if ent:hasItem(itemId, quantity, self) then
 			local item = table.Copy(ent:getItem(itemId, self))
+			local itemMeta = findItem(item.classid)
 
 			// Handle quest items seperately
-			if isQuestItem(item.classid) then
+			if itemMeta:getQuest() then
 				local looted = self:lootQuestItem(item.classid, quantity)
 				if looted then
 					ent:removeItem(itemId, looted, self)

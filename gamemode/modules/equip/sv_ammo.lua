@@ -5,7 +5,7 @@ util.AddNetworkString("equipAmmo")
 local meta = FindMetaTable("Player")
 
 function meta:equipAmmo(uniqueid, classid, quantity)
-	local ammoType = getAmmoType(classid)
+	local ammoType = findAmmo(classid):getType()
 	local ammoQuantity = self:getAmmoQuantity(uniqueid)
 
 	if ammoQuantity >= quantity then
@@ -17,10 +17,8 @@ function meta:equipAmmo(uniqueid, classid, quantity)
 			DB:RunQuery("UPDATE ammo SET quantity = " ..self.inventory.ammo[uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 		end
 
-		// Give the ammo
 		self:GiveAmmo(quantity, ammoType)
-				
-		//Update client
+
 		net.Start("equipAmmo")
 			net.WriteInt(uniqueid, 32)
 			net.WriteInt(classid, 16)
