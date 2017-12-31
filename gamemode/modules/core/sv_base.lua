@@ -23,12 +23,11 @@ hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
 
 				local item = attacker.equipped.weapons[weaponSlot] // The actual item that the player is equipping
 				if item then
+					local itemMeta = findItem(item.classid)
 					local uniqueid = item.uniqueid
-					local classid = item.classid
 
-					damageType = getWeaponType(classid)
-					local critChance = getWeaponCriticalChance(classid)
-
+					damageType = itemMeta:getType()
+					local critChance = itemMeta:getCriticalChance()
 					damage = attacker:getWeaponDamage(uniqueid)
 
 					if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then

@@ -34,10 +34,12 @@ function meta:getInventoryWeight()
 	// Total weight of weapon items
 	for type, item in pairs(self.inventory) do
 		for uniqueid, itemInfo in pairs(item) do
+			local itemMeta = findItem(itemInfo.classid)
+
 			if util.greaterThanOne(itemInfo.quantity) then
-				weight = weight + (getItemWeight(itemInfo.classid) * itemInfo.quantity)
+				weight = weight + (itemMeta:getWeight() * itemInfo.quantity)
 			else
-				weight = weight + getItemWeight(itemInfo.classid)
+				weight = weight + itemMeta:getWeight()
 			end
 		end
 	end
@@ -46,7 +48,8 @@ function meta:getInventoryWeight()
 end
 
 function meta:getMaxQuantity(item)
-	local singleWeight = getItemWeight(item.classid)
+	local itemMeta = findItem(item.classid)
+	local singleWeight = itemMeta:getWeight()
 	local totalWeight = 0
 	local itemCount = 0
 
@@ -69,7 +72,9 @@ function meta:canInventoryFit(item, quantity)
 		return true
 	end
 
-	local addedWeight = getItemWeight(item.classid)
+	local itemMeta = findItem(item.classid)
+
+	local addedWeight = itemMeta:getWeight()
 	if util.positive(quantity) then
 		addedWeight = quantity * addedWeight
 	end

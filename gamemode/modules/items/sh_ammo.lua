@@ -1,5 +1,34 @@
 
-local Ammo = {}
+local Ammo = Ammo or {}
+
+local mt = {
+	__call = function(table, id, name, rarity, type, entity, model, weight, value)
+		local ammo = {
+			name = name,
+			rarity = rarity,
+			type = type,
+			entity = entity,
+			model = model,
+			weight = weight,
+			value = value,
+		}
+		setmetatable(ammo, {__index = ITEM})
+
+		Ammo[id] = ammo
+		return ammo
+	end
+}
+setmetatable(Ammo, mt)
+
+function getAmmo()
+	return Ammo
+end
+
+function findAmmo(id)
+	if id then
+		return Ammo[id]
+	end
+end
 
 local meta = FindMetaTable("Player")
 
@@ -7,7 +36,7 @@ function meta:getAmmoWeightTotal()
 	local weight = 0
 
 	for k,v in pairs(self.inventory.ammo) do
-		local itemWeight = v.quantity * getAmmoWeight(v.classid)
+		local itemWeight = v.quantity * findAmmo(v.classid):getWeight()
 
 		weight = weight + itemWeight
 	end
@@ -25,67 +54,15 @@ function meta:hasAmmoItem(classid)
 	return false
 end
 
-function addAmmo(id, name, rarity, type, entity, model, weight, value)
-	Ammo[id] = {
-		name = name,
-		rarity = rarity,
-		type = type,
-		entity = entity,
-		model = model,
-		weight = weight,
-		value = value,
-	}
-end
-
-function findAmmo(id)
-	if id then
-		return Ammo[id]
-	end
-end
-
-// Base functions that have data that will not change
-function getAmmoName(id)
-	if tonumber(id) then
-		return (findAmmo(id) and findAmmo(id).name) or "N/A"
-	end
-end
-function getAmmoRarity(id)
-	return findAmmo(id).rarity
-end
-function getAmmoType(id)
-	return findAmmo(id).type
-end
-function getAmmoEntity(id)
-	return findAmmo(id).entity
-end
-function getAmmoModel(id)
-	return findAmmo(id).model
-end
-function getAmmoWeight(id)
-	return findAmmo(id).weight
-end
-function getAmmoValue(id)
-	return findAmmo(id).value
-end
-
-// Functions that have data which can change
-function getAmmoNameQuantity(id, quantity)
-	local name = getAmmoName(id)
-
-	if util.positive(quantity) then
-		name = name .." (" ..quantity ..")"
-	end
-
-	return name
-end
-
 function meta:getAmmoQuantity(uniqueid)
 	local quantity = self.inventory.ammo[uniqueid]["quantity"]
 
 	return quantity or 1
 end
 
-addAmmo(3001, "Bullets", RARITY_WHITE, "Bullets", "5mmammo", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3002, "Plasma", RARITY_WHITE, "Plasma", "alienpowercells", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3003, "Energy", RARITY_WHITE, "Energy", "energycells", "models/items/boxsrounds.mdl", 0.10, 0.25)
-addAmmo(3004, "Grenade", RARITY_WHITE, "Grenade", "halo_ammo_40mm", "models/items/boxsrounds.mdl", 0.10, 0.25)
+timer.Simple(5, function()
+	Ammo(3001, "Bullets", RARITY_WHITE, "Bullets", "5mmammo", "models/items/boxsrounds.mdl", 0.10, 0.25)
+	Ammo(3002, "Plasma", RARITY_WHITE, "Plasma", "alienpowercells", "models/items/boxsrounds.mdl", 0.10, 0.25)
+	Ammo(3003, "Energy", RARITY_WHITE, "Energy", "energycells", "models/items/boxsrounds.mdl", 0.10, 0.25)
+	Ammo(3004, "Grenade", RARITY_WHITE, "Grenade", "halo_ammo_40mm", "models/items/boxsrounds.mdl", 0.10, 0.25)
+end)

@@ -488,19 +488,23 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.weapons then
 			for k, v in pairs(localplayer().inventory.weapons) do
+				local weapon = findWeapon(v.classid)
+				local ammo = findAmmo(weapon:getAmmoType())
+				ammo = ammo and ammo:getName() or "N/A"
+
 				element:addItemListEntry({
-					label = getWeaponName(v.classid),
-					labelColor = getRarityColor(getWeaponRarity(v.classid)),
+					label = weapon:getName(),
+					labelColor = getRarityColor(weapon:getRarity()),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k)},
-						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
-						{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
+						{key = "Crit Chance", val = weapon:getCriticalChance()},
+						{key = "Ammo", val = ammo},
 						{key = "Durability", val = localplayer():getWeaponDurability(k)},
-						{key = "Level", val = getWeaponLevel(v.classid)},
-						{key = "Weight", val = getWeaponWeight(v.classid)},
-						{key = "Value", val = getWeaponValue(v.classid)},
+						{key = "Level", val = weapon:getLevel()},
+						{key = "Weight", val = weapon:getWeight()},
+						{key = "Value", val = weapon:getValue()},
 					},
-					itemModel = getWeaponModel(v.classid),
+					itemModel = weapon:getModel(),
 					inUse = v.equipped,
 
 					rightClickFunc = function()
@@ -529,19 +533,20 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.apparel then
 			for k, v in pairs(localplayer().inventory.apparel) do
+				local apparel = findApparel(v.classid)
+
 				element:addItemListEntry({
-					label = getApparelName(v.classid),
-					labelColor = getRarityColor(getApparelRarity(v.classid)),
+					label = apparel:getName(),
+					labelColor = getRarityColor(apparel:getRarity()),
 					stats = {
 						{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
 						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
 						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
 						{key = "Durability", val = localplayer():getApparelDurability(k)},
-						{key = "Level", val = getApparelLevel(v.classid)},
-						{key = "Weight", val = getApparelWeight(v.classid)},
-						{key = "Value", val = getApparelValue(v.classid)},
+						{key = "Level", val = apparel:getLevel()},
+						{key = "Weight", val = apparel:getWeight()},
+						{key = "Value", val = apparel:getValue()},
 					},
-					//itemModel = getApparelModel(v.classid),
 					inUse = v.equipped,
 
 					rightClickFunc = function()
@@ -570,14 +575,16 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.ammo then
 			for k, v in pairs(localplayer().inventory.ammo) do
+				local ammo = findAmmo(v.classid)
+
 				element:addItemListEntry({
-					label = getAmmoNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getAmmoRarity(v.classid)),
+					label = ammo:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(ammo:getRarity()),
 					stats = {
-						{key = "Weight", val = getAmmoWeight(v.classid)},
-						{key = "Value", val = getAmmoValue(v.classid)},
+						{key = "Weight", val = ammo:getWeight()},
+						{key = "Value", val = ammo:getValue()},
 					},
-					itemModel = getAmmoModel(v.classid),
+					itemModel = ammo:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -605,31 +612,33 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.aid then
 			for k, v in pairs(localplayer().inventory.aid) do
+				local aid = findAid(v.classid)
+
 				local statistics = {
-					{key = "Weight", val = getAidWeight(v.classid)},
-					{key = "Value", val = getAidValue(v.classid)},
+					{key = "Weight", val = aid:getWeight()},
+					{key = "Value", val = aid:getValue()},
 				}
 
-				if getAidHealthOverTime(v.classid) then
-					table.insert(statistics, {key = "", val = getAidHealthOverTime(v.classid)})
-				elseif getAidHealthPercent(v.classid) then
-					table.insert(statistics, {key = "Health", val = getAidHealthPercent(v.classid) .."%"})
-				elseif getAidHealth(v.classid) then
-					table.insert(statistics, {key = "Health", val = getAidHealth(v.classid)})
+				if aid:getHealthOverTime() then
+					table.insert(statistics, {key = "", val = aid:getHealthOverTime()})
+				elseif aid:getHealthPercent() then
+					table.insert(statistics, {key = "Health", val = aid:getHealthPercent() .."%"})
+				elseif aid:getHealth() then
+					table.insert(statistics, {key = "Health", val = aid:getHealth()})
 				end
 
-				if getAidHunger(v.classid) then
-					table.insert(statistics, {key = "Hunger", val = getAidHunger(v.classid)})
+				if aid:getHunger() then
+					table.insert(statistics, {key = "Hunger", val = aid:getHunger()})
 				end
-				if getAidThirst(v.classid) then
-					table.insert(statistics, {key = "Thirst", val = getAidThirst(v.classid)})
+				if aid:getThirst() then
+					table.insert(statistics, {key = "Thirst", val = aid:getThirst()})
 				end
 
 				element:addItemListEntry({
-					label = getAidNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getAidRarity(v.classid)),
+					label = aid:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(aid:getRarity()),
 					stats = statistics,
-					itemModel = getAidModel(v.classid),
+					itemModel = aid:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -658,14 +667,16 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.misc then
 			for k, v in pairs(localplayer().inventory.misc) do
+				local misc = findMisc(v.classid)
+
 				element:addItemListEntry({
-					label = getMiscNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getMiscRarity(v.classid)),
+					label = misc:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(misc:getRarity()),
 					stats = {
-						{key = "Weight", val = getMiscWeight(v.classid)},
-						{key = "Value", val = getMiscValue(v.classid)},
+						{key = "Weight", val = misc:getWeight()},
+						{key = "Value", val = misc:getValue()},
 					},
-					itemModel = getMiscModel(v.classid),
+					itemModel = misc:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -1112,9 +1123,7 @@ vgui.Register( "pepboy_wrapper_topEntry", VGUI, "Panel" )
 
 local VGUI = {}
 function VGUI:Init()
-
 	self.label = "D E F A U L T"
-
 end
 
 function VGUI:Paint( w, h )
@@ -1612,7 +1621,7 @@ end
 function VGUI:addItemListEntry( entry )
 
 	local label = entry.label or ""
-	local labelColor = entry.labelColor or Color(0, 0, 0, 255)
+	local labelColor = entry.labelColor or PEPBOY_COLOR
 	local desc = entry.desc or ""
 	local enabledFunc = entry.enabledFunc or function() return true end
 	local clickFunc = entry.clickFunc or function() end
@@ -2808,19 +2817,23 @@ function VGUI:Init()
 		if localplayer().inventory and localplayer().inventory.weapons then
 			for k, v in pairs(localplayer().inventory.weapons) do
 				if !v.equipped then
+					local weapon = findWeapon(v.classid)
+					local ammo = findAmmo(weapon:getAmmoType())
+					ammo = ammo and ammo:getName() or "N/A"
+
 					element:addItemListEntry({
-						label = getWeaponName(v.classid),
-						labelColor = getRarityColor(getWeaponRarity(v.classid)),
+						label = weapon:getName(),
+						labelColor = getRarityColor(weapon:getRarity()),
 						stats = {
 							{key = "Damage", val = localplayer():getWeaponDamage(k)},
-							{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
-							{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
+							{key = "Crit Chance", val = weapon:getCriticalChance()},
+							{key = "Ammo", val = ammo},
 							{key = "Durability", val = localplayer():getWeaponDurability(k)},
-							{key = "Level", val = getWeaponLevel(v.classid)},
-							{key = "Weight", val = getWeaponWeight(v.classid)},
-							{key = "Value", val = getWeaponValue(v.classid)},
+							{key = "Level", val = weapon:getLevel()},
+							{key = "Weight", val = weapon:getWeight()},
+							{key = "Value", val = weapon:getValue()},
 						},
-						itemModel = getWeaponModel(v.classid),
+						itemModel = weapon:getModel(),
 
 						rightClickFunc = function()
 							local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -2846,19 +2859,20 @@ function VGUI:Init()
 		if localplayer().inventory and localplayer().inventory.apparel then
 			for k, v in pairs(localplayer().inventory.apparel) do
 				if !v.equipped then
+					local apparel = findApparel(v.classid)
+
 					element:addItemListEntry({
-						label = getApparelName(v.classid),
-						labelColor = getRarityColor(getApparelRarity(v.classid)),
+						label = apparel:getName(),
+						labelColor = getRarityColor(apparel:getRarity()),
 						stats = {
 							{key = "DT", val = localplayer():getApparelDamageThreshold(k) .."%"},
 							{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k) .."%"},
 							{key = "Bonus HP", val = localplayer():getApparelBonusHp(k)},
 							{key = "Durability", val = localplayer():getApparelDurability(k)},
-							{key = "Level", val = getApparelLevel(v.classid)},
-							{key = "Weight", val = getApparelWeight(v.classid)},
-							{key = "Value", val = getApparelValue(v.classid)},
+							{key = "Level", val = apparel:getLevel()},
+							{key = "Weight", val = apparel:getWeight()},
+							{key = "Value", val = apparel:getValue()},
 						},
-						//itemModel = getApparelModel(v.classid),
 
 						rightClickFunc = function()
 							local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -2883,14 +2897,16 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.ammo then
 			for k, v in pairs(localplayer().inventory.ammo) do
+				local ammo = findAmmo(v.classid)
+
 				element:addItemListEntry({
-					label = getAmmoNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getAmmoRarity(v.classid)),
+					label = ammo:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(ammo:getRarity()),
 					stats = {
-						{key = "Weight", val = getAmmoWeight(v.classid)},
-						{key = "Value", val = getAmmoValue(v.classid)},
+						{key = "Weight", val = ammo:getWeight()},
+						{key = "Value", val = ammo:getValue()},
 					},
-					itemModel = getAmmoModel(v.classid),
+					itemModel = ammo:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -2918,14 +2934,33 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.aid then
 			for k, v in pairs(localplayer().inventory.aid) do
+				local aid = findAid(v.classid)
+
+				local statistics = {
+					{key = "Weight", val = aid:getWeight()},
+					{key = "Value", val = aid:getValue()},
+				}
+
+				if aid:getHealthOverTime() then
+					table.insert(statistics, {key = "", val = aid:getHealthOverTime()})
+				elseif aid:getHealthPercent() then
+					table.insert(statistics, {key = "Health", val = aid:getHealthPercent() .."%"})
+				elseif aid:getHealth() then
+					table.insert(statistics, {key = "Health", val = aid:getHealth()})
+				end
+
+				if aid:getHunger() then
+					table.insert(statistics, {key = "Hunger", val = aid:getHunger()})
+				end
+				if aid:getThirst() then
+					table.insert(statistics, {key = "Thirst", val = aid:getThirst()})
+				end
+
 				element:addItemListEntry({
-					label = getAidNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getAidRarity(v.classid)),
-					stats = {
-						{key = "Weight", val = getAidWeight(v.classid)},
-						{key = "Value", val = getAidValue(v.classid)},
-					},
-					itemModel = getAidModel(v.classid),
+					label = aid:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(aid:getRarity()),
+					stats = statistics,
+					itemModel = aid:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -2953,14 +2988,16 @@ function VGUI:Init()
 
 		if localplayer().inventory and localplayer().inventory.misc then
 			for k, v in pairs(localplayer().inventory.misc) do
+				local misc = findMisc(v.classid)
+
 				element:addItemListEntry({
-					label = getMiscNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getMiscRarity(v.classid)),
+					label = misc:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(misc:getRarity()),
 					stats = {
-						{key = "Weight", val = getMiscWeight(v.classid)},
-						{key = "Value", val = getMiscValue(v.classid)},
+						{key = "Weight", val = misc:getWeight()},
+						{key = "Value", val = misc:getValue()},
 					},
-					itemModel = getMiscModel(v.classid),
+					itemModel = misc:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -3006,19 +3043,23 @@ function VGUI:Init()
 
 		if localplayer().bank and localplayer().bank.weapons then
 			for k, v in pairs(localplayer().bank.weapons) do
+				local weapon = findWeapon(v.classid)
+				local ammo = findAmmo(weapon:getAmmoType())
+				ammo = ammo and ammo:getName() or "N/A"
+
 				element:addItemListEntry({
-					label = getWeaponName(v.classid),
-					labelColor = getRarityColor(getWeaponRarity(v.classid)),
+					label = weapon:getName(),
+					labelColor = getRarityColor(weapon:getRarity()),
 					stats = {
 						{key = "Damage", val = localplayer():getWeaponDamage(k, "bank")},
-						{key = "Crit Chance", val = getWeaponCriticalChance(v.classid)},
-						{key = "Ammo", val = getAmmoName(getWeaponAmmoType(v.classid))},
+						{key = "Crit Chance", val = weapon:getCriticalChance()},
+						{key = "Ammo", val = ammo},
 						{key = "Durability", val = localplayer():getWeaponDurability(k, "bank")},
-						{key = "Level", val = getWeaponLevel(v.classid)},
-						{key = "Weight", val = getWeaponWeight(v.classid)},
-						{key = "Value", val = getWeaponValue(v.classid)},
+						{key = "Level", val = weapon:getLevel()},
+						{key = "Weight", val = weapon:getWeight()},
+						{key = "Value", val = weapon:getValue()},
 					},
-					itemModel = getWeaponModel(v.classid),
+					itemModel = weapon:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -3042,19 +3083,21 @@ function VGUI:Init()
 
 		if localplayer().bank and localplayer().bank.apparel then
 			for k, v in pairs(localplayer().bank.apparel) do
+				local apparel = findApparel(v.classid)
+
 				element:addItemListEntry({
-					label = getApparelName(v.classid),
-					labelColor = getRarityColor(getApparelRarity(v.classid)),
+					label = apparel:getName(),
+					labelColor = getRarityColor(apparel:getRarity()),
 					stats = {
 						{key = "DT", val = localplayer():getApparelDamageThreshold(k, "bank") .."%"},
 						{key = "Dmg Reflect", val = localplayer():getApparelDamageReflection(k, "bank") .."%"},
 						{key = "Bonus HP", val = localplayer():getApparelBonusHp(k, "bank")},
 						{key = "Durability", val = localplayer():getApparelDurability(k, "bank")},
-						{key = "Level", val = getApparelLevel(v.classid)},
-						{key = "Weight", val = getApparelWeight(v.classid)},
-						{key = "Value", val = getApparelValue(v.classid)},
+						{key = "Level", val = apparel:getLevel()},
+						{key = "Weight", val = apparel:getWeight()},
+						{key = "Value", val = apparel:getValue()},
 					},
-					//itemModel = getApparelModel(v.classid),
+					inUse = v.equipped,
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -3078,14 +3121,16 @@ function VGUI:Init()
 
 		if localplayer().bank and localplayer().bank.ammo then
 			for k, v in pairs(localplayer().bank.ammo) do
+				local ammo = findAmmo(v.classid)
+
 				element:addItemListEntry({
-					label = getAmmoNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getAmmoRarity(v.classid)),
+					label = ammo:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(ammo:getRarity()),
 					stats = {
-						{key = "Weight", val = getAmmoWeight(v.classid)},
-						{key = "Value", val = getAmmoValue(v.classid)},
+						{key = "Weight", val = ammo:getWeight()},
+						{key = "Value", val = ammo:getValue()},
 					},
-					itemModel = getAmmoModel(v.classid),
+					itemModel = ammo:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -3113,14 +3158,33 @@ function VGUI:Init()
 
 		if localplayer().bank and localplayer().bank.aid then
 			for k, v in pairs(localplayer().bank.aid) do
+				local aid = findAid(v.classid)
+
+				local statistics = {
+					{key = "Weight", val = aid:getWeight()},
+					{key = "Value", val = aid:getValue()},
+				}
+
+				if aid:getHealthOverTime() then
+					table.insert(statistics, {key = "", val = aid:getHealthOverTime()})
+				elseif aid:getHealthPercent() then
+					table.insert(statistics, {key = "Health", val = aid:getHealthPercent() .."%"})
+				elseif aid:getHealth() then
+					table.insert(statistics, {key = "Health", val = aid:getHealth()})
+				end
+
+				if aid:getHunger() then
+					table.insert(statistics, {key = "Hunger", val = aid:getHunger()})
+				end
+				if aid:getThirst() then
+					table.insert(statistics, {key = "Thirst", val = aid:getThirst()})
+				end
+
 				element:addItemListEntry({
-					label = getAidNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getAidRarity(v.classid)),
-					stats = {
-						{key = "Weight", val = getAidWeight(v.classid)},
-						{key = "Value", val = getAidValue(v.classid)},
-					},
-					itemModel = getAidModel(v.classid),
+					label = aid:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(aid:getRarity()),
+					stats = statistics,
+					itemModel = aid:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)
@@ -3148,14 +3212,16 @@ function VGUI:Init()
 
 		if localplayer().bank and localplayer().bank.misc then
 			for k, v in pairs(localplayer().bank.misc) do
+				local misc = findMisc(v.classid)
+
 				element:addItemListEntry({
-					label = getMiscNameQuantity(v.classid, v.quantity),
-					labelColor = getRarityColor(getMiscRarity(v.classid)),
+					label = misc:getNameQuantity(v.quantity),
+					labelColor = getRarityColor(misc:getRarity()),
 					stats = {
-						{key = "Weight", val = getMiscWeight(v.classid)},
-						{key = "Value", val = getMiscValue(v.classid)},
+						{key = "Weight", val = misc:getWeight()},
+						{key = "Value", val = misc:getValue()},
 					},
-					itemModel = getMiscModel(v.classid),
+					itemModel = misc:getModel(),
 
 					rightClickFunc = function()
 						local menu = vgui.Create("pepboy_rightclickbox", element)

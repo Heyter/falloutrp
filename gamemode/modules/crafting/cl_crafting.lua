@@ -167,6 +167,7 @@ function openCrafting()
 		local currentItem
 		for k,v in ipairs(RECIPES[type]) do
 			if LocalPlayer():hasCraftingLevel(v.level) then
+				local itemMeta = findItem(v.classid)
 
 				local itemBox = vgui.Create("DButton")
 				itemBox:SetSize(layout:GetWide() - scrollerW, 30)
@@ -208,15 +209,15 @@ function openCrafting()
 				local itemLabel = vgui.Create("DLabel", itemBox)
 				itemLabel:SetPos(textPadding, textPadding/2)
 				itemLabel:SetFont("FalloutRP2")
-				itemLabel:SetText(getItemName(v.classid))
+				itemLabel:SetText(itemMeta:getName())
 				if util.greaterThanOne(v.quantity) then
-					itemLabel:SetText(getItemName(v.classid) .."\t (" ..v.quantity ..")")
+					itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
 				end
 				itemLabel:SizeToContents()
 				if itemBox.selected then
 					itemLabel:SetTextColor(COLOR_BLUE)
 				else
-					itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+					itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 				end
 
 				itemBox.OnCursorEntered = function(self)
@@ -226,8 +227,7 @@ function openCrafting()
 				end
 				itemBox.OnCursorExited = function(self)
 					self.hovered = false
-
-					itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+					itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 				end
 
 				layout:Add(itemBox)
@@ -320,10 +320,12 @@ function openCrafting()
 		end
 
 		for id, amount in pairs(materials) do
+			local itemMeta = findItem(id)
+
 			local materialName = vgui.Create("DLabel", infoFrame)
 			materialName:SetFont("FalloutRP1.5")
-			materialName:SetTextColor(COLOR_SLEEK_GREEN)
-			materialName:SetText(getItemName(id))
+			materialName:SetTextColor(getRarityColor(itemMeta:getRarity()))
+			materialName:SetText(itemMeta:getName())
 			materialName:SetPos(10, 185 + offsetY)
 			materialName:SizeToContents()
 

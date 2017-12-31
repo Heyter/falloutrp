@@ -285,7 +285,8 @@ function meta:completeQuest(questId)
         local weight = 0
 
         for k,v in pairs(rewards.items) do
-            local itemWeight = getItemWeight(k) * v
+            local itemMeta = findItem(k)
+            local itemWeight = itemMeta:getWeight() * v
 
             weight = weight + itemWeight
 

@@ -8,16 +8,14 @@ util.AddNetworkString("updateEquipment")
 local meta = FindMetaTable("Player")
 
 function meta:depleteEquipped(item)
-	local classid = item.classid
-	local uniqueid = item.uniqueid
-	local type = classidToStringType(classid)
-	local slot = getItemSlot(classid)
-	
+	local itemMeta = findItem(item.classid)
+	local type = classidToStringType(item.classid)
+
 	self.equipped[type][slot] = nil
-	
-	if isWeapon(classid) then
+
+	if isWeapon(item.classid) then
 		//Strip the weapon from the player
-		self:StripWeapon(getWeaponEntity(classid))
+		self:StripWeapon(itemMeta:getEntity())
 	end
 end
 
@@ -50,13 +48,13 @@ net.Receive("equipItem", function(len, ply)
 	local itemId = net.ReadInt(32)
 	local classid = net.ReadInt(16)
 	local quantity = net.ReadInt(16)
-	
+
 	ply:equipItem(itemId, classid, quantity)
 end)
 
 net.Receive("unequipItem", function(len, ply)
 	local itemId = net.ReadInt(32)
 	local classid = net.ReadInt(16)
-	
+
 	ply:unequipItem(itemId, classid)
 end)

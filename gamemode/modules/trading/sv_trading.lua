@@ -165,6 +165,8 @@ function TRADING:completeTrade(id)
         }
 
         for uniqueid, item in pairs(v.offer.items) do
+            local itemMeta = findItem(item.classid)
+
             local invItem = trader:getInventoryItem(uniqueid, item.classid)
             if invItem then
                 if util.positive(item.quantity) then
@@ -184,7 +186,7 @@ function TRADING:completeTrade(id)
             end
 
             local quantity = item.quantity or 1
-            transfer[index].weight = transfer[index].weight + (getItemWeight(item.classid) * quantity)
+            transfer[index].weight = transfer[index].weight + (itemMeta:getWeight() * quantity)
             table.insert(transfer[index].items, item)
         end
 

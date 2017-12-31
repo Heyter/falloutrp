@@ -42,6 +42,8 @@ function openLoot(ent, loot)
 	local scrollerW = frame.scroller:GetWide()
 
 	for k,v in pairs(loot) do
+		local itemMeta = findItem(v.classid)
+
 		local itemBox = vgui.Create("DButton")
 		itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 		itemBox.Paint = function(self, w, h)
@@ -99,9 +101,9 @@ function openLoot(ent, loot)
 		local itemLabel = vgui.Create("DLabel", itemBox)
 		itemLabel:SetPos(textPadding, textPadding/2)
 		itemLabel:SetFont("FalloutRP2")
-		itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+		itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
 		itemLabel:SizeToContents()
-		itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+		itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
 		itemBox.OnCursorEntered = function(self)
 			util.cleanupFrame(frame.inspect)
@@ -123,7 +125,7 @@ function openLoot(ent, loot)
 
 			self.hovered = false
 
-			itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+			itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 		end
 
 		layout:Add(itemBox)

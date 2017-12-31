@@ -229,7 +229,9 @@ LOOT_FACTORIES = {
 
 function structureLoot()
 	for k, item in pairs(LOOT) do
-		local level = getItemLevel(item.id)
+		local itemMeta = findItem(item.id)
+
+		local level = itemMeta:getLevel()
 		if !level then
 			table.insert(LOOT_LEVELS[15], item)
 			table.insert(LOOT_LEVELS[30], item)
@@ -262,7 +264,8 @@ function structureFactoryLoot()
 	end
 end
 
-hook.Add("InitPostEntity", "structureLoot", function()
+// Make sure the items are created first
+timer.Simple(10, function()
 	structureLoot()
 	structureFactoryLoot()
 end)
