@@ -1,6 +1,3 @@
-
-
-
 LEVELS = {0}
 
 local meta = FindMetaTable("Player")

@@ -579,7 +579,7 @@ hook.Add("HUDPaint", "questTracker", function()
                 for i = 1, 2 do
                     draw.SimpleText(QUESTS:getName(k), "FalloutRPHUD1Blur", ScrW() - 250, offset, Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 200), false, 0)
                 end
-                draw.SimpleText(QUESTS:getName(k), "FalloutRPHUD1", ScrW() - 250, offset, Color(40, 40, 40, 255), false, 0)
+                draw.SimpleText(QUESTS:getName(k), "FalloutRPHUD1", ScrW() - 250, offset, COLOR_BLACK, false, 0)
 
                 // Quest Tasks
                 for k,v in pairs(LocalPlayer():getQuestStats(k)) do
