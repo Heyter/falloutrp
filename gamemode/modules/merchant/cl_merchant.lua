@@ -69,23 +69,23 @@ function openMerchant(name, items)
 		itemType:SetPos(buttonPadding + offsetX, 50)
 		itemType:SetFont("FalloutRP3")
 		itemType:SetText(info["Type"])
-		itemType:SetTextColor(COLOR_SLEEK_GREEN)
+		itemType:SetTextColor(COLOR_FOREGROUND)
 		itemType.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
 
 			// The button is highlighted
 			if self.hovered then
-				surface.SetDrawColor(COLOR_SLEEK_GREEN)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 
 			// The button is selected
 			if self.selected and (currentSelectedButton == self) then
-				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+				surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_SLEEK_GREEN)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -113,7 +113,7 @@ function openMerchant(name, items)
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
-				currentSelectedButton:SetTextColor(COLOR_SLEEK_GREEN)
+				currentSelectedButton:SetTextColor(COLOR_FOREGROUND)
 			end
 
 			currentSelectedButton = self
@@ -143,20 +143,20 @@ function openMerchant(name, items)
 		plyFrame:SetPos(buttonPadding, 125)
 		plyFrame:SetSize(childW, childH)
 		plyFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_SLEEK_GREEN)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
 
 		local caps = vgui.Create("DLabel", frame)
 		caps:SetFont("FalloutRP2")
-		caps:SetTextColor(COLOR_SLEEK_GREEN)
+		caps:SetTextColor(COLOR_FOREGROUND)
 		caps:SetText("Caps: " ..LocalPlayer():getCaps())
 		caps:SizeToContents()
 		caps:SetPos(buttonPadding + plyFrame:GetWide()/2 - caps:GetWide()/2, 100)
 
 		local stockLabel = vgui.Create("DLabel", frame)
 		stockLabel:SetFont("FalloutRP2")
-		stockLabel:SetTextColor(COLOR_SLEEK_GREEN)
+		stockLabel:SetTextColor(COLOR_FOREGROUND)
 		stockLabel:SetText(LocalPlayer():getName() .."'s Stock")
 		stockLabel:SizeToContents()
 		stockLabel:SetPos(buttonPadding + plyFrame:GetWide()/2 - stockLabel:GetWide()/2, plyFrame:GetTall() + 140)
@@ -183,7 +183,7 @@ function openMerchant(name, items)
 			surface.DrawRect(0, 0, w, h)
 		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_SLEEK_GREEN)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -213,10 +213,10 @@ function openMerchant(name, items)
 
 
 				if self.hovered then
-					surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+					surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-					surface.SetDrawColor(COLOR_SLEEK_GREEN)
+					surface.SetDrawColor(COLOR_FOREGROUND)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end
 			end
@@ -263,7 +263,7 @@ function openMerchant(name, items)
 
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
-			valueLabel:SetTextColor(COLOR_SLEEK_GREEN)
+			valueLabel:SetTextColor(COLOR_FOREGROUND)
 			valueLabel:SetText("Caps: " ..itemValue)
 			valueLabel:SizeToContents()
 			valueLabel:SetPos(itemBox:GetWide() - valueLabel:GetWide() - scrollerW - textPadding, textPadding/2)
@@ -302,13 +302,13 @@ function openMerchant(name, items)
 		npcFrame:SetPos(buttonPadding + childW + (frameW - (childW*2 + buttonPadding*2)), 125)
 		npcFrame:SetSize(childW, childH)
 		npcFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_SLEEK_GREEN)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
 
 		local stockLabel = vgui.Create("DLabel", frame)
 		stockLabel:SetFont("FalloutRP2")
-		stockLabel:SetTextColor(COLOR_SLEEK_GREEN)
+		stockLabel:SetTextColor(COLOR_FOREGROUND)
 		stockLabel:SetText(name .."'s Stock")
 		stockLabel:SizeToContents()
 		stockLabel:SetPos(frame:GetWide() - buttonPadding - npcFrame:GetWide()/2 - stockLabel:GetWide()/2, npcFrame:GetTall() + 140)
@@ -335,7 +335,7 @@ function openMerchant(name, items)
 			surface.DrawRect(0, 0, w, h)
 		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_SLEEK_GREEN)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -365,10 +365,10 @@ function openMerchant(name, items)
 
 
 				if self.hovered then
-					surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+					surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-					surface.SetDrawColor(COLOR_SLEEK_GREEN)
+					surface.SetDrawColor(COLOR_FOREGROUND)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end
 			end
@@ -415,7 +415,7 @@ function openMerchant(name, items)
 
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
-			valueLabel:SetTextColor(COLOR_SLEEK_GREEN)
+			valueLabel:SetTextColor(COLOR_FOREGROUND)
 			valueLabel:SetText("Caps: " ..itemValue)
 			valueLabel:SizeToContents()
 			valueLabel:SetPos(itemBox:GetWide() - valueLabel:GetWide() - scrollerW - textPadding, textPadding/2)

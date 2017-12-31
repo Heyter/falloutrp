@@ -40,10 +40,10 @@ function VEHICLES:openMenu()
                     surface.DrawRect(0, 0, w, h)
 
                     if self.hovered then
-                        surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+                        surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                         surface.DrawRect(0, 0, w, h)
 
-                        surface.SetDrawColor(COLOR_SLEEK_GREEN)
+                        surface.SetDrawColor(COLOR_FOREGROUND)
                         surface.DrawOutlinedRect(0, 0, w, h)
                     end
                 end
@@ -61,7 +61,7 @@ function VEHICLES:openMenu()
                 itemLabel:SetFont("FalloutRP2")
                 itemLabel:SetText("Spawn " ..k)
                 itemLabel:SizeToContents()
-                itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+                itemLabel:SetTextColor(COLOR_FOREGROUND)
                 itemBox.OnCursorEntered = function(self)
                     self.hovered = true
                     surface.PlaySound("pepboy/click2.wav")
@@ -71,7 +71,7 @@ function VEHICLES:openMenu()
                 itemBox.OnCursorExited = function(self)
                     self.hovered = false
 
-                    itemLabel:SetTextColor(COLOR_SLEEK_GREEN)
+                    itemLabel:SetTextColor(COLOR_FOREGROUND)
                 end
 
                 layout:Add(itemBox)

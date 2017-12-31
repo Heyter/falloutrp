@@ -64,23 +64,23 @@ function openCrafting()
 		itemType:SetPos(buttonPadding + offsetX, 50)
 		itemType:SetFont("FalloutRP3")
 		itemType:SetText(idTypes[i])
-		itemType:SetTextColor(COLOR_SLEEK_GREEN)
+		itemType:SetTextColor(COLOR_FOREGROUND)
 		itemType.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
 
 			// The button is highlighted
 			if self.hovered then
-				surface.SetDrawColor(COLOR_SLEEK_GREEN)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 
 			// The button is selected
 			if self.selected and (currentSelectedButton == self) then
-				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+				surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_SLEEK_GREEN)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -100,7 +100,7 @@ function openCrafting()
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
-				currentSelectedButton:SetTextColor(COLOR_SLEEK_GREEN)
+				currentSelectedButton:SetTextColor(COLOR_FOREGROUND)
 			end
 
 			currentSelectedButton = self
@@ -154,7 +154,7 @@ function openCrafting()
 			surface.DrawRect(0, 0, w, h)
 		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_SLEEK_GREEN)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -177,16 +177,16 @@ function openCrafting()
 
 
 					if self.selected and (currentItem == self) then
-						surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+						surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-						surface.SetDrawColor(COLOR_SLEEK_GREEN)
+						surface.SetDrawColor(COLOR_FOREGROUND)
 						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 					elseif self.hovered then
-						surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+						surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-						surface.SetDrawColor(COLOR_SLEEK_GREEN)
+						surface.SetDrawColor(COLOR_FOREGROUND)
 						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 					end
 				end
@@ -277,7 +277,7 @@ function openCrafting()
 
 		local required = vgui.Create("DLabel", infoFrame)
 		required:SetFont("FalloutRP2")
-		required:SetTextColor(COLOR_SLEEK_GREEN)
+		required:SetTextColor(COLOR_FOREGROUND)
 		required:SetText("Requires:")
 		required:SetPos(10, 155)
 		required:SizeToContents()

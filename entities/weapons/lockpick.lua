@@ -260,7 +260,7 @@ function SWEP:PrimaryAttack()
 			draw.DrawText( "Hold 'A' to turn the lock", "TargetID", x + baseW/2, y + baseH + 50, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
 
 			-- Black background behind the inside lock just to make sure no transparency peeks through
-			surface.SetDrawColor( COLOR_SLEEK_BLACK )
+			surface.SetDrawColor( COLOR_BACKGROUND )
 			surface.DrawRect( x + baseW/4, y + baseH/4, baseW/2, baseH/2 )
 
 			-- The outside lock

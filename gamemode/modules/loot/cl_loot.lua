@@ -51,10 +51,10 @@ function openLoot(ent, loot)
 			surface.DrawRect(0, 0, w, h)
 
 			if self.hovered then
-				surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+				surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_SLEEK_GREEN)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end

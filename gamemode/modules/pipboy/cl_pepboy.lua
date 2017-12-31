@@ -16,8 +16,8 @@ local scrH = ScrH
 -- MINIMUM RESOLUTION = 1024 x 660
 local localplayer = LocalPlayer
 
-PEPBOY_COLOR = Color( 34, 254, 140, 150 )
-local PEPBOY_COLOR_DISABLED = Color( 34, 254, 140, 30 )
+PEPBOY_COLOR = Color(52, 152, 219, 255)
+local PEPBOY_COLOR_DISABLED = Color(52, 152, 219, 30)
 
 local PEPBOY_SIZE_X = 768
 local PEPBOY_SIZE_Y = 626
@@ -1454,10 +1454,10 @@ function VGUI:Init()
 						surface.DrawRect(0, 0, w, h)
 
 						if self.hovered then
-							surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+							surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 							surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-							surface.SetDrawColor(COLOR_SLEEK_GREEN)
+							surface.SetDrawColor(COLOR_FOREGROUND)
 							surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 						end
 					end
@@ -1476,7 +1476,7 @@ function VGUI:Init()
 					playerLabel:SetFont("FalloutRP2")
 					playerLabel:SetText(v:getName())
 					playerLabel:SizeToContents()
-					playerLabel:SetTextColor(COLOR_SLEEK_GREEN)
+					playerLabel:SetTextColor(COLOR_FOREGROUND)
 
 					playerBox.OnCursorEntered = function(self)
 						self.hovered = true
@@ -1487,7 +1487,7 @@ function VGUI:Init()
 					playerBox.OnCursorExited = function(self)
 						self.hovered = false
 
-						playerLabel:SetTextColor(COLOR_SLEEK_GREEN)
+						playerLabel:SetTextColor(COLOR_FOREGROUND)
 					end
 
 					layout:Add(playerBox)
@@ -1519,7 +1519,7 @@ function VGUI:Init()
 				xpShare:SetSize(50, 50)
 				xpShare:SetPos(50, offset)
 				xpShare:SetFont("FalloutRP3")
-				xpShare:SetTextColor(COLOR_SLEEK_GREEN)
+				xpShare:SetTextColor(COLOR_FOREGROUND)
 				xpShare:SetText("Exp Sharing")
 				xpShare:SetValue(settings.xpShare)
 
@@ -1530,7 +1530,7 @@ function VGUI:Init()
 			playerHud:SetSize(50, 50)
 			playerHud:SetPos(50, offset)
 			playerHud:SetFont("FalloutRP3")
-			playerHud:SetTextColor(COLOR_SLEEK_GREEN)
+			playerHud:SetTextColor(COLOR_FOREGROUND)
 			playerHud:SetText("Hide Party HUD")
 			playerHud:SetValue(tobool(LocalPlayer().partyHidePlayers))
 

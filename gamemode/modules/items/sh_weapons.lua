@@ -1,5 +1,5 @@
 
-local Weapons = {}
+local Weapons = Weapons or {}
 
 local mt = {
 	__call = function(table, id, name, type, slot, rarity, entity, model, durability, weight, value, level, minDamage, maxDamage, criticalChance, actionPoints, ammoType)

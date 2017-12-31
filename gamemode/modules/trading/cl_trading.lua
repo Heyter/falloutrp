@@ -146,7 +146,7 @@ function openTrade()
         surface.SetDrawColor(Color(0, 0, 0, 0))
         surface.DrawRect(0, 0, w, h)
 
-        surface.SetDrawColor(COLOR_SLEEK_GREEN)
+        surface.SetDrawColor(COLOR_FOREGROUND)
         surface.DrawOutlinedRect(0, 0, w, h)
     end
     local buttonW, buttonH, buttonPadding, offsetX = inventory:GetWide()/6, 50, (inventory:GetWide()/6)/6, 0
@@ -156,23 +156,23 @@ function openTrade()
         inventoryType:SetPos(buttonPadding + offsetX, 10)
         inventoryType:SetFont("FalloutRP2")
         inventoryType:SetText(inventoryTypes[i])
-        inventoryType:SetTextColor(COLOR_SLEEK_GREEN)
+        inventoryType:SetTextColor(COLOR_FOREGROUND)
         inventoryType.Paint = function(self, w, h)
             surface.SetDrawColor(Color(0, 0, 0, 0))
             surface.DrawRect(0, 0, w, h)
 
             // The button is highlighted
             if self.hovered then
-                surface.SetDrawColor(COLOR_SLEEK_GREEN)
+                surface.SetDrawColor(COLOR_FOREGROUND)
                 surface.DrawOutlinedRect(0, 0, w, h)
             end
 
             // The button is selected
             if self.selected and (currentSelectedButton == self) then
-                surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+                surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                 surface.DrawRect(0, 0, w, h)
 
-                surface.SetDrawColor(COLOR_SLEEK_GREEN)
+                surface.SetDrawColor(COLOR_FOREGROUND)
                 surface.DrawOutlinedRect(0, 0, w, h)
             end
         end
@@ -192,7 +192,7 @@ function openTrade()
             if currentSelectedButton then
                 // Reset the old button to not be selected
                 currentSelectedButton.selected = false
-                currentSelectedButton:SetTextColor(COLOR_SLEEK_GREEN)
+                currentSelectedButton:SetTextColor(COLOR_FOREGROUND)
             end
 
             currentSelectedButton = self
@@ -212,7 +212,7 @@ function openTrade()
         surface.SetDrawColor(Color(0, 0, 0, 0))
         surface.DrawRect(0, 0, w, h)
 
-        surface.SetDrawColor(COLOR_SLEEK_GREEN)
+        surface.SetDrawColor(COLOR_FOREGROUND)
         surface.DrawOutlinedRect(0, 0, w, h)
     end
 
@@ -223,7 +223,7 @@ function openTrade()
         surface.SetDrawColor(Color(0, 0, 0, 0))
         surface.DrawRect(0, 0, w, h)
 
-        surface.SetDrawColor(COLOR_SLEEK_GREEN)
+        surface.SetDrawColor(COLOR_FOREGROUND)
         surface.DrawOutlinedRect(0, 0, w, h)
     end
 
@@ -281,10 +281,10 @@ function openTrade()
                 surface.DrawRect(0, 0, w, h)
 
                 if self.hovered then
-                    surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+                    surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                     surface.DrawRect(0, 0, w, h)
 
-                    surface.SetDrawColor(COLOR_SLEEK_GREEN)
+                    surface.SetDrawColor(COLOR_FOREGROUND)
                     surface.DrawOutlinedRect(0, 0, w, h)
                 end
             end
@@ -366,7 +366,7 @@ function openTrade()
         local caps = vgui.Create("DLabel", inventory)
         local itemsX, itemsY = menu:GetPos()
         caps:SetPos(itemsX, itemsY + menu:GetTall() + textPadding*2)
-        caps:SetTextColor(COLOR_SLEEK_GREEN)
+        caps:SetTextColor(COLOR_FOREGROUND)
         caps:SetFont("FalloutRP2")
         caps:SetText("Caps: " ..string.Comma(currentCaps))
         caps:SizeToContents()
@@ -437,10 +437,10 @@ function openTrade()
                 surface.DrawRect(0, 0, w, h)
 
                 if self.hovered then
-                    surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+                    surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                     surface.DrawRect(0, 0, w, h)
 
-                    surface.SetDrawColor(COLOR_SLEEK_GREEN)
+                    surface.SetDrawColor(COLOR_FOREGROUND)
                     surface.DrawOutlinedRect(0, 0, w, h)
                 end
             end
@@ -516,7 +516,7 @@ function openTrade()
         local caps = vgui.Create("DLabel", menu)
         local itemsX, itemsY = container:GetPos()
         caps:SetPos(itemsX, itemsY + container:GetTall() + textPadding)
-        caps:SetTextColor(COLOR_SLEEK_GREEN)
+        caps:SetTextColor(COLOR_FOREGROUND)
         caps:SetFont("FalloutRP1")
         caps:SetText("Caps: " ..LocalPlayer().trade[LocalPlayer()].offer.caps)
         caps:SizeToContents()
@@ -617,10 +617,10 @@ function openTrade()
                 surface.DrawRect(0, 0, w, h)
 
                 if self.hovered then
-                    surface.SetDrawColor(COLOR_SLEEK_GREEN_FADE)
+                    surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                     surface.DrawRect(0, 0, w, h)
 
-                    surface.SetDrawColor(COLOR_SLEEK_GREEN)
+                    surface.SetDrawColor(COLOR_FOREGROUND)
                     surface.DrawOutlinedRect(0, 0, w, h)
                 end
             end
@@ -663,7 +663,7 @@ function openTrade()
         local caps = vgui.Create("DLabel", menu)
         local itemsX, itemsY = container:GetPos()
         caps:SetPos(itemsX, itemsY + container:GetTall() + textPadding)
-        caps:SetTextColor(COLOR_SLEEK_GREEN)
+        caps:SetTextColor(COLOR_FOREGROUND)
         caps:SetFont("FalloutRP1")
         caps:SetText("Caps: " ..string.Comma(LocalPlayer().trade[otherTrader].offer.caps))
         caps:SizeToContents()
@@ -677,7 +677,7 @@ function openTrade()
             local statusText = vgui.Create("DLabel", menu)
             local capsX, capsY = caps:GetPos()
             statusText:SetFont("FalloutRP1")
-            statusText:SetTextColor(COLOR_SLEEK_GREEN)
+            statusText:SetTextColor(COLOR_FOREGROUND)
             statusText:SetText("Status: " ..getThemStatus())
             statusText:SizeToContents()
             statusText:SetPos(itemsX + container:GetWide() - statusText:GetWide(), capsY)

@@ -6,3 +6,8 @@ net.Receive("addExperience", function(len, ply)
 		ply.playerData["experience"] = exp
 	end
 end)
+
+local function experienceDraw()
+
+end
+hook.Add("HUDPaint", "experienceDraw", experienceDraw)
