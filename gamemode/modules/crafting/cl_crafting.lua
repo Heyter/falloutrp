@@ -263,7 +263,8 @@ function openCrafting()
 		icon:SetPos(infoFrame:GetWide()/2 - icon:GetWide()/2, 25)
 		// There is no model for apparels yet
 		if !isApparel(id) then
-			icon:SetModel(getItemModel(id))
+			local itemMeta = findItem(id)
+			icon:SetModel(itemMeta:getModel())
 		end
 		icon.OnCursorEntered = function(self)
 			local frameX, frameY = frame:GetPos()

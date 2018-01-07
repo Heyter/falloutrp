@@ -1,5 +1,8 @@
 ITEM = {}
 
+function ITEM:getId()
+	return self.id
+end
 function ITEM:getName()
 	return self.name
 end

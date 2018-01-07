@@ -56,9 +56,9 @@ local AMMO_ICONS = {
 	["buckshot"] = Material( "models/pepboy/item_icon_shotgun_ammo" )
 }
 
-if file.Exists( "pepboy/settings.txt", "DATA" ) then
+if file.Exists( "pepboy/color_settings.txt", "DATA" ) then
 
-	local colStr = file.Read( "pepboy/settings.txt" )
+	local colStr = file.Read( "pepboy/color_settings.txt" )
 	local colT = string.Explode( ";", colStr )
 
 	PEPBOY_COLOR = Color( math.Clamp( tonumber( colT[1] ), 0, 255 ), math.Clamp( tonumber( colT[2] ), 0, 255 ), math.Clamp( tonumber( colT[3] ), 0, 255 ), math.Clamp( tonumber( colT[4] ), 30, 255 ) )
@@ -67,7 +67,7 @@ if file.Exists( "pepboy/settings.txt", "DATA" ) then
 else
 
 	file.CreateDir( "pepboy" )
-	file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+	file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 end
 
@@ -2134,7 +2134,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( self.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2155,7 +2155,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( self.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2175,7 +2175,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( PEPBOY_COLOR.r, self.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2196,7 +2196,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( PEPBOY_COLOR.r, self.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2216,7 +2216,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, self.b, PEPBOY_COLOR.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2237,7 +2237,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, self.b, PEPBOY_COLOR.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2256,7 +2256,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, self.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 
@@ -2276,7 +2276,7 @@ function VGUI:Init()
 		PEPBOY_COLOR = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, self.a )
 		PEPBOY_COLOR_DISABLED = Color( PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, PEPBOY_COLOR.a/4)
 
-		file.Write( "pepboy/settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
+		file.Write( "pepboy/color_settings.txt", PEPBOY_COLOR.r .. ";" .. PEPBOY_COLOR.g .. ";" .. PEPBOY_COLOR.b .. ";" .. PEPBOY_COLOR.a )
 
 	end
 

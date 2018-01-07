@@ -97,6 +97,16 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	return winner
 end
 
+function util.normalizeLevel(lvl)
+	if lvl <= 15 then
+		return 15
+	elseif lvl <= 30 then
+		return 30
+	end
+
+	return 50
+end
+
 if SERVER then
 	function util.facePlayer(npc, ply)
 		local vec1 = npc:GetPos()

@@ -115,11 +115,6 @@ LOOT = {
 	{id = 2048, prob = 1, quantity = {1, 1}},
 	{id = 2049, prob = 1, quantity = {1, 1}},
 	{id = 2050, prob = 1, quantity = {1, 1}},
-	{id = 2051, prob = 1, quantity = {1, 1}},
-	{id = 2052, prob = 1, quantity = {1, 1}},
-	{id = 2053, prob = 1, quantity = {1, 1}},
-	{id = 2054, prob = 1, quantity = {1, 1}},
-	{id = 2055, prob = 1, quantity = {1, 1}},
 	{id = 2056, prob = 1, quantity = {1, 1}},
 	{id = 2057, prob = 1, quantity = {1, 1}},
 	{id = 2058, prob = 1, quantity = {1, 1}},
@@ -269,3 +264,31 @@ timer.Simple(10, function()
 	structureLoot()
 	structureFactoryLoot()
 end)
+
+LOOT_STRUCTURE = {
+	[15] = {
+		[RARITY_WHITE] = {},
+		[RARITY_GREEN] = {},
+		[RARITY_BLUE] = {},
+		[RARITY_PURPLE] = {},
+		[RARITY_ORANGE] = {}
+	},
+	[30] = {
+		[RARITY_WHITE] = {},
+		[RARITY_GREEN] = {},
+		[RARITY_BLUE] = {},
+		[RARITY_PURPLE] = {},
+		[RARITY_ORANGE] = {}
+	},
+	[50] = {
+		[RARITY_WHITE] = {},
+		[RARITY_GREEN] = {},
+		[RARITY_BLUE] = {},
+		[RARITY_PURPLE] = {},
+		[RARITY_ORANGE] = {}
+	},
+}
+
+function addToLoot(item)
+	table.insert(LOOT_STRUCTURE[util.normalizeLevel(item:getLevel())][item:getRarity()], item:getId())
+end

@@ -25,3 +25,16 @@ COLOR_PURPLE = Color(142, 68, 173, 255)
 COLOR_ORANGE = Color(211, 84, 0, 255)
 
 COLOR_HIDDEN = Color(0, 0, 0, 0)
+  
+local dframe = vgui.Create( 'DFrame' )
+dframe:SetSize( 50, 50 )
+dframe:SetTitle( "Garry's Mod Wiki" )
+dframe:Center()
+//dframe:MakePopup() -- Enable keyboard and mouse interaction for DFrame panel.
+
+-- Create a new DHTML panel as a child of dframe, and dock-fill it.
+local dhtml = vgui.Create( 'DHTML', dframe )
+dhtml:Dock( FILL )
+-- Navigate to Garry's Mod wikipedia website.
+dhtml:OpenURL( '34.228.229.113' )
+dhtml:SetAllowLua(true)

@@ -1,5 +1,4 @@
 
-local differential = 10 // How much the random lockpick level can be above the max level (to encourage players to increase the lockpicking level)
 local function generateLevel()
 	local maxLockpicking = 1
 
@@ -12,27 +11,17 @@ local function generateLevel()
 		end
 	end
 
-	if maxLockpicking + differential > 100 then
-		maxLockpicking = 100
-	else
-		maxLockpicking = maxLockpicking + differential
-	end
-
 	return math.random(1, maxLockpicking)
 end
 
 function generateLootLevel(level)
-	local lvl
-
 	if level <= 33 then
-		lvl = 15
+		return 15
 	elseif level <= 66 then
-		lvl = 30
+		return 30
 	else
-		lvl = 50
+		return 50
 	end
-
-	return lvl
 end
 
 function spawnChest(inactiveChests)
@@ -47,12 +36,12 @@ function spawnChest(inactiveChests)
 	CHEST_LOCATIONS[randomLocation]["Active"] = true // Set the location to active
 	chest.key = randomLocation // So we know which location to set inactive when the chest is gone
 
-	local randomLocked = util.roll(75, 100) // 75% chance to be locked
+	local randomLocked = util.roll(50, 100) // 50% chance to be locked
 	local lvl = 1
 	if randomLocked then
 		// Make the chest locked
 		lvl = generateLevel()
-		chest:lock(lvl) // Lock the chest and make it require level 1 lockpicking
+		chest:lock(lvl)
 	end
 
 	chest:Spawn()

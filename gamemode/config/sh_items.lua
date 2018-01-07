@@ -1,3 +1,4 @@
+CRITICAL_MULTIPLIER = 1.5 // How much critical hits are multiplied by
 
 // DO NOT TOUCH
 TYPE_CAP = 0
@@ -13,6 +14,18 @@ RARITY_BLUE = 2
 RARITY_PURPLE = 3
 RARITY_ORANGE = 4
 
+local rarityProbability = {
+    [RARITY_WHITE] = 7,
+    [RARITY_GREEN] = 3,
+    [RARITY_BLUE] = 1.5,
+    [RARITY_PURPLE] = 0.2,
+    [RARITY_ORANGE] = 0.01
+}
+
+function getRarityProbability(rarity)
+    return rarityProbability[rarity]
+end
+
 local rarityColors = {
     [RARITY_WHITE] = COLOR_WHITE,
     [RARITY_GREEN] = COLOR_GREEN,
@@ -24,5 +37,3 @@ local rarityColors = {
 function getRarityColor(rarity)
     return rarityColors[rarity]
 end
-
-CRITICAL_MULTIPLIER = 1.5 // How much critical hits are multiplied by

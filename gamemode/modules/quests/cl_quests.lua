@@ -481,7 +481,8 @@ function acceptQuestMenu(questGiver, questId, finish)
             icon:SetPos(50 + itemOffset, lastY + lastTall + 5)
             // There is no model for apparels yet
             if !isApparel(k) then
-                icon:SetModel(getItemModel(k))
+				local itemMeta = findItem(k)
+                icon:SetModel(itemMeta:getModel())
             end
             icon.OnCursorEntered = function(self)
                 local frameX, frameY = acceptMenu:GetPos()
