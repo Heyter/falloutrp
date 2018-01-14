@@ -45,6 +45,15 @@ end
 function ITEM:getQuest()
 	return self.quest
 end
+function ITEM:getCategory()
+	local id = self:getId()
+	if isWeapon(id) then return "WEAPONS"
+		elseif isApparel(id) then return "APPAREL"
+		elseif isAmmo(id) then return "AMMO"
+		elseif isAid(id) then return "AID"
+		elseif isMisc(id) then return "MISC"
+	end
+end
 
 local caps = {name = "Caps"}
 setmetatable(caps, {__index = ITEM})

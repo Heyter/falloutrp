@@ -341,7 +341,7 @@ function openCrafting()
 
 			// The player has enough of the required item
 			if owned >= amount then
-				materialOwned:SetTextColor(COLOR_LIGHTGREEN)
+				materialOwned:SetTextColor(COLOR_GREEN)
 			else
 				// The player does not have enough of the required item
 				craft:SetDisabled()

@@ -14,22 +14,33 @@ RARITY_BLUE = 2
 RARITY_PURPLE = 3
 RARITY_ORANGE = 4
 
-local rarityProbability = {
-    [RARITY_WHITE] = 7,
-    [RARITY_GREEN] = 3,
-    [RARITY_BLUE] = 1.5,
-    [RARITY_PURPLE] = 0.2,
-    [RARITY_ORANGE] = 0.01
+local rarityWorld = {
+    [RARITY_WHITE] = 3000,
+    [RARITY_GREEN] = 1000,
+    [RARITY_BLUE] = 250,
+    [RARITY_PURPLE] = 30,
+    [RARITY_ORANGE] = 1
 }
 
-function getRarityProbability(rarity)
-    return rarityProbability[rarity]
+function getRarityWorld()
+    return rarityWorld
+end
+
+local rarityFactories = {
+    [RARITY_GREEN] = 1000,
+    [RARITY_BLUE] = 250,
+    [RARITY_PURPLE] = 30,
+    [RARITY_ORANGE] = 1
+}
+
+function getRarityFactories()
+    return rarityFactories
 end
 
 local rarityColors = {
     [RARITY_WHITE] = COLOR_WHITE,
     [RARITY_GREEN] = COLOR_GREEN,
-    [RARITY_BLUE] = COLOR_BLUE,
+    [RARITY_BLUE] = COLOR_DARKBLUE,
     [RARITY_PURPLE] = COLOR_PURPLE,
     [RARITY_ORANGE] = COLOR_ORANGE
 }

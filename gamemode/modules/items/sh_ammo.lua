@@ -4,6 +4,7 @@ local Ammo = Ammo or {}
 local mt = {
 	__call = function(table, id, name, rarity, type, entity, model, weight, value)
 		local ammo = {
+			id = id,
 			name = name,
 			rarity = rarity,
 			type = type,
@@ -13,6 +14,8 @@ local mt = {
 			value = value,
 		}
 		setmetatable(ammo, {__index = ITEM})
+
+		addToLoot(ammo)
 
 		Ammo[id] = ammo
 		return ammo

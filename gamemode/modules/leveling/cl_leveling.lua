@@ -12,13 +12,13 @@ local function experienceDraw()
 		local screenW, screenH, h = ScrW(), ScrH(), ScreenScale(12)
 		local color = util.getPepboyColor()
 
-		local curExp = LocalPlayer():getCurrentLevelExp()
+		local curExp = LocalPlayer():getExp()
 		local nextExp = LocalPlayer():getNextLevelExp()
 
 		surface.SetDrawColor(COLOR_BACKGROUND_FADE)
 		surface.DrawRect(0, screenH - h, screenW, h + 1)
 
-		surface.SetDrawColor(COLOR_GREEN)
+		surface.SetDrawColor(COLOR_DARKGREEN)
 		surface.DrawRect(0, screenH - h, (curExp / nextExp) * screenW, h + 1)
 
 		surface.SetDrawColor(COLOR_BLACK)

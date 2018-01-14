@@ -4,6 +4,7 @@ local Weapons = Weapons or {}
 local mt = {
 	__call = function(table, id, name, type, slot, rarity, entity, model, durability, weight, value, level, minDamage, maxDamage, criticalChance, actionPoints, ammoType)
 		local weapon = {
+			id = id,
 			name = name,
 			type = type,
 			slot = slot,
@@ -22,8 +23,6 @@ local mt = {
 		}
 		setmetatable(weapon, {__index = ITEM})
 
-		addToLoot(weapon)
-
 		function weapon:getMinDamage()
 			return self.minDamage
 		end
@@ -39,6 +38,8 @@ local mt = {
 		function weapon:getAmmoType()
 			return self.ammoType or ""
 		end
+
+		addToLoot(weapon)
 
 		Weapons[id] = weapon
 		return weapon

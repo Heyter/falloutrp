@@ -4,6 +4,7 @@ local Aid = Aid or {}
 local mt = {
 	__call = function(table, id, name, rarity, model, weight, value, healthPercent, health, timeInterval, timeLength, hunger, thirst)
 		local aid = {
+			id = id,
 			name = name,
 			rarity = rarity,
 			model = model,
@@ -35,12 +36,14 @@ local mt = {
 		end
 		function aid:getThirst()
 			return self.thirst
-		end
+		end 
 		function aid:getHealthOverTime()
 			if self.health and self.timeLength then
 				return self.health .." HP over " ..self.timeLength .." seconds"
 			end
 		end
+
+		addToLoot(aid)
 
 		Aid[id] = aid
 		return aid

@@ -11,7 +11,8 @@ COLOR_BROWN = Color(127, 95, 15, 255)
 COLOR_BLACK = Color(40, 40, 40, 255)
 COLOR_BLACKFADE = Color(40, 40, 40, 195)
 COLOR_RED = Color(255, 0, 0, 255)
-COLOR_LIGHTGREEN = Color(20, 180, 15, 255)
+COLOR_DARKGREEN = Color(39, 174, 96, 255)
+COLOR_BLUE = Color(52, 152, 219, 255)
 COLOR_GRAY = Color(145, 145, 145, 255)
 
 // Used to double up frames and make it look sleeker
@@ -19,22 +20,9 @@ COLOR_TRANSLUCENT = Color(0, 0, 0, 170)
 
 // Rarity colors
 COLOR_WHITE = Color(255, 255, 255, 255)
-COLOR_GREEN = Color(5, 55, 15, 255)
-COLOR_BLUE = Color(52, 152, 219, 255)
+COLOR_GREEN = Color(46, 204, 113, 255)
+COLOR_DARKBLUE= Color(41, 128, 185, 255)
 COLOR_PURPLE = Color(142, 68, 173, 255)
 COLOR_ORANGE = Color(211, 84, 0, 255)
 
 COLOR_HIDDEN = Color(0, 0, 0, 0)
-  
-local dframe = vgui.Create( 'DFrame' )
-dframe:SetSize( 50, 50 )
-dframe:SetTitle( "Garry's Mod Wiki" )
-dframe:Center()
-//dframe:MakePopup() -- Enable keyboard and mouse interaction for DFrame panel.
-
--- Create a new DHTML panel as a child of dframe, and dock-fill it.
-local dhtml = vgui.Create( 'DHTML', dframe )
-dhtml:Dock( FILL )
--- Navigate to Garry's Mod wikipedia website.
-dhtml:OpenURL( '34.228.229.113' )
-dhtml:SetAllowLua(true)

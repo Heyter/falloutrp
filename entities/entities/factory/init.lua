@@ -89,7 +89,7 @@ function ENT:addItem(item, ply)
 		self.loot[ply][self.iteration] = item
 	end
 
-	// Increate the iteration for the slot of the next item
+	// Increase the iteration for the slot of the next item
 	self.iteration = self.iteration + 1
 end
 
@@ -105,39 +105,37 @@ local function getLootLevel(ply)
 	end
 end
 
-function ENT:addRandomItem(ply)
-	local lvl = getLootLevel(ply)
-	local type = self:getInfo().Type
-	local itemTable = LOOT_FACTORIES[lvl][type]
-
-	local place = self:GetPlace()
-	local chosen
-	local quantity = 1
-
-	/*
-	if place == "Ammunition Factory" or place == "Materials Factory" then
-		quantity = math.random(1, 10)
+local function getRandomItem(items, rarity)
+	// Workaround for categories that only have white rarity
+	if rarity > RARITY_ORANGE then
+		rarity = RARITY_WHITE
 	end
-	*/
 
-	for k, item in pairs(itemTable) do
-		if !chosen then
-			local roll = util.roll((item.prob + (item.prob * ply:getLuckModifier())) * 5, 100)
 
-			if roll then
-				quantity = math.random(item.quantity[1], item.quantity[2])
-				chosen = createItem(item.id, quantity)
-			end
+	if items[rarity] and #items[rarity] <= 0 then
+		return getRandomItem(items, rarity + 1)
+	else
+		return items[rarity][math.random(1, #items[rarity])]
+	end
+end
+
+function ENT:addRandomItem(ply)
+	local level = util.normalizeLevel(ply:getLevel())
+	local type = self:getInfo().Type
+	local rarities = getRarityFactories()
+	local item
+
+	local roll = math.random(1, 1000)
+
+	for i = RARITY_ORANGE, RARITY_GREEN, -1 do
+		chance = rarities[i]
+		if roll <= chance then
+			self:addItem(createItem(getRandomItem(LOOT_STRUCTURE_FACTORY[level][type], i)), ply)
+			ply:notify("An item has been added for you at the " ..self:GetPlace() ..", use the factory to loot it!", NOTIFY_HINT, 10)
+
+			return
 		end
 	end
-
-	if !chosen then
-		chosen = createItem(self:getInfo().Default, quantity)
-	end
-
-	self:addItem(chosen, ply)
-
-	ply:notify("An item has been added for you at the " ..place ..", use the factory to loot it!", NOTIFY_HINT, 10)
 end
 
 function ENT:hasLoot(ply)

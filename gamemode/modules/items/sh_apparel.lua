@@ -4,6 +4,7 @@ local Apparel = Apparel or {}
 local mt = {
 	__call = function(table, id, name, rarity, slot, model, durability, weight, value, level, minDamageThreshold, maxDamageThreshold, minDamageReflection, maxDamageReflection, minBonusHp, maxBonusHp)
 		local apparel = {
+			id = id,
 			name = name,
 			rarity = rarity,
 			slot = slot,
@@ -49,6 +50,8 @@ local mt = {
 			return self.maxBonusHp
 		end
 
+		addToLoot(apparel)
+
 		Apparel[id] = apparel
 		return apparel
 	end
@@ -92,7 +95,7 @@ timer.Simple(5, function()
 	//Level 1
 	// Cloth
 	Apparel(2003, "Green Rag Hat", RARITY_WHITE, "helmet", "IDK", 800, 0.5, 400, 1, 1, 1, 0, 0, 1, 2)
-	Apparel(2018, "Green Rags", "chest", RARITY_WHITE, "IDK", 1105, 2.5, 500, 1, 1, 3, 0, 0, 1, 3)
+	Apparel(2018, "Green Rags", RARITY_WHITE, "chest", "IDK", 1105, 2.5, 500, 1, 1, 3, 0, 0, 1, 3)
 	Apparel(2030, "Raggedy Green Slacks", RARITY_WHITE, "pants", "IDK", 900, 2.3, 350, 1, 1, 2, 0, 0, 1, 1)
 	Apparel(2073, "Ripped Green Sneakers ", RARITY_WHITE, "shoes", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)
 	Apparel(2086, "Ragged Green Gloves", RARITY_WHITE, "gloves", "IDK", 650, 1.2, 250, 1, 1, 1, 0, 0, 1, 1)

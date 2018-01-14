@@ -4,6 +4,7 @@ local Misc = Misc or {}
 local mt = {
 	__call = function(table, id, name, rarity, model, weight, value, material, quest)
 		local misc = {
+			id = id,
 			name = name,
 			rarity = rarity,
 			model = model,
@@ -17,6 +18,8 @@ local mt = {
 		function misc:isMaterial()
 			return self.material
 		end
+
+		addToLoot(misc)
 
 		Misc[id] = misc
 		return misc
