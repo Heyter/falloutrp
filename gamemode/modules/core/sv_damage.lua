@@ -2,6 +2,104 @@ util.AddNetworkString("damagePopup")
 
 local meta = FindMetaTable("Player")
 
+hook.Add("EntityTakeDamage", "ModifyDamage", function(target, dmgInfo)
+	local inflictor = dmgInfo:GetInflictor()
+	local attacker = dmgInfo:GetAttacker()
+	local damageType = dmgInfo:GetDamageType()
+	local damage = dmgInfo:GetDamage()
+
+	local crit, drawMarker = false, false
+
+	if IsValid(attacker) and IsValid(target) then
+		if attacker:IsPlayer() then
+			if attacker.spawnProtected then
+				damage = 0
+
+				if !attacker.lastSpawnProtectionNotify || (attacker.lastSpawnProtectionNotify < CurTime()) then
+					attacker:notify("You can't damage others while spawn protected.", NOTIFY_ERROR)
+
+					attacker.lastSpawnProtectionNotify = CurTime() + 3
+				end
+			else
+				// Add Damage
+				local weapon = attacker:GetActiveWeapon()
+				local weaponSlot = weapon.slot
+
+				local item = attacker.equipped.weapons[weaponSlot] // The actual item that the player is equipping
+				if item then
+					local itemMeta = findItem(item.classid)
+					local uniqueid = item.uniqueid
+
+					damageType = itemMeta:getType()
+					local critChance = itemMeta:getCriticalChance()
+					damage = attacker:getWeaponDamage(uniqueid)
+
+					if util.roll(critChance + (critChance * attacker:getAgilityCriticalHitChance())) then
+						crit = true
+
+						damage = (damage * CRITICAL_MULTIPLIER)
+						damage = damage + (damage * (attacker:getPerceptionCriticalHitDamage() + attacker:getFactionCriticalHitDamage()))
+					end
+
+					// Unarmed and Explosives will need to be handled seperately
+					if damageType == DMG_BULLET then
+						damage = damage + (damage * (attacker:getGunsDamage() + attacker:getFactionGunsDamage()))
+					elseif damageType == DMG_ENERGYBEAM then
+						damage = damage + (damage * (attacker:getEnergyWeaponsDamage() + attacker:getFactionEnergyWeaponsDamage()))
+					elseif (damageType == DMG_SLASH) or (damageType == DMG_CLUB) then
+						damage = damage + (damage * (attacker:getMeleeWeaponsDamage() + attacker:getFactionMeleeWeaponsDamage()))
+					elseif damageType == DMG_PLASMA then
+						damage = damage + (damage * attacker:getScienceDamage())
+					end
+				end
+			end
+
+			if target:IsPlayer() then
+				// Reduce Damage
+				damage = damage + (damage * (target:getDamageThreshold() / 100))
+
+				// Reflect Damage
+				local damageReflect = damage * (target:getDamageReflection() / 100)
+				// Make the inflictor worldspawn, so damage reflection isn't a stack overflow
+				if (damageReflect > 0) and (inflictor != Entity(0)) then
+					attacker:TakeDamage(damageReflect, target, Entity(0))
+				end
+
+				if attacker:IsPlayer() then
+					// Head bob
+					if damageType == DMG_CLUB then
+						target:headBob()
+					end
+
+					if damageType == DMG_SLASH then
+						attacker:bleedAttack(target, damage)
+					end
+
+					drawMarker = true
+				end
+			elseif target:IsNPC() then
+				// Increase damage against NPCs by 25%
+				damage = damage * 1.25
+
+				if npcOutOfRange(target, attacker) then
+					attacker:sendDmg(target, -99, damageType, dmgInfo)
+					damage = 0
+				end
+
+				drawMarker = true
+			end
+		elseif attacker:IsNPC() then
+			attacker.lastHit = CurTime()
+		end
+
+		if attacker:IsPlayer() and !attacker.spawnProtected and drawMarker then
+			attacker:sendDmg(target, damage, damageType, dmgInfo, crit)
+		end
+
+		dmgInfo:SetDamage(damage)
+	end
+end)
+
 function meta:headBob()
     if util.roll(1, 3) then
         self:ViewPunch(Angle(math.random(10, 70), math.random(-5, -5), math.random(-170, 170)))

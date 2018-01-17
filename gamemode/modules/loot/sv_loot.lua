@@ -14,7 +14,7 @@ function generateRandomLoot(possibleItems, lvl, chest, luckModifier)
 		luckModifier = luckModifier + .75
 	end
 
-	for k = 0, possibleItems do
+	for k = 1, possibleItems do
 		local roll = math.random(1, 6000)
 
 		for i = RARITY_ORANGE, RARITY_WHITE, -1 do
@@ -34,7 +34,6 @@ function generateRandomLoot(possibleItems, lvl, chest, luckModifier)
 			end
 		end
 	end
-
 
 	return loot
 end
