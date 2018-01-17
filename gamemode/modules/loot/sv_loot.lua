@@ -6,29 +6,35 @@ util.AddNetworkString("lootItem")
 local meta = FindMetaTable("Player")
 
 // Beginning new implemntation
--- function generateRandomLoot(lvl, chest, luckModifier)
---
--- end
-
-
-function generateRandomLoot(lvl, chest, luckModifier)
+function generateRandomLoot(possibleItems, lvl, chest, luckModifier)
 	local loot = {}
-	local modifier = luckModifier or 0
+	local rarities = getRarityWorld()
+	luckModifier = luckModifier or 0
+	if chest then
+		luckModifier = luckModifier + .75
+	end
 
-	for k,v in pairs(LOOT_LEVELS[lvl]) do
-		local prob = v.prob
-		if chest then
-			prob = prob * 50
-		end
+	for k = 0, possibleItems do
+		local roll = math.random(1, 6000)
 
-		local quantity = math.random(v.quantity[1], v.quantity[2])
+		for i = RARITY_ORANGE, RARITY_WHITE, -1 do
+			local chance = rarities[i]
 
-		// Take decimals into account
+			// Only increase rarity of non-white items
+			if i != RARITY_WHITE then
+				chance = math.ceil(chance + (chance * luckModifier))
+			end
 
-		if util.roll((prob + (prob * modifier)) * 10, 10000) then
-			table.insert(loot, #loot + 1, createItem(v.id, quantity))
+			if roll <= chance then
+				local lootTable = LOOT_STRUCTURE[lvl][i]
+				local item = createItem(lootTable[math.random(1, #lootTable)])
+
+				table.insert(loot, #loot + 1, item)
+				break
+			end
 		end
 	end
+
 
 	return loot
 end

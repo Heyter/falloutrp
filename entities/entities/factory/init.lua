@@ -128,8 +128,7 @@ function ENT:addRandomItem(ply)
 	local roll = math.random(1, 1000)
 
 	for i = RARITY_ORANGE, RARITY_GREEN, -1 do
-		chance = rarities[i]
-		if roll <= chance then
+		if roll <= rarities[i] then
 			self:addItem(createItem(getRandomItem(LOOT_STRUCTURE_FACTORY[level][type], i)), ply)
 			ply:notify("An item has been added for you at the " ..self:GetPlace() ..", use the factory to loot it!", NOTIFY_HINT, 10)
 

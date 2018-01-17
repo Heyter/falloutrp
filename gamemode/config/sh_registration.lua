@@ -39,4 +39,4 @@ CRITICALHITCHANCE_MULTIPLIER_AGILITY = 0.03 // How much critical hit chance is i
 MOVEMENT_SPEED_AGILITY = 5 // How much movement speed is increased by for each point of agility
 
 // Luck
-PROBABILITY_MULTIPLIER_LUCK = 0.05
+PROBABILITY_MULTIPLIER_LUCK = 0.03

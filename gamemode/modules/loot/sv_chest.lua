@@ -48,7 +48,7 @@ function spawnChest(inactiveChests)
 
 	lvl = generateLootLevel(lvl)
 
-	local loot = generateRandomLoot(lvl, true)
+	local loot = generateRandomLoot(math.random(10, 20), lvl, true)
 	for k,v in pairs(loot) do
 		chest:addItem(v)
 	end

@@ -13,7 +13,7 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	if IsValid(attacker) and attacker:IsPlayer() then
 		luckModifier = attacker:getLuckModifier()
 	end
-	local randomLoot = generateRandomLoot(getNpcLevel(type), false, luckModifier)
+	local randomLoot = generateRandomLoot(math.random(0, 2), getNpcLevel(type), false, luckModifier)
 	local actualLoot = {}
 
 	for k,v in pairs(npcLoot) do
