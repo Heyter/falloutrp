@@ -7,8 +7,6 @@ local frameW, frameH = 900, 700
 local coinsAdd = Material("icon16/coins_add.png")
 local coinsDelete = Material("icon16/coins_delete.png")
 
-local removeInspect
-
 net.Receive("beginTrade", function()
     local tradeInfo = net.ReadTable()
     LocalPlayer().trade = tradeInfo
@@ -28,12 +26,7 @@ end)
 net.Receive("closeTrade", function()
     LocalPlayer().trade = nil
 
-    if tradeWindow then
-        removeInspect()
-
-        tradeWindow:Remove()
-        tradeWindow = nil
-    end
+    util.cleanupFrame(tradeWindow)
 end)
 
 local function getOtherTrader()
@@ -45,13 +38,6 @@ local function getOtherTrader()
 end
 
 local inventoryTypes = {"WEAPONS", "APPAREL", "AMMO", "AID", "MISC"}
-
-removeInspect = function()
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
-end
 
 local function getYouStatus()
     // 1 = Player can lock in
@@ -81,7 +67,7 @@ local function getThemStatus()
 end
 
 local function offerItem(classid, uniqueid, quantity)
-    removeInspect()
+    util.cleanupFrame(inspect)
 
     local quantity = quantity or 0
 
@@ -93,7 +79,7 @@ local function offerItem(classid, uniqueid, quantity)
 end
 
 local function unofferItem(uniqueid, quantity)
-    removeInspect()
+    util.cleanupFrame(inspect)
 
     local quantity = quantity or 0
 
@@ -160,7 +146,7 @@ function openTrade()
         surface.SetDrawColor(Color(0, 0, 0, 0))
         surface.DrawRect(0, 0, w, h)
 
-        surface.SetDrawColor(COLOR_AMBER)
+        surface.SetDrawColor(COLOR_FOREGROUND)
         surface.DrawOutlinedRect(0, 0, w, h)
     end
     local buttonW, buttonH, buttonPadding, offsetX = inventory:GetWide()/6, 50, (inventory:GetWide()/6)/6, 0
@@ -170,23 +156,23 @@ function openTrade()
         inventoryType:SetPos(buttonPadding + offsetX, 10)
         inventoryType:SetFont("FalloutRP2")
         inventoryType:SetText(inventoryTypes[i])
-        inventoryType:SetTextColor(COLOR_AMBER)
+        inventoryType:SetTextColor(COLOR_FOREGROUND)
         inventoryType.Paint = function(self, w, h)
             surface.SetDrawColor(Color(0, 0, 0, 0))
             surface.DrawRect(0, 0, w, h)
 
             // The button is highlighted
             if self.hovered then
-                surface.SetDrawColor(COLOR_AMBER)
+                surface.SetDrawColor(COLOR_FOREGROUND)
                 surface.DrawOutlinedRect(0, 0, w, h)
             end
 
             // The button is selected
             if self.selected and (currentSelectedButton == self) then
-                surface.SetDrawColor(COLOR_AMBERFADE)
+                surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                 surface.DrawRect(0, 0, w, h)
 
-                surface.SetDrawColor(COLOR_AMBER)
+                surface.SetDrawColor(COLOR_FOREGROUND)
                 surface.DrawOutlinedRect(0, 0, w, h)
             end
         end
@@ -206,7 +192,7 @@ function openTrade()
             if currentSelectedButton then
                 // Reset the old button to not be selected
                 currentSelectedButton.selected = false
-                currentSelectedButton:SetTextColor(COLOR_AMBER)
+                currentSelectedButton:SetTextColor(COLOR_FOREGROUND)
             end
 
             currentSelectedButton = self
@@ -226,7 +212,7 @@ function openTrade()
         surface.SetDrawColor(Color(0, 0, 0, 0))
         surface.DrawRect(0, 0, w, h)
 
-        surface.SetDrawColor(COLOR_AMBER)
+        surface.SetDrawColor(COLOR_FOREGROUND)
         surface.DrawOutlinedRect(0, 0, w, h)
     end
 
@@ -237,7 +223,7 @@ function openTrade()
         surface.SetDrawColor(Color(0, 0, 0, 0))
         surface.DrawRect(0, 0, w, h)
 
-        surface.SetDrawColor(COLOR_AMBER)
+        surface.SetDrawColor(COLOR_FOREGROUND)
         surface.DrawOutlinedRect(0, 0, w, h)
     end
 
@@ -272,6 +258,7 @@ function openTrade()
         local textPadding = 10
 
         for k,v in pairs(items) do
+            local itemMeta = findItem(v.classid)
             local existingItem = LocalPlayer().trade[LocalPlayer()].offer.items[v.uniqueid]
 
             if existingItem then
@@ -294,10 +281,10 @@ function openTrade()
                 surface.DrawRect(0, 0, w, h)
 
                 if self.hovered then
-                    surface.SetDrawColor(Color(255, 182, 66, 30))
+                    surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                     surface.DrawRect(0, 0, w, h)
 
-                    surface.SetDrawColor(COLOR_AMBER)
+                    surface.SetDrawColor(COLOR_FOREGROUND)
                     surface.DrawOutlinedRect(0, 0, w, h)
                 end
             end
@@ -334,7 +321,7 @@ function openTrade()
 
                     flyout:Open()
 
-                    removeInspect()
+                    util.cleanupFrame(inspect)
                 end
             end
             itemBox:SetText("")
@@ -342,12 +329,12 @@ function openTrade()
             local itemLabel = vgui.Create("DLabel", itemBox)
             itemLabel:SetPos(textPadding, textPadding/2)
             itemLabel:SetFont("FalloutRP1")
-            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
             itemLabel:SizeToContents()
-            itemLabel:SetTextColor(COLOR_AMBER)
+            itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
             itemBox.OnCursorEntered = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = true
                 surface.PlaySound("pepboy/click2.wav")
@@ -360,16 +347,13 @@ function openTrade()
                     inspect:SetPos(frameX + tradeWindow:GetWide(), frameY)
                     inspect:SetItem(v)
 
-                    // Allow inspect to be closed via X button
                     tradeWindow.inspect = inspect
                 end
             end
             itemBox.OnCursorExited = function(self)
-                removeInspect()
-
+                util.cleanupFrame(inspect)
                 self.hovered = false
-
-                itemLabel:SetTextColor(COLOR_AMBER)
+                itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
             end
 
             layout:Add(itemBox)
@@ -382,7 +366,7 @@ function openTrade()
         local caps = vgui.Create("DLabel", inventory)
         local itemsX, itemsY = menu:GetPos()
         caps:SetPos(itemsX, itemsY + menu:GetTall() + textPadding*2)
-        caps:SetTextColor(COLOR_AMBER)
+        caps:SetTextColor(COLOR_FOREGROUND)
         caps:SetFont("FalloutRP2")
         caps:SetText("Caps: " ..string.Comma(currentCaps))
         caps:SizeToContents()
@@ -444,6 +428,8 @@ function openTrade()
         local textPadding = 10
 
         for k,v in pairs(LocalPlayer().trade[LocalPlayer()].offer.items) do
+            local itemMeta = findItem(v.classid)
+
             local itemBox = vgui.Create("DButton")
             itemBox:SetSize(layout:GetWide() - scrollerW, 30)
             itemBox.Paint = function(self, w, h)
@@ -451,10 +437,10 @@ function openTrade()
                 surface.DrawRect(0, 0, w, h)
 
                 if self.hovered then
-                    surface.SetDrawColor(Color(255, 182, 66, 30))
+                    surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                     surface.DrawRect(0, 0, w, h)
 
-                    surface.SetDrawColor(COLOR_AMBER)
+                    surface.SetDrawColor(COLOR_FOREGROUND)
                     surface.DrawOutlinedRect(0, 0, w, h)
                 end
             end
@@ -496,12 +482,12 @@ function openTrade()
             local itemLabel = vgui.Create("DLabel", itemBox)
             itemLabel:SetPos(textPadding, textPadding/2)
             itemLabel:SetFont("FalloutRP1")
-            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
             itemLabel:SizeToContents()
-            itemLabel:SetTextColor(COLOR_AMBER)
+            itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
             itemBox.OnCursorEntered = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = true
                 surface.PlaySound("pepboy/click2.wav")
@@ -514,16 +500,13 @@ function openTrade()
                     inspect:SetPos(frameX - inspect:GetWide(), frameY)
                     inspect:SetItem(v)
 
-                    // Allow inspect to be closed via X button
                     tradeWindow.inspect = inspect
                 end
             end
             itemBox.OnCursorExited = function(self)
-                removeInspect()
-
+                util.cleanupFrame(inspect)
                 self.hovered = false
-
-                itemLabel:SetTextColor(COLOR_AMBER)
+                itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
             end
 
             layout:Add(itemBox)
@@ -533,7 +516,7 @@ function openTrade()
         local caps = vgui.Create("DLabel", menu)
         local itemsX, itemsY = container:GetPos()
         caps:SetPos(itemsX, itemsY + container:GetTall() + textPadding)
-        caps:SetTextColor(COLOR_AMBER)
+        caps:SetTextColor(COLOR_FOREGROUND)
         caps:SetFont("FalloutRP1")
         caps:SetText("Caps: " ..LocalPlayer().trade[LocalPlayer()].offer.caps)
         caps:SizeToContents()
@@ -625,6 +608,8 @@ function openTrade()
         local textPadding = 10
 
         for k,v in pairs(LocalPlayer().trade[otherTrader].offer.items) do
+            local itemMeta = findItem(v.classid)
+
             local itemBox = vgui.Create("DButton")
             itemBox:SetSize(layout:GetWide() - scrollerW, 30)
             itemBox.Paint = function(self, w, h)
@@ -632,10 +617,10 @@ function openTrade()
                 surface.DrawRect(0, 0, w, h)
 
                 if self.hovered then
-                    surface.SetDrawColor(Color(255, 182, 66, 30))
+                    surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                     surface.DrawRect(0, 0, w, h)
 
-                    surface.SetDrawColor(COLOR_AMBER)
+                    surface.SetDrawColor(COLOR_FOREGROUND)
                     surface.DrawOutlinedRect(0, 0, w, h)
                 end
             end
@@ -644,12 +629,12 @@ function openTrade()
             local itemLabel = vgui.Create("DLabel", itemBox)
             itemLabel:SetPos(textPadding, textPadding/2)
             itemLabel:SetFont("FalloutRP1")
-            itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+            itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
             itemLabel:SizeToContents()
-            itemLabel:SetTextColor(COLOR_AMBER)
+            itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
             itemBox.OnCursorEntered = function(self)
-                removeInspect()
+                util.cleanupFrame(inspect)
 
                 self.hovered = true
                 surface.PlaySound("pepboy/click2.wav")
@@ -662,16 +647,13 @@ function openTrade()
                     inspect:SetPos(frameX - inspect:GetWide(), frameY)
                     inspect:SetItem(v)
 
-                    // Allow inspect to be closed via X button
                     tradeWindow.inspect = inspect
                 end
             end
             itemBox.OnCursorExited = function(self)
-                removeInspect()
-
+                util.cleanupFrame(inspect)
                 self.hovered = false
-
-                itemLabel:SetTextColor(COLOR_AMBER)
+                itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
             end
 
             layout:Add(itemBox)
@@ -681,7 +663,7 @@ function openTrade()
         local caps = vgui.Create("DLabel", menu)
         local itemsX, itemsY = container:GetPos()
         caps:SetPos(itemsX, itemsY + container:GetTall() + textPadding)
-        caps:SetTextColor(COLOR_AMBER)
+        caps:SetTextColor(COLOR_FOREGROUND)
         caps:SetFont("FalloutRP1")
         caps:SetText("Caps: " ..string.Comma(LocalPlayer().trade[otherTrader].offer.caps))
         caps:SizeToContents()
@@ -695,7 +677,7 @@ function openTrade()
             local statusText = vgui.Create("DLabel", menu)
             local capsX, capsY = caps:GetPos()
             statusText:SetFont("FalloutRP1")
-            statusText:SetTextColor(COLOR_AMBER)
+            statusText:SetTextColor(COLOR_FOREGROUND)
             statusText:SetText("Status: " ..getThemStatus())
             statusText:SizeToContents()
             statusText:SetPos(itemsX + container:GetWide() - statusText:GetWide(), capsY)

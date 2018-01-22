@@ -23,7 +23,7 @@ function openNameChange()
 
 	local instructions = vgui.Create("DLabel", frame)
 	instructions:SetText("Enter your player's name")
-	instructions:SetTextColor(COLOR_AMBER)
+	instructions:SetTextColor(COLOR_FOREGROUND)
 	instructions:SetFont("FalloutRP3")
 	instructions:SizeToContents()
 	instructions:SetPos(frame:GetWide()/2 - instructions:GetWide()/2, 40 + instructions:GetTall()/2)
@@ -50,8 +50,6 @@ function openNameChange()
 			net.Start("validateNameChange")
 				net.WriteString(name)
 			net.SendToServer()
-		else
-			print("On VGUI delay")
 		end
 	end
 	continueButton:SetText("Continue")

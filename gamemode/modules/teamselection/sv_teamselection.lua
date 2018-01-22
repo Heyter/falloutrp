@@ -25,7 +25,7 @@ local function giveStartingWeapons(ply)
 		ply:pickUpItem(createItem(2030, 1, true), 1) // Raggedy Green Slacks
 	end)
 	timer.Simple(4, function()
-		ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
+		ply:pickUpItem(createItem(5014, 5, true), 20) // Scrap metal
 	end)
 	timer.Simple(5, function()
 		ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
@@ -41,14 +41,14 @@ local function giveStartingWeapons(ply)
 	end)
 	timer.Simple(9, function()
 		ply:pickUpItem(createItem(1056, 1)) // Silence .22
-		ply:GiveAmmo(60, "22LR")
+		ply:GiveAmmo(60, "Bullets")
 	end)
 end
 
 local function createCharacter(ply, name, teamId, values)
 
 	// Insert the new player into SQL
-	MySQLite.query("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, endurance, charisma, intelligence, agility, luck, tokens) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, " ..0 ..", " ..values[1] ..", " ..values[2] ..", " ..values[3] ..", " ..values[4] ..", " ..values[5] ..", " ..values[6] ..", " ..values[7] ..", 1)")
+	DB:RunQuery("INSERT INTO playerdata (steamid, name, bottlecaps, faction, experience, skillpoints, strength, perception, endurance, charisma, intelligence, agility, luck, tokens) VALUES ('" ..ply:SteamID() .."', '" ..name .."', 0, " ..teamId ..", 0, " ..0 ..", " ..values[1] ..", " ..values[2] ..", " ..values[3] ..", " ..values[4] ..", " ..values[5] ..", " ..values[6] ..", " ..values[7] ..", 1)")
 
 	ply.playerData = {
 		["steamid"] = steamid,
@@ -136,8 +136,8 @@ local function validateRegistration(ply, name, teamId, values)
 	elseif !usedAllPoints(values) then
 		errorId = 4
 	else
-		MySQLite.query("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(results)
-			if results then // There already exists a player with this name
+		DB:RunQuery("SELECT * FROM playerdata WHERE name = '" ..name .."'", function(query, status, data)
+			if data and data[1] then // There already exists a player with this name
 				errorId = 5
 				net.Start("registrationValidation")
 					net.WriteInt(errorId, 8)

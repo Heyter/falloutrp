@@ -24,10 +24,12 @@ function meta:getBankWeight()
 	// Total weight of weapon items
 	for type, item in pairs(self.bank) do
 		for uniqueid, itemInfo in pairs(item) do
+			local itemMeta = findItem(itemInfo.classid)
+
 			if util.greaterThanOne(itemInfo.quantity) then
-				weight = weight + (getItemWeight(itemInfo.classid) * itemInfo.quantity)
+				weight = weight + (itemMeta:getWeight() * itemInfo.quantity)
 			else
-				weight = weight + getItemWeight(itemInfo.classid)
+				weight = weight + itemMeta:getWeight()
 			end
 		end
 	end
@@ -36,7 +38,9 @@ function meta:getBankWeight()
 end
 
 function meta:getMaxBankQuantity(classid, quantity)
-	local singleWeight = getItemWeight(classid)
+	local itemMeta = findItem(classid)
+
+	local singleWeight = itemMeta:getWeight()
 	local totalWeight = 0
 	local itemCount = 0
 
@@ -54,7 +58,9 @@ function meta:getMaxBankQuantity(classid, quantity)
 end
 
 function meta:canBankFit(classid, quantity)
-	local addedWeight = getItemWeight(classid)
+	local itemMeta = findItem(classid)
+
+	local addedWeight = itemMeta:getWeight()
 	if util.positive(quantity) then
 		addedWeight = quantity * addedWeight
 	end

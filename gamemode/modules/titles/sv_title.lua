@@ -11,10 +11,10 @@ local meta = FindMetaTable("Player")
 function meta:loadTitles()
 	self.titles = {}
 
-	MySQLite.query("SELECT * FROM titles WHERE steamid = '" ..self:SteamID() .."'", function(results)
+	DB:RunQuery("SELECT * FROM titles WHERE steamid = '" ..self:SteamID() .."'", function(query, status, data)
 		// The player has no titles
-		if results then
-			for k,v in pairs(results) do
+		if data and data[1] then
+			for k,v in pairs(data) do
 				local tbl = {title = v.title, equipped = v.equipped, prefix = v.prefix}
 
 				table.insert(self.titles, tbl)
@@ -42,7 +42,7 @@ function meta:equipTitle(title)
 	title.equipped = 1
 	self.title = title
 
-	MySQLite.query("UPDATE titles SET equipped = 1 WHERE steamid = '" ..self:SteamID() .."' and title = '" ..title.title .."'")
+	DB:RunQuery("UPDATE titles SET equipped = 1 WHERE steamid = '" ..self:SteamID() .."' and title = '" ..title.title .."'")
 
 	self:updateTitle() // Broadcast update to all players
 	self:updateTitles() // Update equipped for just this player
@@ -52,7 +52,7 @@ function meta:unequipTitle(title)
 	title.equipped = 0
 	self.title = {}
 
-	MySQLite.query("UPDATE titles SET equipped = 0 WHERE steamid = '" ..self:SteamID() .."' and title = '" ..title.title .."'")
+	DB:RunQuery("UPDATE titles SET equipped = 0 WHERE steamid = '" ..self:SteamID() .."' and title = '" ..title.title .."'")
 
 	self:updateTitle() // Broadcast update to all players
 	self:updateTitles() // Update equipped for just this player
@@ -93,7 +93,7 @@ function meta:createTitle(title, prefix)
 	}
 
 	table.insert(self.titles, tbl)
-	MySQLite.query("INSERT INTO titles (steamid, title, prefix) VALUES ('" ..self:SteamID() .."', '" ..title .."', " ..util.boolToNumber(prefix) ..")")
+	DB:RunQuery("INSERT INTO titles (steamid, title, prefix) VALUES ('" ..self:SteamID() .."', '" ..title .."', " ..util.boolToNumber(prefix) ..")")
 
 	self:updateTitles()
 

@@ -97,6 +97,16 @@ function util.getWinningKeyTie(tab, currentKey, currentValue)
 	return winner
 end
 
+function util.normalizeLevel(lvl)
+	if lvl <= 15 then
+		return 15
+	elseif lvl <= 30 then
+		return 30
+	end
+
+	return 50
+end
+
 if SERVER then
 	function util.facePlayer(npc, ply)
 		local vec1 = npc:GetPos()
@@ -107,6 +117,17 @@ if SERVER then
 end
 
 if CLIENT then
+	function util.cleanupFrame(frame)
+		if frame then
+			if frame.RemoveOverride then
+				frame:RemoveOverride()
+			else
+				frame:Remove()
+				frame = nil
+			end
+		end
+	end
+
 	function util.saveMousePos()
 		local mouseX, mouseY = input.GetCursorPos()
 		LocalPlayer().savedMouseX = mouseX

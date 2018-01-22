@@ -58,7 +58,7 @@ net.Receive("damagePopup", function()
     local pos = net.ReadVector()
     local force = net.ReadVector()
     local crit = net.ReadBool()
-    local color = COLOR_AMBER
+    local color = COLOR_FOREGROUND
 
     if dmg == 0 then return end
 

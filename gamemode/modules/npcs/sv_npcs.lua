@@ -13,12 +13,14 @@ hook.Add("OnNPCKilled", "npcExpLoot", function(npc, attacker, inflictor)
 	if IsValid(attacker) and attacker:IsPlayer() then
 		luckModifier = attacker:getLuckModifier()
 	end
-	local randomLoot = generateRandomLoot(getNpcLevel(type), false, luckModifier)
+	local randomLoot = generateRandomLoot(math.random(0, 2), getNpcLevel(type), false, luckModifier)
 	local actualLoot = {}
 
 	for k,v in pairs(npcLoot) do
+		local itemMeta = findItem(k)
+
 		// Don't drop quest items for players that don't have the quest
-		if IsValid(attacker) and attacker:IsPlayer() and isQuestItem(k) then
+		if IsValid(attacker) and attacker:IsPlayer() and itemMeta:getQuest() then
 			local quest = QUESTS:getItemQuest(k)
 			if !attacker:hasQuest(quest) or attacker:isQuestComplete(quest) then
 				continue
@@ -165,7 +167,6 @@ function spawnAllNpcs()
 		for a, b in pairs(v.Positions) do
 			if count < 175 then
 				timer.Simple(0.25 * count, function()
-					print(k, a)
 					local ent = ents.Create(k)
 					ent:SetPos(b.Position + Vector(0, 0, 40))
 					ent:Spawn()

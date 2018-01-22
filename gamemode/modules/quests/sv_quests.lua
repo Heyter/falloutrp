@@ -118,8 +118,6 @@ function QUESTS:spawnQuestGivers()
         giver:SetModel(v.model)
         giver:SetNickname(v.name)
         giver:DropToFloor()
-
-        print(giver, v)
     end
 end
 
@@ -201,7 +199,7 @@ function meta:addQuestProgress(questId, taskId, progress)
 
     self.quests[questId].tasks[taskId] = self.quests[questId].tasks[taskId] + progress
 
-    MySQLite.query("UPDATE " ..QUESTS:getSQLName(questId) .." SET " ..QUESTS:getSQLTask(taskId) .." = " ..self.quests[questId].tasks[taskId] .." WHERE steamid = '" ..self:SteamID() .."'")
+    DB:RunQuery("UPDATE " ..QUESTS:getSQLName(questId) .." SET " ..QUESTS:getSQLTask(taskId) .." = " ..self.quests[questId].tasks[taskId] .." WHERE steamid = '" ..self:SteamID() .."'")
 
     self:updateQuest(questId)
 
@@ -268,7 +266,7 @@ function meta:acceptQuest(questId)
 
     local taskNames, taskValues = QUESTS:getSQLTasksNameValues(questId)
 
-    MySQLite.query("INSERT INTO " ..QUESTS:getSQLName(questId) .."(steamid, " ..taskNames .."completed) VALUES ('" ..self:SteamID() .."', " ..taskValues .." 0)")
+    DB:RunQuery("INSERT INTO " ..QUESTS:getSQLName(questId) .."(steamid, " ..taskNames .."completed) VALUES ('" ..self:SteamID() .."', " ..taskValues .." 0)")
 
     self:updateQuest(questId)
 
@@ -287,7 +285,8 @@ function meta:completeQuest(questId)
         local weight = 0
 
         for k,v in pairs(rewards.items) do
-            local itemWeight = getItemWeight(k) * v
+            local itemMeta = findItem(k)
+            local itemWeight = itemMeta:getWeight() * v
 
             weight = weight + itemWeight
 
@@ -314,7 +313,7 @@ function meta:completeQuest(questId)
 
     self:updateQuest(questId)
 
-    MySQLite.query("UPDATE " ..QUESTS:getSQLName(questId) .." SET completed = 1 WHERE steamid = '" ..self:SteamID() .."'")
+    DB:RunQuery("UPDATE " ..QUESTS:getSQLName(questId) .." SET completed = 1 WHERE steamid = '" ..self:SteamID() .."'")
 
     self:notify("You have completed " ..QUESTS:getName(questId) .."!", NOTIFY_GENERIC)
 
@@ -338,12 +337,12 @@ end
 function meta:loadQuest(questId)
     local quest = "quest" ..questId
 
-    MySQLite.query("SELECT * FROM " ..quest .." WHERE steamid = '" ..self:SteamID() .."'", function(results)
-        if results then
+    DB:RunQuery("SELECT * FROM " ..quest .." WHERE steamid = '" ..self:SteamID() .."'", function(query, status, data)
+        if data and data[1] then
             self.quests[questId] = {}
             self.quests[questId].tasks = {}
 
-            for k,v in pairs(results) do
+            for k,v in pairs(data) do
                 for column, value in pairs(v) do
                     if column == "completed" then
                         self.quests[questId].completed = tobool(value)

@@ -165,6 +165,8 @@ function TRADING:completeTrade(id)
         }
 
         for uniqueid, item in pairs(v.offer.items) do
+            local itemMeta = findItem(item.classid)
+
             local invItem = trader:getInventoryItem(uniqueid, item.classid)
             if invItem then
                 if util.positive(item.quantity) then
@@ -184,7 +186,7 @@ function TRADING:completeTrade(id)
             end
 
             local quantity = item.quantity or 1
-            transfer[index].weight = transfer[index].weight + (getItemWeight(item.classid) * quantity)
+            transfer[index].weight = transfer[index].weight + (itemMeta:getWeight() * quantity)
             table.insert(transfer[index].items, item)
         end
 
@@ -210,7 +212,7 @@ function TRADING:completeTrade(id)
         local currentWeight = ply:getInventoryWeight()
         local outgoingWeight = v.weight
         local incomingWeight = transfer[otherIndex].weight
-        print(ply, outgoingWeight, incomingWeight)
+
         currentWeight = currentWeight - outgoingWeight + incomingWeight
         if currentWeight > maxWeight then
             TRADING:failTrade(ply, "You do not have enough inventory space.", ply:Nick() .." does not have enough inventory space.")
@@ -359,6 +361,8 @@ function meta:unofferCaps(caps)
 end
 
 function meta:closeTrade()
+    if !self.trade then return end
+
     local other = TRADING:getOtherTrader(self)
 
     TRADING.trades[self.trade] = nil

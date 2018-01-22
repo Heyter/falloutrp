@@ -40,6 +40,7 @@ end
 
 function meta:craftItem(itemInfo, quantity)
 	local itemInfo = table.Copy(itemInfo)
+	local itemMeta = findItem(itemInfo.classid)
 
 	itemInfo.quantity = itemInfo.quantity or 1
 	itemInfo.quantity = itemInfo.quantity * quantity
@@ -48,7 +49,7 @@ function meta:craftItem(itemInfo, quantity)
 	if self:hasCraftingLevel(itemInfo.level) then
 		if self:hasCraftingMaterials(itemInfo.materials, quantity) then
 			if self:canInventoryFit(itemInfo) then
-				if isQuestItem(itemInfo.classid) then
+				if itemMeta:getQuest() then
 					if !self:lootQuestItem(itemInfo.classid, quantity) then
 						self:notify("You have no use for this item anymore.", NOTIFY_ERROR, 5)
 					else

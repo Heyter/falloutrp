@@ -24,7 +24,7 @@ end
 function meta:addSkillPoints()
 	self.playerData.skillpoints = self:getSkillPoints() + SKILLPOINTS_LEVEL
 
-	MySQLite.query("UPDATE playerdata SET skillpoints = " ..self:getSkillPoints() .." WHERE steamid = '" ..self:SteamID() .. "'")
+	DB:RunQuery("UPDATE playerdata SET skillpoints = " ..self:getSkillPoints() .." WHERE steamid = '" ..self:SteamID() .. "'")
 
 	// Notify player that they leveld up
 	self:notify("LEVELED UP! Press F3 to use Skill Points!", NOTIFY_GENERIC, 10)
@@ -72,10 +72,10 @@ function updateSkillPoints(ply, values, remainingPoints)
 
 	// Set the remaining skill points
 	ply.playerData.skillpoints = remainingPoints
-	MySQLite.query("UPDATE playerdata SET skillpoints = " ..ply:getSkillPoints() .." WHERE steamid = '" ..ply:SteamID() .. "'")
+	DB:RunQuery("UPDATE playerdata SET skillpoints = " ..ply:getSkillPoints() .." WHERE steamid = '" ..ply:SteamID() .. "'")
 
 	// Update the player with their new skills
-	MySQLite.query("UPDATE playerdata SET " ..records .." WHERE steamid = '" ..ply:SteamID() .. "'")
+	DB:RunQuery("UPDATE playerdata SET " ..records .." WHERE steamid = '" ..ply:SteamID() .. "'")
 
 	net.Start("updateSkills")
 		net.WriteTable(newSkills) // Send the updated skill values

@@ -1,5 +1,4 @@
 
-local differential = 10 // How much the random lockpick level can be above the max level (to encourage players to increase the lockpicking level)
 local function generateLevel()
 	local maxLockpicking = 1
 
@@ -12,78 +11,69 @@ local function generateLevel()
 		end
 	end
 
-	if maxLockpicking + differential > 100 then
-		maxLockpicking = 100
-	else
-		maxLockpicking = maxLockpicking + differential
-	end
-
 	return math.random(1, maxLockpicking)
 end
 
 function generateLootLevel(level)
-	local lvl
-
 	if level <= 33 then
-		lvl = 15
+		return 15
 	elseif level <= 66 then
-		lvl = 30
+		return 30
 	else
-		lvl = 50
+		return 50
 	end
-
-	return lvl
 end
 
-function spawnChest(inactiveChests)
+function spawnChest(chest, model, inactiveChests)
 	local randomLocation = table.Random(inactiveChests)
-	local location = CHEST_LOCATIONS[randomLocation]
+	local location = chest.locations[randomLocation]
 
-	local chest = ents.Create("chest")
-	chest:SetPos(location["Position"])
-	// Offset for new chest model, need to later go back and chest chest angles
-	chest:SetAngles(location["Angles"] + Angle(0, 90, 0))
+	local newChest = ents.Create("chest")
+	newChest:SetPos(location["Position"])
+	newChest:SetAngles(location["Angles"])
+	newChest:SetModel(model)
 
-	CHEST_LOCATIONS[randomLocation]["Active"] = true // Set the location to active
-	chest.key = randomLocation // So we know which location to set inactive when the chest is gone
+	CHESTS[model].locations[randomLocation]["Active"] = true
+	newChest.key = randomLocation // So we know which location to set inactive when the chest is gone
 
-	local randomLocked = util.roll(75, 100) // 75% chance to be locked
 	local lvl = 1
-	if randomLocked then
-		// Make the chest locked
-		lvl = generateLevel()
-		chest:lock(lvl) // Lock the chest and make it require level 1 lockpicking
+
+	if chest.lockable then
+		local randomLocked = util.roll(50, 100) // 50% chance to be locked
+		if randomLocked then
+			lvl = generateLevel()
+			newChest:lock(lvl)
+		end
 	end
 
-	chest:Spawn()
+	newChest:Spawn()
 
 	lvl = generateLootLevel(lvl)
 
-	local loot = generateRandomLoot(lvl, true)
-	for k,v in pairs(loot) do
-		chest:addItem(v)
+	local loot = generateRandomLoot(math.random(chest.minItems, chest.maxItems), lvl, chest.modifier)
+	for k, v in pairs(loot) do
+		newChest:addItem(v)
 	end
 
-	// Add a stimpack by default
-	chest:addItem(createItem(4001, 1))
+	newChest:addItem(createItem(4001))
 end
 
 function spawnDummyChest()
 	local chest = ents.Create("chest")
 	chest:SetPos(Vector(-9376, 1363, 139))
-	// Offset for new chest model, need to later go back and chest chest angles
-	chest:SetAngles(Angle(0, 90, 0) + Angle(0, 90, 0))
+	chest:SetAngles(Angle(0, 90, 0))
+	chest:SetModel("models/props/cs_militia/footlocker01_closed.mdl")
 	chest:lock(1)
 	chest.isFake = true
 
 	chest:Spawn()
 end
 
-function getActiveChests()
+function getActiveChests(locations)
 	local active = 0
 	local inactive = {}
 
-	for k, v in pairs(CHEST_LOCATIONS) do
+	for k, v in pairs(locations) do
 		if v.Active then
 			active = active + 1
 		else
@@ -94,19 +84,22 @@ function getActiveChests()
 	return active, inactive
 end
 
-function addChest()
-	local numActive, inactiveChests = getActiveChests()
+function addChest(chest, model)
+	local limit = chest.limit
+	local numActive, inactiveChests = getActiveChests(chest.locations)
 
-	if numActive < CHEST_LIMIT then
+	if numActive < limit then
 		// If we haven't hit the limit for amount of chests on the map
-		spawnChest(inactiveChests)
+		spawnChest(chest, model, inactiveChests)
 	end
 end
 
 function beginChestTimer()
-	timer.Create("chestSpawn", CHEST_TIMER, 0, function()
-		addChest()
-	end)
+	for model, v in pairs(CHESTS) do
+		timer.Create(model .."_chestSpawn", v.timer, 0, function()
+			addChest(v, model)
+		end)
+	end
 end
 
 hook.Add("InitPostEntity", "startChestTimer", function()
@@ -115,14 +108,3 @@ hook.Add("InitPostEntity", "startChestTimer", function()
 		spawnDummyChest()
 	end)
 end)
-
-/*
-function spawnAllChests()
-	for k,v in pairs(CHEST_LOCATIONS) do
-		local chest = ents.Create("chest")
-		chest:SetPos(v.Position)
-		chest:SetAngles(v.Angles)
-		chest:Spawn()
-	end
-end
-*/

@@ -127,7 +127,7 @@ function teamSelection()
 
 			local name = vgui.Create("DLabel", teamFrame)
 			name:SetText(v["Name"])
-			name:SetTextColor(COLOR_AMBER)
+			name:SetTextColor(COLOR_FOREGROUND)
 			name:SetFont("FalloutRP3")
 			name:SizeToContents()
 			name:SetPos(picPaddingW * 3 + picSize * 2, picPaddingH)
@@ -136,7 +136,7 @@ function teamSelection()
 
 			local description = vgui.Create("DLabel", teamFrame)
 			description:SetText(v["Description"])
-			description:SetTextColor(COLOR_AMBER)
+			description:SetTextColor(COLOR_FOREGROUND)
 			description:SetFont("FalloutRP2")
 			description:SizeToContents()
 			description:SetPos(picPaddingW * 3 + picSize * 2, picPaddingH * 2 + nameY)
@@ -167,7 +167,7 @@ function teamSelection()
 
 		local instructions = vgui.Create("DLabel", frame)
 		instructions:SetText("Enter your player's name")
-		instructions:SetTextColor(COLOR_AMBER)
+		instructions:SetTextColor(COLOR_FOREGROUND)
 		instructions:SetFont("FalloutRP3")
 		instructions:SizeToContents()
 		instructions:SetPos(frame:GetWide()/2 - instructions:GetWide()/2, 40 + instructions:GetTall()/2)
@@ -193,10 +193,10 @@ function teamSelection()
 				surface.DrawRect(0, 0, w, h)
 
 				if self.hovered then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 					surface.DrawRect(0, 0, w, h)
 
-					surface.SetDrawColor(COLOR_AMBER)
+					surface.SetDrawColor(COLOR_FOREGROUND)
 					surface.DrawOutlinedRect(0, 0, w, h)
 				end
 			end
@@ -207,7 +207,7 @@ function teamSelection()
 			specialLabel:SetFont("FalloutRP2")
 			specialLabel:SetText(v.Name)
 			specialLabel:SizeToContents()
-			specialLabel:SetTextColor(COLOR_AMBER)
+			specialLabel:SetTextColor(COLOR_FOREGROUND)
 
 			local specialDescription = vgui.Create("DLabel", frame)
 			specialDescription:SetFont("FalloutRP2")
@@ -225,7 +225,7 @@ function teamSelection()
 			specialBox.OnCursorExited = function(self)
 				self.hovered = false
 
-				specialLabel:SetTextColor(COLOR_AMBER)
+				specialLabel:SetTextColor(COLOR_FOREGROUND)
 				specialDescription:SetText("")
 			end
 
@@ -249,7 +249,7 @@ function teamSelection()
 			downButton.OnCursorExited = function(self)
 				self:GetParent().hovered = false
 
-				specialLabel:SetTextColor(COLOR_AMBER)
+				specialLabel:SetTextColor(COLOR_FOREGROUND)
 				specialDescription:SetText("")
 			end
 			downButton.DoClick = function()
@@ -277,7 +277,7 @@ function teamSelection()
 			upButton.OnCursorExited = function(self)
 				self:GetParent().hovered = false
 
-				specialLabel:SetTextColor(COLOR_AMBER)
+				specialLabel:SetTextColor(COLOR_FOREGROUND)
 				specialDescription:SetText("")
 			end
 			upButton.DoClick = function()

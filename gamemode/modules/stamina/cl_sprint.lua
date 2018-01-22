@@ -1,25 +1,21 @@
-
-local disableLevel = DISABLE_RUN
-local staminaDrawColor = Color(255, 0, 0, 255)
-
-function staminaDraw()
+local function staminaDraw()
 	if plyDataExists(LocalPlayer()) then
-		local w, h = ScrW(), ScreenScale(10)
+		local expHeight = ScreenScale(12) + 1
+		local screenW, screenH, h = ScrW(), ScrH(), ScreenScale(5)
 
-		local hudColor = getHUDColor
-		local color = util.getPepboyColor()
+		local color = COLOR_YELLOW
 		local stamina = LocalPlayer():GetNWInt("tcb_Stamina")
 		local maxStamina = LocalPlayer():getMaxSprintLength()
 
 		if stamina < maxStamina then
-			surface.SetDrawColor(COLOR_BLACKFADE)
-			surface.DrawRect(ScrW()/2 - w/2, ScrH() - h, w, h + 1)
+			surface.SetDrawColor(COLOR_BACKGROUND_FADE)
+			surface.DrawRect(0, screenH - h - expHeight, screenW, h + 1)
 
 			surface.SetDrawColor(Color(color.r, color.g, color.b, 150))
-			surface.DrawRect(ScrW()/2 - w/2, ScrH() - h, (stamina / maxStamina) * w, h + 1)
+			surface.DrawRect(0, screenH - h - expHeight, (stamina / maxStamina) * screenW, h + 1)
 
-			surface.SetDrawColor(Color(hudColor.x + 40, hudColor.y + 40, hudColor.z + 40, 255))
-			surface.DrawOutlinedRect(ScrW()/2 - w/2, ScrH() - h, (stamina / maxStamina) * w, h + 1)
+			surface.SetDrawColor(COLOR_BLACK)
+			surface.DrawOutlinedRect(0, screenH - h - expHeight, (stamina / maxStamina) * screenW, h + 1)
 		end
 	end
 end

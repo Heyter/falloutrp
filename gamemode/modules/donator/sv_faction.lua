@@ -5,7 +5,7 @@ util.AddNetworkString("factionChange")
 local meta = FindMetaTable("Player")
 
 function meta:changeFaction(id)
-	MySQLite.query("UPDATE playerdata SET faction = " ..id .." WHERE steamid = '" ..self:SteamID() .."'")
+	DB:RunQuery("UPDATE playerdata SET faction = " ..id .." WHERE steamid = '" ..self:SteamID() .."'")
 
 	self:notify("You have changed your faction to " ..team.GetName(id), NOTIFY_GENERIC)
 

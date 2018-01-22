@@ -1,10 +1,9 @@
 
-//Client
 local meta = FindMetaTable("Player")
 
 function meta:useItem(uniqueid, classid, quantity)
 	self:setVguiDelay()
-	
+
 	net.Start("useItem")
 		net.WriteInt(uniqueid, 32)
 		net.WriteInt(classid, 16)
@@ -39,6 +38,6 @@ net.Receive("dropItem", function()
 
 	//Item was dropped, reenable vgui
 	LocalPlayer():removeVguiDelay()
-	
+
 	openPepboyMiddle()
 end)

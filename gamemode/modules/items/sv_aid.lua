@@ -40,12 +40,14 @@ end
 
 
 function meta:doAidFunction(classid)
-	local healthPercent = getAidHealthPercent(classid)
-	local health = getAidHealth(classid)
-	local timeInterval = getAidTimeInterval(classid)
-	local timeLength = getAidTimeLength(classid)
-	local hunger = getAidHunger(classid)
-	local thirst = getAidThirst(classid)
+	local aid = findAid(classid)
+
+	local healthPercent = aid:getHealthPercent()
+	local health = aid:getHealth()
+	local timeInterval = aid:getTimeInterval()
+	local timeLength = aid:getTimeLength()
+	local hunger = aid:getHunger()
+	local thirst = aid:getThirst()
 
 	if util.positive(time) then
 		if util.positive(healthPercent) then
@@ -76,19 +78,17 @@ function meta:useAid(uniqueid, classid, quantity)
 	if aidQuantity >= quantity then
 		if aidQuantity == quantity then // If they used up all the aid that was in their inventory
 			self.inventory.aid[uniqueid] = nil
-			MySQLite.query("DELETE FROM aid WHERE uniqueid = " ..uniqueid)
-		else // Deduct how much aid they used
+			DB:RunQuery("DELETE FROM aid WHERE uniqueid = " ..uniqueid)
+		else
+			// Deduct how much aid they used
 			self.inventory.aid[uniqueid]["quantity"] = self.inventory.aid[uniqueid]["quantity"] - quantity
-			MySQLite.query("UPDATE aid SET quantity = " ..self.inventory.aid[uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
+			DB:RunQuery("UPDATE aid SET quantity = " ..self.inventory.aid[uniqueid]["quantity"] .." WHERE uniqueid = " ..uniqueid)
 		end
 
-		// Do the function associated with the aid
 		self:doAidFunction(classid)
 
-		//Update client
 		net.Start("useAid")
 			net.WriteInt(uniqueid, 32)
-			//net.WriteInt(classid, 16)
 			net.WriteInt(quantity, 16)
 		net.Send(self)
 	else

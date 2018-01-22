@@ -1,21 +1,10 @@
-
-
 local offsetX, offsetY = 25, 20
 local barHeight = 3
 local lengthDivisor = 10
 local textPadding = 10
-local inspect // Draws the items information on a side panel
 
 local matLineDashed = Material("models/pepboy/line_y")
 
-local function removeInspect()
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
-end
-
-//Client
 net.Receive("loot", function()
 	local ent = net.ReadEntity()
 	local loot = net.ReadTable()
@@ -25,19 +14,7 @@ net.Receive("loot", function()
 	LocalPlayer():removeVguiDelay()
 end)
 
-local function close(frame)
-	removeInspect()
-
-	if frame then
-		frame:Remove()
-		util.saveMousePos()
-		gui.EnableScreenClicker(false)
-	end
-end
-
 function lootItem(ent, itemId, quantity)
-	removeInspect()
-
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
 
@@ -51,18 +28,22 @@ function lootItem(ent, itemId, quantity)
 end
 
 function openLoot(ent, loot)
-	removeInspect()
-
 	local frame = vgui.Create("FalloutRP_Scroll_List")
 	frame:CreateScroll()
 	util.restoreMousePos() // So they can *spam click* loot and not always have to move their mouse back to that loot
 	frame:AddCloseButton()
 	frame:MakePopup()
+	frame.onClose = function()
+		gui.EnableScreenClicker(false)
+		util.saveMousePos()
+	end
 
 	local layout = frame.layout
 	local scrollerW = frame.scroller:GetWide()
 
 	for k,v in pairs(loot) do
+		local itemMeta = findItem(v.classid)
+
 		local itemBox = vgui.Create("DButton")
 		itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 		itemBox.Paint = function(self, w, h)
@@ -70,10 +51,10 @@ function openLoot(ent, loot)
 			surface.DrawRect(0, 0, w, h)
 
 			if self.hovered then
-				surface.SetDrawColor(Color(255, 182, 66, 30))
+				surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -84,7 +65,7 @@ function openLoot(ent, loot)
 			else
 				lootItem(ent, k)
 			end
-			close(frame)
+			frame:RemoveOverride()
 		end
 		itemBox.DoRightClick = function()
 			if util.greaterThanOne(v.quantity) then // The itme has quantity
@@ -94,7 +75,7 @@ function openLoot(ent, loot)
 				flyout:AddOption("Loot all", function()
 					if !LocalPlayer():hasVguiDelay() then
 						lootItem(ent, k, v.quantity)
-						close(frame)
+						frame:RemoveOverride()
 					end
 				end)
 				flyout:AddOption("Loot (x)", function()
@@ -107,7 +88,7 @@ function openLoot(ent, loot)
 					slider:GetButton().DoClick = function()
 						if slider:ValidInput() and !LocalPlayer():hasVguiDelay() then
 							lootItem(ent, k, slider:GetAmount())
-							close(frame)
+							frame:RemoveOverride()
 						end
 					end
 				end)
@@ -120,12 +101,12 @@ function openLoot(ent, loot)
 		local itemLabel = vgui.Create("DLabel", itemBox)
 		itemLabel:SetPos(textPadding, textPadding/2)
 		itemLabel:SetFont("FalloutRP2")
-		itemLabel:SetText(getItemNameQuantity(v.classid, v.quantity))
+		itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
 		itemLabel:SizeToContents()
-		itemLabel:SetTextColor(COLOR_AMBER)
+		itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 
 		itemBox.OnCursorEntered = function(self)
-			removeInspect()
+			util.cleanupFrame(frame.inspect)
 
 			self.hovered = true
 			surface.PlaySound("pepboy/click2.wav")
@@ -134,20 +115,17 @@ function openLoot(ent, loot)
 
 			if !isCap(v.classid) then
 				local frameX, frameY = frame:GetPos()
-				inspect = vgui.Create("FalloutRP_Item")
-				inspect:SetPos(frameX + frame:GetWide(), frameY)
-				inspect:SetItem(v)
-
-				// Allow inspect to be closes via X button
-				frame.inspect = inspect
+				frame.inspect = vgui.Create("FalloutRP_Item")
+				frame.inspect:SetPos(frameX + frame:GetWide(), frameY)
+				frame.inspect:SetItem(v)
 			end
 		end
 		itemBox.OnCursorExited = function(self)
-			removeInspect()
+			util.cleanupFrame(frame.inspect)
 
 			self.hovered = false
 
-			itemLabel:SetTextColor(COLOR_AMBER)
+			itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 		end
 
 		layout:Add(itemBox)

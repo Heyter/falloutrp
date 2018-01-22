@@ -40,13 +40,13 @@ hook.Add("HUDPaint", "partyPlayers", function()
             for i = 1, 2 do
                 draw.SimpleText(name, "FalloutRPHUD1Blur", 85, 15, Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 200), false, 0)
             end
-            draw.SimpleText(name, "FalloutRPHUD1", 85, 15, Color(getHUDColor.x + 40, getHUDColor.y + 40, getHUDColor.z + 40, 255), false, 0)
+            draw.SimpleText(name, "FalloutRPHUD1", 85, 15, COLOR_BLACK, false, 0)
 
             // Health
             for i = 1, 2 do
                 draw.SimpleText(health, "FalloutRPHUD1Blur", 220, 15, Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 200), false, 0)
             end
-            draw.SimpleText(health, "FalloutRPHUD1", 220, 15, Color(getHUDColor.x + 40, getHUDColor.y + 40, getHUDColor.z + 40, 255), false, 0)
+            draw.SimpleText(health, "FalloutRPHUD1", 220, 15, COLOR_BLACK, false, 0)
 
             offset = 50
         end
@@ -69,13 +69,13 @@ hook.Add("HUDPaint", "partyPlayers", function()
                 for i = 1, 2 do
                     draw.SimpleText(name, "FalloutRPHUD1Blur", 85, offset + 15, Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 200), false, 0)
                 end
-                draw.SimpleText(name, "FalloutRPHUD1", 85, offset + 15, Color(getHUDColor.x + 40, getHUDColor.y + 40, getHUDColor.z + 40, 255), false, 0)
+                draw.SimpleText(name, "FalloutRPHUD1", 85, offset + 15, COLOR_BLACK, false, 0)
 
                 // Health
                 for i = 1, 2 do
                     draw.SimpleText(health, "FalloutRPHUD1Blur", 220, offset + 15, Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 200), false, 0)
                 end
-                draw.SimpleText(health, "FalloutRPHUD1", 220, offset + 15, Color(getHUDColor.x + 40, getHUDColor.y + 40, getHUDColor.z + 40, 255), false, 0)
+                draw.SimpleText(health, "FalloutRPHUD1", 220, offset + 15, COLOR_BLACK, false, 0)
 
                 offset = offset + 50
             end

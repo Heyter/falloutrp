@@ -5,9 +5,9 @@ local meta = FindMetaTable("Player")
 
 function meta:loadInvAmmo()
 	// Get ammo
-	MySQLite.query("SELECT * FROM ammo WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(results)
-		if results then
-			for k,v in pairs(results) do
+	DB:RunQuery("SELECT * FROM ammo WHERE steamid = '" ..self:SteamID() .."' AND banked IS NULL", function(query, status, data)
+		if data and data[1] then
+			for k,v in pairs(data) do
 				self.inventory["ammo"][v.uniqueid] = {
 					classid = v.classid,
 					uniqueid = v.uniqueid,
@@ -15,9 +15,9 @@ function meta:loadInvAmmo()
 				}
 			end
 		end
-		
+
 		self:loadInventoryCount()
-	end)	
+	end)
 end
 
 function meta:pickUpAmmo(ammo, quantity)
@@ -25,11 +25,11 @@ function meta:pickUpAmmo(ammo, quantity)
 	local sameItem = self:hasAmmoItem(ammo.classid)
 
 	local query = ""
-	
-	if sameItem then 
+
+	if sameItem then
 		amount = sameItem.quantity + quantity
 		query = "UPDATE ammo SET quantity = " ..amount .." WHERE uniqueid = " ..sameItem.uniqueid
-		
+
 		// Add this information because it's how the clientside is updated
 		ammo.quantity = amount
 		ammo.uniqueid = sameItem.uniqueid
@@ -37,32 +37,27 @@ function meta:pickUpAmmo(ammo, quantity)
 		ammo.quantity = amount
 		query = "INSERT INTO ammo (steamid, classid, quantity) VALUES ('" ..self:SteamID() .."', " ..ammo.classid ..", " ..amount ..")"
 	end
-	
-	MySQLite.query(query, function()
+
+	query = query .."; SELECT LAST_INSERT_ID();"
+
+	DB:RunQuery(query, function(query, status, data)
 		if sameItem then
 			self.inventory.ammo[sameItem.uniqueid]["quantity"] = amount
-		
+
 			net.Start("pickUpAmmo")
 				net.WriteInt(sameItem.uniqueid, 32)
 				net.WriteTable(ammo)
 			net.Send(self)
 		else
 			// Get the last inserted id so we can store that in lua
-			MySQLite.query("SELECT uniqueid FROM ammo WHERE classid = " ..ammo.classid .."  ORDER BY uniqueid DESC LIMIT 1", function(results)
-				local itemId = 0
-				if results and results[1] then
-					itemId = results[1]["uniqueid"]
-				end
-				
-				// Do the inventory logic for inserting below here
-				ammo.uniqueid = itemId
-				self.inventory.ammo[itemId] = ammo
-				
-				net.Start("pickUpAmmo")
-					net.WriteInt(itemId, 32)
-					net.WriteTable(ammo)
-				net.Send(self)
-			end)
+			local uniqueid = query:getNextResults()[1]["LAST_INSERT_ID()"]
+			ammo.uniqueid = uniqueid
+			self.inventory.ammo[uniqueid] = ammo
+
+			net.Start("pickUpAmmo")
+				net.WriteInt(uniqueid, 32)
+				net.WriteTable(ammo)
+			net.Send(self)
 		end
 	end)
 end

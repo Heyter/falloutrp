@@ -39,57 +39,56 @@ function VGUI:Init()
 	self:SetPos(ScrW()/2 - self:GetWide()/2, ScrH()/2 - self:GetTall()/2)
 end
 
-function VGUI:DrawBackground()
-	local w, h = self:GetWide(), self:GetTall()
+function VGUI:DrawBackground(w, h)
 	// Doubling two translucent frames creates a cooler effect
-	surface.SetDrawColor(COLOR_BLACKFADE)
+	surface.SetDrawColor(COLOR_BACKGROUND_FADE)
 	surface.DrawRect(0, 0, w, h)
-	surface.SetDrawColor(Color(0, 0, 0, 170))
+	surface.SetDrawColor(COLOR_TRANSLUCENT)
 	surface.DrawRect(0, 0, w, h)
 end
 
 function VGUI:Paint(w, h)
-	self:DrawBackground()
+	self:DrawBackground(w, h)
 
 	surface.SetFont(self.font)
-	surface.SetTextColor(COLOR_AMBER)
+	surface.SetTextColor(COLOR_FOREGROUND)
 	surface.SetTextPos(offsetX + w/6 + textPadding, offsetY - (self.textY/2) + barHeight/2)
 	surface.DrawText(self.title)
 
 	if !self.hideAllBars then
 	// Top left middle bar
-	surface.SetDrawColor(COLOR_AMBER)
+	surface.SetDrawColor(COLOR_FOREGROUND)
 	surface.DrawRect(offsetX, offsetY, w/6, barHeight)
 
 	// Top right middle bar
 	local titlePadding = (self.textX and self.textX > 0 and textPadding*2) or 0 // Keep a full width bar if there is no title
-	surface.SetDrawColor(COLOR_AMBER)
+	surface.SetDrawColor(COLOR_FOREGROUND)
 	surface.DrawRect(offsetX + w/6 + titlePadding + self.textX, offsetY, w - offsetX*2 - w/6 - textPadding*2 - self.textX, barHeight)
 
 		if !self.hideSideBars then
 			// Top left bar
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(offsetX, offsetY + barHeight, barHeight, h/lengthDivisor)
 
 			// Top right bar
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(w - offsetX - barHeight, offsetY + barHeight, barHeight, h/lengthDivisor)
 		end
 
 	// Bottom middle bar
-	surface.SetDrawColor(COLOR_AMBER)
+	surface.SetDrawColor(COLOR_FOREGROUND)
 	surface.DrawRect(offsetX, h - offsetY - barHeight, w - offsetX*2, barHeight)
 
 		if !self.hideSideBars then
 			// Bottom left bar
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRectRotated(offsetX, h - h/lengthDivisor - barHeight, barHeight, h/lengthDivisor, 180)
 
 			// Bottom right bar
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRectRotated(w - offsetX, h - h/lengthDivisor - barHeight, barHeight, h/lengthDivisor, 180)
 		end
@@ -116,6 +115,21 @@ function VGUI:onClose()
 
 end
 
+// Add additional functionality to the default remove
+function VGUI:RemoveOverride()
+	if self.onClose then
+		self:onClose()
+	end
+
+	if self.inspect then
+		self.inspect:Remove()
+		self.inspect = nil
+	end
+
+	self:Remove()
+	self = nil
+end
+
 function VGUI:AddCloseButton()
 	local close = vgui.Create("DButton", self)
 	close:SetSize(30, 30)
@@ -128,16 +142,7 @@ function VGUI:AddCloseButton()
 		surface.DrawRect(0, 0, w, h)
 	end
 	close.DoClick = function()
-		// Close the item inspect screen if a player closes via X button
-		if self.inspect then
-			self.inspect:Remove()
-			self.inspect = nil
-		end
-
-		gui.EnableScreenClicker(false)
-		self:onClose()
-		self:Remove()
-		self = nil
+		self:RemoveOverride(true)
 	end
 	close.OnCursorEntered = function(self)
 		self:SetTextColor(COLOR_BLUE)
@@ -222,7 +227,7 @@ function VGUI:CreateScroll()
 		surface.DrawRect(0, 0, w, h)
 	end
 	scroller.btnGrip.Paint = function(self, w, h)
-		surface.SetDrawColor(COLOR_AMBER)
+		surface.SetDrawColor(COLOR_FOREGROUND)
 		surface.SetMaterial(matLineDashed)
 		surface.DrawTexturedRect(0, 0, 3, h)
 	end
@@ -251,7 +256,7 @@ function VGUI:Init()
 	self.name:SetPos(10, 10)
 	self.name:SetFont("FalloutRP2")
 	self.name:SetText("")
-	self.name:SetTextColor(COLOR_AMBER)
+	self.name:SetTextColor(COLOR_FOREGROUND)
 
 	self.model = vgui.Create("SpawnIcon", self)
 	self.model:SetSize(80, 80)
@@ -259,18 +264,23 @@ function VGUI:Init()
 end
 
 function VGUI:Paint(w, h)
-	surface.SetDrawColor(COLOR_BLACKFADE)
+	// Doubling two translucent frames creates a cooler effect
+	surface.SetDrawColor(COLOR_BACKGROUND_FADE)
+	surface.DrawRect(0, 0, w, h)
+	surface.SetDrawColor(COLOR_TRANSLUCENT)
 	surface.DrawRect(0, 0, w, h)
 end
 
 function VGUI:SetItem(item, craftingCreated, questCreated)
 	local classid = item.classid
+	local itemMeta = findItem(classid)
 
-	local name = getItemName(classid)
-	local model = getItemModel(classid)
+	local name = itemMeta:getName()
+	local model = itemMeta:getModel()
 
 	// Name
 	self.name:SetText(name)
+	self.name:SetTextColor(getRarityColor(itemMeta:getRarity()))
 	self.name:SizeToContents()
 	self.name:SetPos(self:GetWide()/2 - self.name:GetWide()/2, 10)
 
@@ -287,9 +297,9 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		// Draw different values depending if the item is created already or not
 		local dmg
 		if craftingCreated then
-			dmg = "Damage: (" ..getWeaponMinDamage(classid) .."-" ..getWeaponMedianDamage(classid) ..")"
+			dmg = "Damage: (" ..itemMeta:getMinDamage() .."-" ..itemMeta:getMedianDamage() ..")"
 		elseif questCreated then
-			dmg = "Damage: (" ..getWeaponMedianDamage(classid) .."-" ..getWeaponMaxDamage(classid) ..")"
+			dmg = "Damage: (" ..itemMeta:getMedianDamage() .."-" ..itemMeta:getMaxDamage() ..")"
 		else
 			dmg = "Damage: " ..item.damage
 		end
@@ -298,7 +308,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		local damage = vgui.Create("DLabel", self)
 		damage:SetPos(10, startY)
 		damage:SetFont("FalloutRP2")
-		damage:SetTextColor(COLOR_AMBER)
+		damage:SetTextColor(COLOR_FOREGROUND)
 		damage:SetText(dmg)
 		damage:SizeToContents()
 		startY = startY + 20
@@ -307,8 +317,8 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		local crit = vgui.Create("DLabel", self)
 		crit:SetPos(10, startY)
 		crit:SetFont("FalloutRP2")
-		crit:SetTextColor(COLOR_AMBER)
-		crit:SetText("Crit Chance: " ..getWeaponCriticalChance(classid) .."%")
+		crit:SetTextColor(COLOR_FOREGROUND)
+		crit:SetText("Crit Chance: " ..itemMeta:getCriticalChance() .."%")
 		crit:SizeToContents()
 		startY = startY + 20
 	end
@@ -317,13 +327,13 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		// Draw different values depending if the item is created already or not
 		local dt, dr, hp
 		if craftingCreated then
-			dt = "Dmg Threshold: (" ..getApparelMinDamageThreshold(classid) .."-" ..getApparelMedianDamageThreshold(classid) .."%)"
-			dr = "Dmg Reflect: (" ..getApparelMinDamageReflection(classid) .."-" ..getApparelMedianDamageReflection(classid) .."%)"
-			hp = "Bonus HP: (" ..getApparelMinBonusHp(classid) .."-" ..getApparelMedianBonusHp(classid) .."%)"
+			dt = "Dmg Threshold: (" ..itemMeta:getMinDamageThreshold() .."-" ..itemMeta:getMedianDamageThreshold() .."%)"
+			dr = "Dmg Reflect: (" ..itemMeta:getMinDamageReflection() .."-" ..itemMeta:getMedianDamageReflection() .."%)"
+			hp = "Bonus HP: (" ..itemMeta:getMinBonusHp() .."-" ..itemMeta:getMedianBonusHp() .."%)"
 		elseif questCreated then
-			dt = "Dmg Threshold: (" ..getApparelMedianDamageThreshold(classid) .."-" ..getApparelMaxDamageThreshold(classid) .."%)"
-			dr = "Dmg Reflect: (" ..getApparelMedianDamageReflection(classid) .."-" ..getApparelMaxDamageReflection(classid) .."%)"
-			hp = "Bonus HP: (" ..getApparelMedianBonusHp(classid) .."-" ..getApparelMaxBonusHp(classid) .."%)"
+			dt = "Dmg Threshold: (" ..itemMeta:getMedianDamageThreshold() .."-" ..itemMeta:getMaxDamageThreshold() .."%)"
+			dr = "Dmg Reflect: (" ..itemMeta:getMedianDamageReflection() .."-" ..itemMeta:getMaxDamageReflection() .."%)"
+			hp = "Bonus HP: (" ..itemMeta:getMedianBonusHp() .."-" ..itemMeta:getMaxBonusHp() .."%)"
 		else
 			dt = "Dmg Threshold: " ..item.damageThreshold .."%"
 			dr = "Dmg Reflect: " ..item.damageReflection .."%"
@@ -334,7 +344,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		local damageThresh = vgui.Create("DLabel", self)
 		damageThresh:SetPos(10, startY)
 		damageThresh:SetFont("FalloutRP2")
-		damageThresh:SetTextColor(COLOR_AMBER)
+		damageThresh:SetTextColor(COLOR_FOREGROUND)
 		damageThresh:SetText(dt)
 		damageThresh:SizeToContents()
 		startY = startY + 20
@@ -343,7 +353,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		local damageReflect = vgui.Create("DLabel", self)
 		damageReflect:SetPos(10, startY)
 		damageReflect:SetFont("FalloutRP2")
-		damageReflect:SetTextColor(COLOR_AMBER)
+		damageReflect:SetTextColor(COLOR_FOREGROUND)
 		damageReflect:SetText(dr)
 		damageReflect:SizeToContents()
 		startY = startY + 20
@@ -352,7 +362,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		local bonushp = vgui.Create("DLabel", self)
 		bonushp:SetPos(10, startY)
 		bonushp:SetFont("FalloutRP2")
-		bonushp:SetTextColor(COLOR_AMBER)
+		bonushp:SetTextColor(COLOR_FOREGROUND)
 		bonushp:SetText(hp)
 		bonushp:SizeToContents()
 		startY = startY + 20
@@ -360,68 +370,68 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 
 	if isAid(classid) then
 		// Health Percent
-		if getAidHealthPercent(classid) then
+		if itemMeta:getHealthPercent() then
 			local healthPercent = vgui.Create("DLabel", self)
 			healthPercent:SetPos(10, startY)
 			healthPercent:SetFont("FalloutRP2")
-			healthPercent:SetTextColor(COLOR_AMBER)
-			healthPercent:SetText("Restores " ..getAidHealthPercent(classid) .."% HP")
+			healthPercent:SetTextColor(COLOR_FOREGROUND)
+			healthPercent:SetText("Restores " ..itemMeta:getHealthPercent() .."% HP")
 			healthPercent:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Health
-		if getAidHealth(classid) then
+		if itemMeta:getHealth() then
 			local health = vgui.Create("DLabel", self)
 			health:SetPos(10, startY)
 			health:SetFont("FalloutRP2")
-			health:SetTextColor(COLOR_AMBER)
-			health:SetText("Restores " ..getAidHealth(classid) .." HP")
+			health:SetTextColor(COLOR_FOREGROUND)
+			health:SetText("Restores " ..itemMeta:getHealth() .." HP")
 			health:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Health Over Time
-		if getAidHealthOverTime(classid) then
+		if itemMeta:getHealthOverTime() then
 			local hot = vgui.Create("DLabel", self)
 			hot:SetPos(10, startY)
 			hot:SetFont("FalloutRP2")
-			hot:SetTextColor(COLOR_AMBER)
-			hot:SetText("Restores " ..getAidHealthOverTime(classid))
+			hot:SetTextColor(COLOR_FOREGROUND)
+			hot:SetText("Restores " ..itemMeta:getHealthOverTime())
 			hot:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Hunger
-		if getAidHunger(classid) then
+		if itemMeta:getHunger() then
 			local hunger = vgui.Create("DLabel", self)
 			hunger:SetPos(10, startY)
 			hunger:SetFont("FalloutRP2")
-			hunger:SetTextColor(COLOR_AMBER)
-			hunger:SetText("Restores " ..getAidHunger(classid) .." Hunger")
+			hunger:SetTextColor(COLOR_FOREGROUND)
+			hunger:SetText("Restores " ..itemMeta:getHunger() .." Hunger")
 			hunger:SizeToContents()
 			startY = startY + 20
 		end
 
 		// Thirst
-		if getAidThirst(classid) then
+		if itemMeta:getThirst() then
 			local thirst = vgui.Create("DLabel", self)
 			thirst:SetPos(10, startY)
 			thirst:SetFont("FalloutRP2")
-			thirst:SetTextColor(COLOR_AMBER)
-			thirst:SetText("Restores " ..getAidThirst(classid) .." Thirst")
+			thirst:SetTextColor(COLOR_FOREGROUND)
+			thirst:SetText("Restores " ..itemMeta:getThirst() .." Thirst")
 			thirst:SizeToContents()
 			startY = startY + 20
 		end
 	end
 
 	// Level
-	if getItemLevel(classid) then
+	if itemMeta:getLevel() then
 		local level = vgui.Create("DLabel", self)
 		level:SetPos(10, startY)
 		level:SetFont("FalloutRP2")
-		level:SetTextColor(COLOR_AMBER)
-		level:SetText("Level: " ..getItemLevel(classid))
+		level:SetTextColor(COLOR_FOREGROUND)
+		level:SetText("Level: " ..itemMeta:getLevel())
 		level:SizeToContents()
 		startY = startY + 20
 	end
@@ -431,7 +441,7 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 		local durability = vgui.Create("DLabel", self)
 		durability:SetPos(10, startY)
 		durability:SetFont("FalloutRP2")
-		durability:SetTextColor(COLOR_AMBER)
+		durability:SetTextColor(COLOR_FOREGROUND)
 		durability:SetText("Durability: " ..item.durability)
 		durability:SizeToContents()
 		startY = startY + 20
@@ -441,8 +451,8 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 	local weight = vgui.Create("DLabel", self)
 	weight:SetPos(10, startY)
 	weight:SetFont("FalloutRP2")
-	weight:SetTextColor(COLOR_AMBER)
-	weight:SetText("Weight: " ..getItemWeight(classid))
+	weight:SetTextColor(COLOR_FOREGROUND)
+	weight:SetText("Weight: " ..itemMeta:getWeight())
 	weight:SizeToContents()
 	startY = startY + 20
 
@@ -450,8 +460,8 @@ function VGUI:SetItem(item, craftingCreated, questCreated)
 	local value = vgui.Create("DLabel", self)
 	value:SetPos(10, startY)
 	value:SetFont("FalloutRP2")
-	value:SetTextColor(COLOR_AMBER)
-	value:SetText("Value: " ..getItemValue(classid))
+	value:SetTextColor(COLOR_FOREGROUND)
+	value:SetText("Value: " ..itemMeta:getValue())
 	value:SizeToContents()
 	startY = startY + 20
 end
@@ -462,11 +472,11 @@ vgui.Register("FalloutRP_Item", VGUI, "DPanel")
 local VGUI = {}
 
 function VGUI:Init()
-	self:SetTextColor(COLOR_AMBER)
+	self:SetTextColor(COLOR_FOREGROUND)
 end
 
 function VGUI:Paint(w, h)
-	draw.RoundedBox(0, 0, 0, w, h, COLOR_BLACK)
+	draw.RoundedBox(0, 0, 0, w, h, COLOR_BACKGROUND)
 
 	if self:GetDisabled() then
 		self:SetTextColor(COLOR_GRAY)
@@ -480,7 +490,7 @@ end
 
 function VGUI:SetEnabled()
 	self.disabled = false
-	self:SetTextColor(COLOR_AMBER)
+	self:SetTextColor(COLOR_FOREGROUND)
 end
 
 function VGUI:GetDisabled()
@@ -495,7 +505,7 @@ function VGUI:OnCursorEntered()
 end
 
 function VGUI:OnCursorExited()
-	self:SetTextColor(COLOR_AMBER)
+	self:SetTextColor(COLOR_FOREGROUND)
 end
 vgui.Register("FalloutRP_Button", VGUI, "Button")
 

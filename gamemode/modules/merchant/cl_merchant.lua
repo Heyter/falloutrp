@@ -8,20 +8,12 @@ local canContinue = true // Don't allow players to keep trying to submit skills 
 local matLineDashed = Material("models/pepboy/line_y")
 local textPadding = 10
 local lastButton, lastNpc, lastType
-local inspect // Draws the items information on a side panel
-
-local function removeInspect()
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
-end
 
 function buyItem(npc, index, uniqueid, type, id, quantity)
-	removeInspect()
+	util.cleanupFrame(frame.inspect)
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
-	
+
 	local quantity = quantity or 0
 
 	net.Start("buyItem")
@@ -35,10 +27,10 @@ function buyItem(npc, index, uniqueid, type, id, quantity)
 end
 
 function sellItem(npc, uniqueid, type, id, quantity)
-	removeInspect()
+	util.cleanupFrame(frame.inspect)
 	surface.PlaySound("pepboy/click1.wav")
 	LocalPlayer():setVguiDelay()
-	
+
 	local quantity = quantity or 0
 
 	net.Start("sellItem")
@@ -52,20 +44,23 @@ end
 
 function openMerchant(name, items)
 	gui.EnableScreenClicker(true)
-	
+
 	lastNpc = name
-	
+
 	local currentSelectedButton
 	local buttons = {}
 	local playerStock, npcStock
 	local plyFrame, npcFrame
-	
+
 	frame = vgui.Create("FalloutRP_Menu")
 	frame:SetSize(frameW, frameH)
 	frame:SetPos(ScrW()/2 - frame:GetWide()/2, ScrH()/2 - frame:GetTall()/2)
 	frame:SetFontTitle("FalloutRP3", name .."'s Shop")
 	frame:AddCloseButton()
-	
+	frame.onClose = function()
+		gui.EnableScreenClicker(false)
+	end
+
 	// Draw the buttons at the top for all the item types
 	local offsetX = 0
 	for k, info in ipairs(items) do
@@ -74,23 +69,23 @@ function openMerchant(name, items)
 		itemType:SetPos(buttonPadding + offsetX, 50)
 		itemType:SetFont("FalloutRP3")
 		itemType:SetText(info["Type"])
-		itemType:SetTextColor(COLOR_AMBER)
+		itemType:SetTextColor(COLOR_FOREGROUND)
 		itemType.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
-			
+
 			// The button is highlighted
 			if self.hovered then
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
-			
+
 			// The button is selected
 			if self.selected and (currentSelectedButton == self) then
-				surface.SetDrawColor(COLOR_AMBERFADE)
+				surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 				surface.DrawRect(0, 0, w, h)
-			
-				surface.SetDrawColor(COLOR_AMBER)
+
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -106,7 +101,7 @@ function openMerchant(name, items)
 			self.selected = true
 			self:SetTextColor(COLOR_BLUE)
 			surface.PlaySound("pepboy/click1.wav")
-			
+
 			// Remove the old stock panels from the previous item type page
 			if plyFrame and npcFrame then
 				plyFrame:Remove()
@@ -114,66 +109,66 @@ function openMerchant(name, items)
 				npcFrame:Remove()
 				npcFrame = nil
 			end
-			
+
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
-				currentSelectedButton:SetTextColor(COLOR_AMBER)
+				currentSelectedButton:SetTextColor(COLOR_FOREGROUND)
 			end
-			
+
 			currentSelectedButton = self
-			
+
 			// Open your inventory for that item type
 			playerStock(string.lower(info["Type"]), k)
-			
+
 			// Open npc's stock for that item type
 			npcStock(string.lower(info["Type"]), k)
-			
+
 			lastButton = k // Keep track of the last page the player was on
 			lastType = string.lower(info["Type"]) // Keep track of the last type the player was on
 		end
-		
+
 		// So we can call the last button we were on when reopening the menu
 		table.insert(buttons, itemType)
-		
+
 		offsetX = offsetX + buttonW + buttonPadding
 	end
-	
+
 	playerStock = function(type, id)
 		if recipeFrame then
 			recipeFrame:Remove()
 		end
-		
+
 		plyFrame = vgui.Create("DPanel", frame)
 		plyFrame:SetPos(buttonPadding, 125)
 		plyFrame:SetSize(childW, childH)
 		plyFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
-		
+
 		local caps = vgui.Create("DLabel", frame)
 		caps:SetFont("FalloutRP2")
-		caps:SetTextColor(COLOR_AMBER)
+		caps:SetTextColor(COLOR_FOREGROUND)
 		caps:SetText("Caps: " ..LocalPlayer():getCaps())
 		caps:SizeToContents()
 		caps:SetPos(buttonPadding + plyFrame:GetWide()/2 - caps:GetWide()/2, 100)
-		
+
 		local stockLabel = vgui.Create("DLabel", frame)
 		stockLabel:SetFont("FalloutRP2")
-		stockLabel:SetTextColor(COLOR_AMBER)
+		stockLabel:SetTextColor(COLOR_FOREGROUND)
 		stockLabel:SetText(LocalPlayer():getName() .."'s Stock")
 		stockLabel:SizeToContents()
 		stockLabel:SetPos(buttonPadding + plyFrame:GetWide()/2 - stockLabel:GetWide()/2, plyFrame:GetTall() + 140)
-		
+
 		local scroll = vgui.Create("DScrollPanel", plyFrame)
 		scroll:SetPos(0, 0)
 		scroll:SetSize(plyFrame:GetWide(), plyFrame:GetTall())
 		scroll.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
-		end	
-		
+		end
+
 		local scroller = scroll:GetVBar()
 		scroller.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
@@ -186,46 +181,48 @@ function openMerchant(name, items)
 		scroller.btnUp.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
-		end	
+		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
-		
+
 		local scrollerW = scroller:GetWide()
 		local layout = vgui.Create("DListLayout", scroll)
 		layout:SetSize(scroll:GetWide() - 10, scroll:GetTall() - 10)
 		layout:SetPos(5, 5)
-		
+
 		local currentItem
 
 		for uniqueid, item in pairs(LocalPlayer().inventory[type]) do
-			local itemName = getItemName(item.classid)
+			local itemMeta = findItem(item.classid)
+
+			local itemName = itemMeta:getName()
 			if util.greaterThanOne(item.quantity) then
 				itemName = itemName .." (" ..item.quantity ..")"
 			end
-			
-			local itemValue = getItemValue(item.classid)
-		
+
+			local itemValue = itemMeta:getValue()
+
 			local itemBox = vgui.Create("DButton")
 			itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 			itemBox.Paint = function(self, w, h)
 				surface.SetDrawColor(Color(0, 0, 0, 0))
 				surface.DrawRect(0, 0, w, h)
-				
-			
+
+
 				if self.hovered then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
-			
-					surface.SetDrawColor(COLOR_AMBER)
+
+					surface.SetDrawColor(COLOR_FOREGROUND)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end
 			end
 			itemBox.DoRightClick = function(self)
 				local flyout = vgui.Create("DMenu")
-				
+
 				if util.greaterThanOne(item.quantity) then
 					flyout:AddOption("Sell all for " ..(itemValue * item.quantity), function()
 						if !LocalPlayer():hasVguiDelay() then
@@ -252,79 +249,78 @@ function openMerchant(name, items)
 						end
 					end)
 				end
-				
+
 				flyout:Open()
 			end
 			itemBox:SetText("")
-			
+
 			local itemLabel = vgui.Create("DLabel", itemBox)
 			itemLabel:SetPos(textPadding, textPadding/2)
 			itemLabel:SetFont("FalloutRP2")
 			itemLabel:SetText(itemName)
 			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_AMBER)
-			
+			itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
+
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
-			valueLabel:SetTextColor(COLOR_AMBER)	
+			valueLabel:SetTextColor(COLOR_FOREGROUND)
 			valueLabel:SetText("Caps: " ..itemValue)
 			valueLabel:SizeToContents()
 			valueLabel:SetPos(itemBox:GetWide() - valueLabel:GetWide() - scrollerW - textPadding, textPadding/2)
-			
+
 			itemBox.OnCursorEntered = function(self)
 				self.hovered = true
 				surface.PlaySound("pepboy/click2.wav")
 				itemLabel:SetTextColor(COLOR_BLUE)
-				
+
 				// Draw item details
-				removeInspect()
-				
+				util.cleanupFrame(frame.inspect)
+
 				local frameX, frameY = frame:GetPos()
-				inspect = vgui.Create("FalloutRP_Item")
-				inspect:SetPos(frameX - inspect:GetWide(), frameY)
-				inspect:SetItem(item)
+
+				frame.inspect = vgui.Create("FalloutRP_Item")
+				frame.inspect:SetPos(frameX - frame.inspect:GetWide(), frameY)
+				frame.inspect:SetItem(item)
 			end
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
-				
-				itemLabel:SetTextColor(COLOR_AMBER)
-				
+
+				itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
+
 				// Remove item details
-				removeInspect()
+				util.cleanupFrame(frame.inspect)
 			end
-			
+
 			layout:Add(itemBox)
 		end
 	end
-	
+
 	npcStock = function(type, id)
-		if recipeFrame then
-			recipeFrame:Remove()
-		end
-		
+		util.cleanupFrame(recipeFrame)
+
 		npcFrame = vgui.Create("DPanel", frame)
 		npcFrame:SetPos(buttonPadding + childW + (frameW - (childW*2 + buttonPadding*2)), 125)
 		npcFrame:SetSize(childW, childH)
 		npcFrame.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
-		
+
 		local stockLabel = vgui.Create("DLabel", frame)
 		stockLabel:SetFont("FalloutRP2")
-		stockLabel:SetTextColor(COLOR_AMBER)
+		stockLabel:SetTextColor(COLOR_FOREGROUND)
 		stockLabel:SetText(name .."'s Stock")
 		stockLabel:SizeToContents()
 		stockLabel:SetPos(frame:GetWide() - buttonPadding - npcFrame:GetWide()/2 - stockLabel:GetWide()/2, npcFrame:GetTall() + 140)
-		
+
 		local scroll = vgui.Create("DScrollPanel", npcFrame)
 		scroll:SetPos(0, 0)
 		scroll:SetSize(npcFrame:GetWide(), npcFrame:GetTall())
 		scroll.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
-		end	
-		
+		end
+
 		local scroller = scroll:GetVBar()
 		scroller.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
@@ -337,46 +333,48 @@ function openMerchant(name, items)
 		scroller.btnUp.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
-		end	
+		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
-		
+
 		local scrollerW = scroller:GetWide()
 		local layout = vgui.Create("DListLayout", scroll)
 		layout:SetSize(scroll:GetWide() - 10, scroll:GetTall() - 10)
 		layout:SetPos(5, 5)
-		
+
 		local currentItem
 
 		for index, item in pairs(items[id]["Items"]) do
-			local itemName = getItemName(item.classid)
+			local itemMeta = findItem(item.classid)
+
+			local itemName = itemMeta:getName()
 			if util.greaterThanOne(item.quantity) then
 				itemName = itemName .." (" ..item.quantity ..")"
 			end
-			
+
 			local itemValue = item.price or 50
-		
+
 			local itemBox = vgui.Create("DButton")
 			itemBox:SetSize(layout:GetWide() - scrollerW, 30)
 			itemBox.Paint = function(self, w, h)
 				surface.SetDrawColor(Color(0, 0, 0, 0))
 				surface.DrawRect(0, 0, w, h)
-				
-			
+
+
 				if self.hovered then
-					surface.SetDrawColor(Color(255, 182, 66, 30))
+					surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 					surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
-			
-					surface.SetDrawColor(COLOR_AMBER)
+
+					surface.SetDrawColor(COLOR_FOREGROUND)
 					surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 				end
 			end
 			itemBox.DoRightClick = function(self)
 				local flyout = vgui.Create("DMenu")
-				
+
 				if util.greaterThanOne(item.quantity) then
 					flyout:AddOption("Buy all for " ..(itemValue * item.quantity), function()
 						if !LocalPlayer():hasVguiDelay() then
@@ -403,57 +401,57 @@ function openMerchant(name, items)
 						end
 					end)
 				end
-				
+
 				flyout:Open()
 			end
 			itemBox:SetText("")
-			
+
 			local itemLabel = vgui.Create("DLabel", itemBox)
 			itemLabel:SetPos(textPadding, textPadding/2)
 			itemLabel:SetFont("FalloutRP2")
 			itemLabel:SetText(itemName)
 			itemLabel:SizeToContents()
-			itemLabel:SetTextColor(COLOR_AMBER)
-			
+			itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
+
 			local valueLabel = vgui.Create("DLabel", itemBox)
 			valueLabel:SetFont("FalloutRP2")
-			valueLabel:SetTextColor(COLOR_AMBER)	
+			valueLabel:SetTextColor(COLOR_FOREGROUND)
 			valueLabel:SetText("Caps: " ..itemValue)
 			valueLabel:SizeToContents()
 			valueLabel:SetPos(itemBox:GetWide() - valueLabel:GetWide() - scrollerW - textPadding, textPadding/2)
-			
+
 			itemBox.OnCursorEntered = function(self)
 				self.hovered = true
 				surface.PlaySound("pepboy/click2.wav")
 				itemLabel:SetTextColor(COLOR_BLUE)
-				
+
 				// Draw item details
-				removeInspect()
-				
+				util.cleanupFrame(frame.inspect)
+
 				local frameX, frameY = frame:GetPos()
-				inspect = vgui.Create("FalloutRP_Item")
-				inspect:SetPos(frameX + frame:GetWide()/2 + inspect:GetWide()*2, frameY)
-				inspect:SetItem(item)
+				frame.inspect = vgui.Create("FalloutRP_Item")
+				frame.inspect:SetPos(frameX + frame:GetWide()/2 + frame.inspect:GetWide()*2, frameY)
+				frame.inspect:SetItem(item)
 			end
 			itemBox.OnCursorExited = function(self)
 				self.hovered = false
-				
-				itemLabel:SetTextColor(COLOR_AMBER)
-				
+
+				itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
+
 				// Remove item details
-				removeInspect()
+				util.cleanupFrame(frame.inspect)
 			end
-			
+
 			layout:Add(itemBox)
 		end
-	end	
-	
+	end
+
 	if lastButton and lastNpc and lastType and (lastNpc == name) then
 		buttons[lastButton].hovered = false
 		buttons[lastButton].selected = true
 		buttons[lastButton]:SetTextColor(COLOR_BLUE)
 		currentSelectedButton = buttons[lastButton]
-		
+
 		playerStock(lastType, lastButton)
 		npcStock(lastType, lastButton)
 	end
@@ -462,13 +460,10 @@ end
 net.Receive("openMerchant", function()
 	local name = net.ReadString()
 	local items = net.ReadTable()
-	
-	if frame then
-		frame:Remove()
-		frame = nil
-	end
-	
+
+	util.cleanupFrame(frame)
+
 	LocalPlayer():removeVguiDelay()
-	
+
 	openMerchant(name, items)
 end)

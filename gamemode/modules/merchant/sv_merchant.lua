@@ -65,13 +65,15 @@ function meta:sellItem(npc, type, id, uniqueid, quantity)
 	// Create a copy of the item since the actual one will be deleted
 	local item = table.Copy(self.inventory[type][uniqueid])
 
-	if isQuestItem(item.classid) then
+	local itemMeta = findItem(item.classid)
+
+	if itemMeta:getQuest() then
 		self:notify("You cannot sell a quest item", NOTIFY_ERROR)
 		return
 	end
 
 	item.quantity = quantity
-	item.price = getItemValue(item.classid) * 3
+	item.price = itemMeta:getValue() * 3
 
 	// Remove item from player
 	self:depleteInventoryItem(type, uniqueid, quantity)
@@ -92,7 +94,7 @@ function meta:sellItem(npc, type, id, uniqueid, quantity)
 	end
 
 	// Give player caps
-	self:addCaps(getItemValue(item.classid) * quantity)
+	self:addCaps(itemMeta:getValue() * quantity)
 
 	// Reopen the npc shop menu
 	self:openMerchant(npc)
@@ -133,7 +135,7 @@ hook.Add("InitPostEntity", "spawnMerchants", function()
 	end)
 
 	// Initalize the merchant's items
-	timer.Simple(5, function()
+	timer.Simple(10, function()
 		initializeMerchantItems()
 	end)
 end)

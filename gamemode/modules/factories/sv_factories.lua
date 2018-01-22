@@ -1,6 +1,6 @@
 
 if !FACTORY then
-	FACTORY = {} 
+	FACTORY = {}
 end
 
 util.AddNetworkString("factoryInfo")
@@ -47,17 +47,17 @@ function FACTORY:StartWar(side, factory)
 	factory:SetCooldown()
 	factory:SetStatus(1)
 	factory:SetTime(self.captureTime)
-	
+
 	notifyAll(team.GetName(side) .." is taking over " ..factory:GetPlace() .."!", NOTIFY_GENERIC)
-	
+
 	timer.Create("FACTORY " ..factory:GetPlace(), 1, self.captureTime, function()
 		self:CheckCaptureStatus(factory)
 	end)
 end
 
 function FACTORY:CheckCaptureStatus(factory)
-	local teams = {} 
-	
+	local teams = {}
+
 	for k,v in pairs(ents.FindInSphere(factory:GetPos(), self.captureDistance)) do
 		if v:IsValid() && v:IsPlayer() && v:Alive() && !v.pvpProtected then
 			if !teams[v:Team()] then
@@ -67,17 +67,17 @@ function FACTORY:CheckCaptureStatus(factory)
 			end
 		end
 	end
-	
+
 	factory:SetTime(factory:GetTime() - 1)
-	
+
 	//This is for keeping the current winner - the winner, if there is a tie
 	local currentKey, currentValue
 	if teams[factory:GetController()] then
 		currentKey = factory:GetController()
 		currentValue = teams[factory:GetController()]
 	end
-	
-	
+
+
 	if factory:GetTime() <= 0 then
 		self:EndWar(factory, util.getWinningKeyTie(teams, currentKey, currentValue))
 	else
@@ -95,12 +95,12 @@ end
 
 function FACTORY:EndWar(factory, winner)
 	timer.Destroy("FACTORY" ..factory:GetPlace())
-	
+
 	if winner != nil then
 		// Create hook
 		notifyAll(team.GetName(winner) .." has taken over " ..factory:GetPlace() .."!", NOTIFY_GENERIC, 5)
 	end
-	
+
 	if winner == nil then
 		factory:SetStatus(0)
 		factory:SetController(4)
@@ -109,18 +109,18 @@ function FACTORY:EndWar(factory, winner)
 		if timer.Exists("Factory" ..factory:EntIndex()) then
 			timer.Remove("Factory" ..factory:EntIndex())
 		end
-	
+
 		factory:SetStatus(2)
 		factory:SetController(winner)
-		
+
 		// Notify owners
 		for k,v in pairs(factory:getOwners()) do
 			v:notify("Your " ..factory:GetPlace() .." will now begin to generate items!", NOTIFY_GENERIC, 5)
 		end
-		
+
 		timer.Create("Factory" ..factory:EntIndex(), factory:getInfo()["Delay"], 0, function()
 			local faction = factory:GetController()
-				
+
 			if faction != 0 then // The factory is owner by a faction
 				if factory:getInfo()["Type"] == "Caps" then
 					for k,ply in pairs(team.GetPlayers(faction)) do
@@ -140,9 +140,9 @@ end
 
 function FACTORY.SendInfo()
 	timer.Create("FACTORY Send Info", 1, 0, function()
-	
+
 		FACTORY.clientInfo = {}
-		
+
 		for k,ply in pairs(player.GetAll()) do
 			for k,factory in pairs(ents.FindByClass("factory")) do
 				FACTORY.clientInfo[factory:GetPlace()] = {
@@ -152,7 +152,7 @@ function FACTORY.SendInfo()
 					Status = factory:GetStatus()
 				}
 			end
-			
+
 			net.Start("factoryInfo")
 				net.WriteTable(FACTORY.clientInfo)
 			net.Send(ply)

@@ -5,21 +5,33 @@ util.AddNetworkString("lootItem")
 
 local meta = FindMetaTable("Player")
 
-function generateRandomLoot(lvl, chest, luckModifier)
+// Beginning new implemntation
+function generateRandomLoot(possibleItems, lvl, chestModifier, luckModifier)
 	local loot = {}
-	local modifier = luckModifier or 0
+	local rarities = getRarityWorld()
+	luckModifier = luckModifier or 0
+	if chestModifier then
+		luckModifier = luckModifier + chestModifier
+	end
 
-	for k,v in pairs(LOOT_LEVELS[lvl]) do
-		local prob = v.prob
-		if chest then
-			prob = prob * 50
-		end
+	for k = 1, possibleItems do
+		local roll = math.random(1, 6000)
 
-		local quantity = math.random(v.quantity[1], v.quantity[2])
+		for i = RARITY_ORANGE, RARITY_WHITE, -1 do
+			local chance = rarities[i]
 
-		// Take decimals into account
-		if util.roll((prob + (prob * modifier)) * 10, 10000) then
-			table.insert(loot, #loot + 1, createItem(v.id, quantity))
+			// Only increase rarity of non-white items
+			if i != RARITY_WHITE then
+				chance = math.ceil(chance + (chance * luckModifier))
+			end
+
+			if roll <= chance then
+				local lootTable = LOOT_STRUCTURE[lvl][i]
+				local item = createItem(lootTable[math.random(1, #lootTable)])
+
+				table.insert(loot, #loot + 1, item)
+				break
+			end
 		end
 	end
 
@@ -52,9 +64,10 @@ function meta:lootItem(ent, itemId, quantity)
 	if self:Alive() and self:inLootRange(ent) then
 		if ent:hasItem(itemId, quantity, self) then
 			local item = table.Copy(ent:getItem(itemId, self))
+			local itemMeta = findItem(item.classid)
 
 			// Handle quest items seperately
-			if isQuestItem(item.classid) then
+			if itemMeta:getQuest() then
 				local looted = self:lootQuestItem(item.classid, quantity)
 				if looted then
 					ent:removeItem(itemId, looted, self)

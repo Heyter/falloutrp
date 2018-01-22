@@ -269,12 +269,6 @@ function meta:getQuestStats(questId)
     return stats
 end
 
-local function close(menu)
-    if menu then
-        menu:Remove()
-    end
-end
-
 // Quest Pick Menu
 function showQuests(giver, active, available)
     local showMenu = vgui.Create("FalloutRP_Scroll_List")
@@ -298,17 +292,17 @@ function showQuests(giver, active, available)
             surface.DrawRect(0, 0, w, h)
 
             if self.hovered then
-                surface.SetDrawColor(Color(255, 182, 66, 30))
+                surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                 surface.DrawRect(0, 0, w, h)
 
-                surface.SetDrawColor(COLOR_AMBER)
+                surface.SetDrawColor(COLOR_FOREGROUND)
                 surface.DrawOutlinedRect(0, 0, w, h)
             end
         end
         questBox.DoClick = function()
             surface.PlaySound("pepboy/click1.wav")
             // Open complete quest menu
-            close(showMenu)
+            util.cleanupFrame(showMenu)
             acceptQuestMenu(giver, v, true)
         end
         questBox:SetText("")
@@ -318,7 +312,7 @@ function showQuests(giver, active, available)
         questLabel:SetFont("FalloutRP2")
         questLabel:SetText(QUESTS:getName(v) .." (In Progress)")
         questLabel:SizeToContents()
-        questLabel:SetTextColor(COLOR_AMBER)
+        questLabel:SetTextColor(COLOR_FOREGROUND)
 
         questBox.OnCursorEntered = function(self)
             self.hovered = true
@@ -329,7 +323,7 @@ function showQuests(giver, active, available)
         questBox.OnCursorExited = function(self)
             self.hovered = false
 
-            questLabel:SetTextColor(COLOR_AMBER)
+            questLabel:SetTextColor(COLOR_FOREGROUND)
         end
 
         layout:Add(questBox)
@@ -344,17 +338,17 @@ function showQuests(giver, active, available)
             surface.DrawRect(0, 0, w, h)
 
             if self.hovered then
-                surface.SetDrawColor(Color(255, 182, 66, 30))
+                surface.SetDrawColor(COLOR_FOREGROUND_FADE)
                 surface.DrawRect(0, 0, w, h)
 
-                surface.SetDrawColor(COLOR_AMBER)
+                surface.SetDrawColor(COLOR_FOREGROUND)
                 surface.DrawOutlinedRect(0, 0, w, h)
             end
         end
         questBox.DoClick = function()
             surface.PlaySound("pepboy/click1.wav")
             // Open accept quest menu
-            close(showMenu)
+            util.cleanupFrame(showMenu)
             acceptQuestMenu(giver, v)
         end
         questBox:SetText("")
@@ -364,7 +358,7 @@ function showQuests(giver, active, available)
         questLabel:SetFont("FalloutRP2")
         questLabel:SetText(QUESTS:getName(v) .." (Available)")
         questLabel:SizeToContents()
-        questLabel:SetTextColor(COLOR_AMBER)
+        questLabel:SetTextColor(COLOR_FOREGROUND)
 
         questBox.OnCursorEntered = function(self)
             self.hovered = true
@@ -375,7 +369,7 @@ function showQuests(giver, active, available)
         questBox.OnCursorExited = function(self)
             self.hovered = false
 
-            questLabel:SetTextColor(COLOR_AMBER)
+            questLabel:SetTextColor(COLOR_FOREGROUND)
         end
 
         layout:Add(questBox)
@@ -403,7 +397,6 @@ function acceptQuestMenu(questGiver, questId, finish)
     acceptMenu:SetFontTitle("FalloutRP3", questGiver)
     acceptMenu:AddCloseButton()
     acceptMenu.onClose = function()
-        acceptMenu = nil
         LocalPlayer():StopSound("quest" ..questId)
     end
     acceptMenu:MakePopup()
@@ -411,7 +404,7 @@ function acceptQuestMenu(questGiver, questId, finish)
     local nameTitle = vgui.Create("DLabel", acceptMenu)
     nameTitle:SetFont("FalloutRP3")
     nameTitle:SetPos(50, 50)
-    nameTitle:SetTextColor(COLOR_AMBER)
+    nameTitle:SetTextColor(COLOR_FOREGROUND)
     nameTitle:SetText(name)
     nameTitle:SizeToContents()
     lastX, lastY = nameTitle:GetPos()
@@ -419,7 +412,7 @@ function acceptQuestMenu(questGiver, questId, finish)
     local descLabel = vgui.Create("DLabel", acceptMenu)
     descLabel:SetFont("FalloutRP2")
     descLabel:SetPos(50, lastY + nameTitle:GetTall() + 10)
-    descLabel:SetTextColor(COLOR_AMBER)
+    descLabel:SetTextColor(COLOR_FOREGROUND)
     descLabel:SetText(util.textWrap(description, acceptMenu:GetWide() - 100, "FalloutRP2"))
     descLabel:SizeToContents()
     lastX, lastY = descLabel:GetPos()
@@ -427,7 +420,7 @@ function acceptQuestMenu(questGiver, questId, finish)
     local objectivesTitle = vgui.Create("DLabel", acceptMenu)
     objectivesTitle:SetFont("FalloutRP3")
     objectivesTitle:SetPos(50, lastY + descLabel:GetTall() + 10)
-    objectivesTitle:SetTextColor(COLOR_AMBER)
+    objectivesTitle:SetTextColor(COLOR_FOREGROUND)
     objectivesTitle:SetText("Objectives")
     objectivesTitle:SizeToContents()
     lastX, lastY = objectivesTitle:GetPos()
@@ -435,7 +428,7 @@ function acceptQuestMenu(questGiver, questId, finish)
     local objectivesLabel = vgui.Create("DLabel", acceptMenu)
     objectivesLabel:SetFont("FalloutRP2")
     objectivesLabel:SetPos(50, lastY + objectivesTitle:GetTall() + 10)
-    objectivesLabel:SetTextColor(COLOR_AMBER)
+    objectivesLabel:SetTextColor(COLOR_FOREGROUND)
     objectivesLabel:SetText(util.textWrap(objectives, acceptMenu:GetWide() - 100, "FalloutRP2"))
     objectivesLabel:SizeToContents()
     lastX, lastY = objectivesLabel:GetPos()
@@ -443,7 +436,7 @@ function acceptQuestMenu(questGiver, questId, finish)
     local rewardsTitle = vgui.Create("DLabel", acceptMenu)
     rewardsTitle:SetFont("FalloutRP3")
     rewardsTitle:SetPos(50, lastY + objectivesLabel:GetTall())
-    rewardsTitle:SetTextColor(COLOR_AMBER)
+    rewardsTitle:SetTextColor(COLOR_FOREGROUND)
     rewardsTitle:SetText("Rewards")
     rewardsTitle:SizeToContents()
     lastX, lastY = rewardsTitle:GetPos()
@@ -453,7 +446,7 @@ function acceptQuestMenu(questGiver, questId, finish)
         local rewardsCaps = vgui.Create("DLabel", acceptMenu)
         rewardsCaps:SetFont("FalloutRP2")
         rewardsCaps:SetPos(50, lastY + lastTall + 5)
-        rewardsCaps:SetTextColor(COLOR_AMBER)
+        rewardsCaps:SetTextColor(COLOR_FOREGROUND)
         rewardsCaps:SetText("Caps: " ..string.Comma(rewards.caps))
         rewardsCaps:SizeToContents()
         lastX, lastY = rewardsCaps:GetPos()
@@ -463,7 +456,7 @@ function acceptQuestMenu(questGiver, questId, finish)
         local rewardsExperience = vgui.Create("DLabel", acceptMenu)
         rewardsExperience:SetFont("FalloutRP2")
         rewardsExperience:SetPos(50, lastY + lastTall + 5)
-        rewardsExperience:SetTextColor(COLOR_AMBER)
+        rewardsExperience:SetTextColor(COLOR_FOREGROUND)
         rewardsExperience:SetText("Experience: " ..string.Comma(rewards.experience))
         rewardsExperience:SizeToContents()
         lastX, lastY = rewardsExperience:GetPos()
@@ -473,7 +466,7 @@ function acceptQuestMenu(questGiver, questId, finish)
 		local rewardsDescription = vgui.Create("DLabel", acceptMenu)
 		rewardsDescription:SetFont("FalloutRP2")
 		rewardsDescription:SetPos(50, lastY + lastTall + 5)
-		rewardsDescription:SetTextColor(COLOR_AMBER)
+		rewardsDescription:SetTextColor(COLOR_FOREGROUND)
 		rewardsDescription:SetText(rewards.description)
 		rewardsDescription:SizeToContents()
 		lastX, lastY = rewardsDescription:GetPos()
@@ -488,27 +481,24 @@ function acceptQuestMenu(questGiver, questId, finish)
             icon:SetPos(50 + itemOffset, lastY + lastTall + 5)
             // There is no model for apparels yet
             if !isApparel(k) then
-                icon:SetModel(getItemModel(k))
+				local itemMeta = findItem(k)
+                icon:SetModel(itemMeta:getModel())
             end
             icon.OnCursorEntered = function(self)
                 local frameX, frameY = acceptMenu:GetPos()
-                inspect = vgui.Create("FalloutRP_Item")
-                inspect:SetPos(frameX + acceptMenu:GetWide(), frameY)
-                inspect:SetItem({classid = k, quantity = v}, false, true)
-                acceptMenu.inspect = inspect
+                acceptMenu.inspect = vgui.Create("FalloutRP_Item")
+                acceptMenu.inspect:SetPos(frameX + acceptMenu:GetWide(), frameY)
+                acceptMenu.inspect:SetItem({classid = k, quantity = v}, false, true)
             end
             icon.OnCursorExited = function(self)
-                if inspect then
-                    inspect:Remove()
-                    inspect = nil
-                end
+				util.cleanupFrame(acceptMenu.inspect)
             end
 
             if util.positive(v) then
                 local amount = vgui.Create("DLabel", icon)
                 amount:SetFont("FalloutRP1")
                 amount:SetText(string.Comma(v))
-                amount:SetTextColor(COLOR_AMBER)
+                amount:SetTextColor(COLOR_FOREGROUND)
                 amount:SizeToContents()
                 amount:SetPos(icon:GetWide() - amount:GetWide() - 5, icon:GetTall() - amount:GetTall() - 5)
             end
@@ -524,8 +514,7 @@ function acceptQuestMenu(questGiver, questId, finish)
         decline:SetFont("FalloutRP2")
         decline:SetText("Decline")
         decline.DoClick = function()
-            close(acceptMenu)
-
+			acceptMenu:RemoveOverride()
             LocalPlayer():StopSound("quest" ..questId)
         end
 
@@ -535,10 +524,8 @@ function acceptQuestMenu(questGiver, questId, finish)
         accept:SetFont("FalloutRP2")
         accept:SetText("Accept")
         accept.DoClick = function()
-            close(acceptMenu)
+            acceptMenu:RemoveOverride()
             LocalPlayer():acceptQuest(questId)
-
-            LocalPlayer():StopSound("quest" ..questId)
         end
     else
         if removals then
@@ -548,7 +535,7 @@ function acceptQuestMenu(questGiver, questId, finish)
             returnMaterials:SetFont("FalloutRP2")
             returnMaterials:SetText("Return Materials")
             returnMaterials.DoClick = function()
-                close(acceptMenu)
+                acceptMenu:RemoveOverride()
                 LocalPlayer():returnQuestMaterials(questId)
             end
 
@@ -558,7 +545,7 @@ function acceptQuestMenu(questGiver, questId, finish)
             complete:SetFont("FalloutRP2")
             complete:SetText("Complete")
             complete.DoClick = function()
-                close(acceptMenu)
+                acceptMenu:RemoveOverride()
                 LocalPlayer():completeQuest(questId)
             end
             if !LocalPlayer():finishedQuestTasks(questId) then
@@ -571,7 +558,7 @@ function acceptQuestMenu(questGiver, questId, finish)
             complete:SetFont("FalloutRP2")
             complete:SetText("Complete")
             complete.DoClick = function()
-                close(acceptMenu)
+                acceptMenu:RemoveOverride()
                 LocalPlayer():completeQuest(questId)
             end
             if !LocalPlayer():finishedQuestTasks(questId) then
@@ -593,7 +580,7 @@ hook.Add("HUDPaint", "questTracker", function()
                 for i = 1, 2 do
                     draw.SimpleText(QUESTS:getName(k), "FalloutRPHUD1Blur", ScrW() - 250, offset, Color(PEPBOY_COLOR.r, PEPBOY_COLOR.g, PEPBOY_COLOR.b, 200), false, 0)
                 end
-                draw.SimpleText(QUESTS:getName(k), "FalloutRPHUD1", ScrW() - 250, offset, Color(getHUDColor.x + 40, getHUDColor.y + 40, getHUDColor.z + 40, 255), false, 0)
+                draw.SimpleText(QUESTS:getName(k), "FalloutRPHUD1", ScrW() - 250, offset, COLOR_BLACK, false, 0)
 
                 // Quest Tasks
                 for k,v in pairs(LocalPlayer():getQuestStats(k)) do
@@ -606,4 +593,34 @@ hook.Add("HUDPaint", "questTracker", function()
             end
         end
    end
+end)
+
+
+hook.Add("PostDrawOpaqueRenderables","haloQuests",function()
+	local pos = LocalPlayer():EyePos() + LocalPlayer():EyeAngles():Forward()*10
+	local ang = LocalPlayer():EyeAngles()
+	ang = Angle(ang.p + 90, ang.y, 0)
+	for k, v in pairs(ents.FindByClass("quest_item")) do
+		render.ClearStencil()
+		render.SetStencilEnable(true)
+			render.SetStencilWriteMask(255)
+			render.SetStencilTestMask(255)
+			render.SetStencilReferenceValue(15)
+			render.SetStencilFailOperation(STENCILOPERATION_KEEP)
+			render.SetStencilZFailOperation(STENCILOPERATION_KEEP)
+			render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
+			render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_ALWAYS)
+			render.SetBlend(0)
+			v:SetModelScale(1.0 + math.Rand(0.001, 0.002), 0)
+			v:DrawModel()
+			v:SetModelScale(1, 0)
+			render.SetBlend(1)
+			render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
+			cam.Start3D2D(pos, ang, 1)
+					surface.SetDrawColor(COLOR_YELLOW)
+					surface.DrawRect(-ScrW(), -ScrH(), ScrW()*2, ScrH()*2)
+			cam.End3D2D()
+			v:DrawModel()
+		render.SetStencilEnable(false)
+	end
 end)

@@ -17,7 +17,6 @@ end
 
 function ENT:AcceptInput(type, activator)
 	if type == "Use" and IsValid(activator) and activator:IsPlayer() and activator.loaded then
-		print("TEST")
 		// Menu
 		net.Start("openQuestMenu")
 			net.WriteString(self:GetNickname())

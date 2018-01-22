@@ -1,13 +1,13 @@
 
 local frameW, frameH = 800, 600
 local nameFrameW, nameFrameH = 800, 600
-local wait = 4 // How many seconds a player should be on each image before being able to continue
+local wait = 1 // How many seconds a player should be on each image before being able to continue
 
 local images = {
 	{image = "falloutrp/tutorial/sanctuary.jpg", description = " The sanctuary is a safe zone among all factions.\n You cannot hurt or be hurt while inside here."},
 	{image = "falloutrp/tutorial/pipboy1.jpg", description = " The pipboy contains your player data, inventory, quests, party, and settings.\n It can be accessed by hitting F4.\n In this tab you can equip, use, and drop items."},
 	{image = "falloutrp/tutorial/pipboy2.jpg", description = " On this screen you can view your hunger, thirst, level, and your rank.\n A player's rank is determined by their number of player kills."},
-	{image = "falloutrp/tutorial/bank.jpg", description = " The bank is very important to use because you DROP all your items when you DIE.\n This is one way you can ensure you will keep your epic loot!"},
+	{image = "falloutrp/tutorial/bank.jpg", description = " The bank allows you to store items when you need more space.\n It can be found inside the sanctuary."},
 	{image = "falloutrp/tutorial/quest.jpg", description = " There are many quest givers around the map.\n Governor Dave is where you start the main story line of Fallout RP."},
 	{image = "falloutrp/tutorial/crafting1.jpg", description = " Crafting is a way to make your own weapons, apparel, aid, ammo, and materials\n However these items may not always have the best stats."},
 	//{image = "falloutrp/tutorial/crafting2.jpg", description = " Once you use the crafting table you choose which type of item you want to make.\n Then the items of that type will show if you have the required level.\n You will also see how many materials you still need to craft it."},
@@ -21,7 +21,7 @@ local images = {
 	//{image = "falloutrp/tutorial/wood.jpg", description = " You can find wood scraps around the map which you can scavenge.\n By using them, you might find wood materials."},
 	//{image = "falloutrp/tutorial/metal.jpg", description = " You can find metal scraps around the map which you can scavenge.\n By using them, you might find scrap metal or even weapons!"},
 	{image = "falloutrp/tutorial/chest.jpg", description = " If you get really lucky you might even come across chests.\n Keep your eyes open! Chests have an abundance of great items.\n Some might be locked and you will need a lockpick."},
-	{image = "falloutrp/tutorial/warning.png", description = " WARNING! The most danagerous enemy in this game is OTHER PLAYERS!\n It is HIGHLY recommended that you turn on PvP protection while you can.\n It is very easy to lose your guard and get killed and lose your items!"},
+	//{image = "falloutrp/tutorial/warning.png", description = " WARNING! The most danagerous enemy in this game is OTHER PLAYERS!\n It is HIGHLY recommended that you turn on PvP protection while you can.\n It is very easy to lose your guard and get killed and lose your items!"},
 }
 
 local function timeButton(button)
@@ -66,7 +66,7 @@ function tutorialSlideShow(newPlayer)
 	local info = vgui.Create("DLabel", frame)
 	info:SetFont("FalloutRP2")
 	info:SetPos(50, 460)
-	info:SetTextColor(COLOR_AMBER)
+	info:SetTextColor(COLOR_FOREGROUND)
 	info:SetText(images[index]["description"])
 	info:SizeToContents()
 

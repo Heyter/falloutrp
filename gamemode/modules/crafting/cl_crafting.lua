@@ -7,7 +7,6 @@ local buttonPadding = (frameW - (buttonW * 5)) / 6
 local matLineDashed = Material("models/pepboy/line_y")
 local textPadding = 10
 local lastButton = 1
-local inspect // Draws the items information on a side panel
 
 // Make it easier to relate the id to the name
 local idTypes = {"WEAPONS", "APPAREL", "AMMO", "AID", "MISC"}
@@ -17,15 +16,7 @@ net.Receive("openCrafting", function()
 end)
 
 net.Receive("craftItem", function()
-	if frame then
-		frame:Remove()
-		frame = nil
-		gui.EnableScreenClicker(false)
-	end
-	if inspect then
-		inspect:Remove()
-		inspect = nil
-	end
+	util.cleanupFrame(frame)
 
 	openCrafting()
 end)
@@ -61,6 +52,9 @@ function openCrafting()
 	frame:SetFontTitle("FalloutRP3", "CRAFTING")
 	frame:AddCloseButton()
 	frame:MakePopup()
+	frame.onClose = function()
+		gui.EnableScreenClicker(false)
+	end
 
 	// Draw the buttons at the top for all the item types
 	local offsetX = 0
@@ -70,23 +64,23 @@ function openCrafting()
 		itemType:SetPos(buttonPadding + offsetX, 50)
 		itemType:SetFont("FalloutRP3")
 		itemType:SetText(idTypes[i])
-		itemType:SetTextColor(COLOR_AMBER)
+		itemType:SetTextColor(COLOR_FOREGROUND)
 		itemType.Paint = function(self, w, h)
 			surface.SetDrawColor(Color(0, 0, 0, 0))
 			surface.DrawRect(0, 0, w, h)
 
 			// The button is highlighted
 			if self.hovered then
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 
 			// The button is selected
 			if self.selected and (currentSelectedButton == self) then
-				surface.SetDrawColor(COLOR_AMBERFADE)
+				surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 				surface.DrawRect(0, 0, w, h)
 
-				surface.SetDrawColor(COLOR_AMBER)
+				surface.SetDrawColor(COLOR_FOREGROUND)
 				surface.DrawOutlinedRect(0, 0, w, h)
 			end
 		end
@@ -106,7 +100,7 @@ function openCrafting()
 			if currentSelectedButton then
 				// Reset the old button to not be selected
 				currentSelectedButton.selected = false
-				currentSelectedButton:SetTextColor(COLOR_AMBER)
+				currentSelectedButton:SetTextColor(COLOR_FOREGROUND)
 			end
 
 			currentSelectedButton = self
@@ -160,7 +154,7 @@ function openCrafting()
 			surface.DrawRect(0, 0, w, h)
 		end
 		scroller.btnGrip.Paint = function(self, w, h)
-			surface.SetDrawColor(COLOR_AMBER)
+			surface.SetDrawColor(COLOR_FOREGROUND)
 			surface.SetMaterial(matLineDashed)
 			surface.DrawTexturedRect(0, 0, 3, h)
 		end
@@ -173,6 +167,7 @@ function openCrafting()
 		local currentItem
 		for k,v in ipairs(RECIPES[type]) do
 			if LocalPlayer():hasCraftingLevel(v.level) then
+				local itemMeta = findItem(v.classid)
 
 				local itemBox = vgui.Create("DButton")
 				itemBox:SetSize(layout:GetWide() - scrollerW, 30)
@@ -182,16 +177,16 @@ function openCrafting()
 
 
 					if self.selected and (currentItem == self) then
-						surface.SetDrawColor(COLOR_AMBERFADE)
+						surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-						surface.SetDrawColor(COLOR_AMBER)
+						surface.SetDrawColor(COLOR_FOREGROUND)
 						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 					elseif self.hovered then
-						surface.SetDrawColor(Color(255, 182, 66, 30))
+						surface.SetDrawColor(COLOR_FOREGROUND_FADE)
 						surface.DrawRect(0, 0, w - scrollerW - textPadding*2, h)
 
-						surface.SetDrawColor(COLOR_AMBER)
+						surface.SetDrawColor(COLOR_FOREGROUND)
 						surface.DrawOutlinedRect(0, 0, w - scrollerW - textPadding*2, h)
 					end
 				end
@@ -214,15 +209,15 @@ function openCrafting()
 				local itemLabel = vgui.Create("DLabel", itemBox)
 				itemLabel:SetPos(textPadding, textPadding/2)
 				itemLabel:SetFont("FalloutRP2")
-				itemLabel:SetText(getItemName(v.classid))
+				itemLabel:SetText(itemMeta:getName())
 				if util.greaterThanOne(v.quantity) then
-					itemLabel:SetText(getItemName(v.classid) .."\t (" ..v.quantity ..")")
+					itemLabel:SetText(itemMeta:getNameQuantity(v.quantity))
 				end
 				itemLabel:SizeToContents()
 				if itemBox.selected then
 					itemLabel:SetTextColor(COLOR_BLUE)
 				else
-					itemLabel:SetTextColor(COLOR_AMBER)
+					itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 				end
 
 				itemBox.OnCursorEntered = function(self)
@@ -232,8 +227,7 @@ function openCrafting()
 				end
 				itemBox.OnCursorExited = function(self)
 					self.hovered = false
-
-					itemLabel:SetTextColor(COLOR_AMBER)
+					itemLabel:SetTextColor(getRarityColor(itemMeta:getRarity()))
 				end
 
 				layout:Add(itemBox)
@@ -269,25 +263,22 @@ function openCrafting()
 		icon:SetPos(infoFrame:GetWide()/2 - icon:GetWide()/2, 25)
 		// There is no model for apparels yet
 		if !isApparel(id) then
-			icon:SetModel(getItemModel(id))
+			local itemMeta = findItem(id)
+			icon:SetModel(itemMeta:getModel())
 		end
 		icon.OnCursorEntered = function(self)
 			local frameX, frameY = frame:GetPos()
-			inspect = vgui.Create("FalloutRP_Item")
-			inspect:SetPos(frameX + frame:GetWide(), frameY)
-			inspect:SetItem(itemInfo, true)
-			frame.inspect = inspect
+			frame.inspect = vgui.Create("FalloutRP_Item")
+			frame.inspect:SetPos(frameX + frame:GetWide(), frameY)
+			frame.inspect:SetItem(itemInfo, true)
 		end
 		icon.OnCursorExited = function(self)
-			if inspect then
-				inspect:Remove()
-				inspect = nil
-			end
+			util.cleanupFrame(frame.inspect)
 		end
 
 		local required = vgui.Create("DLabel", infoFrame)
 		required:SetFont("FalloutRP2")
-		required:SetTextColor(COLOR_AMBER)
+		required:SetTextColor(COLOR_FOREGROUND)
 		required:SetText("Requires:")
 		required:SetPos(10, 155)
 		required:SizeToContents()
@@ -330,10 +321,12 @@ function openCrafting()
 		end
 
 		for id, amount in pairs(materials) do
+			local itemMeta = findItem(id)
+
 			local materialName = vgui.Create("DLabel", infoFrame)
 			materialName:SetFont("FalloutRP1.5")
-			materialName:SetTextColor(COLOR_AMBER)
-			materialName:SetText(getItemName(id))
+			materialName:SetTextColor(getRarityColor(itemMeta:getRarity()))
+			materialName:SetText(itemMeta:getName())
 			materialName:SetPos(10, 185 + offsetY)
 			materialName:SizeToContents()
 
@@ -348,7 +341,7 @@ function openCrafting()
 
 			// The player has enough of the required item
 			if owned >= amount then
-				materialOwned:SetTextColor(COLOR_LIGHTGREEN)
+				materialOwned:SetTextColor(COLOR_GREEN)
 			else
 				// The player does not have enough of the required item
 				craft:SetDisabled()

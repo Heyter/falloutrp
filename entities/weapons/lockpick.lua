@@ -132,8 +132,6 @@ if SERVER then
 
 		if ply:HasWeapon("lockpick") then
 			local wep = ply:GetActiveWeapon()
-			print(angle)
-			print(wep.unlockAngle)
 			if angle - 10 < wep.unlockAngle and angle + 10 > wep.unlockAngle then
 				-- Lockpick has the correct angle to open, tell the client
 				wep:SetNWBool("lockpick_canTurn", true)
@@ -210,7 +208,6 @@ function SWEP:PrimaryAttack()
 	if SERVER then
 		self.unlockAngle = math.random(15, 165)
 		self:SetNWBool("lockpick_canTurn", false)
-		--print(self.unlockAngle)
 	end
 
 	self:SetHoldType("pistol")
@@ -260,7 +257,7 @@ function SWEP:PrimaryAttack()
 			draw.DrawText( "Hold 'A' to turn the lock", "TargetID", x + baseW/2, y + baseH + 50, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
 
 			-- Black background behind the inside lock just to make sure no transparency peeks through
-			surface.SetDrawColor( color_black )
+			surface.SetDrawColor( COLOR_BACKGROUND )
 			surface.DrawRect( x + baseW/4, y + baseH/4, baseW/2, baseH/2 )
 
 			-- The outside lock

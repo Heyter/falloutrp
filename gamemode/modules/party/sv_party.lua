@@ -109,7 +109,6 @@ end
 
 function meta:disbandonParty(disconnected)
     if self:isPartyLeader() then
-        print("Test4")
         local index = self.party
 
         for k,v in pairs(PARTY.parties[self.party].members) do
@@ -220,6 +219,5 @@ hook.Add("PlayerSay", "joinParty", function(ply, text)
 end)
 
 hook.Add("PlayerDisconnected", "removeFromParty", function(ply)
-    print("TEST1")
     ply:kickParty(ply, true)
 end)

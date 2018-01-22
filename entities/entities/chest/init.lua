@@ -3,7 +3,6 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:SetModel(CHEST_MODEL)
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -25,6 +24,7 @@ function ENT:Use(activator)
 		if self:isLocked() then
 			// Chest is locked
 			self:EmitSound("doors/default_locked.wav")
+			activator:notify("This container is locked and requires " ..self:getLevel() .." lockpicking to open.", NOTIFY_ERROR)
 		else
 			// Chest is not locked
 			activator:loot(self)
@@ -61,7 +61,7 @@ function ENT:isLocked()
 end
 
 function ENT:remove()
-	CHEST_LOCATIONS[self.key]["Active"] = false
+	CHESTS[self:GetModel()].locations[self.key]["Active"] = false
 	util.fadeRemove(self)
 end
 

@@ -9,7 +9,7 @@ function meta:addToken(amount)
 
 		local tokens = self:getTokens()
 
-		MySQLite.query("UPDATE playerdata SET tokens = " ..tokens .." WHERE steamid = '" ..self:SteamID() .."'")
+		DB:RunQuery("UPDATE playerdata SET tokens = " ..tokens .." WHERE steamid = '" ..self:SteamID() .."'")
 
 		net.Start("updateTokens")
 			net.WriteInt(tokens, 8)
@@ -22,7 +22,7 @@ function meta:removeToken(amount)
 
 	local tokens = self:getTokens()
 
-	MySQLite.query("UPDATE playerdata SET tokens = " ..tokens .." WHERE steamid = '" ..self:SteamID() .."'")
+	DB:RunQuery("UPDATE playerdata SET tokens = " ..tokens .." WHERE steamid = '" ..self:SteamID() .."'")
 
 	self:notify("You have " ..tokens .." tokens remaining.", NOTIFY_GENERIC)
 

@@ -1,5 +1,5 @@
 
-MERCHANTS = {
+MERCHANTS = MERCHANTS or {
 	["Billy"] = {
 		Position = Vector(-10721, 3450, 128),
 		Angles = Angle(0, 320, 0),
@@ -88,7 +88,6 @@ function initializeMerchantItems()
 	for merchant, info in pairs(MERCHANTS) do
 		for k, itemInfo in pairs(info.Sale) do
 			for a, item in ipairs(itemInfo.ItemsMimic) do
-				print(item.classid)
 				local newItem = createItem(item.classid, item.quantity, true)
 				newItem.uniqueid = item.uniqueid
 				newItem.price = item.price
