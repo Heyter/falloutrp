@@ -25,7 +25,7 @@ local function giveStartingWeapons(ply)
 		ply:pickUpItem(createItem(2030, 1, true), 1) // Raggedy Green Slacks
 	end)
 	timer.Simple(4, function()
-		ply:pickUpItem(createItem(5014, 5, true), 5) // Scrap metal
+		ply:pickUpItem(createItem(5014, 5, true), 20) // Scrap metal
 	end)
 	timer.Simple(5, function()
 		ply:pickUpItem(createItem(5028, 5, true), 5) // Rock
@@ -41,7 +41,7 @@ local function giveStartingWeapons(ply)
 	end)
 	timer.Simple(9, function()
 		ply:pickUpItem(createItem(1056, 1)) // Silence .22
-		ply:GiveAmmo(60, "22LR")
+		ply:GiveAmmo(60, "Bullets")
 	end)
 end
 
