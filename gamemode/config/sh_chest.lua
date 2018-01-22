@@ -14,7 +14,7 @@ CHESTS = {
 		lockable = true,
 		modifier = .15,
 	},
-	["models/props_c17/SuitCase_Passenger_Physics.mdl"] = {
+	["models/props_c17/suitcase001a.mdl"] = {
 		locations = {
 			{Position = Vector(7436, 2544, 24), Angles = Angle(1, 4, -89)},
 			{Position = Vector(6571, 744, 63), Angles = Angle(1, -55, 2)},
@@ -30,7 +30,7 @@ CHESTS = {
 		limit = 5,
 		timer = 180,
 	},
-	["models/props_c17/BriefCase001a.mdl"] = {
+	["models/props_c17/briefcase001a.mdl"] = {
 		locations = {
 			{Position = Vector(7072, 2671, 61), Angles = Angle(1, 41, 11)},
 			{Position = Vector(6530, 745, 54), Angles = Angle(0, -25, 0)},
@@ -46,7 +46,7 @@ CHESTS = {
 		limit = 5,
 		timer = 180,
 	},
-	["models/props_c17/FurnitureDrawer001a.mdl"] = {
+	["models/props_c17/furnituredrawer001a.mdl"] = {
 		locations = {
 			{Position = Vector(490, 11742, 469), Angles = Angle(1, 180, -0)},
 			{Position = Vector(6317, 5797, 29), Angles = Angle(-85, -177, -92)},
@@ -64,7 +64,7 @@ CHESTS = {
 		lockable = true,
 		modifier = .15,
 	},
-	["models/props_c17/FurnitureCupboard001a.mdl"] = {
+	["models/props_c17/furniturecupboard001a.mdl"] = {
 		locations = {
 			{Position = Vector(1509, 9170, 77), Angles = Angle(-0, -179, 6)},
 			{Position = Vector(-108, 11692, 526), Angles = Angle(1, 1, 1)},
@@ -78,7 +78,7 @@ CHESTS = {
 		lockable = true,
 		modifier = .15,
 	},
-	["models/props_c17/FurnitureDresser001a.mdl"] = {
+	["models/props_c17/furnituredresser001a.mdl"] = {
 		locations = {
 			{Position = Vector(4050, 9142, 137), Angles = Angle(-0, -0, 1)},
 			{Position = Vector(-10, 11766, 489), Angles = Angle(0, -91, 0)},

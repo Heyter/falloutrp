@@ -61,7 +61,7 @@ function ENT:isLocked()
 end
 
 function ENT:remove()
-	CHEST_LOCATIONS[self.key]["Active"] = false
+	CHESTS[self:GetModel()].locations[self.key]["Active"] = false
 	util.fadeRemove(self)
 end
 

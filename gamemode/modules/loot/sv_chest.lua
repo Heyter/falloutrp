@@ -33,7 +33,7 @@ function spawnChest(chest, model, inactiveChests)
 	newChest:SetAngles(location["Angles"])
 	newChest:SetModel(model)
 
-	chest.locations[randomLocation]["Active"] = true
+	CHESTS[model].locations[randomLocation]["Active"] = true
 	newChest.key = randomLocation // So we know which location to set inactive when the chest is gone
 
 	local lvl = 1
@@ -54,6 +54,8 @@ function spawnChest(chest, model, inactiveChests)
 	for k, v in pairs(loot) do
 		newChest:addItem(v)
 	end
+
+	newChest:addItem(createItem(4001))
 end
 
 function spawnDummyChest()
