@@ -35,7 +35,6 @@ function meta:loadInvWeapons()
 end
 
 function meta:pickUpWeapon(weapon)
-	print(weapon)
 	DB:RunQuery("INSERT INTO weapons (steamid, classid, damage, durability) VALUES ('" ..self:SteamID() .."', " ..weapon.classid ..", " ..weapon.damage ..", " ..weapon.durability .."); SELECT LAST_INSERT_ID();", function(query, status, data)
 		// Get the last inserted id so we can store that in lua
 		local uniqueid = query:getNextResults()[1]["LAST_INSERT_ID()"]

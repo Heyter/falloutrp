@@ -57,7 +57,6 @@ function meta:dropAllInventory()
 	// Insert all player's items into the loot and remove the item
 	for type, items in pairs(self.inventory) do
 		for uniqueid, item in pairs(items) do
-			print(item.classid)
 			local itemMeta = findItem(item.classid)
 
 			DB:RunQuery("DELETE FROM " ..type .." WHERE uniqueid = " ..uniqueid)
@@ -78,7 +77,6 @@ function meta:dropAllInventory()
 
 
 	// If the player had any items in the inventory then create the loot
-	print(#loot)
 	if loot and #loot > 0 then
 		createLoot(self:GetPos(), loot)
 	end

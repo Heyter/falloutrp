@@ -62,7 +62,6 @@ end)
 
 hook.Add("PlayerShouldTakeDamage", "PvpProtection", function(victim, attacker)
 	if victim.pvpProtected and IsValid(attacker) and attacker:IsPlayer() and (attacker != victim) then
-		print(attacker)
 		attacker:notify("That player is PvP protected.", NOTIFY_ERROR)
 		return false
 	elseif attacker.pvpProtected then

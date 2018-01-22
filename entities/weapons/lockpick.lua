@@ -132,8 +132,6 @@ if SERVER then
 
 		if ply:HasWeapon("lockpick") then
 			local wep = ply:GetActiveWeapon()
-			print(angle)
-			print(wep.unlockAngle)
 			if angle - 10 < wep.unlockAngle and angle + 10 > wep.unlockAngle then
 				-- Lockpick has the correct angle to open, tell the client
 				wep:SetNWBool("lockpick_canTurn", true)
@@ -210,7 +208,6 @@ function SWEP:PrimaryAttack()
 	if SERVER then
 		self.unlockAngle = math.random(15, 165)
 		self:SetNWBool("lockpick_canTurn", false)
-		--print(self.unlockAngle)
 	end
 
 	self:SetHoldType("pistol")
