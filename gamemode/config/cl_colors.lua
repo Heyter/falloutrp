@@ -14,6 +14,7 @@ COLOR_RED = Color(255, 0, 0, 255)
 COLOR_DARKGREEN = Color(39, 174, 96, 255)
 COLOR_BLUE = Color(52, 152, 219, 255)
 COLOR_GRAY = Color(145, 145, 145, 255)
+COLOR_YELLOW = Color(241, 196, 15, 255)
 
 // Used to double up frames and make it look sleeker
 COLOR_TRANSLUCENT = Color(0, 0, 0, 170)

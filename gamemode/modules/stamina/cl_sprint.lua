@@ -3,7 +3,7 @@ local function staminaDraw()
 		local expHeight = ScreenScale(12) + 1
 		local screenW, screenH, h = ScrW(), ScrH(), ScreenScale(5)
 
-		local color = util.getPepboyColor()
+		local color = COLOR_YELLOW
 		local stamina = LocalPlayer():GetNWInt("tcb_Stamina")
 		local maxStamina = LocalPlayer():getMaxSprintLength()
 
