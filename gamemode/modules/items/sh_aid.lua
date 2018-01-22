@@ -36,7 +36,7 @@ local mt = {
 		end
 		function aid:getThirst()
 			return self.thirst
-		end 
+		end
 		function aid:getHealthOverTime()
 			if self.health and self.timeLength then
 				return self.health .." HP over " ..self.timeLength .." seconds"
@@ -89,8 +89,8 @@ end
 
 timer.Simple(5, function()
 	Aid(4001, "Stimpak", RARITY_WHITE, "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 150, 25)
-	Aid(4002, "Super Stimpak", RARITY_WHITE, "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 300, 50)
-	Aid(4003, "Lay of Hands", RARITY_WHITE, "models/mosi/fallout4/props/aid/syringeammo.mdl", 0.2, 1500, 100)
+	Aid(4002, "Super Stimpak", RARITY_GREEN, "models/mosi/fallout4/props/aid/stimpak.mdl", 0.2, 300, 50)
+	Aid(4003, "Lay of Hands", RARITY_BLUE, "models/mosi/fallout4/props/aid/syringeammo.mdl", 0.2, 1500, 100)
 	Aid(4004, "Blood Bag", RARITY_WHITE, "models/mosi/fallout4/props/aid/bloodbag.mdl", 5, 300, nil, 100)
 	Aid(4005, "Blood Serum", RARITY_WHITE, "models/mosi/fallout4/props/aid/mysteriousserum.mdl", 5, 600, nil, 200, 2, 10)
 	Aid(4006, "Water Bottle", RARITY_WHITE, "models/props/cs_office/Water_bottle.mdl", 4, 50, nil, nil, nil, nil, nil, 45)

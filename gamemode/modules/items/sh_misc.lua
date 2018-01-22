@@ -94,10 +94,10 @@ timer.Simple(5, function()
 
 	// Mining Materials
 	Misc(5028, "Rock", RARITY_WHITE, "models/ores/rock_ore.mdl", 0.25, 15, true)
-	Misc(5029, "Copper", RARITY_WHITE, "models/ores/copper_ore.mdl", 0.25, 50, true)
-	Misc(5030, "Silver", RARITY_WHITE, "models/ores/silver_ore.mdl", 0.25, 125, true)
-	Misc(5031, "Gold", RARITY_WHITE, "models/ores/gold_ore.mdl", 0.25, 200, true)
-	Misc(5032, "Crystal", RARITY_WHITE, "models/scalpet/crystal.mdl", 0.25, 350, true)
+	Misc(5029, "Copper", RARITY_GREEN, "models/ores/copper_ore.mdl", 0.25, 50, true)
+	Misc(5030, "Silver", RARITY_GREEN, "models/ores/silver_ore.mdl", 0.25, 125, true)
+	Misc(5031, "Gold", RARITY_GREEN, "models/ores/gold_ore.mdl", 0.25, 200, true)
+	Misc(5032, "Crystal", RARITY_BLUE, "models/scalpet/crystal.mdl", 0.25, 350, true)
 
 
 	Misc(5033, "Wooden stick", RARITY_WHITE, "models/gibs/wood_gib01a.mdl", 1, 10, true)
@@ -106,13 +106,13 @@ timer.Simple(5, function()
 
 
 	// Crystal
-	Misc(5036, "Holo Disk", RARITY_WHITE, "models/holodisk/holodisk.mdl", 1.5, 150, true)
+	Misc(5036, "Holo Disk", RARITY_GREEN, "models/holodisk/holodisk.mdl", 1.5, 150, true)
 
 	// Copper and Gold
-	Misc(5037, "Conduit", RARITY_WHITE, "models/mosi/fallout4/electrical/conduits/conduit.mdl", 1, 17, true)
+	Misc(5037, "Conduit", RARITY_GREEN, "models/mosi/fallout4/electrical/conduits/conduit.mdl", 1, 17, true)
 	Misc(5038, "Switchbox", RARITY_WHITE, "models/mosi/fallout4/electrical/conduits/switchbox.mdl", 2, 37, true)
 
-	Misc(5039, "Crystal Shard", RARITY_WHITE, "models/scalpet/crystalshar.mdl", 0.25, 150, true)
+	Misc(5039, "Crystal Shard", RARITY_GREEN, "models/scalpet/crystalshar.mdl", 0.25, 150, true)
 	Misc(5040, "Plasma", RARITY_WHITE, "models/scalpet/crystalshar.mdl", 0.25, 300)
 	Misc(5041, "Claw", RARITY_WHITE, "models/Halokiller38/fallout/weapons/Melee/deathclawgauntlet.mdl", 0.25, 35, true)
 	Misc(5042, "Hide", RARITY_WHITE, "models/Gibs/HGIBS_scapula.mdl", 0.25, 15, true)
