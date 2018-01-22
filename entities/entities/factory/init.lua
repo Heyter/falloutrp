@@ -93,24 +93,11 @@ function ENT:addItem(item, ply)
 	self.iteration = self.iteration + 1
 end
 
-local function getLootLevel(ply)
-	local lvl = ply:getLevel()
-
-	if lvl <= 15 then
-		return 15
-	elseif lvl <= 30 then
-		return 30
-	elseif lvl <= 50 then
-		return 50
-	end
-end
-
 local function getRandomItem(items, rarity)
 	// Workaround for categories that only have white rarity
 	if rarity > RARITY_ORANGE then
 		rarity = RARITY_WHITE
 	end
-
 
 	if items[rarity] and #items[rarity] <= 0 then
 		return getRandomItem(items, rarity + 1)

@@ -6,12 +6,12 @@ util.AddNetworkString("lootItem")
 local meta = FindMetaTable("Player")
 
 // Beginning new implemntation
-function generateRandomLoot(possibleItems, lvl, chest, luckModifier)
+function generateRandomLoot(possibleItems, lvl, chestModifier, luckModifier)
 	local loot = {}
 	local rarities = getRarityWorld()
 	luckModifier = luckModifier or 0
-	if chest then
-		luckModifier = luckModifier + .75
+	if chestModifier then
+		luckModifier = luckModifier + chestModifier
 	end
 
 	for k = 1, possibleItems do
